@@ -1,5 +1,8 @@
 package pkgModel;
 
-public class Plant {
+public abstract class Plant {
 
+	public Plant() {
+		
+	}
 }

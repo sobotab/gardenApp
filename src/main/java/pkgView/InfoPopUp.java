@@ -1,5 +1,8 @@
 package pkgView;
 
-public class InfoPopUp {
+import javafx.stage.Popup;
 
+public class InfoPopUp extends Popup{
+	
+	public InfoPopUp() {}
 }

@@ -3,7 +3,7 @@ import java.util.Set;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class DrawGardenModel {
+public class DrawGardenModel extends GardenModel {
 	Set<Point> preOutline;
 	Set<Point> preCondition;
 	

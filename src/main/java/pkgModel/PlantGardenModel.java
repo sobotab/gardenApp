@@ -2,7 +2,7 @@ package pkgModel;
 
 import java.util.Set;
 
-public class PlantGardenModel {
+public class PlantGardenModel extends GardenModel{
 	
 	Set<PlantModel> plants;
 	Set<PlantModel> compost;

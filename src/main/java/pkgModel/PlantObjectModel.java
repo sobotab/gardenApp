@@ -1,6 +1,6 @@
 package pkgModel;
 
-public class PlantObjectModel {
+public class PlantObjectModel extends PlantModel{
 	
 	int x;
 	int y;

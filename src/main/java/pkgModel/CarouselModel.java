@@ -1,5 +1,6 @@
 package pkgModel;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class CarouselModel {
@@ -13,6 +14,15 @@ public class CarouselModel {
 	int heldPlant;
 	
 	public CarouselModel() {
+		
+	}
+	
+	public CarouselModel(int firstPlant, int lastPlant) {
+		
+	}
+	
+	public CarouselModel(int firstPlant, int lastPlant, int viewPlant, int viewHeight, int viewWidth, int rationDecrease, int heldPlant) {
+		plants = new HashSet<>();
 		
 	}
 	

@@ -4,99 +4,142 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
 public class CarouselModelTest {
+	
+	CarouselModel carousel1 = new CarouselModel(1,10,5,150,200,1,3);
 
 	
 	@Test
 	public void testCarouselModel() {
-		fail("Not yet implemented"); //TODO
+		CarouselModel carousel2 = new CarouselModel();
+		CarouselModel carousel3 = new CarouselModel(0,0);
+		assertEquals(carousel2.firstPlant,carousel3.firstPlant);
+		assertEquals(carousel2.lastPlant,carousel3.lastPlant);
 	}
 	
 	@Test
 	public void testRotateLeft() {
-		fail("Not yet implemented"); //TODO
+		carousel1.rotateLeft();
+		assertEquals(6,carousel1.viewPlant);
 	}
 	
 	@Test
 	public void testRotateRight() {
-		fail("Not yet implemented"); //TODO
+		carousel1.rotateRight();
+		assertEquals(5,carousel1.viewPlant);
 	}
 	
 	@Test
 	public void testPlantSelected() {
-		fail("Not yet implemented"); //TODO
+		carousel1.plants.add(new PlantObjectModel());
+		assertEquals(11,carousel1.plantSelected(0, 0));
 	}
 
 	@Test
 	public void testGetPlants() {
-		fail("Not yet implemented"); //TODO
+		PlantObjectModel plant = new PlantObjectModel();
+		carousel1.plants.add(new PlantObjectModel());
+		int test;
+		if(carousel1.getPlants().contains(plant)) {
+			test = 1;
+		}
+		else {
+			test = 0;
+		}
+		assertEquals(1,test);
 	}
 
 	@Test
 	public void testSetPlants() {
-		fail("Not yet implemented"); //TODO
+		Set<PlantModel> plants = new HashSet<>();
+		PlantObjectModel plant = new PlantObjectModel();
+		plants.add(plant);
+		carousel1.setPlants(plants);
+		int test;
+		if(carousel1.plants.contains(plant)){
+			test = 1;
+		}
+		else {
+			test = 0;
+		}
+		assertEquals(1,test);
+		
 	}
 
 	@Test
 	public void testGetFirstPlant() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(carousel1.getFirstPlant(),0);
 	}
 
 	@Test
 	public void testSetFirstPlant() {
-		fail("Not yet implemented"); //TODO
+		CarouselModel carousel2 = new CarouselModel();
+		carousel2.setFirstPlant(0);
+		assertEquals(carousel2.firstPlant,0);
 	}
 
 	@Test
 	public void testGetLastPlant() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(carousel1.getLastPlant(),1);
 	}
 
 	@Test
 	public void testSetLastPlant() {
-		fail("Not yet implemented"); //TODO
+		CarouselModel carousel2 = new CarouselModel();
+		carousel2.setLastPlant(1);
+		assertEquals(carousel2.lastPlant,1);
 
 	}
 
 	@Test
 	public void testGetViewPlant() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(5, carousel1.getViewPlant());
 
 	}
 
 	@Test
 	public void testSetViewPlant() {
-		fail("Not yet implemented"); //TODO
+		carousel1.setViewPlant(4);
+		assertEquals(4, carousel1.viewPlant);
 	}
 
 	@Test
 	public void testGetViewHeight() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(150,carousel1.getViewHeight());
 	}
 
 	@Test
 	public void testSetViewHeight() {
-		fail("Not yet implemented"); //TODO
+		carousel1.setViewHeight(200);
+		assertEquals(200,carousel1.viewHeight);
 	}
 
 	@Test
 	public void testGetViewWidth() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(200,carousel1.getViewWidth());
 	}
 
 	@Test
 	public void testSetViewWidth() {
-		fail("Not yet implemented"); //TODO
+		carousel1.setViewWidth(150);
+		assertEquals(150,carousel1.getViewWidth());
 	}
 
 	@Test
 	public void testGetHeldPlant() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(3,carousel1.getHeldPlant());
+		
 	}
 
 	@Test
 	public void testSetHeldPlant() {
-		fail("Not yet implemented"); //TODO
+		carousel1.setHeldPlant(2);
+		assertEquals(2,carousel1.heldPlant);
 	}
 
 }

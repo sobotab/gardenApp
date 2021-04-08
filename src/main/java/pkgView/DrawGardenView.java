@@ -11,7 +11,10 @@ public class DrawGardenView extends BorderPane {
 	
 	public DrawGardenView() {}
 	
-	public List<Point> draw() {}
+	public List<Point> draw() {
+		List<Point> points = null;
+		return points;
+	}
 	
 	// getters
 	public int getUserX() {

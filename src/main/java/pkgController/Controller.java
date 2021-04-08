@@ -38,11 +38,17 @@ public class Controller extends Application {
         theStage.show();
     }
 	
-	public EventHandler getHandlerForDrag() {}
+	public EventHandler getHandlerForDrag() {
+		return event -> drag((MouseEvent) event);
+	}
 	
-	public EventHandler getHandlerForDraw() {}
+	public EventHandler getHandlerForDraw() {
+		return event -> draw((MouseEvent) event);
+	}
 	
-	public EventHandler getHandlerForPress() {}
+	public EventHandler getHandlerForPress() {
+		return event -> press((MouseEvent) event);
+	}
 	
 	public void drag(MouseEvent event) {}
 	

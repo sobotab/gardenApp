@@ -22,7 +22,10 @@ public abstract class CarouselView extends FlowPane {
 	
 	void rotateRight() {}
 	
-	List<Point> movePlant() {}
+	List<Point> movePlant() {
+		List<Point> points = null;
+		return points;
+	}
 	
 	// getters
 	public List<ImageView> getImages() {

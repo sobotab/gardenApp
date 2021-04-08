@@ -29,11 +29,18 @@ public class View {
 	
 	public void ImportImages() {}
 	
-	Image createImage(String image_file) {}
+	Image createImage(String image_file) {
+		Image img = null;
+		return img;
+	}
 	
-	boolean clearPane() {}
+	boolean clearPane() {
+		return false;
+	}
 	
-	boolean buildPane(View view) {}
+	boolean buildPane(View view) {
+		return false;
+	}
 	
 	void update() {}
 	

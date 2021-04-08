@@ -16,7 +16,10 @@ public class EditGardenView extends BorderPane{
 	
 	public EditGardenView() {}
 	
-	public List<Point> movePlant() {}
+	public List<Point> movePlant() {
+		List<Point> points = null;
+		return points;
+	}
 	
 	public void updatePlant() {}
 	

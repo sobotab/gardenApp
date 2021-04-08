@@ -2,18 +2,23 @@ package pkgModel;
 
 import static org.junit.Assert.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 
 public class ModelTest {
 	
+	Model model = new Model();
+	
 	@Test
 	public void testModel() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(0, model.x);
 	}
 	
 	@Test
 	public void testMakePlants() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(false, model.makePlants() == null);
 	}
 	
 	@Test
@@ -23,52 +28,66 @@ public class ModelTest {
 
 	@Test
 	public void testGetPlants() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(false, model.getPlants() == null);
 	}
 
 	@Test
 	public void testSetPlants() {
-		fail("Not yet implemented"); //TODO
+		Set<PlantModel> plants = new HashSet<>();
+		PlantModel plant = new PlantObjectModel();
+		plants.add(plant);
+		model.setPlants(plants);
+		assertEquals(true, model.plants.contains(plant));
 	}
 
 	@Test
 	public void testGetPotentialPlants() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(false, model.getPotentialPlants() == null);
 	}
 
 	@Test
 	public void testSetPotentialPlants() {
-		fail("Not yet implemented"); //TODO
+		Set<PlantModel> plants = new HashSet<>();
+		PlantModel plant = new PlantObjectModel();
+		plants.add(plant);
+		model.setPotentialPlants(plants);
+		assertEquals(true, model.potentialPlants.contains(plant));
 	}
 
 	@Test
 	public void testGetSelectedPlants() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(false, model.getSelectedPlants() == null);
 	}
 
 	@Test
 	public void testSetSelectedPlants() {
-		fail("Not yet implemented"); //TODO
+		Set<PlantModel> plants = new HashSet<>();
+		PlantModel plant = new PlantObjectModel();
+		plants.add(plant);
+		model.setSelectedPlants(plants);
+		assertEquals(true, model.selectedPlants.contains(plant));
 	}
 
 	@Test
 	public void testGetX() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(0,model.getX());
 	}
 
 	@Test
-	public void testSetX(int x) {
-		fail("Not yet implemented"); //TODO
+	public void testSetX() {
+		model.setX(3);
+		assertEquals(3,model.x);
 	}
 
 	@Test
 	public void testGetY() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(0,model.getY());
 	}
 
 	@Test
-	public void setY(int y) {
-		fail("Not yet implemented"); //TODO
+	public void setY() {
+		model.setY(300);
+		assertEquals(300,model.y);
 	}
 
 }

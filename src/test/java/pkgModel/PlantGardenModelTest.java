@@ -31,7 +31,7 @@ public class PlantGardenModelTest {
 	}
 	
 	@Test
-	private void testCheckConditions() {
+	public void testCheckConditions() {
 		fail("Not yet implemented"); //TODO
 	}
 

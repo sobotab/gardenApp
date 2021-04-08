@@ -42,10 +42,6 @@ public class GardenModelTest {
 	public void testSetConditions() {
 		Set<HashMap<String,Set<Point>>> set = new HashSet<>();
 		HashMap<String,Set<Point>> map = new HashMap<>();
-		//Set<Point> points = new HashSet<>();
-		//Point point = new Point(0,0);
-		//points.add(point);
-		//map.put("test", points);
 		set.add(map);
 		garden.setConditions(set);
 		assertEquals(true, garden.conditions.contains(map));

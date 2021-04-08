@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class DrawGardenModel {
 	Set<Point> preOutline;
-	Set<Point> preCondtion;
+	Set<Point> preCondition;
 	
 	public DrawGardenModel() {
 		
@@ -27,12 +27,12 @@ public class DrawGardenModel {
 		this.preOutline = preOutline;
 	}
 
-	public Set<Point> getPreCondtion() {
-		return preCondtion;
+	public Set<Point> getPreCondition() {
+		return preCondition;
 	}
 
-	public void setPreCondtion(Set<Point> preCondtion) {
-		this.preCondtion = preCondtion;
+	public void setPreCondition(Set<Point> preCondition) {
+		this.preCondition = preCondition;
 	}
 	
 	

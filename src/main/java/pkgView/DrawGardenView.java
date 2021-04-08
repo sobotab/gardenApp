@@ -13,17 +13,22 @@ public class DrawGardenView extends BorderPane {
 	
 	public List<Point> draw() {}
 	
-	// getters & setters
+	// getters
 	public int getUserX() {
 		return this.userX;
 	}
+	
 	public int getUserY() {
 		return this.userY;
 	}
+	
+	// setters
 	public void setUserX(int x) {
 		this.userX = x;
 	}
+	
 	public void setUserY(int y) {
 		this.userY = y;
 	}
+	
 }

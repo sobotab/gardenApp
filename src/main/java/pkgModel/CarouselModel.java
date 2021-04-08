@@ -2,8 +2,8 @@ package pkgModel;
 
 import java.util.Set;
 
-public class Carousel {
-	public Set<Plant> plants;
+public class CarouselModel {
+	public Set<PlantModel> plants;
 	int firstPlant;
 	int lastPlant;
 	int viewPlant;
@@ -12,7 +12,7 @@ public class Carousel {
 	int rationDecrease;
 	int heldPlant;
 	
-	public Carousel() {
+	public CarouselModel() {
 		
 	}
 	
@@ -28,11 +28,11 @@ public class Carousel {
 		return 0;
 	}
 
-	public Set<Plant> getPlants() {
+	public Set<PlantModel> getPlants() {
 		return plants;
 	}
 
-	public void setPlants(Set<Plant> plants) {
+	public void setPlants(Set<PlantModel> plants) {
 		this.plants = plants;
 	}
 

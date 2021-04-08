@@ -2,7 +2,8 @@ package pkgView;
 
 import javafx.scene.layout.BorderPane;
 
-public class Resources extends BorderPane{
+public class ResourcesView extends BorderPane{
 	
-	public Resources() {}
+	public ResourcesView() {}
+	
 }

@@ -1,6 +1,7 @@
 package pkgView;
 
-public class InfoCarousel extends CarouselView{
+public class InfoCarouselView extends CarouselView{
 	
-	public InfoCarousel() {}
+	public InfoCarouselView() {}
+	
 }

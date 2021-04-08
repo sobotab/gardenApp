@@ -2,20 +2,23 @@ package pkgView;
 
 import javafx.scene.layout.BorderPane;
 
-public class SelectPlants extends BorderPane {
-	SelectCarousel selectionCarousel; 
+public class SelectPlantsView extends BorderPane {
+	SelectCarouselView selectionCarousel; 
 	
-	public SelectPlants() {}
+	public SelectPlantsView() {}
 	
 	void updateLeps(int numLeps) {}
 	
 	void updateDollars(int dollars) {}
 	
+	
 	// getters & setters
-	public SelectCarousel getSelectionCarousel() {
+	public SelectCarouselView getSelectionCarousel() {
 		return this.selectionCarousel;
 	}
-	public void setSelectionCarousel(SelectCarousel carousel) {
+	
+	public void setSelectionCarousel(SelectCarouselView carousel) {
 		this.selectionCarousel = carousel;
 	}
+	
 }

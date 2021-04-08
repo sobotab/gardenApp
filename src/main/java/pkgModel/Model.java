@@ -3,13 +3,17 @@ package pkgModel;
 import java.util.Set;
 
 public class Model {
-	Set<Plant> plants;
-	Set<Plant> potentialPlants;
-	Set<Plant> selectedPlants;
+	Set<PlantModel> plants;
+	Set<PlantModel> potentialPlants;
+	Set<PlantModel> selectedPlants;
 	int x;
 	int y;
 	
-	public Set<Plant> makePlants() {
+	public Model() {
+		
+	}
+	
+	public Set<PlantModel> makePlants() {
 		return null;
 	}
 	
@@ -17,27 +21,27 @@ public class Model {
 		
 	}
 
-	public Set<Plant> getPlants() {
+	public Set<PlantModel> getPlants() {
 		return plants;
 	}
 
-	public void setPlants(Set<Plant> plants) {
+	public void setPlants(Set<PlantModel> plants) {
 		this.plants = plants;
 	}
 
-	public Set<Plant> getPotentialPlants() {
+	public Set<PlantModel> getPotentialPlants() {
 		return potentialPlants;
 	}
 
-	public void setPotentialPlants(Set<Plant> potentialPlants) {
+	public void setPotentialPlants(Set<PlantModel> potentialPlants) {
 		this.potentialPlants = potentialPlants;
 	}
 
-	public Set<Plant> getSelectedPlants() {
+	public Set<PlantModel> getSelectedPlants() {
 		return selectedPlants;
 	}
 
-	public void setSelectedPlants(Set<Plant> selectedPlants) {
+	public void setSelectedPlants(Set<PlantModel> selectedPlants) {
 		this.selectedPlants = selectedPlants;
 	}
 

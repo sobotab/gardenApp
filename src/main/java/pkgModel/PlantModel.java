@@ -4,7 +4,7 @@ import pkgController.Moisture;
 import pkgController.Soil;
 import pkgController.Sun;
 
-public abstract class Plant {
+public abstract class PlantModel {
 	
 	String name;
 	String sciName;
@@ -13,7 +13,7 @@ public abstract class Plant {
 	Moisture moisture;
 	Soil Soil;
 
-	public Plant() {
+	public PlantModel() {
 		
 	}
 

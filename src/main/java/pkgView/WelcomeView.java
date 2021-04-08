@@ -5,11 +5,11 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 
-public class Welcome extends BorderPane {
+public class WelcomeView extends BorderPane {
 	Image backgroundImage;
 	BackgroundSize bSize;
 	
-	public Welcome() {}
+	public WelcomeView() {}
 	
 	public Image getBackgroundImage() {
 		return this.backgroundImage;

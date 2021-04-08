@@ -3,11 +3,11 @@ import java.util.Set;
 import java.awt.Point;
 import java.util.ArrayList;
 
-public class DrawGarden {
+public class DrawGardenModel {
 	Set<Point> preOutline;
 	Set<Point> preCondtion;
 	
-	public DrawGarden() {
+	public DrawGardenModel() {
 		
 	}
 	

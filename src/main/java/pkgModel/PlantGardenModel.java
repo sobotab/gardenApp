@@ -2,15 +2,15 @@ package pkgModel;
 
 import java.util.Set;
 
-public class PlantGarden {
+public class PlantGardenModel {
 	
-	Set<Plant> plants;
-	Set<Plant> compost;
+	Set<PlantModel> plants;
+	Set<PlantModel> compost;
 	int numLeps;
 	int dollars;
 	int heldPlant;
 
-	public PlantGarden() {
+	public PlantGardenModel() {
 		
 	}
 	
@@ -18,7 +18,7 @@ public class PlantGarden {
 		return false;
 	}
 	
-	public void addPlant(Plant plant) {
+	public void addPlant(PlantModel plant) {
 		
 	}
 	
@@ -26,7 +26,7 @@ public class PlantGarden {
 		
 	}
 	
-	public void compost(Plant plant) {
+	public void compost(PlantModel plant) {
 		
 	}
 	
@@ -34,19 +34,19 @@ public class PlantGarden {
 		return false;
 	}
 
-	public Set<Plant> getPlants() {
+	public Set<PlantModel> getPlants() {
 		return plants;
 	}
 
-	public void setPlants(Set<Plant> plants) {
+	public void setPlants(Set<PlantModel> plants) {
 		this.plants = plants;
 	}
 
-	public Set<Plant> getCompost() {
+	public Set<PlantModel> getCompost() {
 		return compost;
 	}
 
-	public void setCompost(Set<Plant> compost) {
+	public void setCompost(Set<PlantModel> compost) {
 		this.compost = compost;
 	}
 

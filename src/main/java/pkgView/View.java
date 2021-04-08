@@ -37,34 +37,46 @@ public class View {
 	
 	void update() {}
 	
-	// getters & setters
+	
+	// getters
 	public int getCanvasWidth() {
 		return this.canvasWidth;
 	}
+	
 	public int getCanvasHeight() {
 		return this.canvasHeight;
 	}
+	
 	public List<Node> getWidgets() {
 		return this.widgets;
 	}
+	
 	public List<Image> getPlantImages() {
 		return this.plantImages;
 	}
+	
 	public BorderPane getCurrentScreen() {
 		return this.currentScreen;
 	}
+	
+	
+	// setters
 	public void setCanvasWidth(int width) {
 		this.canvasWidth = width;
 	}
+	
 	public void setCanvasHeight(int height) {
 		this.canvasHeight = height;
 	}
+	
 	public void setWidgets(List<Node> widgets) {
 		this.widgets = widgets;
 	}
+	
 	public void setPlantImages(List<Image> plantImages) {
 		this.plantImages = plantImages;
 	}
+	
 	public void setCurrentPane(BorderPane pane) {
 		this.currentScreen = pane;
 	}

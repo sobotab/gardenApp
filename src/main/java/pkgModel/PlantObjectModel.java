@@ -1,13 +1,13 @@
 package pkgModel;
 
-public class PlantObject {
+public class PlantObjectModel {
 	
 	int x;
 	int y;
 	int height;
 	int width;
 	
-	public PlantObject() {
+	public PlantObjectModel() {
 		
 	}
 

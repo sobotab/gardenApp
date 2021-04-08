@@ -4,14 +4,14 @@ import java.awt.Point;
 import java.util.HashMap;
 import java.util.Set;
 
-public abstract class Garden {
+public abstract class GardenModel {
 	
 	Set<Point> outline;
 	Set<HashMap<String, Set<Point>>> conditions;
 	int orientation;
 	int scale;
 	
-	public Garden() {
+	public GardenModel() {
 		
 	}
 

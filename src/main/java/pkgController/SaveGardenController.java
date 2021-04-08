@@ -1,6 +1,5 @@
 package pkgController;
 
-public class SaveGarden {
-	
+public class SaveGardenController {
 	
 }

@@ -24,35 +24,46 @@ public abstract class CarouselView extends FlowPane {
 	
 	List<Point> movePlant() {}
 	
-	// getters & setters
+	// getters
 	public List<ImageView> getImages() {
 		return this.images;
 	}
+	
 	public boolean isRotateLeft() {
 		return this.rotateLeft;
 	}
+	
 	public boolean isRotateRight() {
 		return this.rotateRight;
 	}
+	
 	public int getX() {
 		return this.x;
 	}
+	
 	public int getY() {
 		return this.y;
 	}
+	
+	// setters
 	public void setImages(List<ImageView> images) {
 		this.images = images;
 	}
+	
 	public void setRotateLeft(boolean rotate) {
 		this.rotateLeft = rotate;
 	}
+	
 	public void setRotateRight(boolean rotate) {
 		this.rotateRight = rotate;
 	}
+	
 	public void setX(int x) {
 		this.x = x;
 	}
+	
 	public void setY(int y) {
 		this.y = y;
 	}
+	
 }

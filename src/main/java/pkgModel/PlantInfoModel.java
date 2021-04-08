@@ -1,12 +1,12 @@
 package pkgModel;
 
-public class PlantInfo {
+public class PlantInfoModel {
 	
 	int numLeps;
 	int dollars;
 	String description;
 
-	public PlantInfo() {
+	public PlantInfoModel() {
 		
 	}
 

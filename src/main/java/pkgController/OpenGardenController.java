@@ -1,5 +1,5 @@
 package pkgController;
 
-public class OpenGarden {
+public class OpenGardenController {
 
 }

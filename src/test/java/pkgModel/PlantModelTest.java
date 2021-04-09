@@ -10,7 +10,7 @@ import pkgController.Sun;
 
 public class PlantModelTest {
 	
-	PlantModel plant = new PlantObjectModel();
+	PlantModel plant = new PlantObjectModel(0,0,0,0);
 	
 	@Test
 	public void testPlantModel() {

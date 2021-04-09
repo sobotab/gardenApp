@@ -23,7 +23,11 @@ public class ModelTest {
 	
 	@Test
 	public void testUpdate() {
-		fail("Not yet implemented"); //TODO
+		//Set<PlantModel> plants = new HashSet<>();
+		//plants.addAll(model.plants);
+		int testX = model.x;
+		model.update();
+		assertEquals(false, testX == model.x);
 	}
 
 	@Test
@@ -34,7 +38,7 @@ public class ModelTest {
 	@Test
 	public void testSetPlants() {
 		Set<PlantModel> plants = new HashSet<>();
-		PlantModel plant = new PlantObjectModel();
+		PlantModel plant = new PlantObjectModel(0,0,0,0);
 		plants.add(plant);
 		model.setPlants(plants);
 		assertEquals(true, model.plants.contains(plant));
@@ -48,7 +52,7 @@ public class ModelTest {
 	@Test
 	public void testSetPotentialPlants() {
 		Set<PlantModel> plants = new HashSet<>();
-		PlantModel plant = new PlantObjectModel();
+		PlantModel plant = new PlantObjectModel(0,0,0,0);
 		plants.add(plant);
 		model.setPotentialPlants(plants);
 		assertEquals(true, model.potentialPlants.contains(plant));
@@ -62,7 +66,7 @@ public class ModelTest {
 	@Test
 	public void testSetSelectedPlants() {
 		Set<PlantModel> plants = new HashSet<>();
-		PlantModel plant = new PlantObjectModel();
+		PlantModel plant = new PlantObjectModel(0,0,0,0);
 		plants.add(plant);
 		model.setSelectedPlants(plants);
 		assertEquals(true, model.selectedPlants.contains(plant));

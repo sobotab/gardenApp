@@ -5,50 +5,56 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class PlantObjectModelTest {
+	
+	PlantObjectModel plant = new PlantObjectModel(1,2,3,4);
 
 	@Test
 	public void testPlantObjectModel() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(1,plant.x);
 	}
 
 	@Test
 	public void testGetX() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(1,plant.getX());
 	}
 
 	@Test
 	public void testSetX() {
-		fail("Not yet implemented"); //TODO
+		plant.setX(11);
+		assertEquals(11,plant.x);
 	}
 
 	@Test
 	public void testGetY() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(2,plant.getY());
 	}
 
 	@Test
 	public void testSetY() {
-		fail("Not yet implemented"); //TODO
+		plant.setY(12);
+		assertEquals(12,plant.y);
 	}
 
 	@Test
 	public void testGetHeight() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(3,plant.getHeight());
 	}
 
 	@Test
 	public void testSetHeight() {
-		fail("Not yet implemented"); //TODO
+		plant.setHeight(13);
+		assertEquals(13,plant.height);
 	}
 
 	@Test
 	public void testGetWidth() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(13,plant.getWidth());
 	}
 
 	@Test
 	public void testSetWidth() {
-		fail("Not yet implemented"); //TODO
+		plant.setWidth(14);
+		assertEquals(14,plant.width);
 	}
 
 }

@@ -36,14 +36,14 @@ public class CarouselModelTest {
 	
 	@Test
 	public void testPlantSelected() {
-		carousel1.plants.add(new PlantObjectModel());
+		carousel1.plants.add(new PlantObjectModel(0,0,0,0));
 		assertEquals(11,carousel1.plantSelected(0, 0));
 	}
 
 	@Test
 	public void testGetPlants() {
-		PlantObjectModel plant = new PlantObjectModel();
-		carousel1.plants.add(new PlantObjectModel());
+		PlantObjectModel plant = new PlantObjectModel(0,0,0,0);
+		carousel1.plants.add(new PlantObjectModel(0,0,0,0));
 		int test;
 		if(carousel1.getPlants().contains(plant)) {
 			test = 1;
@@ -57,7 +57,7 @@ public class CarouselModelTest {
 	@Test
 	public void testSetPlants() {
 		Set<PlantModel> plants = new HashSet<>();
-		PlantObjectModel plant = new PlantObjectModel();
+		PlantObjectModel plant = new PlantObjectModel(0,0,0,0);
 		plants.add(plant);
 		carousel1.setPlants(plants);
 		int test;

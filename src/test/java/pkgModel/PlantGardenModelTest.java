@@ -22,7 +22,7 @@ public class PlantGardenModelTest {
 	
 	@Test
 	public void testAddPlant() {
-		PlantModel plant = new PlantObjectModel();
+		PlantModel plant = new PlantObjectModel(0,0,0,0);
 		plantGarden.addPlant(plant);
 		assertEquals(true, plantGarden.plants.contains(plant));
 	}
@@ -35,7 +35,7 @@ public class PlantGardenModelTest {
 	
 	@Test
 	public void testCompost() {
-		PlantModel plant = new PlantObjectModel();
+		PlantModel plant = new PlantObjectModel(0,0,0,0);
 		plantGarden.compost(plant);
 		assertEquals(true,plantGarden.compost.contains(plant));
 	}
@@ -53,7 +53,7 @@ public class PlantGardenModelTest {
 	@Test
 	public void testSetPlants() {
 		Set<PlantModel> plants = new HashSet<>();
-		PlantObjectModel plant = new PlantObjectModel();
+		PlantObjectModel plant = new PlantObjectModel(0,0,0,0);
 		plants.add(plant);
 		plantGarden.setPlants(plants);
 		assertEquals(true, plantGarden.plants.contains(plant));
@@ -67,7 +67,7 @@ public class PlantGardenModelTest {
 	@Test
 	public void testSetCompost() {
 		Set<PlantModel> compost = new HashSet<>();
-		PlantObjectModel plant = new PlantObjectModel();
+		PlantObjectModel plant = new PlantObjectModel(0,0,0,0);
 		compost.add(plant);
 		plantGarden.setCompost(compost);
 		assertEquals(true, plantGarden.compost.contains(plant));

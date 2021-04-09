@@ -7,7 +7,7 @@ public class PlantObjectModel extends PlantModel{
 	int height;
 	int width;
 	
-	public PlantObjectModel() {
+	public PlantObjectModel(int x, int y, int height ,int width) {
 		
 	}
 

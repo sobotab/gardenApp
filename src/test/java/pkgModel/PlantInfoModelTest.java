@@ -5,40 +5,45 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class PlantInfoModelTest {
+	
+	PlantInfoModel plantInfo = new PlantInfoModel(0,0,"");
 
 	@Test
 	public void testPlantInfoModel() {
-		fail("Not yet implemented"); //TODO
+		assertEquals("",plantInfo.description);
 	}
 
 	@Test
 	public void testGetNumLeps() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(0,plantInfo.getNumLeps());
 	}
 
 	@Test
 	public void testSetNumLeps() {
-		fail("Not yet implemented"); //TODO
+		plantInfo.setNumLeps(3);
+		assertEquals(3,plantInfo.numLeps);
 	}
 
 	@Test
 	public void testGetDollars() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(0,plantInfo.getDollars());
 	}
 
 	@Test
 	public void testSetDollars() {
-		fail("Not yet implemented"); //TODO
+		plantInfo.setDollars(16);
+		assertEquals(16,plantInfo.getDollars());
 	}
 
 	@Test
 	public void testGetDescription() {
-		fail("Not yet implemented"); //TODO
+		assertEquals("",plantInfo.getDescription());
 	}
 
 	@Test
 	public void testSetDescription() {
-		fail("Not yet implemented"); //TODO
+		plantInfo.setDescription("Plant");
+		assertEquals("Plant",plantInfo.description);
 	}
 
 }

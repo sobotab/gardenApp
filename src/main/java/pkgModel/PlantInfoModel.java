@@ -6,7 +6,7 @@ public class PlantInfoModel extends PlantModel{
 	int dollars;
 	String description;
 
-	public PlantInfoModel() {
+	public PlantInfoModel(int numLeps, int dollars, String description) {
 		
 	}
 

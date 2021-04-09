@@ -10,69 +10,77 @@ import pkgController.Sun;
 
 public class PlantModelTest {
 	
+	PlantModel plant = new PlantObjectModel();
+	
 	@Test
 	public void testPlantModel() {
-		fail("Not yet implemented"); //TODO
+		assertEquals("example_name", plant.name);
 	}
 
 	@Test
 	public void testGetName() {
-		fail("Not yet implemented"); //TODO
+		assertEquals("example_name",plant.getName());
 	}
 
 	@Test
 	public void testSetName() {
-		fail("Not yet implemented"); //TODO
+		plant.setName("Plant");
+		assertEquals("Plant", plant.name);
 	}
 
 	@Test
 	public void testGetSciName() {
-		fail("Not yet implemented"); //TODO
+		assertEquals("example_name", plant.getSciName());
 	}
 
 	@Test
 	public void testSetSciName() {
-		fail("Not yet implemented"); //TODO
+		plant.setSciName("Scientific Plant");
+		assertEquals("Scientific Plant", plant.sciName);
 	}
 
 	@Test
 	public void testGetSpreadDiameter() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(0,plant.getSpreadDiameter());
 	}
 
 	@Test
 	public void testSetSpreadDiameter() {
-		fail("Not yet implemented"); //TODO
+		plant.setSpreadDiameter(5);
+		assertEquals(5, plant.spreadDiameter);
 	}
 
 	@Test
 	public void testGetSun() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(Sun.FULLSUN,plant.getSun());
 	}
 
 	@Test
 	public void testSetSun() {
-		fail("Not yet implemented"); //TODO
+		plant.setSun(Sun.PARTSUN);
+		assertEquals(Sun.PARTSUN,plant.sun);
 	}
 
 	@Test
 	public void testGetMoisture() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(Moisture.DAMP,plant.getMoisture());
 	}
 
 	@Test
 	public void testSetMoisture() {
-		fail("Not yet implemented"); //TODO
+		plant.setMoisture(Moisture.DRY);
+		assertEquals(Moisture.DRY,plant.moisture);
 	}
 
 	@Test
 	public void testGetSoil() {
-		fail("Not yet implemented"); //TODO
+		assertEquals(Soil.CHALKY, plant.getSoil());
 	}
 
 	@Test
 	public void testSetSoil() {
-		fail("Not yet implemented"); //TODO
+		plant.setSoil(Soil.CLAY);
+		assertEquals(Soil.CLAY,plant.Soil);
 	}
 
 }

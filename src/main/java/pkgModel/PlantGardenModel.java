@@ -30,7 +30,7 @@ public class PlantGardenModel extends GardenModel{
 		
 	}
 	
-	private boolean checkConditions() {
+	public boolean checkConditions() {
 		return false;
 	}
 

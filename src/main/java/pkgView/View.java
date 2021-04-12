@@ -14,8 +14,8 @@ import javafx.stage.Window;
 import pkgController.Controller;
 
 public class View {
-	int canvasWidth;
-	int canvasHeight;
+	final int SCENEWIDTH = 800;
+	final int SCENEHEIGHT = 600;
 	//int background;  /* Commented out for now. Seems obsolete due to borderpane's background? */
 	List<Node> widgets;
 	List<Image> plantImages;
@@ -25,7 +25,15 @@ public class View {
 	BorderPane currentScreen; // replaced screen for borderpane, effectively the same
 	//All individual screens now inherit borderpane: gives us children, height/width, background, padding, margins (everything that was in screen)
 	
-	public View(Stage theStage) {}
+	public View(Stage theStage) {
+		theStage.setTitle("Garden Software");
+        
+        WelcomeView welcomeView = new WelcomeView();
+        Scene theScene = new Scene(welcomeView, SCENEWIDTH, SCENEHEIGHT);
+        
+        theStage.setScene(theScene);
+        theStage.show();
+	}
 	
 	public void ImportImages() {}
 	
@@ -46,13 +54,6 @@ public class View {
 	
 	
 	// getters
-	public int getCanvasWidth() {
-		return this.canvasWidth;
-	}
-	
-	public int getCanvasHeight() {
-		return this.canvasHeight;
-	}
 	
 	public List<Node> getWidgets() {
 		return this.widgets;
@@ -68,13 +69,11 @@ public class View {
 	
 	
 	// setters
-	public void setCanvasWidth(int width) {
-		this.canvasWidth = width;
-	}
-	
-	public void setCanvasHeight(int height) {
-		this.canvasHeight = height;
-	}
+	/*
+	 * public void setCanvasWidth(int width) { this.canvasWidth = width; }
+	 * 
+	 * public void setCanvasHeight(int height) { this.canvasHeight = height; }
+	 */
 	
 	public void setWidgets(List<Node> widgets) {
 		this.widgets = widgets;

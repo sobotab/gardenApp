@@ -19,18 +19,23 @@ public class WelcomeView extends BorderPane {
 	HBox hBox;
 	
 	
-	public WelcomeView() {
-		welcomeController = new WelcomeController();
+	public WelcomeView(View view) {
+		welcomeController = new WelcomeController(view);
+		
 		hBox = new HBox();
-		open = new Button();
-		newGarden = new Button();
-		info = new Button();
-		resources = new Button();
+		open = new Button("Open");
+		newGarden = new Button("New");
+		info = new Button("Info");
+		resources = new Button("Resources");
+		
+		open.setOnAction(welcomeController.getHandlerForOpen());
+		newGarden.setOnAction(welcomeController.getHandlerForNew());
+		info.setOnAction(welcomeController.getHandlerForInfo());
+		resources.setOnAction(welcomeController.getHandlerForResources());
+		
 		this.setCenter(hBox);
 		hBox.setPrefSize(100,200);
 		hBox.getChildren().addAll(open, newGarden, info, resources);
-		
-		//open.setOnAction(welcomeController.se);
 	}
 	
 	public Image getBackgroundImage() {

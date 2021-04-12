@@ -2,31 +2,35 @@ package pkgController;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
-import pkgView.WelcomeView;
+import javafx.scene.Scene;
+import pkgView.DrawGardenView;
+import pkgView.InfoView;
+import pkgView.OpenGardenView;
+import pkgView.ResourcesView;
+import pkgView.View;
 
 public class WelcomeController {
 	
-	WelcomeView view;
+	View view;
 	
-	public WelcomeController() {
+	public WelcomeController(View view) {
 		this.view = view;
 	}
 	
 	public void clickedNew(ActionEvent event) {
-		
+		view.setCurrentScreen(new DrawGardenView());
 	}
 	
 	public void clickedInfo(ActionEvent event) {
-		
+		view.setCurrentScreen(new InfoView());
 	}
 	
 	public void clickedOpen(ActionEvent event) {
-		
+		view.setCurrentScreen(new OpenGardenView());
 	}
 	
 	public void clickedResources(ActionEvent event) {
-		
+		view.setCurrentScreen(new ResourcesView());
 	}
 	
 	public EventHandler getHandlerForNew() {

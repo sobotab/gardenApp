@@ -2,10 +2,9 @@ package pkgView;
 
 import java.util.List;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -24,14 +23,14 @@ public class View {
 	Window window;
 	BorderPane currentScreen; // replaced screen for borderpane, effectively the same
 	//All individual screens now inherit borderpane: gives us children, height/width, background, padding, margins (everything that was in screen)
+	Stage theStage;
+	Scene theScene;
 	
 	public View(Stage theStage) {
+		this.theStage = theStage;
 		theStage.setTitle("Garden Software");
         
-        WelcomeView welcomeView = new WelcomeView();
-        Scene theScene = new Scene(welcomeView, SCENEWIDTH, SCENEHEIGHT);
-        
-        theStage.setScene(theScene);
+        setCurrentScreen(new WelcomeView(this));
         theStage.show();
 	}
 	
@@ -50,10 +49,15 @@ public class View {
 		return false;
 	}
 	
-	void update() {}
+	public void update() {
+	}
 	
 	
 	// getters
+	
+	public Stage getTheStage() {
+		return this.theStage;
+	}
 	
 	public List<Node> getWidgets() {
 		return this.widgets;
@@ -67,15 +71,7 @@ public class View {
 		return this.currentScreen;
 	}
 	
-	
-	// setters
-	/*
-	 * public void setCanvasWidth(int width) { this.canvasWidth = width; }
-	 * 
-	 * public void setCanvasHeight(int height) { this.canvasHeight = height; }
-	 */
-	
-	public void setWidgets(List<Node> widgets) {
+	void setWidgets(List<Node> widgets) {
 		this.widgets = widgets;
 	}
 	
@@ -83,8 +79,8 @@ public class View {
 		this.plantImages = plantImages;
 	}
 	
-	public void setCurrentPane(BorderPane pane) {
-		this.currentScreen = pane;
+	public void setCurrentScreen(BorderPane pane) {
+		theStage.setScene(new Scene(pane, SCENEWIDTH, SCENEHEIGHT));
 	}
 	
 }

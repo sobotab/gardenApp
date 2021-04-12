@@ -27,7 +27,6 @@ public class Controller extends Application {
         new AnimationTimer() {
             public void handle(long currentNanoTime)
             {
-                //update model and view here
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {

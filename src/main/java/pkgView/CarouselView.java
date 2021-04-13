@@ -5,8 +5,9 @@ import java.util.List;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.TilePane;
 
-public abstract class CarouselView extends FlowPane {
+public abstract class CarouselView extends TilePane {
 	List<ImageView> images;
 	boolean rotateLeft;
 	boolean rotateRight;

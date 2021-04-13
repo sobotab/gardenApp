@@ -2,6 +2,7 @@ package pkgController;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import pkgModel.Model;
@@ -24,6 +25,7 @@ public class Controller extends Application {
 	public void start(Stage theStage) {
         view = new View(theStage);
 		model = new Model();
+		makePlantsFromData();
         new AnimationTimer() {
             public void handle(long currentNanoTime)
             {
@@ -36,6 +38,11 @@ public class Controller extends Application {
         }.start();
         theStage.show();
     }
+	
+	public void makePlantsFromData() {
+		//Image im1 = new Image(getClass().getResourceAsStream("/img/commonMilkweed.png"));
+		
+	}
 	
 	public EventHandler getHandlerForDrag() {
 		return event -> drag((MouseEvent) event);

@@ -6,9 +6,13 @@ public class PlantObjectModel extends PlantModel{
 	int y;
 	int height;
 	int width;
+	private final double BOTTOM = 400;
 	
 	public PlantObjectModel(int x, int y, int height ,int width) {
-		
+		this.x = x;
+		this.y = y;
+		this.height = height;
+		this.width = width;
 	}
 
 	public int getX() {
@@ -24,7 +28,7 @@ public class PlantObjectModel extends PlantModel{
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		this.y = (int)Math.min(y,  BOTTOM);
 	}
 
 	public int getHeight() {

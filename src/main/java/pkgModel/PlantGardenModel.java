@@ -1,24 +1,29 @@
 package pkgModel;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class PlantGardenModel extends GardenModel{
 	
-	Set<PlantModel> plants;
-	Set<PlantModel> compost;
+	List<PlantObjectModel> plants;
+	Set<PlantObjectModel> compost;
+	CarouselModel carousel;
 	int numLeps;
 	int dollars;
 	int heldPlant;
 
 	public PlantGardenModel() {
-		
+		this.carousel = new CarouselModel();
+		this.plants = new ArrayList<PlantObjectModel>();
+		//this.compost = new Set<PlantObjectModel>();
 	}
 	
 	public boolean checkSpread() {
 		return false;
 	}
 	
-	public void addPlant(PlantModel plant) {
+	public void addPlant(PlantObjectModel plant) {
 		
 	}
 	
@@ -26,7 +31,7 @@ public class PlantGardenModel extends GardenModel{
 		
 	}
 	
-	public void compost(PlantModel plant) {
+	public void compost(PlantObjectModel plant) {
 		
 	}
 	
@@ -34,19 +39,19 @@ public class PlantGardenModel extends GardenModel{
 		return false;
 	}
 
-	public Set<PlantModel> getPlants() {
+	public List<PlantObjectModel> getPlants() {
 		return plants;
 	}
 
-	public void setPlants(Set<PlantModel> plants) {
+	public void setPlants(List<PlantObjectModel> plants) {
 		this.plants = plants;
 	}
 
-	public Set<PlantModel> getCompost() {
+	public Set<PlantObjectModel> getCompost() {
 		return compost;
 	}
 
-	public void setCompost(Set<PlantModel> compost) {
+	public void setCompost(Set<PlantObjectModel> compost) {
 		this.compost = compost;
 	}
 
@@ -74,5 +79,12 @@ public class PlantGardenModel extends GardenModel{
 		this.heldPlant = heldPlant;
 	}
 	
+	public CarouselModel getCarousel() {
+		return this.carousel;
+	}
+	
+	public void setCarousel(CarouselModel carousel) {
+		this.carousel = carousel;
+	}
 	
 }

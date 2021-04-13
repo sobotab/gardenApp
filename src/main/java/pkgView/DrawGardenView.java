@@ -3,9 +3,18 @@ package pkgView;
 import java.awt.Point;
 import java.util.List;
 
+import javafx.geometry.Insets;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import pkgController.DrawGardenController;
 
 public class DrawGardenView extends BorderPane {
@@ -13,6 +22,7 @@ public class DrawGardenView extends BorderPane {
 	int userY;
 	
 	public DrawGardenView(View view) {
+		
 		DrawGardenController dgc = new DrawGardenController(view);
 		
 		Button back = new Button("Back");
@@ -22,9 +32,25 @@ public class DrawGardenView extends BorderPane {
 		
 		Label title = new Label("Draw Garden");
 		
+		HBox hBox = new HBox();
+		hBox.setPrefSize(100,200);
+		hBox.getChildren().addAll(back, finish);
+		/*
+		StackPane canvasHolder = new StackPane();
+		canvasHolder.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, 
+                CornerRadii.EMPTY, Insets.EMPTY)));
+		
+		Canvas drawCanvas = new Canvas(250,300);
+		GraphicsContext gc = drawCanvas.getGraphicsContext2D();
+		canvasHolder.getChildren().add(drawCanvas);
+		
+		drawCanvas.setOnDragDetected(dgc.getHandlerForDraw(drawCanvas));
+		*/
 		this.setTop(title);
-		this.setBottom(back);
-		this.setCenter(finish);
+		this.setBottom(hBox);
+		//this.setCenter(canvasHolder);
+		
+		
 	}
 	
 	public List<Point> draw() {

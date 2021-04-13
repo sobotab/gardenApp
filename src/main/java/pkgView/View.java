@@ -30,6 +30,7 @@ public class View {
 		this.theStage = theStage;
 		theStage.setTitle("Garden Software");
         
+		//First screen is the WelcomeView
         setCurrentScreen(new WelcomeView(this));
         theStage.show();
 	}
@@ -80,6 +81,8 @@ public class View {
 	}
 	
 	public void setCurrentScreen(BorderPane pane) {
+		//Changes the current pane in the scene. This method is attached
+		//to the event handlers of the previous/next buttons
 		theStage.setScene(new Scene(pane, SCENEWIDTH, SCENEHEIGHT));
 	}
 	

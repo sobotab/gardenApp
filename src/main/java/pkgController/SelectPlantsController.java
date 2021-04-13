@@ -1,5 +1,30 @@
 package pkgController;
 
-public class SelectPlantsController {
+import javafx.event.ActionEvent;
+import pkgView.View;
 
+public class SelectPlantsController {
+View view;
+	
+	public SelectPlantsController(View view) {
+		this.view = view;
+	}
+	
+	public void clickedBack() {
+		
+	}
+	
+	public void clickNext() {
+		
+	}
+	
+	//Make more methods for organizing the gardens
+	
+	public ActionEvent getHandlerForBack(ActionEvent event) {
+		return event -> clickedBack((ActionEvent) event);
+	}
+	
+	public ActionEvent getHandlerForNext(ActionEvent event) {
+		return event -> clickedBack((ActionEvent) event);
+	}
 }

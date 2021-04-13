@@ -3,20 +3,29 @@ package pkgController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import pkgView.CarouselView;
+import pkgView.View;
 
-public class CarouselController {
+public abstract class CarouselController {
 	
-	CarouselView view;
+	View view;
 	
-	public CarouselController(CarouselView view) {
+	public CarouselController(View view) {
 		this.view = view;
 	}
 	
-	public void clickedRight(EventHandler<ActionEvent> event) {
+	public void clickedRight(ActionEvent event) {
 		
 	}
 	
-	public void clickedLeft(EventHandler<ActionEvent> event) {
+	public void clickedLeft(ActionEvent event) {
 		
+	}
+	
+	public EventHandler getHandlerForClickedRight() {
+		return event -> clickedRight((ActionEvent) event);
+	}
+	
+	public EventHandler getHandlerForClickedLeft() {
+		return event -> clickedLeft((ActionEvent) event);
 	}
 }

@@ -1,6 +1,8 @@
 package pkgController;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import pkgView.View;
 
 public class PlantController {
@@ -14,7 +16,7 @@ public class PlantController {
 		
 	}
 	
-	public MouseEvent getHandlerForDrag() {
+	public EventHandler getHandlerForDrag() {
 		return event -> drag((MouseEvent) event);
 	}
 }

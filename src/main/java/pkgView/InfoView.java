@@ -1,11 +1,21 @@
 package pkgView;
 
+import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
+import pkgController.InfoController;
 
 public class InfoView extends BorderPane {
 	InfoCarouselView infoCarousel;
 	
-	public InfoView() {}
+	public InfoView(View view) {
+		InfoController ic = new InfoController(view);
+		
+		Button back = new Button("Back");
+		back.setOnAction(ic.getHandlerForBack());
+		
+		this.setBottom(back);
+		
+	}
 	
 	public void openInfoPopUp() {
 		// new infoPopUp( infoCarousel.get(x) );

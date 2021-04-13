@@ -8,17 +8,19 @@ import pkgView.View;
 public abstract class CarouselController {
 	
 	View view;
+	CarouselView carouselView;
 	
-	public CarouselController(View view) {
+	public CarouselController(View view, CarouselView carouselView) {
 		this.view = view;
+		this.carouselView = carouselView;
 	}
 	
 	public void clickedRight(ActionEvent event) {
-		
+		carouselView.rotateRight();
 	}
 	
 	public void clickedLeft(ActionEvent event) {
-		
+		carouselView.rotateLeft();
 	}
 	
 	public EventHandler getHandlerForClickedRight() {

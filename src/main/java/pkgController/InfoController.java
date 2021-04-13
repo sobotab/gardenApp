@@ -2,17 +2,18 @@ package pkgController;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import pkgView.InfoCarouselView;
 import pkgView.InfoView;
 import pkgView.View;
 import pkgView.WelcomeView;
 
 public class InfoController {
 	View view;
-	InfoView infoview;
+	InfoCarouselView icv;
 	
-	public InfoController(View view, InfoView infoview) {
+	public InfoController(View view, InfoCarouselView icv) {
 		this.view = view;
-		this.infoview = infoview;
+		this.icv = icv;
 		
 	}
 	
@@ -21,7 +22,7 @@ public class InfoController {
 	}
 	
 	public void clickedPopup(ActionEvent event) {
-		infoview.openInfoPopUp(view);
+		icv.openInfoPopUp(view);
 	}
 	
 	public EventHandler getHandlerForBack() {

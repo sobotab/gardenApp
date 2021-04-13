@@ -1,7 +1,11 @@
 package pkgView;
 
+
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -16,25 +20,19 @@ public class InfoView extends BorderPane {
 	InfoCarouselView infoCarousel;
 	
 	public InfoView(View view) {
-		InfoController ic = new InfoController(view, this);
+		infoCarousel = new InfoCarouselView(view);
+		InfoController ic = new InfoController(view, infoCarousel);
 		
 		Button back = new Button("Back");
 		back.setOnAction(ic.getHandlerForBack());
 		
-		Button show = new Button("Popup Window");
-		Button show2 = new Button("Another Popup Window");
-
-		show.setOnAction(ic.getHandlerForPopup());
-		show2.setOnAction(ic.getHandlerForPopup());
-		
-		HBox box = new HBox();
-		box.getChildren().addAll(show, show2);
 		
 		Label title = new Label("Glossary");
 		
 		this.setTop(title);
-		this.setBottom(back);
-		this.setCenter(box);
+		this.setLeft(back);
+		this.setBottom(infoCarousel);
+		this.setMargin(getBottom(), new Insets(25));
 		
 	}
 	

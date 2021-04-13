@@ -2,10 +2,9 @@ package pkgView;
 
 import java.util.List;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -14,8 +13,8 @@ import javafx.stage.Window;
 import pkgController.Controller;
 
 public class View {
-	int canvasWidth;
-	int canvasHeight;
+	final int SCENEWIDTH = 800;
+	final int SCENEHEIGHT = 600;
 	//int background;  /* Commented out for now. Seems obsolete due to borderpane's background? */
 	List<Node> widgets;
 	List<Image> plantImages;
@@ -24,8 +23,17 @@ public class View {
 	Window window;
 	BorderPane currentScreen; // replaced screen for borderpane, effectively the same
 	//All individual screens now inherit borderpane: gives us children, height/width, background, padding, margins (everything that was in screen)
+	Stage theStage;
+	Scene theScene;
 	
-	public View(Stage theStage) {}
+	public View(Stage theStage) {
+		this.theStage = theStage;
+		theStage.setTitle("Garden Software");
+        
+		//First screen is the WelcomeView
+        setCurrentScreen(new WelcomeView(this));
+        theStage.show();
+	}
 	
 	public void ImportImages() {}
 	
@@ -42,16 +50,14 @@ public class View {
 		return false;
 	}
 	
-	void update() {}
+	public void update() {
+	}
 	
 	
 	// getters
-	public int getCanvasWidth() {
-		return this.canvasWidth;
-	}
 	
-	public int getCanvasHeight() {
-		return this.canvasHeight;
+	public Stage getTheStage() {
+		return this.theStage;
 	}
 	
 	public List<Node> getWidgets() {
@@ -66,17 +72,7 @@ public class View {
 		return this.currentScreen;
 	}
 	
-	
-	// setters
-	public void setCanvasWidth(int width) {
-		this.canvasWidth = width;
-	}
-	
-	public void setCanvasHeight(int height) {
-		this.canvasHeight = height;
-	}
-	
-	public void setWidgets(List<Node> widgets) {
+	void setWidgets(List<Node> widgets) {
 		this.widgets = widgets;
 	}
 	
@@ -84,8 +80,10 @@ public class View {
 		this.plantImages = plantImages;
 	}
 	
-	public void setCurrentPane(BorderPane pane) {
-		this.currentScreen = pane;
+	public void setCurrentScreen(BorderPane pane) {
+		//Changes the current pane in the scene. This method is attached
+		//to the event handlers of the previous/next buttons
+		theStage.setScene(new Scene(pane, SCENEWIDTH, SCENEHEIGHT));
 	}
 	
 }

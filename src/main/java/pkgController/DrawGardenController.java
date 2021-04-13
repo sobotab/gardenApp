@@ -1,13 +1,15 @@
 package pkgController;
 
 import javafx.event.ActionEvent;
+import javafx.scene.input.MouseEvent;
 import pkgView.View;
 
-public class OpenGardenController {
+public class DrawGardenController {
+
 	View view;
 	
-	public OpenGardenController(View view) {
-		this.view = view;
+	public DrawGardenController(View view) {
+		this.view=view;
 	}
 	
 	public void clickedBack() {

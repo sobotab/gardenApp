@@ -3,11 +3,11 @@ package pkgController;
 import javafx.event.ActionEvent;
 import pkgView.View;
 
-public class OpenGardenController {
+public class EditGardenController {
 	View view;
 	
-	public OpenGardenController(View view) {
-		this.view = view;
+	public EditGardenController(View view) {
+		this.view=view;
 	}
 	
 	public void clickedBack() {

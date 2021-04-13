@@ -3,10 +3,10 @@ package pkgController;
 import javafx.event.ActionEvent;
 import pkgView.View;
 
-public class OpenGardenController {
-	View view;
+public class SelectPlantsController {
+View view;
 	
-	public OpenGardenController(View view) {
+	public SelectPlantsController(View view) {
 		this.view = view;
 	}
 	

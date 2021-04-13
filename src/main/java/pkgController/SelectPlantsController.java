@@ -1,6 +1,9 @@
 package pkgController;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import pkgView.DrawGardenView;
+import pkgView.EditGardenView;
 import pkgView.View;
 
 public class SelectPlantsController {
@@ -10,21 +13,22 @@ View view;
 		this.view = view;
 	}
 	
-	public void clickedBack() {
-		
+	public void clickedBack(ActionEvent event) {
+		view.setCurrentScreen(new DrawGardenView(view));
 	}
 	
-	public void clickNext() {
+	public void clickNext(ActionEvent event) {
+		view.setCurrentScreen(new EditGardenView(view));
 		
 	}
 	
 	//Make more methods for organizing the gardens
 	
-	public ActionEvent getHandlerForBack(ActionEvent event) {
+	public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);
 	}
 	
-	public ActionEvent getHandlerForNext(ActionEvent event) {
-		return event -> clickedBack((ActionEvent) event);
+	public EventHandler getHandlerForNext() {
+		return event -> clickNext((ActionEvent) event);
 	}
 }

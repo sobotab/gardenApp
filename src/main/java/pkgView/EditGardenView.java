@@ -3,8 +3,11 @@ package pkgView;
 import java.awt.Point;
 import java.util.List;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import pkgController.EditGardenController;
 
 public class EditGardenView extends BorderPane{
 	int userX;
@@ -14,7 +17,21 @@ public class EditGardenView extends BorderPane{
 	FlowPane garden;
 	List<PlantView> plants;
 	
-	public EditGardenView() {}
+	public EditGardenView(View view) {
+		EditGardenController egc = new EditGardenController(view);
+		
+		Label title = new Label("Edit Garden");
+		Button back = new Button("Back to plant select");
+		back.setOnAction(egc.getHandlerForBack());
+		Button save = new Button("Save");
+		Button exit = new Button("Exit");
+		exit.setOnAction(egc.getHandlerForExit());
+		
+		this.setTop(title);
+		this.setBottom(back);
+		this.setCenter(save);
+		this.setRight(exit);
+	}
 	
 	public List<Point> movePlant() {
 		List<Point> points = null;

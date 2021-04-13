@@ -1,6 +1,7 @@
 package pkgController;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import pkgView.View;
 
 public class InfoPopupController {
@@ -10,11 +11,11 @@ public class InfoPopupController {
 		this.view = view;
 	}
 	
-	public void clickedBack() {
+	public void clickedBack(ActionEvent event) {
 		
 	}
 	
-	public ActionEvent getHandlerForBack(ActionEvent event) {
+	public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);
 	}
 }

@@ -23,19 +23,19 @@ public class WelcomeController {
 	 * as a parameter of the scene.
 	*/
 	public void clickedNew(ActionEvent event) {
-		view.setCurrentScreen(new DrawGardenView());
+		view.setCurrentScreen(new DrawGardenView(view));
 	}
 	
 	public void clickedInfo(ActionEvent event) {
-		view.setCurrentScreen(new InfoView());
+		view.setCurrentScreen(new InfoView(view));
 	}
 	
 	public void clickedOpen(ActionEvent event) {
-		view.setCurrentScreen(new OpenGardenView());
+		view.setCurrentScreen(new OpenGardenView(view));
 	}
 	
 	public void clickedResources(ActionEvent event) {
-		view.setCurrentScreen(new ResourcesView());
+		view.setCurrentScreen(new ResourcesView(view));
 	}
 	
 	/*

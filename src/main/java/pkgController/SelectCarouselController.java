@@ -1,6 +1,7 @@
 package pkgController;
 
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import pkgView.View;
 
 public class SelectCarouselController extends CarouselController {
@@ -9,11 +10,11 @@ public class SelectCarouselController extends CarouselController {
 		super(view);
 	}
 	
-	public void plantSelected() {
+	public void plantSelected(ActionEvent event) {
 		
 	}
 	
-	public ActionEvent getHandlerForPlantSelected(ActionEvent event) {
-		return event -> clickedBack((ActionEvent) event);
+	public EventHandler getHandlerForPlantSelected() {
+		return event -> plantSelected((ActionEvent) event);
 	}
 }

@@ -20,7 +20,7 @@ public abstract class CarouselController {
 	}
 	
 	public void clickedLeft(ActionEvent event) {
-		carouselView.rotateRight();
+		carouselView.rotateLeft();
 	}
 	
 	public EventHandler getHandlerForClickedRight() {

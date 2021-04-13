@@ -1,7 +1,11 @@
 package pkgView;
 
+
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,6 +32,7 @@ public class InfoView extends BorderPane {
 		this.setTop(title);
 		this.setLeft(back);
 		this.setBottom(infoCarousel);
+		this.setMargin(getBottom(), new Insets(25));
 		
 	}
 	

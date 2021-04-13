@@ -5,6 +5,7 @@ import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,6 +19,7 @@ public class InfoCarouselView extends CarouselView{
 	public InfoCarouselView(View view) {
 		InfoCarouselController icc = new InfoCarouselController(view, this);
 		InfoController ic = new InfoController(view,this);
+		this.setHgap(50);
 		center = 2;
 		list = new ArrayList<Button>();
 		Button left = new Button("<<<");
@@ -43,6 +45,7 @@ public class InfoCarouselView extends CarouselView{
 		this.getChildren().add(left);
 		this.getChildren().add(right);
 		this.update();
+		this.setAlignment(Pos.CENTER);
 		
 	}
 	

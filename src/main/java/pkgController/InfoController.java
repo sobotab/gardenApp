@@ -20,4 +20,5 @@ public class InfoController {
 	public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);
 	}
+	
 }

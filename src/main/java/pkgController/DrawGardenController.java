@@ -3,6 +3,7 @@ package pkgController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
+import pkgView.SelectPlantsView;
 import pkgView.View;
 import pkgView.WelcomeView;
 
@@ -19,7 +20,8 @@ public class DrawGardenController {
 		
 	}
 	
-	public void clickNext(ActionEvent event) {
+	public void clickedNext(ActionEvent event) {
+		view.setCurrentScreen(new SelectPlantsView(view));
 	}
 	
 	//Make more methods for organizing the gardens
@@ -29,6 +31,6 @@ public class DrawGardenController {
 	}
 	
 	public EventHandler getHandlerForNext() {
-		return event -> clickedBack((ActionEvent) event);
+		return event -> clickedNext((ActionEvent) event);
 	}
 }

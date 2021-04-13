@@ -1,6 +1,9 @@
 package pkgView;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -29,6 +32,7 @@ public class WelcomeView extends BorderPane {
 		newGarden = new Button("New");
 		info = new Button("Info");
 		resources = new Button("Resources");
+		Label title = new Label("Welcome");
 		
 		//Set handlers to buttons
 		open.setOnAction(welcomeController.getHandlerForOpen());
@@ -38,6 +42,7 @@ public class WelcomeView extends BorderPane {
 		
 		//Builds hbox
 		this.setCenter(hBox);
+		this.setTop(title);
 		hBox.setPrefSize(100,200);
 		hBox.getChildren().addAll(open, newGarden, info, resources);
 	}
@@ -52,5 +57,6 @@ public class WelcomeView extends BorderPane {
 				BackgroundPosition.CENTER,
 				bSize)));
 	}
+
 	
 }

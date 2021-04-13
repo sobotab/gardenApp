@@ -2,6 +2,7 @@ package pkgController;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import pkgView.EditGardenView;
 import pkgView.View;
 import pkgView.WelcomeView;
 
@@ -18,7 +19,7 @@ public class OpenGardenController {
 	}
 	
 	public void clickNext(ActionEvent event) {
-		
+		view.setCurrentScreen(new EditGardenView(view));
 	}
 	
 	//Make more methods for organizing the gardens
@@ -28,6 +29,6 @@ public class OpenGardenController {
 	}
 	
 	public EventHandler getHandlerForNext() {
-		return event -> clickedBack((ActionEvent) event);
+		return event -> clickNext((ActionEvent) event);
 	}
 }

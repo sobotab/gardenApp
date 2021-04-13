@@ -1,6 +1,7 @@
 package pkgView;
 
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import pkgController.InfoController;
 
@@ -13,6 +14,9 @@ public class InfoView extends BorderPane {
 		Button back = new Button("Back");
 		back.setOnAction(ic.getHandlerForBack());
 		
+		Label title = new Label("Glossary");
+		
+		this.setTop(title);
 		this.setBottom(back);
 		
 	}

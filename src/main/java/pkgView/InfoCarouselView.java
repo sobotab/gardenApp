@@ -20,11 +20,14 @@ public class InfoCarouselView extends CarouselView{
 
 	public InfoCarouselView(View view) {
 		InfoCarouselController icc = new InfoCarouselController(view, this);
-		InfoController ic = new InfoController(view,this);
+		//InfoController ic = new InfoController(view,this);
 		this.setHgap(50);
 		images = icc.getImagesFromList();
+		for(Node image: images) {
+			image.setOnMousePressed(icc.getHandlerForPopup());
+		}
 		center = 2;
-		list = new ArrayList<Button>();
+//		list = new ArrayList<Button>();
 		Button left = new Button("<<<");
 		Button right = new Button(">>>");
 		left.setOnAction(icc.getHandlerForClickedLeft());
@@ -52,10 +55,10 @@ public class InfoCarouselView extends CarouselView{
 		
 	}
 	
-	  public void openInfoPopUp(View view) {
+	  public void openInfoPopUp(View view, ImageView img, String name, String sciName, int numLeps, int dollars, String description) {
 		  Stage popupWindow = new Stage();
 		  popupWindow.initModality(Modality.NONE);
-		  popupWindow.setScene(new Scene(new InfoPopupView(view),500,400));
+		  popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description),500,400));
 		  popupWindow.setAlwaysOnTop(true);
 		  popupWindow.show(); 
 		  }

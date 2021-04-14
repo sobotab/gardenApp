@@ -37,13 +37,13 @@ public class InfoView extends BorderPane {
 	}
 	
 	
-	public void openInfoPopUp(View view) {
-		Stage popupWindow = new Stage();
-		popupWindow.initModality(Modality.NONE);
-		popupWindow.setScene(new Scene(new InfoPopupView(view),500,400));
-		popupWindow.setAlwaysOnTop(true);
-		popupWindow.show();
-	}
+//	public void openInfoPopUp(View view) {
+//		Stage popupWindow = new Stage();
+//		popupWindow.initModality(Modality.NONE);
+//		popupWindow.setScene(new Scene(new InfoPopupView(view),500,400));
+//		popupWindow.setAlwaysOnTop(true);
+//		popupWindow.show();
+//	}
 	
 	
 	// getters & setters

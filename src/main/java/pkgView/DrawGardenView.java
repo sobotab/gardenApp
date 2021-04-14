@@ -47,7 +47,7 @@ public class DrawGardenView extends BorderPane {
 		bottomHBox.getChildren().addAll(back, finish);
 		
 		//Garden Drawing Tool
-		canvas = new Canvas(600, 800);
+		canvas = new Canvas(400, 400);
 		gc = canvas.getGraphicsContext2D();
 		
 		drawButton = new ToggleButton("Draw");
@@ -75,7 +75,6 @@ public class DrawGardenView extends BorderPane {
 		canvas.setOnMouseReleased(event -> mouseReleased((MouseEvent) event));
 		
 		HBox hBox = new HBox();
-		hBox.setPrefSize(100,200);
 		hBox.getChildren().addAll(back, finish);
 		/*
 		StackPane canvasHolder = new StackPane();
@@ -91,7 +90,7 @@ public class DrawGardenView extends BorderPane {
 		this.setTop(title);
 		this.setLeft(buttons);
 		this.setCenter(canvas);
-		this.setBottom(bottomHBox);
+		this.setBottom(hBox);
 	}
 	
 	public void mousePressed(MouseEvent e) {

@@ -10,9 +10,13 @@ public class PlantObjectModel extends PlantModel{
 	int y;
 	int height;
 	int width;
+	private final double BOTTOM = 400;
 	
+	public PlantObjectModel(int x, int y, int height ,int width) {
+
 	public PlantObjectModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, int x, int y, int height ,int width) {
 		super(name,sciName,spreadDiameter,sun,moisture,soil);
+
 		this.x = x;
 		this.y = y;
 		this.height = height;
@@ -32,7 +36,7 @@ public class PlantObjectModel extends PlantModel{
 	}
 
 	public void setY(int y) {
-		this.y = y;
+		this.y = (int)Math.min(y,  BOTTOM);
 	}
 
 	public int getHeight() {

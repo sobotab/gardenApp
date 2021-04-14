@@ -8,9 +8,11 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.TilePane;
 import pkgController.CarouselController;
 
-public abstract class CarouselView extends FlowPane {
+
+public abstract class CarouselView extends TilePane {
 	List<ImageView> images;
 	boolean rotateLeft;
 	boolean rotateRight;

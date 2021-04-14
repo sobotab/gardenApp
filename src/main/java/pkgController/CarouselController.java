@@ -24,7 +24,6 @@ public abstract class CarouselController {
 	Model model;
 	CarouselModel carouselModel; 
 	CarouselView carouselView;
-	//InfoCarouselView icv;
 	
 	public CarouselController() {
 		model = new Model();
@@ -34,7 +33,6 @@ public abstract class CarouselController {
 	public CarouselController(View view, CarouselView carouselView) {
 		this.view = view;
 		this.carouselView = carouselView;
-		//this.icv = (InfoCarouselView)carouselView;
 		model = new Model();
 		carouselModel = new CarouselModel(model.makePlants(), 2);
 	}
@@ -58,31 +56,6 @@ public abstract class CarouselController {
 		return event -> clickedLeft((ActionEvent) event);
 	}
 	
-//	public void clickedPopup(MouseEvent event) {
-//		ImageView img = (ImageView)event.getSource();
-//		int index = 0;
-//		if(img.getScaleX() == 1.5) {
-//			index = carouselModel.getHeldPlant();
-//		}
-//		else if(event.getSceneX() < 400.0) {
-//			index = carouselModel.getHeldPlant() - 1;
-//			if(index < 0) {
-//				index = carouselModel.getPlants().size() - 1;
-//			}
-//		}
-//		else {
-//			index = carouselModel.getHeldPlant() + 1;
-//			if(index == carouselModel.getPlants().size()) {
-//				index = 0;
-//			}
-//		}
-//		PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByIndex(index);
-//		icv.openInfoPopUp(view, img, plant.getName(), plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription());
-//	}
-//	
-//	public EventHandler getHandlerForPopup() {
-//		return event -> clickedPopup((MouseEvent) event);
-//	}
 	
 	public List<ImageView> getImagesFromList(){
 		List<PlantModel> plants = carouselModel.getPlants();

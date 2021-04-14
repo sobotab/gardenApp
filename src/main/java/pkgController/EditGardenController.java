@@ -5,6 +5,7 @@ import java.awt.Point;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import pkgModel.Model;
@@ -27,6 +28,7 @@ public class EditGardenController {
 		this.gardenView = gardenView;
 		this.gardenModel = new PlantGardenModel();
 		gardenModel.addPlant(new PlantObjectModel(0, 0, 10, 10));
+		System.out.println(gardenModel.getPlants().get(0).getX());
 	}
 	
 	public void clickedBack(ActionEvent event) {
@@ -54,26 +56,38 @@ public class EditGardenController {
 		gardenView.setX( index, gardenModel.getPlants().get(index).getX() );
 		gardenView.setY( index, gardenModel.getPlants().get(index).getY() );
 		//Point newLoc = new Point((int)gardenModel.getPlants().get(index).getX(), (int)gardenModel.getPlants().get(index).getY());
-		//boolean inside = gardenView.isInsideGarden(gardenView.getGardenOutline(), newLoc);
-		//System.out.println(inside);
+		Point newLoc = new Point((int)(gardenModel.getPlants().get(index).getX() + 600), (int)(gardenModel.getPlants().get(index).getY() + 500));
+		boolean inside = gardenModel.isInsideGarden(gardenView.getGardenOutline(), newLoc);
+		System.out.println(inside);
 		
 		return;
 	}
 	
 	public void press(MouseEvent event) {
 		Node n = (Node)event.getSource();
-		
-		
+		int index = gardenView.getPlants().indexOf(n);
+		gardenModel.getPlants().get(index).setX((int)event.getSceneX());
+		gardenModel.getPlants().get(index).setY((int)event.getSceneY());
+
 		//Checks whether plant clicked is in the plant selection zone (grey bar). If it is, make a copy plant and control that instead.
 		if (gardenView.getPlantCarousel().getChildren().contains(n)) {
-			gardenModel.getPlants().add(new PlantObjectModel(0, 200, 10, 10));
+			gardenModel.getPlants().add(new PlantObjectModel(0, 0, 10, 10));
 			PlantView newPlantView = gardenView.newPlantView();
 			gardenView.getGarden().getChildren().add(n);
 			gardenView.getPlants().add(newPlantView);
 			gardenView.getPlantCarousel().getChildren().add(newPlantView);
 		}
 		
-		
+		return;
+	}
+	
+	public void release(MouseEvent event) {
+		Node n = (Node)event.getSource();
+		int index = gardenView.getPlants().indexOf(n);
+		if (!(gardenView.getPlantCarousel().getChildren().contains(n))) {
+			gardenView.drawSpread();
+		}
+		gardenModel.checkSpread();
 		return;
 	}
 	
@@ -96,6 +110,10 @@ public class EditGardenController {
 	}
 	
 	public EventHandler getHandlerForPress() {
+		return event -> press((MouseEvent) event);
+	}
+	
+	public EventHandler getHandlerForRelease() {
 		return event -> press((MouseEvent) event);
 	}
 	

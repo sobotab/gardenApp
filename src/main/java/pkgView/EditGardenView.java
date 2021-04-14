@@ -29,11 +29,12 @@ public class EditGardenView extends BorderPane{
 	int userY;
 	boolean clicked;
 	DragDropCarouselView plantCarousel;
-	FlowPane garden;
+	StackPane garden;
 	List<PlantView> plants;
 	List<Point> gardenOutline;
 	//TilePane plantSelection;
 	EditGardenController egc;
+	Canvas gardenOutlineImg;
 	
 	public EditGardenView(View view) {	
 		egc = new EditGardenController(view, this);
@@ -62,15 +63,11 @@ public class EditGardenView extends BorderPane{
 		gardenOutline.add(new Point(180, 0));
 
 		
-    	PlantView pv1 = new PlantView();
-    	Image im1 = new Image(getClass().getResourceAsStream("/img/commonMilkweed.png"));
-    	pv1.setImage(im1);
-    	pv1.setPreserveRatio(true);
-    	pv1.setFitHeight(80);
+    	PlantView pv1 = newPlantView();
     	plants.add(pv1);
     	
-    	Canvas background = new Canvas(400, 400);
-    	GraphicsContext gc = background.getGraphicsContext2D();
+    	gardenOutlineImg = new Canvas(400, 400);
+    	GraphicsContext gc = gardenOutlineImg.getGraphicsContext2D();
     	gc.setFill(Color.LIGHTGREEN);
     	
     	// Drawing garden outline based on list<point>
@@ -83,10 +80,10 @@ public class EditGardenView extends BorderPane{
     	gc.closePath();
     	gc.fill();
     	    	
-		garden = new FlowPane();
+		garden = new StackPane();
 		garden.setBackground(new Background(new BackgroundFill(Color.WHITE, 
                 CornerRadii.EMPTY, Insets.EMPTY)));
-		garden.getChildren().add(background);
+		garden.getChildren().add(gardenOutlineImg);
 		garden.setAlignment(Pos.CENTER);
 
 		// temp tilepane in place of carousel
@@ -103,38 +100,22 @@ public class EditGardenView extends BorderPane{
     	this.setMargin(this.getBottom(), new Insets(10, 10, 10, 10));
     	
     	
-    	for (PlantView plantImg : plants) {
-    		plantImg.setOnMousePressed(egc.getHandlerForPress());
-    		plantImg.setOnMouseDragged(egc.getHandlerForDrag());
-    	}
-    	
-    	
 	}
 	
 	public PlantView newPlantView() {
     	PlantView pv = new PlantView();
     	pv.setImage(new Image(getClass().getResourceAsStream("/img/commonMilkweed.png")));
     	pv.setPreserveRatio(true);
-    	pv.setFitHeight(100);
+    	pv.setFitHeight(80);
 		pv.setOnMousePressed(egc.getHandlerForPress());
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
+    	pv.setOnMouseReleased(egc.getHandlerForRelease());
     	return pv;
     }
 	
-    public boolean isInsideGarden(List<Point> gardenOutline, Point plantLoc) {
-      int i;
-      int j;
-      boolean result = false;
-      for (i = 0, j = gardenOutline.size() - 1; i < gardenOutline.size(); j = i++) {
-        if ((gardenOutline.get(i).y > plantLoc.y) != (gardenOutline.get(j).y > plantLoc.y) &&
-            (plantLoc.x < (gardenOutline.get(j).x - gardenOutline.get(i).x) * (plantLoc.y - gardenOutline.get(i).y) / (gardenOutline.get(j).y-gardenOutline.get(i).y) + gardenOutline.get(i).x)) {
-          result = !result;
-         }
-        System.out.println(" " + gardenOutline.get(i).y + " " + plantLoc.y);
-      } 
-      return result;
-    }
-
+	public void drawSpread() {
+		//this.gardenOutlineImg.getGraphicsContext2D();
+	}
 	
 	public List<Point> movePlant() {
 		List<Point> points = null;
@@ -161,7 +142,7 @@ public class EditGardenView extends BorderPane{
 		return this.plantCarousel;
 	}
 	
-	public FlowPane getGarden() {
+	public StackPane getGarden() {
 		return this.garden;
 	}
 	
@@ -187,7 +168,7 @@ public class EditGardenView extends BorderPane{
 		this.plantCarousel = carousel;
 	}
 	
-	public void setGarden(FlowPane garden) {
+	public void setGarden(StackPane garden) {
 		this.garden = garden;
 	}
 	

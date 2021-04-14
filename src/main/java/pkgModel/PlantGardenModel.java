@@ -1,5 +1,6 @@
 package pkgModel;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -19,12 +20,26 @@ public class PlantGardenModel extends GardenModel{
 		//this.compost = new Set<PlantObjectModel>();
 	}
 	
+	public boolean isInsideGarden(List<Point> gardenOutline, Point plantLoc) {
+	      int i;
+	      int j;
+	      boolean result = false;
+	      for (i = 0, j = gardenOutline.size() - 1; i < gardenOutline.size(); j = i++) {
+	        if ((gardenOutline.get(i).y > plantLoc.y) != (gardenOutline.get(j).y > plantLoc.y) &&
+	            (plantLoc.x < (gardenOutline.get(j).x - gardenOutline.get(i).x) * (plantLoc.y - gardenOutline.get(i).y) / (gardenOutline.get(j).y-gardenOutline.get(i).y) + gardenOutline.get(i).x)) {
+	          result = !result;
+	         }
+	        System.out.println("y =  " + gardenOutline.get(i).y + " " + plantLoc.y + " x =  " + gardenOutline.get(i).x + " " + plantLoc.x);
+	      } 
+	      return result;
+	    }
+	
 	public boolean checkSpread() {
 		return false;
 	}
 	
 	public void addPlant(PlantObjectModel plant) {
-		
+		this.getPlants().add(plant);
 	}
 	
 	public void removePlant(int x, int y) {

@@ -1,17 +1,24 @@
 package pkgController;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import pkgModel.Model;
 import pkgModel.PlantGardenModel;
+import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
 import pkgModel.PlantObjectModel;
 import pkgView.EditGardenView;
@@ -26,10 +33,25 @@ public class EditGardenController {
 	PlantGardenModel gardenModel;
 	
 	public EditGardenController(View view, EditGardenView gardenView) {
+		Set<PlantModel> plants2 = new HashSet<PlantModel>();
+		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
+		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.DAMP, Soil.CLAY, 463, 20, "Example Description");
+		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.DAMP,Soil.CLAY, 2, 6, "Example Description");
+		PlantModel Aralia_racemosa = new PlantInfoModel("spikenard","Aralia-racemosa",1,Sun.PARTSUN,Moisture.DAMP,Soil.CLAY,6, 6, "Example Description");
+		PlantModel Acer_rubrum = new PlantInfoModel("red maple","Acer-rubrum",75,Sun.FULLSUN,Moisture.DAMP,Soil.CLAY,256,20,"Example Description");
+		plants2.add(Acer_rubrum);
+		plants2.add(Aralia_racemosa);
+		plants2.add(Anemone_virginiana);
+		plants2.add(Agalinis_purpurea);
+		plants2.add(Quercus_stellata);
+		
 		this.view=view;
 		this.gardenView = gardenView;
-		this.gardenModel = new PlantGardenModel();
-		gardenModel.addPlant(new PlantObjectModel("name", "sciname", 0, Sun.FULLSUN, Moisture.DAMP, Soil.CHALKY, 0, 0, 10, 10));
+
+		for (PlantModel plant : plants2)
+			gardenView.getPlantInput().add(plant.getSciName());
+		
+		this.gardenModel = new PlantGardenModel(plants2, 0);
 	}
 	
 	public void clickedBack(ActionEvent event) {
@@ -70,7 +92,7 @@ public class EditGardenController {
 		//Checks whether plant clicked is in the plant selection zone (grey bar). If it is, make a copy plant and control that instead.
 		if (gardenView.getPlantCarousel().getChildren().contains(n)) {
 			gardenModel.getPlants().add(new PlantObjectModel("name", "sciname", 0, Sun.FULLSUN, Moisture.DAMP, Soil.CHALKY, 0, 0, 10, 10));
-			PlantView newPlantView = gardenView.newPlantView();
+			PlantView newPlantView = gardenView.newPlantView("Acer-rubrum");
 			gardenView.getGarden().getChildren().add(n);
 			gardenView.getPlants().add(newPlantView);
 			gardenView.getPlantCarousel().getChildren().add(newPlantView);

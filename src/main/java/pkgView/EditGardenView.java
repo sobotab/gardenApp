@@ -3,7 +3,9 @@ package pkgView;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,13 +35,22 @@ public class EditGardenView extends BorderPane{
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
 	List<PlantView> plants;
+	Set<String> plantInput;
 	List<Point> gardenOutline;
 	EditGardenController egc;
 	Canvas gardenOutlineImg;
 	
 	public EditGardenView(View view) {
 		// Initialize controller
-		egc = new EditGardenController(view, this);
+		plantInput = new HashSet<String>();
+		this.egc = new EditGardenController(view, this);
+		
+		this.plants = new ArrayList<PlantView>();
+    	//PlantView pv1 = newPlantView("Acer-rubrum");
+    	//plants.add(pv1);
+		for (String sciName : plantInput)
+			plants.add(newPlantView(sciName));
+			System.out.println(plantInput.size());
 		
 		// Build buttons
 		Label title = new Label("Edit Garden");
@@ -68,7 +79,7 @@ public class EditGardenView extends BorderPane{
 		// Make compost, put in carousel -- doesn't do anything till I figure out
 		// if we can detect drag target using mouse events, otherwise major changes to drag drop
 		ImageView compost = new ImageView();
-    	compost.setImage(new Image(getClass().getResourceAsStream("/img/compost.png")));
+    	compost.setImage(new Image(getClass().getResourceAsStream("/images/compost.png")));
     	compost.setPreserveRatio(true);
     	compost.setFitHeight(80);
     	//compost.setOnMouseReleased(egc.getHandlerForDrop());
@@ -94,14 +105,12 @@ public class EditGardenView extends BorderPane{
 		garden.getChildren().add(gardenOutlineImg);
 		garden.setAlignment(Pos.CENTER);
 		
-		this.plants = new ArrayList<PlantView>();
-    	PlantView pv1 = newPlantView();
-    	plants.add(pv1);
 
-		// temp tilepane in place of carousel
+		// initialize carousel with compost bin
 		plantCarousel = new DragDropCarouselView();
 		plantCarousel.getChildren().add(compost);
-		plantCarousel.getChildren().add(pv1);
+		plantCarousel.getChildren().addAll(plants);
+		System.out.println(plantCarousel.getChildren().size());
     	plantCarousel.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, 
                 CornerRadii.EMPTY, Insets.EMPTY)));
     	
@@ -116,8 +125,8 @@ public class EditGardenView extends BorderPane{
 	}
 	
 	// Helper function to build new plantviews
-	public PlantView newPlantView() {
-    	PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/img/commonMilkweed.png")));
+	public PlantView newPlantView(String sci_name) {
+    	PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/images/" + sci_name + ".jpg")));
     	pv.setPreserveRatio(true);
     	pv.setFitHeight(80);
 		pv.setOnMousePressed(egc.getHandlerForPress());
@@ -173,6 +182,10 @@ public class EditGardenView extends BorderPane{
 		return this.plants;
 	}
 	
+	public Set<String> getPlantInput() {
+		return this.plantInput;
+	}
+	
 	
 	// setters
 	public void setUserX(int x) {
@@ -215,6 +228,8 @@ public class EditGardenView extends BorderPane{
 		return this.gardenOutline;
 	}
 	
-	
+	public void setPlantInput(Set<String> input) {
+		this.plantInput = input;
+	}
 	
 }

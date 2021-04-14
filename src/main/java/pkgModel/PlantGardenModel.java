@@ -14,9 +14,10 @@ public class PlantGardenModel extends GardenModel{
 	int dollars;
 	int heldPlant;
 
-	public PlantGardenModel() {
-		this.carousel = new ObjectCarouselModel();
+	public PlantGardenModel(Set<PlantModel> plantModels, int heldPlant) {
+		this.carousel = new ObjectCarouselModel(plantModels, heldPlant);
 		this.plants = new ArrayList<PlantObjectModel>();
+		this.plants.addAll(carousel.plants);
 		//this.compost = new Set<PlantObjectModel>();
 	}
 	

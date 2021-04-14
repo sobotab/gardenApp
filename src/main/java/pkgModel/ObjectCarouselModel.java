@@ -19,26 +19,11 @@ public class ObjectCarouselModel {
 	int rationDecrease;
 	int heldPlant;
 	
-	public ObjectCarouselModel() {
+	public ObjectCarouselModel(Set<PlantModel> plants2, int heldPlant) {
 		this.plants = new ArrayList<PlantObjectModel>();
-		this.heldPlant = 0;
-		Set<PlantModel> plants = new HashSet<PlantModel>();
-		PlantObjectModel Agalinis_purpurea = new PlantObjectModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 0, 0, 10, 10);
-		PlantObjectModel Quercus_stellata = new PlantObjectModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.DAMP, Soil.CLAY, 0, 0, 10, 10);
-		PlantObjectModel Anemone_virginiana = new PlantObjectModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.DAMP,Soil.CLAY, 0, 0, 10, 10);
-		PlantObjectModel Aralia_racemosa = new PlantObjectModel("spikenard","Aralia-racemosa",1,Sun.PARTSUN,Moisture.DAMP,Soil.CLAY, 0, 0, 10, 10);
-		PlantObjectModel Acer_rubrum = new PlantObjectModel("red maple","Acer-rubrum",75,Sun.FULLSUN,Moisture.DAMP,Soil.CLAY, 0, 0, 10, 10);
-		plants.add(Acer_rubrum);
-		plants.add(Aralia_racemosa);
-		plants.add(Anemone_virginiana);
-		plants.add(Agalinis_purpurea);
-		plants.add(Quercus_stellata);
-		return;
-	}
-	
-	public ObjectCarouselModel(Set<PlantObjectModel> plants2, int heldPlant) {
-		this.plants = new ArrayList<PlantObjectModel>();
-		this.plants.addAll(plants2);
+		for (PlantModel plant : plants2) {
+			this.plants.add(new PlantObjectModel(plant.name, plant.sciName, plant.spreadDiameter, plant.sun, plant.moisture, plant.soil, 0, 0, 10, 10));
+		}
 		this.heldPlant = heldPlant;
 	}
 	

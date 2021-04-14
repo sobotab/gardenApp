@@ -17,14 +17,21 @@ import pkgController.InfoCarouselController;
 import pkgController.InfoController;
 
 public class InfoCarouselView extends CarouselView{
+	
+	InfoCarouselController icc;
 
 	public InfoCarouselView(View view) {
-		InfoCarouselController icc = new InfoCarouselController(view, this);
+
+		icc = new InfoCarouselController(view, this);
 		this.setHgap(10);
+
 		images = icc.getImagesFromList();
-		for(Node image: images) {
+		filteredImages = new ArrayList<ImageView>();
+		for(ImageView image: images) {
+			filteredImages.add(image);
 			image.setOnMousePressed(icc.getHandlerForPopup());
 		}
+
 		center = 2;
 		Button left = new Button("<<<");
 		Button right = new Button(">>>");
@@ -45,6 +52,10 @@ public class InfoCarouselView extends CarouselView{
 		  popupWindow.setAlwaysOnTop(true);
 		  popupWindow.show(); 
 		  }
+	  
+	  public void filter(String sun) {
+		  icc.filterCarousel(sun);
+	  }
 	 
 	
 }

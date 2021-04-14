@@ -2,12 +2,14 @@ package pkgView;
 
 
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -41,8 +43,23 @@ public class InfoView extends BorderPane {
 		HBox hBox = new HBox();
 		hBox.getChildren().addAll(title, back);
 
+    /*
+		ChoiceBox sun = new ChoiceBox();
+		sun.setItems(FXCollections.observableArrayList("full sun", "part sun", "full shade"));
 		
-		this.setTop(title);
+		Button filter = new Button("Filter");
+		filter.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event) {
+				infoCarousel.filter((String)sun.getValue());
+			}
+		});
+		HBox box = new HBox();
+		Label title = new Label("Glossary");
+		box.getChildren().addAll(sun,filter);
+    */
+		
+		//this.setRight(box)
+		this.setTop(hbox);
 		this.setCenter(infoCarousel);
 		this.setBottom(back);
 		//this.setMargin(getCenter(), new Insets(25));

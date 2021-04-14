@@ -7,8 +7,8 @@ import pkgView.View;
 
 public class DragDropCarouselController extends CarouselController {
 
-	public DragDropCarouselController(View view, InfoCarouselView icv) {
-		super(view, icv);
+	public DragDropCarouselController(View view, CarouselView carouselView) {
+		super(view, carouselView);
 		// TODO Auto-generated constructor stub
 	}
 	

@@ -8,8 +8,8 @@ import pkgView.View;
 
 public class SelectCarouselController extends CarouselController {
 		
-	public SelectCarouselController(View view, InfoCarouselView icv) {
-		super(view, icv);
+	public SelectCarouselController(View view, CarouselView carouselView) {
+		super(view, carouselView);
 	}
 	
 	public void plantSelected(ActionEvent event) {

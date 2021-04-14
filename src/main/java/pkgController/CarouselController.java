@@ -21,25 +21,32 @@ import pkgView.View;
 public abstract class CarouselController {
 	
 	View view;
-	Model model = new Model();
+	Model model;
 	CarouselModel carouselModel; 
 	CarouselView carouselView;
-	InfoCarouselView icv;
+	//InfoCarouselView icv;
 	
-	public CarouselController(View view, InfoCarouselView icv) {
-		this.view = view;
-		//this.carouselView = carouselView;
-		this.icv = icv;
+	public CarouselController() {
+		model = new Model();
 		carouselModel = new CarouselModel(model.makePlants(), 2);
 	}
 	
+	public CarouselController(View view, CarouselView carouselView) {
+		this.view = view;
+		this.carouselView = carouselView;
+		//this.icv = (InfoCarouselView)carouselView;
+		model = new Model();
+		carouselModel = new CarouselModel(model.makePlants(), 2);
+	}
+	
+	
 	public void clickedRight(ActionEvent event) {
-		icv.rotateRight();
+		carouselView.rotateRight();
 		carouselModel.rotateRight();
 	}
 	
 	public void clickedLeft(ActionEvent event) {
-		icv.rotateLeft();
+		carouselView.rotateLeft();
 		carouselModel.rotateLeft();
 	}
 	
@@ -51,31 +58,31 @@ public abstract class CarouselController {
 		return event -> clickedLeft((ActionEvent) event);
 	}
 	
-	public void clickedPopup(MouseEvent event) {
-		ImageView img = (ImageView)event.getSource();
-		int index = 0;
-		if(img.getScaleX() == 1.5) {
-			index = carouselModel.getHeldPlant();
-		}
-		else if(event.getSceneX() < 400.0) {
-			index = carouselModel.getHeldPlant() - 1;
-			if(index < 0) {
-				index = carouselModel.getPlants().size() - 1;
-			}
-		}
-		else {
-			index = carouselModel.getHeldPlant() + 1;
-			if(index == carouselModel.getPlants().size()) {
-				index = 0;
-			}
-		}
-		PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByIndex(index);
-		icv.openInfoPopUp(view, img, plant.getName(), plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription());
-	}
-	
-	public EventHandler getHandlerForPopup() {
-		return event -> clickedPopup((MouseEvent) event);
-	}
+//	public void clickedPopup(MouseEvent event) {
+//		ImageView img = (ImageView)event.getSource();
+//		int index = 0;
+//		if(img.getScaleX() == 1.5) {
+//			index = carouselModel.getHeldPlant();
+//		}
+//		else if(event.getSceneX() < 400.0) {
+//			index = carouselModel.getHeldPlant() - 1;
+//			if(index < 0) {
+//				index = carouselModel.getPlants().size() - 1;
+//			}
+//		}
+//		else {
+//			index = carouselModel.getHeldPlant() + 1;
+//			if(index == carouselModel.getPlants().size()) {
+//				index = 0;
+//			}
+//		}
+//		PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByIndex(index);
+//		icv.openInfoPopUp(view, img, plant.getName(), plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription());
+//	}
+//	
+//	public EventHandler getHandlerForPopup() {
+//		return event -> clickedPopup((MouseEvent) event);
+//	}
 	
 	public List<ImageView> getImagesFromList(){
 		List<PlantModel> plants = carouselModel.getPlants();

@@ -31,12 +31,12 @@ public class InfoCarouselController extends CarouselController {
 			else if(event.getSceneX() < 400.0) {
 				index = carouselModel.getHeldPlant() - 1;
 				if(index < 0) {
-					index = carouselModel.getPlants().size() - 1;
+					index = carouselModel.getFilteredPlants().size() - 1;
 				}
 			}
 			else {
 				index = carouselModel.getHeldPlant() + 1;
-				if(index == carouselModel.getPlants().size()) {
+				if(index == carouselModel.getFilteredPlants().size()) {
 					index = 0;
 				}
 			}
@@ -51,13 +51,16 @@ public class InfoCarouselController extends CarouselController {
 		public void filterCarousel(String sun) {
 			List<PlantModel> plants = carouselModel.getPlants();
 			List<ImageView> images = icv.getImages();
+			List<PlantModel> filteredPlants = new ArrayList<>();
 			List<ImageView> filteredImages = new ArrayList<ImageView>();
 			for(int i = 0; i < plants.size(); i++) {
 				if(plants.get(i).getSun().getLevel().equals(sun)) {
 					filteredImages.add(images.get(i));
+					filteredPlants.add(plants.get(i));
 				}
 			}
 			icv.setFilteredImages(filteredImages);
+			carouselModel.setFilteredPlants(filteredPlants);
 			icv.update();
 		}
 		

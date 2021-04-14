@@ -7,6 +7,7 @@ import java.util.Set;
 
 public class CarouselModel {
 	public List<PlantModel> plants;
+	public List<PlantModel> filteredPlants;
 	int firstPlant;
 	int lastPlant;
 	int viewPlant;
@@ -18,6 +19,8 @@ public class CarouselModel {
 	public CarouselModel(Set<PlantModel> plants, int heldPlant) {
 		this.plants = new ArrayList<PlantModel>();
 		this.plants.addAll(plants);
+		this.filteredPlants = new ArrayList<PlantModel>();
+		this.filteredPlants.addAll(plants);
 		this.heldPlant = heldPlant;
 	}
 	
@@ -32,14 +35,14 @@ public class CarouselModel {
 	public void rotateLeft() {
 		heldPlant -= 1;
 		if(heldPlant < 0) {
-			heldPlant = plants.size() - 1;
+			heldPlant = filteredPlants.size() - 1;
 		}
 		
 	}
 	
 	public void rotateRight() {
 		heldPlant += 1;
-		if(heldPlant == plants.size()) {
+		if(heldPlant == filteredPlants.size()) {
 			heldPlant = 0;
 		}
 	}
@@ -105,6 +108,14 @@ public class CarouselModel {
 	}
 	
 	public PlantModel getPlantByIndex(int index) {
-		return plants.get(index);
+		return filteredPlants.get(index);
+	}
+
+	public List<PlantModel> getFilteredPlants() {
+		return filteredPlants;
+	}
+
+	public void setFilteredPlants(List<PlantModel> filteredPlants) {
+		this.filteredPlants = filteredPlants;
 	}
 }

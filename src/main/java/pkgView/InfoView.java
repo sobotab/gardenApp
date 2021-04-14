@@ -43,7 +43,7 @@ public class InfoView extends BorderPane {
 		HBox hBox = new HBox();
 		hBox.getChildren().addAll(title, back);
 
-		/*
+		
 		ChoiceBox sun = new ChoiceBox();
 		sun.setItems(FXCollections.observableArrayList("full sun", "part sun", "full shade"));
 		
@@ -54,15 +54,15 @@ public class InfoView extends BorderPane {
 			}
 		});
 		HBox box = new HBox();
-		Label title = new Label("Glossary");
+		//Label title = new Label("Glossary");
 		box.getChildren().addAll(sun,filter);
-     	*/
+     	
 		
-		//this.setRight(box)
+		this.setRight(box);
 		this.setTop(hBox);
 		this.setCenter(infoCarousel);
 		this.setBottom(back);
-		//this.setMargin(getCenter(), new Insets(25));
+		this.setMargin(getCenter(), new Insets(25));
 		
 		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
 		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-sunshine.jpg")),

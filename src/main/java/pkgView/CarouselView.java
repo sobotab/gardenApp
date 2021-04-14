@@ -12,7 +12,7 @@ import javafx.scene.layout.TilePane;
 import pkgController.CarouselController;
 
 
-public abstract class CarouselView extends TilePane {
+public abstract class CarouselView extends FlowPane {
 	List<ImageView> filteredImages;
 	List<ImageView> images;
 	boolean rotateLeft;

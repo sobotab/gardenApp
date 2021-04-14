@@ -21,9 +21,15 @@ public class Model {
 	
 	public Set<PlantModel> makePlants() {
 		Set<PlantModel> plants = new HashSet<PlantModel>();
-		PlantModel Agalanis_purpurea = new PlantInfoModel("purple false foxglove", "Agalanis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
+		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
 		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.DAMP, Soil.CLAY, 463, 20, "Example Description");
-		plants.add(Agalanis_purpurea);
+		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.DAMP,Soil.CLAY, 2, 6, "Example Description");
+		PlantModel Aralia_racemosa = new PlantInfoModel("spikenard","Aralia-racemosa",1,Sun.PARTSUN,Moisture.DAMP,Soil.CLAY,6, 6, "Example Description");
+		PlantModel Acer_rubrum = new PlantInfoModel("red maple","Acer-rubrum",75,Sun.FULLSUN,Moisture.DAMP,Soil.CLAY,256,20,"Example Description");
+		plants.add(Acer_rubrum);
+		plants.add(Aralia_racemosa);
+		plants.add(Anemone_virginiana);
+		plants.add(Agalinis_purpurea);
 		plants.add(Quercus_stellata);
 		return plants;
 		

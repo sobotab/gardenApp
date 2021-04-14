@@ -13,8 +13,9 @@ public class CarouselModel {
 	int rationDecrease;
 	int heldPlant;
 	
-	public CarouselModel() {
-		
+	public CarouselModel(Set<PlantModel> plants, int heldPlant) {
+		this.plants = plants;
+		this.heldPlant = heldPlant;
 	}
 	
 	public CarouselModel(int firstPlant, int lastPlant) {

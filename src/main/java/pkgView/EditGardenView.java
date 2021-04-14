@@ -18,6 +18,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.FlowPane;
@@ -26,6 +30,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
 import pkgController.EditGardenController;
 
 public class EditGardenView extends BorderPane{
@@ -53,17 +58,27 @@ public class EditGardenView extends BorderPane{
 			System.out.println(plantInput.size());
 		
 		// Build buttons
-		Label title = new Label("Edit Garden");
+		Label title = new Label("Edit Garden   ");
+		title.setTextFill(Color.WHITE);
+		title.setFont(Font.font("Cambria", 30));
 		Button back = new Button("Back to plant select");
 		back.setOnAction(egc.getHandlerForBack());
 		Button save = new Button("Save");
 		Button exit = new Button("Exit");
 		exit.setOnAction(egc.getHandlerForExit());
+		
+		// Background
+		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
+		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-blurred.jpg")),
+				BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT,
+				BackgroundPosition.CENTER,
+				bSize)));
 				
 		HBox hBox = new HBox();
-		hBox.setPrefSize(100,200);
+		hBox.setPrefSize(100,500);
 		hBox.getChildren().addAll(title, back, save, exit);
-		hBox.setMaxSize(300, 50);
+		hBox.setMaxSize(500, 50);
 		
 		
 		// Hard-coded gardenOutline for testing
@@ -127,6 +142,17 @@ public class EditGardenView extends BorderPane{
 	// Helper function to build new plantviews
 	public PlantView newPlantView(String sci_name) {
     	PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/images/" + sci_name + ".jpg")));
+    	pv.setPreserveRatio(true);
+    	pv.setFitHeight(80);
+		pv.setOnMousePressed(egc.getHandlerForPress());
+    	pv.setOnMouseDragged(egc.getHandlerForDrag());
+    	pv.setOnMouseReleased(egc.getHandlerForRelease());
+    	return pv;
+    }
+	
+	// Same as above but builds from existing image
+	public PlantView newPlantView(Image img) {
+    	PlantView pv = new PlantView(img);
     	pv.setPreserveRatio(true);
     	pv.setFitHeight(80);
 		pv.setOnMousePressed(egc.getHandlerForPress());

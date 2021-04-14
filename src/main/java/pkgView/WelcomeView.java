@@ -1,5 +1,7 @@
 package pkgView;
 
+//import java.awt.Font;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -12,6 +14,8 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import pkgController.WelcomeController;
 
 public class WelcomeView extends BorderPane {
@@ -25,14 +29,26 @@ public class WelcomeView extends BorderPane {
 	public WelcomeView(View view) {
 		//Controller for buttons
 		welcomeController = new WelcomeController(view);
-		
+		backgroundImage = new Image(getClass().getResourceAsStream("/images/welcome-screen-img.jpg"));
+		bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
+		setBackgroundImage(backgroundImage);
 		//Create nodes
 		hBox = new HBox();
 		open = new Button("Open");
+		open.setMinWidth(100);
 		newGarden = new Button("New");
+		open.setMinWidth(50);
 		info = new Button("Info");
+		open.setMinWidth(50);
 		resources = new Button("Resources");
+		open.setMinWidth(50);
 		Label title = new Label("Welcome");
+		//title.setPrefWidth(50);
+		//title.setPrefHeight(50);
+		title.setTextFill(Color.WHITE);
+		title.setFont(Font.font("Cambria", 80));
+		
+
 		
 		//Set handlers to buttons
 		open.setOnAction(welcomeController.getHandlerForOpen());

@@ -91,11 +91,15 @@ public class EditGardenController {
 
 		//Checks whether plant clicked is in the plant selection zone (grey bar). If it is, make a copy plant and control that instead.
 		if (gardenView.getPlantCarousel().getChildren().contains(n)) {
+			int indexCarousel = gardenView.getPlantCarousel().getPlants().indexOf(n);
 			gardenModel.getPlants().add(new PlantObjectModel("name", "sciname", 0, Sun.FULLSUN, Moisture.DAMP, Soil.CHALKY, 0, 0, 10, 10));
-			PlantView newPlantView = gardenView.newPlantView("Acer-rubrum");
+			//PlantView newPlantView = gardenView.newPlantView("Acer-rubrum");
+			//PlantView newPlantView = gardenView.newPlantView(gardenView.getPlantInput().
+			PlantView newPlantView = gardenView.newPlantView(gardenView.getPlants().get(index).getImage());
 			gardenView.getGarden().getChildren().add(n);
 			gardenView.getPlants().add(newPlantView);
 			gardenView.getPlantCarousel().getChildren().add(newPlantView);
+			//gardenView.getPlantCarousel().getChildren().add(index, newPlantView);
 		}
 		
 		return;

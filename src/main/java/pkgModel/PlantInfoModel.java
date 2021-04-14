@@ -1,13 +1,20 @@
 package pkgModel;
 
+import pkgController.Moisture;
+import pkgController.Soil;
+import pkgController.Sun;
+
 public class PlantInfoModel extends PlantModel{
 	
 	int numLeps;
 	int dollars;
 	String description;
 
-	public PlantInfoModel(int numLeps, int dollars, String description) {
-		
+	public PlantInfoModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, int numLeps, int dollars, String description) {
+		super(name,sciName,spreadDiameter,sun,moisture,soil);
+		this.numLeps = numLeps;
+		this.dollars = dollars;
+		this.description = description;
 	}
 
 	public int getNumLeps() {

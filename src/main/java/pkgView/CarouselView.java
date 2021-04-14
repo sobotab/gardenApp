@@ -1,31 +1,73 @@
 package pkgView;
 
 import java.awt.Point;
+import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
+import pkgController.CarouselController;
+
 
 public abstract class CarouselView extends TilePane {
 	List<ImageView> images;
 	boolean rotateLeft;
 	boolean rotateRight;
+	List<Button> list;
+	int center;
 	int x;
 	int y;
 	
-	public CarouselView() {}
-	
-	void rotateLeft() {
-		// I imagine this is where we will use flowpane.add() and .remove() to simulate rotating carousel
-		// We can even choose index in .add() so a new plant appears on the left side
+	public CarouselView() {
 	}
 	
-	void rotateRight() {}
+	public void rotateLeft() {
+		// I imagine this is where we will use flowpane.add() and .remove() to simulate rotating carousel
+		// We can even choose index in .add() so a new plant appears on the left side
+		center -= 1;
+		if(center < 0) {
+			center = images.size()-1;
+		}
+		update();
+	}
+	
+	public void rotateRight() {
+		center += 1;
+		if(center == images.size()) {
+			center = 0;
+		}
+		update();
+	}
 	
 	List<Point> movePlant() {
 		List<Point> points = null;
 		return points;
+	}
+	
+	public void update() {
+		this.getChildren().removeAll(images);
+		int leftMostNode = center-1;
+		if(leftMostNode < 0) {
+			leftMostNode = images.size() -1;
+		}
+		int rightMostNode = center + 1;
+		if(rightMostNode == images.size()) {
+			rightMostNode = 0;
+		}
+		List<Node> sublist = new ArrayList<Node>();
+		images.get(leftMostNode).setScaleX(.75);
+		images.get(leftMostNode).setScaleY(.75);
+		sublist.add(images.get(leftMostNode));
+		images.get(center).setScaleX(1.5);
+		images.get(center).setScaleY(1.5);
+		sublist.add(images.get(center));
+		images.get(rightMostNode).setScaleX(.75);
+		images.get(rightMostNode).setScaleY(.75);;
+		sublist.add(images.get(rightMostNode));
+		this.getChildren().addAll(1,sublist);
 	}
 	
 	// getters

@@ -11,10 +11,15 @@ public abstract class PlantModel {
 	int spreadDiameter;
 	Sun sun;
 	Moisture moisture;
-	Soil Soil;
+	Soil soil;
 
-	public PlantModel() {
-		
+	public PlantModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil) {
+		this.name = name;
+		this.sciName = sciName;
+		this.spreadDiameter = spreadDiameter;
+		this.sun = sun;
+		this.moisture = moisture;
+		this.soil = soil;
 	}
 
 	public String getName() {
@@ -58,11 +63,11 @@ public abstract class PlantModel {
 	}
 
 	public Soil getSoil() {
-		return Soil;
+		return soil;
 	}
 
 	public void setSoil(Soil soil) {
-		Soil = soil;
+		soil = soil;
 	}
 	
 	

@@ -12,8 +12,6 @@ public class PlantObjectModel extends PlantModel{
 	int width;
 	private final double BOTTOM = 400;
 	
-	public PlantObjectModel(int x, int y, int height ,int width) {
-
 	public PlantObjectModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, int x, int y, int height ,int width) {
 		super(name,sciName,spreadDiameter,sun,moisture,soil);
 

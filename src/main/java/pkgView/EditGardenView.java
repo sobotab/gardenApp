@@ -117,8 +117,7 @@ public class EditGardenView extends BorderPane{
 	
 	// Helper function to build new plantviews
 	public PlantView newPlantView() {
-    	PlantView pv = new PlantView();
-    	pv.setImage(new Image(getClass().getResourceAsStream("/img/commonMilkweed.png")));
+    	PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/img/commonMilkweed.png")));
     	pv.setPreserveRatio(true);
     	pv.setFitHeight(80);
 		pv.setOnMousePressed(egc.getHandlerForPress());

@@ -9,13 +9,13 @@ public class PlantGardenModel extends GardenModel{
 	
 	List<PlantObjectModel> plants;
 	Set<PlantObjectModel> compost;
-	CarouselModel carousel;
+	ObjectCarouselModel carousel;
 	int numLeps;
 	int dollars;
 	int heldPlant;
 
 	public PlantGardenModel() {
-		this.carousel = new CarouselModel();
+		this.carousel = new ObjectCarouselModel();
 		this.plants = new ArrayList<PlantObjectModel>();
 		//this.compost = new Set<PlantObjectModel>();
 	}
@@ -94,11 +94,11 @@ public class PlantGardenModel extends GardenModel{
 		this.heldPlant = heldPlant;
 	}
 	
-	public CarouselModel getCarousel() {
+	public ObjectCarouselModel getCarousel() {
 		return this.carousel;
 	}
 	
-	public void setCarousel(CarouselModel carousel) {
+	public void setCarousel(ObjectCarouselModel carousel) {
 		this.carousel = carousel;
 	}
 	

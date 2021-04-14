@@ -27,7 +27,7 @@ public class InfoController {
 		this.view = view;
 		this.icv = icv;
 		model = new Model();
-		carouselModel = new CarouselModel(model.getPotentialPlants(),2);
+		carouselModel = new CarouselModel(model.getPotentialPlants(), 2);
 		
 	}
 	

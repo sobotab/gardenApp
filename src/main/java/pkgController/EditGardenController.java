@@ -29,7 +29,7 @@ public class EditGardenController {
 		this.view=view;
 		this.gardenView = gardenView;
 		this.gardenModel = new PlantGardenModel();
-		gardenModel.addPlant(new PlantObjectModel(0, 0, 10, 10));
+		gardenModel.addPlant(new PlantObjectModel("name", "sciname", 0, Sun.FULLSUN, Moisture.DAMP, Soil.CHALKY, 0, 0, 10, 10));
 	}
 	
 	public void clickedBack(ActionEvent event) {
@@ -69,7 +69,7 @@ public class EditGardenController {
 
 		//Checks whether plant clicked is in the plant selection zone (grey bar). If it is, make a copy plant and control that instead.
 		if (gardenView.getPlantCarousel().getChildren().contains(n)) {
-			gardenModel.getPlants().add(new PlantObjectModel(0, 0, 10, 10));
+			gardenModel.getPlants().add(new PlantObjectModel("name", "sciname", 0, Sun.FULLSUN, Moisture.DAMP, Soil.CHALKY, 0, 0, 10, 10));
 			PlantView newPlantView = gardenView.newPlantView();
 			gardenView.getGarden().getChildren().add(n);
 			gardenView.getPlants().add(newPlantView);

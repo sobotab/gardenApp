@@ -7,7 +7,9 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.TransferMode;
 import pkgModel.Model;
 import pkgModel.PlantGardenModel;
 import pkgModel.PlantModel;
@@ -28,7 +30,6 @@ public class EditGardenController {
 		this.gardenView = gardenView;
 		this.gardenModel = new PlantGardenModel();
 		gardenModel.addPlant(new PlantObjectModel(0, 0, 10, 10));
-		System.out.println(gardenModel.getPlants().get(0).getX());
 	}
 	
 	public void clickedBack(ActionEvent event) {
@@ -46,9 +47,6 @@ public class EditGardenController {
 	
 	public void drag(MouseEvent event) {
 		Node n = (Node)event.getSource();
-		
-		//int viewIndex = gardenView.getPlants().indexOf(n);
-		//int modelIndex = gardenModel.getPlants().indexOf(n);
 		int index = gardenView.getPlants().indexOf(n);
 				
 		gardenModel.getPlants().get(index).setX(gardenModel.getPlants().get(index).getX() + (int)event.getX()); 
@@ -56,9 +54,9 @@ public class EditGardenController {
 		gardenView.setX( index, gardenModel.getPlants().get(index).getX() );
 		gardenView.setY( index, gardenModel.getPlants().get(index).getY() );
 		//Point newLoc = new Point((int)gardenModel.getPlants().get(index).getX(), (int)gardenModel.getPlants().get(index).getY());
-		Point newLoc = new Point((int)(gardenModel.getPlants().get(index).getX() + 600), (int)(gardenModel.getPlants().get(index).getY() + 500));
-		boolean inside = gardenModel.isInsideGarden(gardenView.getGardenOutline(), newLoc);
-		System.out.println(inside);
+		//Point newLoc = new Point((int)(gardenModel.getPlants().get(index).getX() + 600), (int)(gardenModel.getPlants().get(index).getY() + 500));
+		//boolean inside = gardenModel.isInsideGarden(gardenView.getGardenOutline(), newLoc);
+		//System.out.println(inside);
 		
 		return;
 	}
@@ -85,11 +83,28 @@ public class EditGardenController {
 		Node n = (Node)event.getSource();
 		int index = gardenView.getPlants().indexOf(n);
 		if (!(gardenView.getPlantCarousel().getChildren().contains(n))) {
-			gardenView.drawSpread();
+			gardenView.drawSpread(index);
 		}
 		gardenModel.checkSpread();
+		if (event.getTarget() == gardenView.getPlantCarousel().getChildren().get(0)) {
+			drop(event);
+		}
 		return;
 	}
+	
+	// not functional rn, seems MouseEvents aren't sufficient to track drop location
+	// will probably need to swap drag drop mechanics to dragEvents instead
+	public void drop(MouseEvent event) {
+		System.out.println("running drop");
+		Node n = (Node)event.getSource();
+		
+		int index = gardenView.getPlants().indexOf(n);
+		gardenView.getPlants().remove(index);
+		gardenModel.getPlants().remove(index);
+		gardenView.getGarden().getChildren().remove(n);
+		return;
+	}
+	
 	
 	//Make more methods for organizing the gardens
 	
@@ -114,7 +129,11 @@ public class EditGardenController {
 	}
 	
 	public EventHandler getHandlerForRelease() {
-		return event -> press((MouseEvent) event);
+		return event -> release((MouseEvent) event);
+	}
+	
+	public EventHandler getHandlerForDrop() {
+		return event -> drop((MouseEvent) event);
 	}
 	
 }

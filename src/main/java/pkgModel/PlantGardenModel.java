@@ -29,7 +29,7 @@ public class PlantGardenModel extends GardenModel{
 	            (plantLoc.x < (gardenOutline.get(j).x - gardenOutline.get(i).x) * (plantLoc.y - gardenOutline.get(i).y) / (gardenOutline.get(j).y-gardenOutline.get(i).y) + gardenOutline.get(i).x)) {
 	          result = !result;
 	         }
-	        System.out.println("y =  " + gardenOutline.get(i).y + " " + plantLoc.y + " x =  " + gardenOutline.get(i).x + " " + plantLoc.x);
+	        //System.out.println("y =  " + gardenOutline.get(i).y + " " + plantLoc.y + " x =  " + gardenOutline.get(i).x + " " + plantLoc.x);
 	      } 
 	      return result;
 	    }

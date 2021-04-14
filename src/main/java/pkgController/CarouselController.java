@@ -53,7 +53,6 @@ public abstract class CarouselController {
 	
 	public void clickedPopup(MouseEvent event) {
 		ImageView img = (ImageView)event.getSource();
-		System.out.println(event.getSceneX());
 		int index = 0;
 		if(img.getScaleX() == 1.5) {
 			index = carouselModel.getHeldPlant();

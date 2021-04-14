@@ -32,7 +32,7 @@ public class CarouselModel {
 	public void rotateLeft() {
 		heldPlant -= 1;
 		if(heldPlant < 0) {
-			heldPlant = plants.size();
+			heldPlant = plants.size() - 1;
 		}
 		
 	}

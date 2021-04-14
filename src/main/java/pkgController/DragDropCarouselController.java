@@ -2,6 +2,7 @@ package pkgController;
 
 import javafx.scene.input.MouseEvent;
 import pkgView.CarouselView;
+import pkgView.InfoCarouselView;
 import pkgView.View;
 
 public class DragDropCarouselController extends CarouselController {

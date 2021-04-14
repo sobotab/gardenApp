@@ -1,5 +1,6 @@
 package pkgView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.layout.TilePane;
@@ -8,7 +9,10 @@ public class DragDropCarouselView extends CarouselView {
 	List<PlantView> plants;
 	PlantView heldPlant;
 	
-	public DragDropCarouselView() {}
+	public DragDropCarouselView() {
+		plants = new ArrayList<PlantView>();
+		heldPlant = null;
+	}
 	
 	void updatePlant() {}
 	

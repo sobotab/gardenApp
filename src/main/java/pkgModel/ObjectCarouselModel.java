@@ -5,9 +5,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class CarouselModel {
-	public List<PlantModel> plants;
-	public List<PlantModel> filteredPlants;
+import pkgController.Moisture;
+import pkgController.Soil;
+import pkgController.Sun;
+
+public class ObjectCarouselModel {
+	public List<PlantObjectModel> plants;
 	int firstPlant;
 	int lastPlant;
 	int viewPlant;
@@ -16,33 +19,33 @@ public class CarouselModel {
 	int rationDecrease;
 	int heldPlant;
 	
-	public CarouselModel(Set<PlantModel> plants2, int heldPlant) {
-		this.plants = new ArrayList<PlantModel>();
-		this.plants.addAll(plants2);
-		this.filteredPlants = new ArrayList<PlantModel>();
-		this.filteredPlants.addAll(plants2);
+	public ObjectCarouselModel(Set<PlantModel> plants2, int heldPlant) {
+		this.plants = new ArrayList<PlantObjectModel>();
+		for (PlantModel plant : plants2) {
+			this.plants.add(new PlantObjectModel(plant.name, plant.sciName, plant.spreadDiameter, plant.sun, plant.moisture, plant.soil, 0, 0, 10, 10));
+		}
 		this.heldPlant = heldPlant;
 	}
 	
-	public CarouselModel(int firstPlant, int lastPlant) {
+	public ObjectCarouselModel(int firstPlant, int lastPlant) {
 		
 	}
 	
-	public CarouselModel(int firstPlant, int lastPlant, int viewPlant, int viewHeight, int viewWidth, int rationDecrease, int heldPlant) {
+	public ObjectCarouselModel(int firstPlant, int lastPlant, int viewPlant, int viewHeight, int viewWidth, int rationDecrease, int heldPlant) {
 		
 	}
 	
 	public void rotateLeft() {
 		heldPlant -= 1;
 		if(heldPlant < 0) {
-			heldPlant = filteredPlants.size() - 1;
+			heldPlant = plants.size() - 1;
 		}
 		
 	}
 	
 	public void rotateRight() {
 		heldPlant += 1;
-		if(heldPlant == filteredPlants.size()) {
+		if(heldPlant == plants.size()) {
 			heldPlant = 0;
 		}
 	}
@@ -51,11 +54,11 @@ public class CarouselModel {
 		return 0;
 	}
 
-	public List<PlantModel> getPlants() {
+	public List<PlantObjectModel> getPlants() {
 		return plants;
 	}
 
-	public void setPlants(List<PlantModel> plants) {
+	public void setPlants(List<PlantObjectModel> plants) {
 		this.plants = plants;
 	}
 
@@ -108,14 +111,6 @@ public class CarouselModel {
 	}
 	
 	public PlantModel getPlantByIndex(int index) {
-		return filteredPlants.get(index);
-	}
-
-	public List<PlantModel> getFilteredPlants() {
-		return filteredPlants;
-	}
-
-	public void setFilteredPlants(List<PlantModel> filteredPlants) {
-		this.filteredPlants = filteredPlants;
+		return plants.get(index);
 	}
 }

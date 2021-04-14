@@ -8,7 +8,10 @@ public class PlantView extends ImageView{
 	boolean selected;
 	boolean correctZone;
 	
-	public PlantView() {}
+	public PlantView(Image plantImage) {
+		this.plantImage = plantImage;
+		this.setImage(plantImage);
+	}
 	
 	public void updateLocation(int x, int y) {}
 	

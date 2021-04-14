@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
 import pkgModel.DrawGardenModel;
+import pkgView.DrawGardenView;
 import pkgView.SelectPlantsView;
 import pkgView.View;
 import pkgView.WelcomeView;
@@ -12,10 +13,12 @@ public class DrawGardenController {
 
 	View view;
 	DrawGardenModel dgm;
+	DrawGardenView dgv;
 	
-	public DrawGardenController(View view) {
+	public DrawGardenController(View view, DrawGardenView dgv) {
 		this.view=view;
 		dgm = new DrawGardenModel();
+		this.dgv = dgv;
 	}
 	
 	public void clickedBack(ActionEvent event) {
@@ -35,7 +38,8 @@ public class DrawGardenController {
 		return event -> clickedNext((ActionEvent) event);
 	}
 	
-	public void mousePressed() {
-		
+	public void draw() {
+		dgm.addPreOutline(dgv.getCurrent());
+		dgv.setShapeDone(dgm.checkEnd(dgv.getCurrent()));
 	}
 }

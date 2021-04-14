@@ -1,5 +1,7 @@
 package pkgView;
 
+import java.awt.geom.Point2D;
+
 import javafx.scene.Cursor;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -21,20 +23,18 @@ import pkgController.DrawGardenController;
 
 public class DrawGardenView extends BorderPane {
 	
+	DrawGardenController dgc;
 	Canvas canvas;
 	GraphicsContext gc;
-	Rectangle rect;
-	Circle circ;
 	Line line;
-	LineTo lineTo;
-	MoveTo moveTo;
 	int lineThickness;
-	ToggleButton drawButton, rectButton, circButton;
+	ToggleButton drawButton, polyButton, rectButton, circButton;
 	Color color;
-	boolean makingLine;
+	Point2D.Double start, current;
+	boolean makingLine, shapeDone;
 	
 	public DrawGardenView(View view) {
-		DrawGardenController dgc = new DrawGardenController(view);
+		dgc = new DrawGardenController(view, this);
 		Label title = new Label("Draw Garden");
 		Button back = new Button("Back");
 		Button finish = new Button("Finish");
@@ -48,10 +48,11 @@ public class DrawGardenView extends BorderPane {
 		gc = canvas.getGraphicsContext2D();
 		
 		drawButton = new ToggleButton("Draw");
+		polyButton = new ToggleButton("Polygon");
 		rectButton = new ToggleButton("Rectangle");
 		circButton = new ToggleButton("Circle");
 		
-		ToggleButton[] toolsArr = {drawButton, rectButton, circButton};	
+		ToggleButton[] toolsArr = {drawButton, polyButton, rectButton, circButton};	
 		ToggleGroup tools = new ToggleGroup();
 		
 		for (ToggleButton tool : toolsArr) {
@@ -64,7 +65,7 @@ public class DrawGardenView extends BorderPane {
 		makingLine = false;
 		
 		VBox buttons = new VBox();
-		buttons.getChildren().addAll(drawButton, rectButton, circButton);
+		buttons.getChildren().addAll(drawButton, polyButton);//, rectButton, circButton);
 		
 		canvas.setOnMousePressed(event -> mousePressed((MouseEvent) event));
 		canvas.setOnMouseDragged(event -> mouseDragged((MouseEvent) event));
@@ -77,38 +78,79 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public void mousePressed(MouseEvent e) {
-		if(drawButton.isSelected()) {
+		if(polyButton.isSelected()) {
 			if (makingLine) {
 				gc.strokeLine(line.getStartX(), line.getStartY(), e.getX(), e.getY());
+				line.setStartX(e.getX());
+				line.setStartY(e.getY());
 			} else {
 				line.setStartX(e.getX());
 				line.setStartY(e.getY());
+				setStart(e.getX(), e.getY());
+				makingLine = true;
 			}
-		} else if (rectButton.isSelected()) {
-			
-		} else if (circButton.isSelected()) {
-			
+			setCurrent(e.getX(), e.getY());
+			dgc.draw();
+			if (shapeDone) {
+				polyButton.setSelected(false);
+				shapeDone = false;
+				makingLine = false;
+			}
+		} else if (drawButton.isSelected()) {
+			setStart(e.getX(), e.getY());
+			gc.setStroke(color);
+            gc.beginPath();
+            dgc.draw();
 		}
 	}
 	
 	public void mouseDragged(MouseEvent e) {
+		setCurrent(e.getX(), e.getY());
+		if (shapeDone) {
+			drawButton.setSelected(false);
+			shapeDone = false;
+			makingLine = false;
+		}
+		
 		if(drawButton.isSelected()) {
+			if (shapeDone) {
+				gc.closePath();
+			} else {
+				gc.lineTo(e.getX(), e.getY());
+	            gc.stroke();
+			}
+			dgc.draw();
 		}
 	}
 	
 	public void mouseReleased(MouseEvent e) {
 		if (drawButton.isSelected()) {
-			if (!makingLine) {
-				gc.strokeLine(line.getStartX(), line.getStartY(), e.getX(), e.getY());
-			} else {
-				line.setStartX(e.getX());
-				line.setStartY(e.getY());
-			}
-			makingLine = true;
-		} else if (rectButton.isSelected()) {
-			
-		} else if (circButton.isSelected()) {
-			
+            gc.closePath();
 		}
+		
+		if (shapeDone) {
+			polyButton.setSelected(false);
+			drawButton.setSelected(false);
+		}
+	}
+	
+	public Point2D.Double getStart() {
+		return start;
+	}
+
+	public Point2D.Double getCurrent() {
+		return current;
+	}
+
+	public void setStart(double x, double y) {
+		start = new Point2D.Double(x, y);
+	}
+
+	public void setCurrent(double x, double y) {
+		current = new Point2D.Double(x, y);
+	}
+
+	public void setShapeDone(boolean shapeDone) {
+		this.shapeDone = shapeDone;
 	}
 }

@@ -1,18 +1,25 @@
 package pkgModel;
-import java.util.Set;
 import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
+import java.util.Set;
 
 public class DrawGardenModel extends GardenModel {
-	Set<Point> preOutline;
-	Set<Point> preCondition;
+	ArrayList<Point2D.Double> preOutline;
+	Set<Point2D.Double> preCondition;
 	
-	int rectX, rectY, rectHeight, rectWidth;
-	int circX, circY, circRad;
-	int lineX, lineY, lineWidth;
+	Point2D.Double endPoint;
+	double range;
+	boolean bigEnough;
+	boolean set;
 	
 	public DrawGardenModel() {
-		
+		endPoint = null;
+		preOutline = new ArrayList<>();
+		range=1.0;
+		bigEnough = false;
+		set = true;
 	}
 	
 	public boolean checkOutline(boolean complete) {
@@ -23,100 +30,54 @@ public class DrawGardenModel extends GardenModel {
 		return false;
 	}
 
-	public Set<Point> getPreOutline() {
+	public ArrayList<Point2D.Double> getPreOutline() {
 		return preOutline;
 	}
 
-	public void setPreOutline(Set<Point> preOutline) {
-		this.preOutline = preOutline;
+	public void addPreOutline(Point2D.Double point) {
+		preOutline.add(point);
+		setEndPoint(point.getX(), point.getY(), set);
+		setBigEnough(point);
+	}
+	
+	public void setBigEnough(Point2D.Double point) {
+		if(point.getX() > endPoint.getX()+range) {
+			if(point.getY() > endPoint.getY()+range || point.getY() < endPoint.getY()-range) {
+				bigEnough=true;
+			}
+		} else if ( point.getX() < endPoint.getX()-range) {
+			if(point.getY() > endPoint.getY()+range || point.getY() < endPoint.getY()-range) {
+				bigEnough=true;
+			}
+		}
 	}
 
-	public Set<Point> getPreCondition() {
+	public Set<Point2D.Double> getPreCondition() {
 		return preCondition;
 	}
 
-	public void setPreCondition(Set<Point> preCondition) {
+	public void setPreCondition(Set<Double> preCondition) {
 		this.preCondition = preCondition;
 	}
 
-	public int getRectX() {
-		return rectX;
+	public void setEndPoint(double x, double y, boolean set) {
+		if (set) {
+			endPoint = new Point2D.Double(x, y);
+			this.set = false;
+		}
 	}
-
-	public int getRectY() {
-		return rectY;
-	}
-
-	public int getRectHeight() {
-		return rectHeight;
-	}
-
-	public int getRectWidth() {
-		return rectWidth;
-	}
-
-	public int getCircX() {
-		return circX;
-	}
-
-	public int getCircY() {
-		return circY;
-	}
-
-	public int getCircRad() {
-		return circRad;
-	}
-
-	public int getLineX() {
-		return lineX;
-	}
-
-	public int getLineY() {
-		return lineY;
-	}
-
-	public int getLineWidth() {
-		return lineWidth;
-	}
-
-	public void setRectX(int rectX) {
-		this.rectX = rectX;
-	}
-
-	public void setRectY(int rectY) {
-		this.rectY = rectY;
-	}
-
-	public void setRectHeight(int rectHeight) {
-		this.rectHeight = rectHeight;
-	}
-
-	public void setRectWidth(int rectWidth) {
-		this.rectWidth = rectWidth;
-	}
-
-	public void setCircX(int circX) {
-		this.circX = circX;
-	}
-
-	public void setCircY(int circY) {
-		this.circY = circY;
-	}
-
-	public void setCircRad(int circRad) {
-		this.circRad = circRad;
-	}
-
-	public void setLineX(int lineX) {
-		this.lineX = lineX;
-	}
-
-	public void setLineY(int lineY) {
-		this.lineY = lineY;
-	}
-
-	public void setLineWidth(int lineWidth) {
-		this.lineWidth = lineWidth;
+	
+	public boolean checkEnd(Point2D.Double point) {
+		if (point.getX() >= endPoint.getX()-range && point.getY() >= endPoint.getY()-range) {
+			if (point.getX() <= endPoint.getX()+range && point.getY()<= endPoint.getY()+range) {
+				if (bigEnough) {
+					set=true;
+					bigEnough=false;
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	

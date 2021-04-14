@@ -9,17 +9,23 @@ import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import pkgView.EditGardenView;
+import pkgModel.DrawGardenModel;
+import pkgView.DrawGardenView;
+
 import pkgView.SelectPlantsView;
 import pkgView.View;
 import pkgView.WelcomeView;
 
 public class DrawGardenController {
 	View view;
-		
-	public DrawGardenController(View view) {
+	DrawGardenModel dgm;
+	DrawGardenView dgv;
+	
+	public DrawGardenController(View view, DrawGardenView dgv) {
+
 		this.view=view;
+		dgm = new DrawGardenModel();
+		this.dgv = dgv;
 	}
 	
 	public void clickedBack(ActionEvent event) {
@@ -31,9 +37,6 @@ public class DrawGardenController {
 		view.setCurrentScreen(new SelectPlantsView(view));
 	}
 	
-	
-	//Make more methods for organizing the gardens
-	
 	public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);
 	}
@@ -42,5 +45,8 @@ public class DrawGardenController {
 		return event -> clickedNext((ActionEvent) event);
 	}
 	
-	
+	public void draw() {
+		dgm.addPreOutline(dgv.getCurrent());
+		dgv.setShapeDone(dgm.checkEnd(dgv.getCurrent()));
+	}
 }

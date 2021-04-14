@@ -19,7 +19,7 @@ public class View {
 	List<Node> widgets;
 	List<Image> plantImages;
 	GraphicsContext gc;
-	Controller controller;
+	public Controller controller;
 	Window window;
 	BorderPane currentScreen; // replaced screen for borderpane, effectively the same
 	//All individual screens now inherit borderpane: gives us children, height/width, background, padding, margins (everything that was in screen)

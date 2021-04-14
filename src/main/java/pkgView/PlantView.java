@@ -10,6 +10,7 @@ public class PlantView extends ImageView{
 	
 	public PlantView(Image plantImage) {
 		this.plantImage = plantImage;
+		this.setImage(plantImage);
 	}
 	
 	public void updateLocation(int x, int y) {}

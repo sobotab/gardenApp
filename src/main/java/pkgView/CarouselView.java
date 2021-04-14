@@ -11,6 +11,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import pkgController.CarouselController;
 
+
 public abstract class CarouselView extends TilePane {
 	List<ImageView> filteredImages;
 	List<ImageView> images;
@@ -48,6 +49,7 @@ public abstract class CarouselView extends TilePane {
 	}
 	
 	public void update() {
+		
 		this.getChildren().removeAll(images);
 		int leftMostNode = center-1;
 		if(leftMostNode < 0) {
@@ -68,6 +70,7 @@ public abstract class CarouselView extends TilePane {
 		filteredImages.get(rightMostNode).setScaleY(.75);;
 		sublist.add(filteredImages.get(rightMostNode));
 		this.getChildren().addAll(1,sublist);
+		
 	}
 	
 	// getters

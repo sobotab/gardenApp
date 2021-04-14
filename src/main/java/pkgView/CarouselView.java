@@ -60,19 +60,6 @@ public abstract class CarouselView extends FlowPane {
 			rightMostNode = 0;
 		}
 		List<Node> sublist = new ArrayList<Node>();
-
-    /*
-		images.get(leftMostNode).setScaleX(.75);
-		images.get(leftMostNode).setScaleY(.75);
-		sublist.add(images.get(leftMostNode));
-		images.get(center).setScaleX(1.25);
-		images.get(center).setScaleY(1.25);
-		sublist.add(images.get(center));
-		images.get(rightMostNode).setScaleX(.75);
-		images.get(rightMostNode).setScaleY(.75);;
-		sublist.add(images.get(rightMostNode));
-    */
-
     
 		filteredImages.get(leftMostNode).setScaleX(.75);
 		filteredImages.get(leftMostNode).setScaleY(.75);

@@ -13,3 +13,5 @@ Dragging and Dropping from a plant bank is an intuitive way for the user to cust
 Info Menu:
 
 The info menu serves as a glossary in which plants can rotated around a "carousel" and can be clicked in order to bring up a popup window with additional information. This screen will also allow for the plant options in the carousel to be filtered by attributes such as moisture, sun, and soil requirements. 
+
+Already Implemented: Sun

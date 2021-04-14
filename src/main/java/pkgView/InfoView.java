@@ -54,7 +54,6 @@ public class InfoView extends BorderPane {
 			}
 		});
 		HBox box = new HBox();
-		//Label title = new Label("Glossary");
 		box.getChildren().addAll(sun,filter);
      	
 		

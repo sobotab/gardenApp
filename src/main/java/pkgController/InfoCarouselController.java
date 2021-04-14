@@ -25,7 +25,7 @@ public class InfoCarouselController extends CarouselController {
 		public void clickedPopup(MouseEvent event) {
 			ImageView img = (ImageView)event.getSource();
 			int index = 0;
-			if(img.getScaleX() == 1.5) {
+			if(img.getScaleX() == 1.3) {
 				index = carouselModel.getHeldPlant();
 			}
 			else if(event.getSceneX() < 400.0) {

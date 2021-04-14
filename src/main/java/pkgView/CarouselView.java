@@ -37,7 +37,7 @@ public abstract class CarouselView extends FlowPane {
 	
 	public void rotateRight() {
 		center += 1;
-		if(center == filteredImages.size()) {
+		if(center >= filteredImages.size()) {
 			center = 0;
 		}
 		update();
@@ -53,10 +53,10 @@ public abstract class CarouselView extends FlowPane {
 		this.getChildren().removeAll(images);
 		int leftMostNode = center-1;
 		if(leftMostNode < 0) {
-			leftMostNode = filteredImages.size() -1;
+			leftMostNode = filteredImages.size() - 1;
 		}
 		int rightMostNode = center + 1;
-		if(rightMostNode == filteredImages.size()) {
+		if(rightMostNode >= filteredImages.size()) {
 			rightMostNode = 0;
 		}
 		List<Node> sublist = new ArrayList<Node>();
@@ -137,5 +137,8 @@ public abstract class CarouselView extends FlowPane {
 	
 	public void setFilteredImages(List<ImageView> filteredImages) {
 		this.filteredImages = filteredImages;
+		if(center >= filteredImages.size()) {
+			center = filteredImages.size() - 1;
+		}
 	}
 }

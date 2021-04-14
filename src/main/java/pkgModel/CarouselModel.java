@@ -117,5 +117,8 @@ public class CarouselModel {
 
 	public void setFilteredPlants(List<PlantModel> filteredPlants) {
 		this.filteredPlants = filteredPlants;
+		if(heldPlant >= filteredPlants.size()) {
+			heldPlant = filteredPlants.size() - 1;
+		}
 	}
 }

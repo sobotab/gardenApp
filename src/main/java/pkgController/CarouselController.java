@@ -48,6 +48,7 @@ public abstract class CarouselController {
 		carouselModel.rotateLeft();
 	}
 	
+	
 	public EventHandler getHandlerForClickedRight() {
 		return event -> clickedRight((ActionEvent) event);
 	}
@@ -55,6 +56,7 @@ public abstract class CarouselController {
 	public EventHandler getHandlerForClickedLeft() {
 		return event -> clickedLeft((ActionEvent) event);
 	}
+	
 	
 	
 	public List<ImageView> getImagesFromList(){

@@ -1,10 +1,14 @@
 package pkgController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import pkgModel.PlantInfoModel;
+import pkgModel.PlantModel;
 import pkgView.CarouselView;
 import pkgView.InfoCarouselView;
 import pkgView.View;
@@ -42,6 +46,19 @@ public class InfoCarouselController extends CarouselController {
 		
 		public EventHandler getHandlerForPopup() {
 			return event -> clickedPopup((MouseEvent) event);
+		}
+		
+		public void filterCarousel(String sun) {
+			List<PlantModel> plants = carouselModel.getPlants();
+			List<ImageView> images = icv.getImages();
+			List<ImageView> filteredImages = new ArrayList<ImageView>();
+			for(int i = 0; i < plants.size(); i++) {
+				if(plants.get(i).getSun().getLevel().equals(sun)) {
+					filteredImages.add(images.get(i));
+				}
+			}
+			icv.setFilteredImages(filteredImages);
+			icv.update();
 		}
 		
 }

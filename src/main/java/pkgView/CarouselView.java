@@ -11,6 +11,7 @@ import javafx.scene.layout.FlowPane;
 import pkgController.CarouselController;
 
 public abstract class CarouselView extends FlowPane {
+	List<ImageView> filteredImages;
 	List<ImageView> images;
 	boolean rotateLeft;
 	boolean rotateRight;
@@ -27,14 +28,14 @@ public abstract class CarouselView extends FlowPane {
 		// We can even choose index in .add() so a new plant appears on the left side
 		center -= 1;
 		if(center < 0) {
-			center = images.size()-1;
+			center = filteredImages.size()-1;
 		}
 		update();
 	}
 	
 	public void rotateRight() {
 		center += 1;
-		if(center == images.size()) {
+		if(center == filteredImages.size()) {
 			center = 0;
 		}
 		update();
@@ -49,22 +50,22 @@ public abstract class CarouselView extends FlowPane {
 		this.getChildren().removeAll(images);
 		int leftMostNode = center-1;
 		if(leftMostNode < 0) {
-			leftMostNode = images.size() -1;
+			leftMostNode = filteredImages.size() -1;
 		}
 		int rightMostNode = center + 1;
-		if(rightMostNode == images.size()) {
+		if(rightMostNode == filteredImages.size()) {
 			rightMostNode = 0;
 		}
 		List<Node> sublist = new ArrayList<Node>();
-		images.get(leftMostNode).setScaleX(.75);
-		images.get(leftMostNode).setScaleY(.75);
-		sublist.add(images.get(leftMostNode));
-		images.get(center).setScaleX(1.5);
-		images.get(center).setScaleY(1.5);
-		sublist.add(images.get(center));
-		images.get(rightMostNode).setScaleX(.75);
-		images.get(rightMostNode).setScaleY(.75);;
-		sublist.add(images.get(rightMostNode));
+		filteredImages.get(leftMostNode).setScaleX(.75);
+		filteredImages.get(leftMostNode).setScaleY(.75);
+		sublist.add(filteredImages.get(leftMostNode));
+		filteredImages.get(center).setScaleX(1.5);
+		filteredImages.get(center).setScaleY(1.5);
+		sublist.add(filteredImages.get(center));
+		filteredImages.get(rightMostNode).setScaleX(.75);
+		filteredImages.get(rightMostNode).setScaleY(.75);;
+		sublist.add(filteredImages.get(rightMostNode));
 		this.getChildren().addAll(1,sublist);
 	}
 	
@@ -110,4 +111,11 @@ public abstract class CarouselView extends FlowPane {
 		this.y = y;
 	}
 	
+	public List<ImageView> getFilteredImages(){
+		return filteredImages;
+	}
+	
+	public void setFilteredImages(List<ImageView> filteredImages) {
+		this.filteredImages = filteredImages;
+	}
 }

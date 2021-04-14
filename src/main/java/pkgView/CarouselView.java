@@ -27,14 +27,14 @@ public abstract class CarouselView extends FlowPane {
 		// We can even choose index in .add() so a new plant appears on the left side
 		center -= 1;
 		if(center < 0) {
-			center = list.size()-1;
+			center = images.size()-1;
 		}
 		update();
 	}
 	
 	public void rotateRight() {
 		center += 1;
-		if(center == list.size()) {
+		if(center == images.size()) {
 			center = 0;
 		}
 		update();
@@ -46,25 +46,25 @@ public abstract class CarouselView extends FlowPane {
 	}
 	
 	public void update() {
-		this.getChildren().removeAll(list);
+		this.getChildren().removeAll(images);
 		int leftMostNode = center-1;
 		if(leftMostNode < 0) {
-			leftMostNode = list.size() -1;
+			leftMostNode = images.size() -1;
 		}
 		int rightMostNode = center + 1;
-		if(rightMostNode == list.size()) {
+		if(rightMostNode == images.size()) {
 			rightMostNode = 0;
 		}
 		List<Node> sublist = new ArrayList<Node>();
-		list.get(leftMostNode).setScaleX(1.5);
-		list.get(leftMostNode).setScaleY(1.5);
-		sublist.add(list.get(leftMostNode));
-		list.get(center).setScaleX(3);
-		list.get(center).setScaleY(3);
-		sublist.add(list.get(center));
-		list.get(rightMostNode).setScaleX(1.5);
-		list.get(rightMostNode).setScaleY(1.5);;
-		sublist.add(list.get(rightMostNode));
+		images.get(leftMostNode).setScaleX(.75);
+		images.get(leftMostNode).setScaleY(.75);
+		sublist.add(images.get(leftMostNode));
+		images.get(center).setScaleX(1.5);
+		images.get(center).setScaleY(1.5);
+		sublist.add(images.get(center));
+		images.get(rightMostNode).setScaleX(.75);
+		images.get(rightMostNode).setScaleY(.75);;
+		sublist.add(images.get(rightMostNode));
 		this.getChildren().addAll(1,sublist);
 	}
 	

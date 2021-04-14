@@ -1,10 +1,12 @@
 package pkgModel;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CarouselModel {
-	public Set<PlantModel> plants;
+	public List<PlantModel> plants;
 	int firstPlant;
 	int lastPlant;
 	int viewPlant;
@@ -13,8 +15,10 @@ public class CarouselModel {
 	int rationDecrease;
 	int heldPlant;
 	
-	public CarouselModel() {
-		
+	public CarouselModel(Set<PlantModel> plants, int heldPlant) {
+		this.plants = new ArrayList<PlantModel>();
+		this.plants.addAll(plants);
+		this.heldPlant = heldPlant;
 	}
 	
 	public CarouselModel(int firstPlant, int lastPlant) {
@@ -22,27 +26,33 @@ public class CarouselModel {
 	}
 	
 	public CarouselModel(int firstPlant, int lastPlant, int viewPlant, int viewHeight, int viewWidth, int rationDecrease, int heldPlant) {
-		plants = new HashSet<>();
 		
 	}
 	
 	public void rotateLeft() {
+		heldPlant -= 1;
+		if(heldPlant < 0) {
+			heldPlant = plants.size() - 1;
+		}
 		
 	}
 	
 	public void rotateRight() {
-		
+		heldPlant += 1;
+		if(heldPlant == plants.size()) {
+			heldPlant = 0;
+		}
 	}
 	
 	public int plantSelected(int x, int y) {
 		return 0;
 	}
 
-	public Set<PlantModel> getPlants() {
+	public List<PlantModel> getPlants() {
 		return plants;
 	}
 
-	public void setPlants(Set<PlantModel> plants) {
+	public void setPlants(List<PlantModel> plants) {
 		this.plants = plants;
 	}
 
@@ -92,5 +102,9 @@ public class CarouselModel {
 
 	public void setHeldPlant(int heldPlant) {
 		this.heldPlant = heldPlant;
+	}
+	
+	public PlantModel getPlantByIndex(int index) {
+		return plants.get(index);
 	}
 }

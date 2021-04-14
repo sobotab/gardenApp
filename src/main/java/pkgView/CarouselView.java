@@ -62,8 +62,8 @@ public abstract class CarouselView extends TilePane {
 		images.get(leftMostNode).setScaleX(.75);
 		images.get(leftMostNode).setScaleY(.75);
 		sublist.add(images.get(leftMostNode));
-		images.get(center).setScaleX(1.5);
-		images.get(center).setScaleY(1.5);
+		images.get(center).setScaleX(1.25);
+		images.get(center).setScaleY(1.25);
 		sublist.add(images.get(center));
 		images.get(rightMostNode).setScaleX(.75);
 		images.get(rightMostNode).setScaleY(.75);;

@@ -20,7 +20,7 @@ public class InfoCarouselView extends CarouselView{
 
 	public InfoCarouselView(View view) {
 		InfoCarouselController icc = new InfoCarouselController(view, this);
-		this.setHgap(50);
+		this.setHgap(10);
 		images = icc.getImagesFromList();
 		for(Node image: images) {
 			image.setOnMousePressed(icc.getHandlerForPopup());

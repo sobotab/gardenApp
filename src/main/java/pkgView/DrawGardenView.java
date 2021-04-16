@@ -76,17 +76,7 @@ public class DrawGardenView extends BorderPane {
 		
 		HBox hBox = new HBox();
 		hBox.getChildren().addAll(back, finish);
-		/*
-		StackPane canvasHolder = new StackPane();
-		canvasHolder.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, 
-                CornerRadii.EMPTY, Insets.EMPTY)));
 		
-		Canvas drawCanvas = new Canvas(250,300);
-		GraphicsContext gc = drawCanvas.getGraphicsContext2D();
-		canvasHolder.getChildren().add(drawCanvas);
-		
-		drawCanvas.setOnDragDetected(dgc.getHandlerForDraw(drawCanvas));
-		*/
 		this.setTop(title);
 		this.setLeft(buttons);
 		this.setCenter(canvas);

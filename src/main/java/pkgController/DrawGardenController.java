@@ -47,6 +47,6 @@ public class DrawGardenController {
 	
 	public void draw() {
 		dgm.addPreOutline(dgv.getCurrent());
-		dgv.setShapeDone(dgm.checkEnd(dgv.getCurrent()));
+		dgm.addPlot(dgv.getDone(), dgv.getSoil());
 	}
 }

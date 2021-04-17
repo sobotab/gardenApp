@@ -17,36 +17,53 @@ public class ObjectCarouselModel {
 	int viewHeight;
 	int viewWidth;
 	int rationDecrease;
-	int heldPlant;
+	int focusedPlant;
 	
-	public ObjectCarouselModel(Set<PlantModel> plants2, int heldPlant) {
+	public ObjectCarouselModel(List<PlantModel> plantInput, int focusedPlant) {
 		this.plants = new ArrayList<PlantObjectModel>();
-		for (PlantModel plant : plants2) {
-			this.plants.add(new PlantObjectModel(plant.name, plant.sciName, plant.spreadDiameter, plant.sun, plant.moisture, plant.soil, 0, 0, 10, 10));
-		}
-		this.heldPlant = heldPlant;
+		
+		for (PlantModel plant : plantInput)
+			this.plants.add(new PlantObjectModel(
+					plant.name, plant.sciName, 
+					plant.spreadDiameter, 
+					plant.sun, plant.moisture, plant.soil, 
+					0, 0, 10, 10));
+		
+		this.focusedPlant = focusedPlant;
 	}
 	
-	public ObjectCarouselModel(int firstPlant, int lastPlant) {
-		
+	public void replacePlant(int index) {
+		PlantObjectModel duplicatePlant = new PlantObjectModel(
+				plants.get(index).name, 
+				plants.get(index).sciName,
+				plants.get(index).spreadDiameter,
+				plants.get(index).sun, 
+				plants.get(index).moisture,
+				plants.get(index).soil,
+				plants.get(index).x,
+				plants.get(index).y,
+				plants.get(index).height,
+				plants.get(index).width
+				);
+		plants.add(index, duplicatePlant);
 	}
 	
-	public ObjectCarouselModel(int firstPlant, int lastPlant, int viewPlant, int viewHeight, int viewWidth, int rationDecrease, int heldPlant) {
-		
+	public PlantObjectModel removePlant(int index) {
+		return plants.remove(index);
 	}
 	
 	public void rotateLeft() {
-		heldPlant -= 1;
-		if(heldPlant < 0) {
-			heldPlant = plants.size() - 1;
+		focusedPlant -= 1;
+		if(focusedPlant < 0) {
+			focusedPlant = plants.size() - 1;
 		}
 		
 	}
 	
 	public void rotateRight() {
-		heldPlant += 1;
-		if(heldPlant == plants.size()) {
-			heldPlant = 0;
+		focusedPlant += 1;
+		if(focusedPlant == plants.size()) {
+			focusedPlant = 0;
 		}
 	}
 	
@@ -60,22 +77,6 @@ public class ObjectCarouselModel {
 
 	public void setPlants(List<PlantObjectModel> plants) {
 		this.plants = plants;
-	}
-
-	public int getFirstPlant() {
-		return firstPlant;
-	}
-
-	public void setFirstPlant(int firstPlant) {
-		this.firstPlant = firstPlant;
-	}
-
-	public int getLastPlant() {
-		return lastPlant;
-	}
-
-	public void setLastPlant(int lastPlant) {
-		this.lastPlant = lastPlant;
 	}
 
 	public int getViewPlant() {
@@ -102,12 +103,12 @@ public class ObjectCarouselModel {
 		this.viewWidth = viewWidth;
 	}
 
-	public int getHeldPlant() {
-		return heldPlant;
+	public int getfocusedPlant() {
+		return focusedPlant;
 	}
 
-	public void setHeldPlant(int heldPlant) {
-		this.heldPlant = heldPlant;
+	public void setfocusedPlant(int focusedPlant) {
+		this.focusedPlant = focusedPlant;
 	}
 	
 	public PlantModel getPlantByIndex(int index) {

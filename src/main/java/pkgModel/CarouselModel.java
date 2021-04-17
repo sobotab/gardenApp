@@ -5,6 +5,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javafx.scene.image.Image;
+import pkgView.PlantView;
+
 public class CarouselModel {
 	public List<PlantModel> plants;
 	public List<PlantModel> filteredPlants;

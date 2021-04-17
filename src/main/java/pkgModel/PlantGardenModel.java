@@ -6,34 +6,42 @@ import java.util.List;
 import java.util.Set;
 
 public class PlantGardenModel extends GardenModel{
-	
 	List<PlantObjectModel> plants;
-	Set<PlantObjectModel> compost;
+	List<PlantObjectModel> compost;
 	ObjectCarouselModel carousel;
 	int numLeps;
 	int dollars;
 	int heldPlant;
 
-	public PlantGardenModel(Set<PlantModel> plantModels, int heldPlant) {
-		this.carousel = new ObjectCarouselModel(plantModels, heldPlant);
+	public PlantGardenModel(List<PlantModel> plantInput) {
+		
+		this.carousel = new ObjectCarouselModel(plantInput, 0);
 		this.plants = new ArrayList<PlantObjectModel>();
-		this.plants.addAll(carousel.plants);
+		//this.plants.addAll(carousel.plants);
 		//this.compost = new Set<PlantObjectModel>();
+		
 	}
 	
-	public boolean isInsideGarden(List<Point> gardenOutline, Point plantLoc) {
-	      int i;
-	      int j;
-	      boolean result = false;
-	      for (i = 0, j = gardenOutline.size() - 1; i < gardenOutline.size(); j = i++) {
-	        if ((gardenOutline.get(i).y > plantLoc.y) != (gardenOutline.get(j).y > plantLoc.y) &&
-	            (plantLoc.x < (gardenOutline.get(j).x - gardenOutline.get(i).x) * (plantLoc.y - gardenOutline.get(i).y) / (gardenOutline.get(j).y-gardenOutline.get(i).y) + gardenOutline.get(i).x)) {
-	          result = !result;
-	         }
-	        //System.out.println("y =  " + gardenOutline.get(i).y + " " + plantLoc.y + " x =  " + gardenOutline.get(i).x + " " + plantLoc.x);
-	      } 
-	      return result;
-	    }
+	public void addPlantFromCarousel(int index, double init_x, double init_y) {
+		PlantObjectModel plant = (carousel.removePlant(index));
+		plant.setX((int)init_x);
+		plant.setY((int)init_y);
+		plants.add(plant);
+	}
+		
+	public boolean checkInsideGarden(List<Point> gardenOutline, int index) {
+		int x = (int)plants.get(index).x;
+		int y = (int)plants.get(index).y;
+		int count = 0;
+		
+		for (Point coord : gardenOutline) {
+			if (coord.y == y && coord.x < x)
+				count++;
+		}
+		if (count % 2 != 0)
+			return true;
+		return false;
+	}
 	
 	public boolean checkSpread() {
 		return false;
@@ -45,6 +53,17 @@ public class PlantGardenModel extends GardenModel{
 	
 	public void removePlant(int x, int y) {
 		
+	}
+	
+	public void setPlantLocation(int index, double x, double y) {
+		plants.get(index).setX(x);
+		plants.get(index).setY(y);
+	}
+	
+	public void dragPlant(int index, double x, double y) {
+		PlantObjectModel dragPlant = plants.get(index);
+		dragPlant.setX( dragPlant.getX() + x);
+		dragPlant.setY( dragPlant.getY() + y);
 	}
 	
 	public void compost(PlantObjectModel plant) {
@@ -63,11 +82,11 @@ public class PlantGardenModel extends GardenModel{
 		this.plants = plants;
 	}
 
-	public Set<PlantObjectModel> getCompost() {
+	public List<PlantObjectModel> getCompost() {
 		return compost;
 	}
 
-	public void setCompost(Set<PlantObjectModel> compost) {
+	public void setCompost(List<PlantObjectModel> compost) {
 		this.compost = compost;
 	}
 

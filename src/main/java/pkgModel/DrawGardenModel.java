@@ -38,11 +38,17 @@ public class DrawGardenModel extends GardenModel {
 			endPoint = point;
 			this.set = false;
 		}
-	}	
+	}
 	
-	public void addPlot(boolean done, Soil soil) {
-		plots.get(soil).add(preOutline);
-		preOutline = new ArrayList<>();
-		set = true;
+	public Point2D.Double getEndPoint() {
+		return endPoint;
+	}
+	
+	public void addPlot(boolean drawing, Soil soil) {
+		if (!drawing) {
+			plots.get(soil).add(preOutline);
+			preOutline = new ArrayList<>();
+			set = true;
+		}
 	}
 }

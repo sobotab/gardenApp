@@ -1,17 +1,10 @@
 package pkgController;
 
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.List;
-
+import java.awt.geom.Point2D;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.input.MouseEvent;
 import pkgModel.DrawGardenModel;
 import pkgView.DrawGardenView;
-
 import pkgView.SelectPlantsView;
 import pkgView.View;
 import pkgView.WelcomeView;
@@ -45,8 +38,9 @@ public class DrawGardenController {
 		return event -> clickedNext((ActionEvent) event);
 	}
 	
-	public void draw() {
+	public Point2D.Double draw() {
 		dgm.addPreOutline(dgv.getCurrent());
-		dgm.addPlot(dgv.getShapeDone(), dgv.getSoil());
+		dgm.addPlot(dgv.getDrawing(), dgv.getSoil());
+		return dgm.getEndPoint();
 	}
 }

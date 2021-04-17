@@ -16,6 +16,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
 import pkgController.DrawGardenController;
 import pkgController.Soil;
 
@@ -24,13 +25,12 @@ public class DrawGardenView extends BorderPane {
 	DrawGardenController dgc;
 	Canvas canvas;
 	GraphicsContext gc;
-	Line line;
-	int lineThickness;
+	Polygon polygon;
 	ToggleButton drawButton, polyButton, clayButton, sandyButton, siltyButton,
 		peatyButton, chalkyButton, loamyButton;
 	Color color;
 	Point2D.Double start, current;
-	boolean makingLine, shapeDone;
+	boolean drawing, shapeDone;
 	
 	public DrawGardenView(View view) {
 		dgc = new DrawGardenController(view, this);
@@ -47,8 +47,8 @@ public class DrawGardenView extends BorderPane {
 		canvas = new Canvas(400, 400);
 		gc = canvas.getGraphicsContext2D();
 		
-		line = new Line();
-		makingLine = false;
+		polygon = new Polygon();
+		drawing = false;
 		
 		canvas.setOnMousePressed(event -> mousePressed((MouseEvent) event));
 		canvas.setOnMouseDragged(event -> mouseDragged((MouseEvent) event));
@@ -99,54 +99,28 @@ public class DrawGardenView extends BorderPane {
 	
 	public void mousePressed(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
-		if(polyButton.isSelected()) {
-			if (makingLine) {
-				gc.strokeLine(line.getStartX(), line.getStartY(), e.getX(), e.getY());
-				line.setStartX(e.getX());
-				line.setStartY(e.getY());
-			} else {
-				line.setStartX(e.getX());
-				line.setStartY(e.getY());
-				setStart(e.getX(), e.getY());
-				makingLine = true;
-			}
-			setCurrent(e.getX(), e.getY());
+		if (drawButton.isSelected() && drawing) {
 			dgc.draw();
-			if (shapeDone) {
-				polyButton.setSelected(false);
-				shapeDone = false;
-				makingLine = false;
-			}
-		} else if (drawButton.isSelected()) {
-			setStart(e.getX(), e.getY());
-			gc.setStroke(color);
-            gc.beginPath();
-            dgc.draw();
+			drawing = true;
 		}
 	}
 	
 	public void mouseDragged(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
-		if (shapeDone) {
-			drawButton.setSelected(false);
-			shapeDone = false;
-			makingLine = false;
-		}
-		
-		if(drawButton.isSelected()) {
-			if (shapeDone) {
-				gc.closePath();
-			} else {
-				gc.lineTo(e.getX(), e.getY());
-	            gc.stroke();
-			}
+		if(drawButton.isSelected() && drawing) {
 			dgc.draw();
+			polygon.getPoints().add(e.getX());
+			polygon.getPoints().add(e.getY());
+			//TODO add polygon to the canvas
 		}
 	}
 	
 	public void mouseReleased(MouseEvent e) {
-		if (drawButton.isSelected()) {
-            gc.closePath();
+		if (drawButton.isSelected() && drawing) {
+			drawing = false;
+			Point2D.Double point = dgc.draw();
+            polygon.getPoints().add(point.getX());
+            polygon.getPoints().add(point.getY());
 		}
 	}
 	
@@ -165,13 +139,13 @@ public class DrawGardenView extends BorderPane {
 	public void setCurrent(double x, double y) {
 		current = new Point2D.Double(x, y);
 	}
-
-	public void setShapeDone(boolean shapeDone) {
-		this.shapeDone = shapeDone;
+	
+	public void setDrawing(boolean drawing) {
+		this.drawing = drawing;
 	}
 	
-	public boolean getShapeDone() {
-		return shapeDone;
+	public boolean getDrawing() {
+		return drawing;
 	}
 	
 	public Soil getSoil() {

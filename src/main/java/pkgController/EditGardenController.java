@@ -14,6 +14,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import pkgModel.Model;
@@ -32,13 +33,17 @@ public class EditGardenController {
 	EditGardenView gardenView;
 	PlantGardenModel gardenModel;
 	
-	public EditGardenController(View view, EditGardenView gardenView) {
-		Set<PlantModel> plants2 = new HashSet<PlantModel>();
+	public EditGardenController(View view, EditGardenView gardenView) {	
+		
+		// Temporary source of plants until we get scraper running
+		
 		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
 		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.DAMP, Soil.CLAY, 463, 20, "Example Description");
 		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.DAMP,Soil.CLAY, 2, 6, "Example Description");
 		PlantModel Aralia_racemosa = new PlantInfoModel("spikenard","Aralia-racemosa",1,Sun.PARTSUN,Moisture.DAMP,Soil.CLAY,6, 6, "Example Description");
 		PlantModel Acer_rubrum = new PlantInfoModel("red maple","Acer-rubrum",75,Sun.FULLSUN,Moisture.DAMP,Soil.CLAY,256,20,"Example Description");
+		
+		List<PlantModel> plants2 = new ArrayList<PlantModel>();
 		plants2.add(Acer_rubrum);
 		plants2.add(Aralia_racemosa);
 		plants2.add(Anemone_virginiana);
@@ -51,84 +56,76 @@ public class EditGardenController {
 		for (PlantModel plant : plants2)
 			gardenView.getPlantInput().add(plant.getSciName());
 		
-		this.gardenModel = new PlantGardenModel(plants2, 0);
+		this.gardenModel = new PlantGardenModel(plants2);
 	}
+	
+	// Screen control
 	
 	public void clickedBack(ActionEvent event) {
-		view.setCurrentScreen(new SelectPlantsView(view));
-		
+		view.setCurrentScreen(new SelectPlantsView(view));	
 	}
 	
-	public void clickNext(ActionEvent event) {
-		
-	}
+	public void clickNext(ActionEvent event) {}
 	
 	public void clickExit(ActionEvent event) {
 		view.setCurrentScreen(new WelcomeView(view));
 	}
+		
+	// Handle drag
 	
 	public void drag(MouseEvent event) {
 		Node n = (Node)event.getSource();
+		
 		int index = gardenView.getPlants().indexOf(n);
-				
-		gardenModel.getPlants().get(index).setX(gardenModel.getPlants().get(index).getX() + (int)event.getX()); 
-		gardenModel.getPlants().get(index).setY(gardenModel.getPlants().get(index).getY() + (int)event.getY());
+		
+		gardenModel.dragPlant(index, event.getX(), event.getY());
+		
 		gardenView.setX( index, gardenModel.getPlants().get(index).getX() );
 		gardenView.setY( index, gardenModel.getPlants().get(index).getY() );
-		//Point newLoc = new Point((int)gardenModel.getPlants().get(index).getX(), (int)gardenModel.getPlants().get(index).getY());
-		//Point newLoc = new Point((int)(gardenModel.getPlants().get(index).getX() + 600), (int)(gardenModel.getPlants().get(index).getY() + 500));
-		//boolean inside = gardenModel.isInsideGarden(gardenView.getGardenOutline(), newLoc);
-		//System.out.println(inside);
+		
+		checkInsideGarden(index);
 		
 		return;
 	}
+	
+	// Handle press, extract from carousel if necessary
 	
 	public void press(MouseEvent event) {
+		
 		Node n = (Node)event.getSource();
-		int index = gardenView.getPlants().indexOf(n);
-		gardenModel.getPlants().get(index).setX((int)event.getSceneX());
-		gardenModel.getPlants().get(index).setY((int)event.getSceneY());
-
-		//Checks whether plant clicked is in the plant selection zone (grey bar). If it is, make a copy plant and control that instead.
+		
 		if (gardenView.getPlantCarousel().getChildren().contains(n)) {
+			
 			int indexCarousel = gardenView.getPlantCarousel().getPlants().indexOf(n);
-			gardenModel.getPlants().add(new PlantObjectModel("name", "sciname", 0, Sun.FULLSUN, Moisture.DAMP, Soil.CHALKY, 0, 0, 10, 10));
-			//PlantView newPlantView = gardenView.newPlantView("Acer-rubrum");
-			//PlantView newPlantView = gardenView.newPlantView(gardenView.getPlantInput().
-			PlantView newPlantView = gardenView.newPlantView(gardenView.getPlants().get(index).getImage());
-			gardenView.getGarden().getChildren().add(n);
-			gardenView.getPlants().add(newPlantView);
-			gardenView.getPlantCarousel().getChildren().add(newPlantView);
-			//gardenView.getPlantCarousel().getChildren().add(index, newPlantView);
+			
+			gardenModel.getCarousel().replacePlant(indexCarousel-1);									// Subtract 1 from model carousel index b/c it does not contain compost
+			gardenModel.addPlantFromCarousel(indexCarousel-1, event.getSceneX(), event.getSceneY());	// Should kick-start model coords to mouse location, in carousel those vals are 0
+			
+			gardenView.replacePlant(indexCarousel);
+			gardenView.addPlantFromCarousel(indexCarousel, n);
 		}
 		
+		int index = gardenView.getPlants().indexOf(n);
+		gardenModel.setPlantLocation(index, event.getSceneX(), event.getSceneY());
 		return;
 	}
 	
-	public void release(MouseEvent event) {
-		Node n = (Node)event.getSource();
-		int index = gardenView.getPlants().indexOf(n);
-		if (!(gardenView.getPlantCarousel().getChildren().contains(n))) {
-			gardenView.drawSpread(index);
-		}
-		gardenModel.checkSpread();
-		if (event.getTarget() == gardenView.getPlantCarousel().getChildren().get(0)) {
-			drop(event);
-		}
+	// Used to run startFullDrag(), which can only be run inside setOnDragDetected.
+	// Makes JavaFX start delivering drag events WITHOUT interfering with mouse events!
+	// This lets me do stuff to what's UNDER what I'm dragging
+	public void dragDetect(MouseEvent event, PlantView pv) {
+		pv.startFullDrag();
+		System.out.print("drag detected       ");
 		return;
 	}
 	
-	// not functional rn, seems MouseEvents aren't sufficient to track drop location
-	// will probably need to swap drag drop mechanics to dragEvents instead
-	public void drop(MouseEvent event) {
-		System.out.println("running drop");
-		Node n = (Node)event.getSource();
-		
-		int index = gardenView.getPlants().indexOf(n);
-		gardenView.getPlants().remove(index);
-		gardenModel.getPlants().remove(index);
-		gardenView.getGarden().getChildren().remove(n);
-		return;
+	
+	public boolean checkInsideGarden(int index) {
+		if ( gardenModel.checkInsideGarden(gardenView.getGardenOutline(), index) ) {
+			System.out.println("inside!");
+			return true;
+		}
+		return false;
 	}
 	
 	
@@ -146,6 +143,7 @@ public class EditGardenController {
 		return event -> clickExit((ActionEvent) event);
 	}
 	
+	
 	public EventHandler getHandlerForDrag() {
 		return event -> drag((MouseEvent) event);
 	}
@@ -154,12 +152,9 @@ public class EditGardenController {
 		return event -> press((MouseEvent) event);
 	}
 	
-	public EventHandler getHandlerForRelease() {
-		return event -> release((MouseEvent) event);
+	public EventHandler getHandlerForDragDetect(PlantView pv) {
+		return event -> dragDetect((MouseEvent) event, pv);
 	}
 	
-	public EventHandler getHandlerForDrop() {
-		return event -> drop((MouseEvent) event);
-	}
 	
 }

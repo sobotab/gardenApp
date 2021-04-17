@@ -6,13 +6,13 @@ import pkgController.Sun;
 
 public class PlantObjectModel extends PlantModel{
 	
-	int x;
-	int y;
+	double x;
+	double y;
 	int height;
 	int width;
 	private final double BOTTOM = 400;
 	
-	public PlantObjectModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, int x, int y, int height ,int width) {
+	public PlantObjectModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, double x, double y, int height ,int width) {
 		super(name,sciName,spreadDiameter,sun,moisture,soil);
 
 		this.x = x;
@@ -21,20 +21,20 @@ public class PlantObjectModel extends PlantModel{
 		this.width = width;
 	}
 
-	public int getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(int x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public int getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(int y) {
-		this.y = (int)Math.min(y,  BOTTOM);
+	public void setY(double y) {
+		this.y = Math.min(y,  BOTTOM);
 	}
 
 	public int getHeight() {

@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -40,48 +41,59 @@ public class EditGardenView extends BorderPane{
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
 	List<PlantView> plants;
-	Set<String> plantInput;
 	List<Point> gardenOutline;
 	EditGardenController egc;
 	Canvas gardenOutlineImg;
+	List<String> plantInput;
 	
 	public EditGardenView(View view) {
-		// Initialize controller
-		plantInput = new HashSet<String>();
+		
+		plantInput = new ArrayList<String>();
 		this.egc = new EditGardenController(view, this);
-		
 		this.plants = new ArrayList<PlantView>();
-    	//PlantView pv1 = newPlantView("Acer-rubrum");
-    	//plants.add(pv1);
-		for (String sciName : plantInput)
-			plants.add(newPlantView(sciName));
-			System.out.println(plantInput.size());
 		
-		// Build buttons
+		
+		// Initialize carousel
+		//NOTE: this.plants ONLY contains plants in garden. NOT those in carousel, for organization
+		
+		plantCarousel = new DragDropCarouselView();
+		for (String sciName : plantInput)
+			plantCarousel.addPlant(makePlantView(sciName));
+			System.out.println(plantInput.size());
+			
+			
+		// Build & organize buttons, title
+			
 		Label title = new Label("Edit Garden   ");
 		title.setTextFill(Color.WHITE);
 		title.setFont(Font.font("Cambria", 30));
+		
 		Button back = new Button("Back to plant select");
 		back.setOnAction(egc.getHandlerForBack());
+		
 		Button save = new Button("Save");
+		
 		Button exit = new Button("Exit");
 		exit.setOnAction(egc.getHandlerForExit());
 		
-		// Background
-		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
-		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-blurred.jpg")),
-				BackgroundRepeat.NO_REPEAT,
-				BackgroundRepeat.NO_REPEAT,
-				BackgroundPosition.CENTER,
-				bSize)));
-				
 		HBox hBox = new HBox();
 		hBox.setPrefSize(100,500);
 		hBox.getChildren().addAll(title, back, save, exit);
 		hBox.setMaxSize(500, 50);
 		
 		
+		// Background
+		
+		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
+		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-blurred.jpg")),
+				BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT,
+				BackgroundPosition.CENTER,
+				bSize)));
+		
+		
 		// Hard-coded gardenOutline for testing
+		
 		gardenOutline = new ArrayList<Point>();
 		gardenOutline.add(new Point(180, 0));
 		gardenOutline.add(new Point(0, 180));
@@ -89,22 +101,12 @@ public class EditGardenView extends BorderPane{
 		gardenOutline.add(new Point(360, 180));
 		gardenOutline.add(new Point(300, 50));
 		gardenOutline.add(new Point(180, 0));
-
 		
-		// Make compost, put in carousel -- doesn't do anything till I figure out
-		// if we can detect drag target using mouse events, otherwise major changes to drag drop
-		ImageView compost = new ImageView();
-    	compost.setImage(new Image(getClass().getResourceAsStream("/images/compost.png")));
-    	compost.setPreserveRatio(true);
-    	compost.setFitHeight(80);
-    	//compost.setOnMouseReleased(egc.getHandlerForDrop());
-
-    	gardenOutlineImg = new Canvas(400, 400);
+		gardenOutlineImg = new Canvas(400, 400);
     	GraphicsContext gc = gardenOutlineImg.getGraphicsContext2D();
     	gc.setFill(Color.LIGHTGREEN);
-    	
-    	// Drawing garden outline based on list<point>
-    	int j;
+		
+		int j;
     	gc.setStroke(Color.DARKGREEN);
     	gc.beginPath();
     	for (j = 0; j < gardenOutline.size(); j++)
@@ -113,23 +115,18 @@ public class EditGardenView extends BorderPane{
     	gc.closePath();
     	gc.fill();
     	
+    	
     	// Make garden as stackpane
+    	
 		garden = new StackPane();
 		garden.setBackground(new Background(new BackgroundFill(Color.WHITE, 
                 CornerRadii.EMPTY, Insets.EMPTY)));
 		garden.getChildren().add(gardenOutlineImg);
-		garden.setAlignment(Pos.CENTER);
-		
-
-		// initialize carousel with compost bin
-		plantCarousel = new DragDropCarouselView();
-		plantCarousel.getChildren().add(compost);
-		plantCarousel.getChildren().addAll(plants);
-		System.out.println(plantCarousel.getChildren().size());
-    	plantCarousel.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, 
-                CornerRadii.EMPTY, Insets.EMPTY)));
+		garden.setAlignment(Pos.CENTER);	  
+    	
     	
     	// Organize elements on screen
+    	
 		this.setTop(hBox);
 		this.setBottom(plantCarousel);
 		this.setCenter(garden);
@@ -140,26 +137,31 @@ public class EditGardenView extends BorderPane{
 	}
 	
 	// Helper function to build new plantviews
-	public PlantView newPlantView(String sci_name) {
+	public PlantView makePlantView(String sci_name) {
     	PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/images/" + sci_name + ".jpg")));
     	pv.setPreserveRatio(true);
-    	pv.setFitHeight(80);
+    	pv.setFitHeight(60);
 		pv.setOnMousePressed(egc.getHandlerForPress());
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
-    	pv.setOnMouseReleased(egc.getHandlerForRelease());
+    	pv.setOnDragDetected(egc.getHandlerForDragDetect(pv));
     	return pv;
     }
 	
 	// Same as above but builds from existing image
-	public PlantView newPlantView(Image img) {
+	public PlantView makePlantView(Image img) {
     	PlantView pv = new PlantView(img);
     	pv.setPreserveRatio(true);
-    	pv.setFitHeight(80);
+    	pv.setFitHeight(60);
 		pv.setOnMousePressed(egc.getHandlerForPress());
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
-    	pv.setOnMouseReleased(egc.getHandlerForRelease());
+    	pv.setOnDragDetected(egc.getHandlerForDragDetect(pv));
     	return pv;
     }
+	
+	public void replacePlant(int index) {
+		PlantView duplicatePlant = makePlantView(plantCarousel.getPlants().get(index).getImage());
+		plantCarousel.addPlant(duplicatePlant);
+	}
 	
 	
 	public void drawSpread(int index) {
@@ -173,6 +175,11 @@ public class EditGardenView extends BorderPane{
 		gc.strokeOval(spread.getCenterX(), spread.getCenterY(), spread.getRadius(), spread.getRadius());
 		gc.closePath();
 		
+	}
+	
+	public void addPlantFromCarousel(int index, Node n) {
+		plants.add(plantCarousel.removePlant(index));
+		garden.getChildren().add(n);	// should also remove from carousel pane
 	}
 	
 	public List<Point> movePlant() {
@@ -208,7 +215,7 @@ public class EditGardenView extends BorderPane{
 		return this.plants;
 	}
 	
-	public Set<String> getPlantInput() {
+	public List<String> getPlantInput() {
 		return this.plantInput;
 	}
 	
@@ -254,7 +261,7 @@ public class EditGardenView extends BorderPane{
 		return this.gardenOutline;
 	}
 	
-	public void setPlantInput(Set<String> input) {
+	public void setPlantInput(List<String> input) {
 		this.plantInput = input;
 	}
 	

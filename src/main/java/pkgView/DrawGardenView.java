@@ -1,9 +1,9 @@
 package pkgView;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 
 import javafx.scene.Cursor;
-
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -15,13 +15,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Rectangle;
-
 import pkgController.DrawGardenController;
+import pkgController.Soil;
 
 public class DrawGardenView extends BorderPane {
 	
@@ -30,7 +26,8 @@ public class DrawGardenView extends BorderPane {
 	GraphicsContext gc;
 	Line line;
 	int lineThickness;
-	ToggleButton drawButton, polyButton, rectButton, circButton;
+	ToggleButton drawButton, polyButton, clayButton, sandyButton, siltyButton,
+		peatyButton, chalkyButton, loamyButton;
 	Color color;
 	Point2D.Double start, current;
 	boolean makingLine, shapeDone;
@@ -50,40 +47,58 @@ public class DrawGardenView extends BorderPane {
 		canvas = new Canvas(400, 400);
 		gc = canvas.getGraphicsContext2D();
 		
-		drawButton = new ToggleButton("Draw");
-		polyButton = new ToggleButton("Polygon");
-		rectButton = new ToggleButton("Rectangle");
-		circButton = new ToggleButton("Circle");
-		
-		ToggleButton[] toolsArr = {drawButton, polyButton, rectButton, circButton};	
-		ToggleGroup tools = new ToggleGroup();
-		
-		for (ToggleButton tool : toolsArr) {
-            tool.setMinWidth(90);
-            tool.setToggleGroup(tools);
-            tool.setCursor(Cursor.HAND);
-        }
-		
 		line = new Line();
 		makingLine = false;
-		
-		VBox buttons = new VBox();
-		buttons.getChildren().addAll(drawButton, polyButton);//, rectButton, circButton);
 		
 		canvas.setOnMousePressed(event -> mousePressed((MouseEvent) event));
 		canvas.setOnMouseDragged(event -> mouseDragged((MouseEvent) event));
 		canvas.setOnMouseReleased(event -> mouseReleased((MouseEvent) event));
 		
-		HBox hBox = new HBox();
-		hBox.getChildren().addAll(back, finish);
+		
+		//Making sidetool
+		drawButton = new ToggleButton("Draw");
+		polyButton = new ToggleButton("Polygon");
+		
+		ToggleGroup tools = new ToggleGroup();
+		drawButton.setToggleGroup(tools);
+		polyButton.setToggleGroup(tools);
+		drawButton.setCursor(Cursor.HAND);
+		polyButton.setCursor(Cursor.HAND);
+		
+		clayButton = new ToggleButton("Clay");
+		sandyButton = new ToggleButton("Sandy");
+		siltyButton = new ToggleButton("Silty");
+		peatyButton = new ToggleButton("Peaty");
+		chalkyButton = new ToggleButton("Chalky");
+		loamyButton = new ToggleButton("Loamy");
+		ArrayList<ToggleButton> soilButtons = new ArrayList<>();
+		ToggleButton[] tmp = new ToggleButton[] {clayButton,
+				sandyButton, siltyButton, peatyButton, chalkyButton, 
+				loamyButton};
+		ToggleGroup toggleSoil = new ToggleGroup();
+		for (ToggleButton button : tmp) {
+			soilButtons.add(button);
+			button.setToggleGroup(toggleSoil);
+			button.setCursor(Cursor.HAND);
+		}
+		
+		HBox toolBox = new HBox();
+		toolBox.getChildren().addAll(drawButton, polyButton);
+		
+		VBox soilBox = new VBox();
+		soilBox.getChildren().addAll(soilButtons);
+		
+		VBox sideTool = new VBox();
+		sideTool.getChildren().addAll(toolBox, soilBox);
 		
 		this.setTop(title);
-		this.setLeft(buttons);
+		this.setLeft(sideTool);
 		this.setCenter(canvas);
-		this.setBottom(hBox);
+		this.setBottom(bottomHBox);
 	}
 	
 	public void mousePressed(MouseEvent e) {
+		setCurrent(e.getX(), e.getY());
 		if(polyButton.isSelected()) {
 			if (makingLine) {
 				gc.strokeLine(line.getStartX(), line.getStartY(), e.getX(), e.getY());
@@ -133,11 +148,6 @@ public class DrawGardenView extends BorderPane {
 		if (drawButton.isSelected()) {
             gc.closePath();
 		}
-		
-		if (shapeDone) {
-			polyButton.setSelected(false);
-			drawButton.setSelected(false);
-		}
 	}
 	
 	public Point2D.Double getStart() {
@@ -158,5 +168,26 @@ public class DrawGardenView extends BorderPane {
 
 	public void setShapeDone(boolean shapeDone) {
 		this.shapeDone = shapeDone;
+	}
+	
+	public boolean getShapeDone() {
+		return shapeDone;
+	}
+	
+	public Soil getSoil() {
+		if (clayButton.isSelected()) {
+			return Soil.CLAY;
+		} else if (sandyButton.isSelected()) {
+			return Soil.SANDY;
+		} else if (siltyButton.isSelected()) {
+			return Soil.SILTY;
+		} else if (peatyButton.isSelected()) {
+			return Soil.PEATY;
+		} else if (chalkyButton.isSelected()) {
+			return Soil.CHALKY;
+		} else if (loamyButton.isSelected()) {
+			return Soil.LOAMY;
+		}
+		return null;
 	}
 }

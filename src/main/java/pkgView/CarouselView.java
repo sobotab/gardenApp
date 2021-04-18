@@ -21,6 +21,8 @@ public abstract class CarouselView extends FlowPane {
 	int center;
 	int x;
 	int y;
+	private final double CENTER_IMAGE_SCALING = 1.3;
+	private final double SIDE_IMAGE_SCALING = .75;
 	
 	public CarouselView() {
 	}
@@ -61,14 +63,14 @@ public abstract class CarouselView extends FlowPane {
 		}
 		List<Node> sublist = new ArrayList<Node>();
     
-		filteredImages.get(leftMostNode).setScaleX(.75);
-		filteredImages.get(leftMostNode).setScaleY(.75);
+		filteredImages.get(leftMostNode).setScaleX(SIDE_IMAGE_SCALING);
+		filteredImages.get(leftMostNode).setScaleY(SIDE_IMAGE_SCALING);
 		sublist.add(filteredImages.get(leftMostNode));
-		filteredImages.get(center).setScaleX(1.3);
-		filteredImages.get(center).setScaleY(1.3);
+		filteredImages.get(center).setScaleX(CENTER_IMAGE_SCALING);
+		filteredImages.get(center).setScaleY(CENTER_IMAGE_SCALING);
 		sublist.add(filteredImages.get(center));
-		filteredImages.get(rightMostNode).setScaleX(.75);
-		filteredImages.get(rightMostNode).setScaleY(.75);;
+		filteredImages.get(rightMostNode).setScaleX(SIDE_IMAGE_SCALING);
+		filteredImages.get(rightMostNode).setScaleY(SIDE_IMAGE_SCALING);;
 		sublist.add(filteredImages.get(rightMostNode));
     
     

@@ -16,6 +16,8 @@ import pkgView.View;
 public class InfoCarouselController extends CarouselController {
 		View view;
 		InfoCarouselView icv;
+		private final double CENTER_IMAGE_SCALING = 1.3;
+		private final double CENTER_X = 400.0;
 
 		public InfoCarouselController(View view, CarouselView carouselView) {
 			super(view, carouselView);
@@ -25,10 +27,10 @@ public class InfoCarouselController extends CarouselController {
 		public void clickedPopup(MouseEvent event) {
 			ImageView img = (ImageView)event.getSource();
 			int index = 0;
-			if(img.getScaleX() == 1.3) {
+			if(img.getScaleX() == CENTER_IMAGE_SCALING) {
 				index = carouselModel.getHeldPlant();
 			}
-			else if(event.getSceneX() < 400.0) {
+			else if(event.getSceneX() < CENTER_X) {
 				index = carouselModel.getHeldPlant() - 1;
 				if(index < 0) {
 					index = carouselModel.getFilteredPlants().size() - 1;

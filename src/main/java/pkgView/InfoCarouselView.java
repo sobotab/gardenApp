@@ -53,8 +53,8 @@ public class InfoCarouselView extends CarouselView{
 		  popupWindow.show(); 
 		  }
 	  
-	  public void filter(String sun) {
-		  icc.filterCarousel(sun);
+	  public void filter(String sun, String moisture, String soil) {
+		  icc.filterCarousel(sun, moisture, soil);
 	  }
 	 
 	

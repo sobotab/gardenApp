@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -19,6 +20,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -44,20 +46,36 @@ public class InfoView extends BorderPane {
 		hBox.getChildren().addAll(title, back);
 
 		
-		ChoiceBox sun = new ChoiceBox();
+		ComboBox<String> sun = new ComboBox();
 		sun.setItems(FXCollections.observableArrayList("","full sun", "part sun", "full shade"));
+		sun.setValue("");
+
+		
+		ComboBox<String> moisture = new ComboBox();
+		moisture.setItems(FXCollections.observableArrayList("", "wet", "damp", "dry"));
+		moisture.setValue("");
+		
+		ComboBox<String> soil = new ComboBox();
+		soil.setItems(FXCollections.observableArrayList("","clay","sandy","silty","peaty","chalky","loamy"));
+		soil.setValue("");
+		
 		
 		Button filter = new Button("Filter");
 		filter.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event) {
-				infoCarousel.filter((String)sun.getValue());
+				String sunLevel = sun.getValue();
+				String moistureLevel = moisture.getValue();
+				String soilType = soil.getValue();
+				infoCarousel.filter(sunLevel, moistureLevel, soilType);
+				
 			}
 		});
-		HBox box = new HBox();
-		box.getChildren().addAll(sun,filter);
+		
+		VBox vbox = new VBox();
+		vbox.getChildren().addAll(moisture, soil, sun, filter);
      	
 		
-		this.setRight(box);
+		this.setRight(vbox);
 		this.setTop(hBox);
 		this.setCenter(infoCarousel);
 		this.setBottom(back);

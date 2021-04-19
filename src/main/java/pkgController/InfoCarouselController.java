@@ -50,13 +50,17 @@ public class InfoCarouselController extends CarouselController {
 			return event -> clickedPopup((MouseEvent) event);
 		}
 		
-		public void filterCarousel(String sun) {
+		public void filterCarousel(String sun, String moisture, String soil) {
 			List<PlantModel> plants = carouselModel.getPlants();
 			List<ImageView> images = icv.getImages();
 			List<PlantModel> filteredPlants = new ArrayList<>();
 			List<ImageView> filteredImages = new ArrayList<ImageView>();
 			for(int i = 0; i < plants.size(); i++) {
-				if(plants.get(i).getSun().getLevel().startsWith(sun)) {//use startWith instead of equals so the empty string will reset the carousel
+				PlantModel plant = plants.get(i);
+				String sunLevel = plant.getSun().getLevel();
+				String moistureLevel = plant.getMoisture().getLevel();
+				String soilType = plant.getSoil().getLevel();
+				if(sunLevel.startsWith(sun) && moistureLevel.startsWith(moisture) && soilType.startsWith(soil)) {//use startWith instead of equals so the empty string will reset the carousel
 					filteredImages.add(images.get(i));
 					filteredPlants.add(plants.get(i));
 				}

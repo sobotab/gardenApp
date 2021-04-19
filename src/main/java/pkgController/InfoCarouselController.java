@@ -38,7 +38,7 @@ public class InfoCarouselController extends CarouselController {
 			}
 			else {
 				index = carouselModel.getHeldPlant() + 1;
-				if(index == carouselModel.getFilteredPlants().size()) {
+				if(index >= carouselModel.getFilteredPlants().size()) {
 					index = 0;
 				}
 			}
@@ -50,17 +50,26 @@ public class InfoCarouselController extends CarouselController {
 			return event -> clickedPopup((MouseEvent) event);
 		}
 		
-		public void filterCarousel(String sun, String moisture, String soil) {
+		public void filterCarousel(String sun, String moisture, String soil, String type) {
 			List<PlantModel> plants = carouselModel.getPlants();
 			List<ImageView> images = icv.getImages();
 			List<PlantModel> filteredPlants = new ArrayList<>();
 			List<ImageView> filteredImages = new ArrayList<ImageView>();
 			for(int i = 0; i < plants.size(); i++) {
-				PlantModel plant = plants.get(i);
+				PlantInfoModel plant = (PlantInfoModel)plants.get(i);
 				String sunLevel = plant.getSun().getLevel();
 				String moistureLevel = plant.getMoisture().getLevel();
 				String soilType = plant.getSoil().getLevel();
-				if(sunLevel.startsWith(sun) && moistureLevel.startsWith(moisture) && soilType.startsWith(soil)) {//use startWith instead of equals so the empty string will reset the carousel
+				int price = plant.getDollars();
+				String plantType;
+				if(price == 6) {
+					plantType = "herbaceous";
+				}
+				else {
+					plantType = "woody";
+				}
+				//use startWith instead of equals so the empty string will reset the carousel
+				if(sunLevel.startsWith(sun) && moistureLevel.startsWith(moisture) && soilType.startsWith(soil) && plantType.startsWith(type)) {
 					filteredImages.add(images.get(i));
 					filteredPlants.add(plants.get(i));
 				}

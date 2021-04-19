@@ -35,6 +35,7 @@ public abstract class CarouselView extends FlowPane {
 			}
 			update();
 		}
+		System.out.println("Center Image: " + center);
 	}
 	
 	public void rotateRight() {
@@ -64,9 +65,11 @@ public abstract class CarouselView extends FlowPane {
 				rightMostNode = 0;
 			}
 			sublist = makeFullCarousel(leftMostNode, rightMostNode);
+			this.setHgap(10.0);
 		}
 		else if (filteredImages.size() >= 1) {
 			sublist = makeSmallCarousel();
+			this.setHgap(50.0);
 		}
     
     
@@ -100,8 +103,8 @@ public abstract class CarouselView extends FlowPane {
 		List<Node> sublist = new ArrayList<>();
 		ImageView middle = filteredImages.get(center);
 		
-		middle.setScaleX(SIDE_IMAGE_SCALING);
-		middle.setScaleY(SIDE_IMAGE_SCALING);
+		middle.setScaleX(CENTER_IMAGE_SCALING);
+		middle.setScaleY(CENTER_IMAGE_SCALING);
 		sublist.add(middle);
 		
 		return sublist;

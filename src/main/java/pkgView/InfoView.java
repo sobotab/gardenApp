@@ -59,6 +59,10 @@ public class InfoView extends BorderPane {
 		soil.setItems(FXCollections.observableArrayList("","clay","sandy","silty","peaty","chalky","loamy"));
 		soil.setValue("");
 		
+		ComboBox<String> type = new ComboBox();
+		type.setItems(FXCollections.observableArrayList("","woody","herbaceous"));
+		type.setValue("");
+		
 		
 		Button filter = new Button("Filter");
 		filter.setOnAction(new EventHandler<ActionEvent>(){
@@ -66,13 +70,14 @@ public class InfoView extends BorderPane {
 				String sunLevel = sun.getValue();
 				String moistureLevel = moisture.getValue();
 				String soilType = soil.getValue();
-				infoCarousel.filter(sunLevel, moistureLevel, soilType);
+				String plantType = type.getValue();
+				infoCarousel.filter(sunLevel, moistureLevel, soilType, plantType);
 				
 			}
 		});
 		
 		VBox vbox = new VBox();
-		vbox.getChildren().addAll(moisture, soil, sun, filter);
+		vbox.getChildren().addAll(type, moisture, soil, sun, filter);
      	
 		
 		this.setRight(vbox);

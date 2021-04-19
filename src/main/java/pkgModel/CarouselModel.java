@@ -36,11 +36,12 @@ public class CarouselModel {
 	}
 	
 	public void rotateLeft() {
-		heldPlant -= 1;
-		if(heldPlant < 0) {
-			heldPlant = filteredPlants.size() - 1;
+		if(filteredPlants.size() > 0) {
+			heldPlant -= 1;
+			if(heldPlant < 0) {
+				heldPlant = filteredPlants.size() - 1;
+			}
 		}
-		
 	}
 	
 	public void rotateRight() {
@@ -121,7 +122,12 @@ public class CarouselModel {
 	public void setFilteredPlants(List<PlantModel> filteredPlants) {
 		this.filteredPlants = filteredPlants;
 		if(heldPlant >= filteredPlants.size()) {
-			heldPlant = filteredPlants.size() - 1;
+			if(filteredPlants.size() == 0) {
+				heldPlant = 0;
+			}
+			else {
+				heldPlant = filteredPlants.size() - 1;
+			}
 		}
 	}
 }

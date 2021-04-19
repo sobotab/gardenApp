@@ -10,7 +10,8 @@ public class PlantObjectModel extends PlantModel{
 	double y;
 	int height;
 	int width;
-	private final double BOTTOM = 400;
+	//private final double Y_MAX = 400;
+	//private final double X_MAX = 700;
 	
 	public PlantObjectModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, double x, double y, int height ,int width) {
 		super(name,sciName,spreadDiameter,sun,moisture,soil);
@@ -25,6 +26,11 @@ public class PlantObjectModel extends PlantModel{
 		return x;
 	}
 
+	public void setXInBounds(double x, double x_max) {
+		this.x = Math.min(x,  x_max);
+		this.x = Math.max(this.x, 0);
+	}
+	
 	public void setX(double x) {
 		this.x = x;
 	}
@@ -33,8 +39,13 @@ public class PlantObjectModel extends PlantModel{
 		return y;
 	}
 
+	public void setYInBounds(double y, double y_max) {
+		this.y = Math.min(y,  y_max);
+		this.y = Math.max(this.y, 0);
+	}
+	
 	public void setY(double y) {
-		this.y = Math.min(y,  BOTTOM);
+		this.y = y;
 	}
 
 	public int getHeight() {

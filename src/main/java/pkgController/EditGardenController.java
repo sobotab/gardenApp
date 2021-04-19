@@ -78,12 +78,14 @@ public class EditGardenController {
 		
 		int index = gardenView.getPlants().indexOf(n);
 		
-		gardenModel.dragPlant(index, event.getX(), event.getY());
+		gardenModel.dragPlant(index, event.getX(), event.getY(), gardenView.getGarden().getWidth() - 60, gardenView.getGarden().getHeight() - 60);
 		
 		gardenView.setX( index, gardenModel.getPlants().get(index).getX() );
 		gardenView.setY( index, gardenModel.getPlants().get(index).getY() );
 		
 		checkInsideGarden(index);
+		
+		//System.out.println("Model x,y =  " + gardenModel.getPlants().get(index).getX() +",  " + gardenModel.getPlants().get(index).getY());
 		
 		return;
 	}
@@ -99,26 +101,31 @@ public class EditGardenController {
 			int indexCarousel = gardenView.getPlantCarousel().getPlants().indexOf(n);
 			
 			gardenModel.getCarousel().replacePlant(indexCarousel-1);									// Subtract 1 from model carousel index b/c it does not contain compost
-			gardenModel.addPlantFromCarousel(indexCarousel-1, event.getSceneX(), event.getSceneY());	// Should kick-start model coords to mouse location, in carousel those vals are 0
+			gardenModel.addPlantFromCarousel(indexCarousel-1, 0, 0);	
 			
 			gardenView.replacePlant(indexCarousel);
-			gardenView.addPlantFromCarousel(indexCarousel, n);
+			gardenView.addPlantFromCarousel(indexCarousel, n, event);
+
 		}
-		
-		int index = gardenView.getPlants().indexOf(n);
-		gardenModel.setPlantLocation(index, event.getSceneX(), event.getSceneY());
+		//int index = gardenView.getPlants().indexOf(n);
+		//gardenModel.setPlantLocation(index, event.getSceneX(), event.getSceneY());
 		return;
 	}
 	
 	// Used to run startFullDrag(), which can only be run inside setOnDragDetected.
 	// Makes JavaFX start delivering drag events WITHOUT interfering with mouse events!
 	// This lets me do stuff to what's UNDER what I'm dragging
+	
 	public void dragDetect(MouseEvent event, PlantView pv) {
-		pv.startFullDrag();
+		//pv.startFullDrag();
 		System.out.print("drag detected       ");
 		return;
 	}
 	
+	// Check point is within garden in model. Does not work.
+	// Currently I'm compare model coordinates to points in view's outline,
+	// Which is then drawn on a canvas, and stored in borderpane's center. 
+	// So obviously, these don't line up. 
 	
 	public boolean checkInsideGarden(int index) {
 		if ( gardenModel.checkInsideGarden(gardenView.getGardenOutline(), index) ) {
@@ -126,6 +133,14 @@ public class EditGardenController {
 			return true;
 		}
 		return false;
+	}
+	
+	public void release(MouseEvent event) {
+		Node n = (Node)event.getSource();
+		int index = gardenView.getPlants().indexOf(n);
+		double x = gardenModel.getPlants().get(index).getX() - 10;
+		double y = gardenModel.getPlants().get(index).getY() - 10;
+		gardenView.drawSpread(index, x, y);
 	}
 	
 	
@@ -152,9 +167,14 @@ public class EditGardenController {
 		return event -> press((MouseEvent) event);
 	}
 	
+	public EventHandler getHandlerForRelease() {
+		return event -> release((MouseEvent) event);
+	}
+	
 	public EventHandler getHandlerForDragDetect(PlantView pv) {
 		return event -> dragDetect((MouseEvent) event, pv);
 	}
+	
 	
 	
 }

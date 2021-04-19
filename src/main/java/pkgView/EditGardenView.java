@@ -1,7 +1,6 @@
 package pkgView;
 
 import java.awt.Point;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -17,6 +16,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BackgroundImage;
@@ -144,6 +144,7 @@ public class EditGardenView extends BorderPane{
 		pv.setOnMousePressed(egc.getHandlerForPress());
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
     	pv.setOnDragDetected(egc.getHandlerForDragDetect(pv));
+    	pv.setOnMouseReleased(egc.getHandlerForRelease());
     	return pv;
     }
 	
@@ -155,6 +156,7 @@ public class EditGardenView extends BorderPane{
 		pv.setOnMousePressed(egc.getHandlerForPress());
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
     	pv.setOnDragDetected(egc.getHandlerForDragDetect(pv));
+    	pv.setOnMouseReleased(egc.getHandlerForRelease());
     	return pv;
     }
 	
@@ -164,12 +166,12 @@ public class EditGardenView extends BorderPane{
 	}
 	
 	
-	public void drawSpread(int index) {
+	public void drawSpread(int index, double x, double y) {
 		GraphicsContext gc = this.gardenOutlineImg.getGraphicsContext2D();
-        //Circle spread = new Circle(this.getPlants().get(index).getX(), this.getPlants().get(index).getY(), 3);
-        Circle spread = new Circle(10, 10, 3);
+        Circle spread = new Circle(x - gardenOutlineImg.getLayoutX(), y - gardenOutlineImg.getLayoutY(), 80);
+        //Circle spread = new Circle(10, 10, 30);
 		gc.setStroke(Color.AZURE);
-        gc.setFill(Color.BLACK);
+        gc.setFill(Color.LIGHTBLUE);
         gc.beginPath();
 		gc.fillOval(spread.getCenterX(), spread.getCenterY(), spread.getRadius(), spread.getRadius());
 		gc.strokeOval(spread.getCenterX(), spread.getCenterY(), spread.getRadius(), spread.getRadius());
@@ -177,9 +179,10 @@ public class EditGardenView extends BorderPane{
 		
 	}
 	
-	public void addPlantFromCarousel(int index, Node n) {
+	public void addPlantFromCarousel(int index, Node n, MouseEvent event) {
 		plants.add(plantCarousel.removePlant(index));
 		garden.getChildren().add(n);	// should also remove from carousel pane
+		garden.setAlignment(n, Pos.TOP_LEFT);
 	}
 	
 	public List<Point> movePlant() {
@@ -247,14 +250,14 @@ public class EditGardenView extends BorderPane{
 	
 	public void setX(int index, double x) {
     	PlantView img = this.getPlants().get(index);
-    	img.setTranslateX(img.getLayoutX() + x);
-
+    	//img.setTranslateX(img.getLayoutX() + x);
+    	img.setTranslateX(x);
     }
     
     public void setY(int index, double y) {
     	PlantView img = this.getPlants().get(index);
-    	img.setTranslateY(img.getLayoutY() + y);
-    	
+    	//img.setTranslateY(img.getLayoutY() + y);
+    	img.setTranslateY(y);
     }
 
 	public List<Point> getGardenOutline() {

@@ -42,7 +42,6 @@ public class CarouselModel {
 				heldPlant = filteredPlants.size() - 1;
 			}
 		}
-		System.out.println("Held Plant: " + heldPlant);
 	}
 	
 	public void rotateRight() {

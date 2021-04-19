@@ -35,7 +35,6 @@ public abstract class CarouselView extends FlowPane {
 			}
 			update();
 		}
-		System.out.println("Center Image: " + center);
 	}
 	
 	public void rotateRight() {

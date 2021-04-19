@@ -30,6 +30,7 @@ import pkgController.InfoController;
 
 public class InfoView extends BorderPane {
 	InfoCarouselView infoCarousel;
+	private final double FILTER_WIDTH = 105.0;
 	
 	public InfoView(View view) {
 		infoCarousel = new InfoCarouselView(view);
@@ -45,23 +46,25 @@ public class InfoView extends BorderPane {
 		HBox hBox = new HBox();
 		hBox.getChildren().addAll(title, back);
 
+		ComboBox<String> type = new ComboBox();
+		type.setItems(FXCollections.observableArrayList("","woody","herbaceous"));
+		type.setValue("");
+		type.setPrefWidth(FILTER_WIDTH);
 		
 		ComboBox<String> sun = new ComboBox();
 		sun.setItems(FXCollections.observableArrayList("","full sun", "part sun", "full shade"));
 		sun.setValue("");
-
-		
+		sun.setPrefWidth(FILTER_WIDTH);
+	
 		ComboBox<String> moisture = new ComboBox();
 		moisture.setItems(FXCollections.observableArrayList("", "wet", "damp", "dry"));
 		moisture.setValue("");
+		moisture.setPrefWidth(FILTER_WIDTH);
 		
 		ComboBox<String> soil = new ComboBox();
 		soil.setItems(FXCollections.observableArrayList("","clay","sandy","silty","peaty","chalky","loamy"));
 		soil.setValue("");
-		
-		ComboBox<String> type = new ComboBox();
-		type.setItems(FXCollections.observableArrayList("","woody","herbaceous"));
-		type.setValue("");
+		soil.setPrefWidth(FILTER_WIDTH);
 		
 		
 		Button filter = new Button("Filter");

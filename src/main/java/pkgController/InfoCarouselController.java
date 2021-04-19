@@ -56,7 +56,7 @@ public class InfoCarouselController extends CarouselController {
 			List<PlantModel> filteredPlants = new ArrayList<>();
 			List<ImageView> filteredImages = new ArrayList<ImageView>();
 			for(int i = 0; i < plants.size(); i++) {
-				if(plants.get(i).getSun().getLevel().equals(sun)) {
+				if(plants.get(i).getSun().getLevel().startsWith(sun)) {//use startWith instead of equals so the empty string will reset the carousel
 					filteredImages.add(images.get(i));
 					filteredPlants.add(plants.get(i));
 				}

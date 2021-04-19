@@ -45,7 +45,7 @@ public class InfoView extends BorderPane {
 
 		
 		ChoiceBox sun = new ChoiceBox();
-		sun.setItems(FXCollections.observableArrayList("full sun", "part sun", "full shade"));
+		sun.setItems(FXCollections.observableArrayList("","full sun", "part sun", "full shade"));
 		
 		Button filter = new Button("Filter");
 		filter.setOnAction(new EventHandler<ActionEvent>(){

@@ -37,6 +37,7 @@ public class DrawGardenModel extends GardenModel {
 		if (set) {
 			endPoint = point;
 			this.set = false;
+			System.out.println("End: " + point.toString());
 		}
 	}
 	

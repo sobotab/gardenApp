@@ -23,12 +23,15 @@ import pkgController.Soil;
 public class DrawGardenView extends BorderPane {
 	
 	DrawGardenController dgc;
+	final int CANVASHEIGHT = 500;
+	final int CANVASWIDTH = 500;
 	Canvas canvas;
 	GraphicsContext gc;
 	Polygon polygon;
 	ToggleButton drawButton, polyButton, clayButton, sandyButton, siltyButton,
 		peatyButton, chalkyButton, loamyButton;
 	Color color;
+	double lineWidth;
 	Point2D.Double start, current;
 	boolean drawing, shapeDone;
 	
@@ -44,8 +47,10 @@ public class DrawGardenView extends BorderPane {
 		bottomHBox.getChildren().addAll(back, finish);
 		
 		//Garden Drawing Tool
-		canvas = new Canvas(400, 400);
+		lineWidth=2.0;
+		canvas = new Canvas(CANVASHEIGHT, CANVASWIDTH);
 		gc = canvas.getGraphicsContext2D();
+		gc.setLineWidth(lineWidth);
 		
 		polygon = new Polygon();
 		drawing = false;
@@ -98,10 +103,14 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public void mousePressed(MouseEvent e) {
+		System.out.println("Start: " + Double.valueOf(e.getX()) + " " + Double.valueOf(e.getY()));
 		setCurrent(e.getX(), e.getY());
-		if (drawButton.isSelected() && drawing) {
-			dgc.draw();
+		if (drawButton.isSelected()) {
 			drawing = true;
+			dgc.draw();
+			gc.setStroke(Color.BLACK);
+			gc.beginPath();
+			gc.moveTo(e.getX(),e.getY());
 		}
 	}
 	
@@ -109,8 +118,8 @@ public class DrawGardenView extends BorderPane {
 		setCurrent(e.getX(), e.getY());
 		if(drawButton.isSelected() && drawing) {
 			dgc.draw();
-			polygon.getPoints().add(e.getX());
-			polygon.getPoints().add(e.getY());
+			gc.lineTo(e.getX(),e.getY());
+			gc.stroke();
 			//TODO add polygon to the canvas
 		}
 	}
@@ -119,8 +128,10 @@ public class DrawGardenView extends BorderPane {
 		if (drawButton.isSelected() && drawing) {
 			drawing = false;
 			Point2D.Double point = dgc.draw();
-            polygon.getPoints().add(point.getX());
-            polygon.getPoints().add(point.getY());
+			System.out.println(point.toString());
+			gc.lineTo(point.getX(), point.getY());
+			gc.stroke();
+			gc.closePath();
 		}
 	}
 	

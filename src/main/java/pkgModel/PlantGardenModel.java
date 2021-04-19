@@ -24,8 +24,8 @@ public class PlantGardenModel extends GardenModel{
 	
 	public void addPlantFromCarousel(int index, double init_x, double init_y) {
 		PlantObjectModel plant = (carousel.removePlant(index));
-		plant.setX((int)init_x);
-		plant.setY((int)init_y);
+		plant.setX(init_x);
+		plant.setY(init_y);
 		plants.add(plant);
 	}
 		
@@ -60,10 +60,10 @@ public class PlantGardenModel extends GardenModel{
 		plants.get(index).setY(y);
 	}
 	
-	public void dragPlant(int index, double x, double y) {
+	public void dragPlant(int index, double x, double y, double x_max, double y_max) {
 		PlantObjectModel dragPlant = plants.get(index);
-		dragPlant.setX( dragPlant.getX() + x);
-		dragPlant.setY( dragPlant.getY() + y);
+		dragPlant.setXInBounds( dragPlant.getX() + x, x_max);
+		dragPlant.setYInBounds( dragPlant.getY() + y, y_max);
 	}
 	
 	public void compost(PlantObjectModel plant) {

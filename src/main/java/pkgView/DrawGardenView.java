@@ -2,8 +2,10 @@ package pkgView;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.function.UnaryOperator;
 
+import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -36,6 +38,7 @@ public class DrawGardenView extends BorderPane {
 	ComboBox<Soil> soilComboBox;
 	Slider sun, moisture;
 	TextField budget;
+	Button undoButton;
 	Color color;
 	double lineWidth;
 	Point2D.Double start, current;
@@ -161,12 +164,16 @@ public class DrawGardenView extends BorderPane {
 		TextFormatter<String> formatter = new TextFormatter<>(filter);
 		budget.setTextFormatter(formatter);
 		
+		undoButton = new Button("Undo");
+		undoButton.setOnAction(event -> undoButtonPressed(event));
+		
 		//Adding to borderpane 
 		HBox toolBox = new HBox();
 		toolBox.getChildren().addAll(drawButton, polyButton);
 		
 		VBox sideTool = new VBox();
-		sideTool.getChildren().addAll(toolBox, soilComboBox, sun, moisture, budget);
+		sideTool.getChildren().addAll(toolBox, soilComboBox, sun, moisture,
+				budget, undoButton);
 		
 		this.setTop(title);
 		this.setLeft(sideTool);
@@ -208,6 +215,10 @@ public class DrawGardenView extends BorderPane {
 		}
 	}
 	
+	public void undoButtonPressed(ActionEvent event) {
+		undo(dgc.undo());
+	}
+	
 	public void setColor() {
 		switch (soilComboBox.getValue()) {
 			case CLAY:
@@ -228,7 +239,14 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public void undo(ArrayList<Point2D.Double> points) {
-		//TODO write an undo button
+		gc.setStroke(Color.LIGHTGREEN);
+		gc.setFill(Color.LIGHTGREEN);
+		for (int i=0; i<points.size(); i++) {
+			gc.lineTo(points.get(i).getX(), points.get(i).getY());
+			gc.stroke();
+		}
+		gc.fill();
+		gc.closePath();
 	}
 	
 	public Point2D.Double getStart() {

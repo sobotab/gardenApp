@@ -47,6 +47,6 @@ public class DrawGardenController {
 	}
 	
 	public ArrayList<Point2D.Double> undo() {
-		return null;
+		return dgm.undo();
 	}
 }

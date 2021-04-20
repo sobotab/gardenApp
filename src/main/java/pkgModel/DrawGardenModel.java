@@ -59,7 +59,7 @@ public class DrawGardenModel extends GardenModel {
 			plots.get(soil).add(preOutline);
 			preOutline = new ArrayList<>();
 			set = true;
-			System.out.println(plots.toString());
+			undoStack.add(soil);
 		}
 	}
 }

@@ -1,84 +1,65 @@
 package pkgModel;
-import java.awt.Point;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Set;
+import java.util.Stack;
+
+import pkgController.Soil;
 
 public class DrawGardenModel extends GardenModel {
 	ArrayList<Point2D.Double> preOutline;
-	Set<Point2D.Double> preCondition;
+	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
+	Stack<Soil> undoStack;
 	
 	Point2D.Double endPoint;
-	double range;
-	boolean bigEnough;
 	boolean set;
 	
 	public DrawGardenModel() {
+		plots = new HashMap<>();
+		plots.put(Soil.CLAY, new Stack<>());
+		plots.put(Soil.SANDY, new Stack<>());
+		plots.put(Soil.SILTY, new Stack<>());
+		plots.put(Soil.PEATY, new Stack<>());
+		plots.put(Soil.CHALKY, new Stack<>());
+		plots.put(Soil.LOAMY, new Stack<>());
 		endPoint = null;
 		preOutline = new ArrayList<>();
-		range=1.0;
-		bigEnough = false;
 		set = true;
-	}
-	
-	public boolean checkOutline(boolean complete) {
-		return false;
-	}
-	
-	public boolean checkConditions(boolean complete) {
-		return false;
+		undoStack = new Stack<>();
 	}
 
-	public ArrayList<Point2D.Double> getPreOutline() {
-		return preOutline;
-	}
 
 	public void addPreOutline(Point2D.Double point) {
 		preOutline.add(point);
-		setEndPoint(point.getX(), point.getY(), set);
-		setBigEnough(point);
-	}
-	
-	public void setBigEnough(Point2D.Double point) {
-		if(point.getX() > endPoint.getX()+range) {
-			if(point.getY() > endPoint.getY()+range || point.getY() < endPoint.getY()-range) {
-				bigEnough=true;
-			}
-		} else if ( point.getX() < endPoint.getX()-range) {
-			if(point.getY() > endPoint.getY()+range || point.getY() < endPoint.getY()-range) {
-				bigEnough=true;
-			}
-		}
+		setEndPoint(point);
 	}
 
-	public Set<Point2D.Double> getPreCondition() {
-		return preCondition;
-	}
-
-	public void setPreCondition(Set<Double> preCondition) {
-		this.preCondition = preCondition;
-	}
-
-	public void setEndPoint(double x, double y, boolean set) {
+	public void setEndPoint(Point2D.Double point) {
 		if (set) {
-			endPoint = new Point2D.Double(x, y);
+			endPoint = point;
 			this.set = false;
 		}
 	}
 	
-	public boolean checkEnd(Point2D.Double point) {
-		if (point.getX() >= endPoint.getX()-range && point.getY() >= endPoint.getY()-range) {
-			if (point.getX() <= endPoint.getX()+range && point.getY()<= endPoint.getY()+range) {
-				if (bigEnough) {
-					set=true;
-					bigEnough=false;
-					return true;
-				}
-			}
-		}
-		return false;
+	public Point2D.Double getEndPoint() {
+		return endPoint;
 	}
 	
+	public ArrayList<Point2D.Double> undo(){
+		if (undoStack.size() > 0) {
+			return plots.get(undoStack.pop()).pop();
+		}
+		return null;
+	}
 	
+	public void addPlot(boolean drawing, Soil soil) {
+		if (!drawing) {
+			plots.get(soil).add(preOutline);
+			preOutline = new ArrayList<>();
+			set = true;
+			undoStack.add(soil);
+		}
+	}
 }

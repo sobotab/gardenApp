@@ -37,7 +37,6 @@ public class DrawGardenModel extends GardenModel {
 		if (set) {
 			endPoint = point;
 			this.set = false;
-			System.out.println("End: " + point.toString());
 		}
 	}
 	
@@ -50,6 +49,7 @@ public class DrawGardenModel extends GardenModel {
 			plots.get(soil).add(preOutline);
 			preOutline = new ArrayList<>();
 			set = true;
+			System.out.println(plots.toString());
 		}
 	}
 }

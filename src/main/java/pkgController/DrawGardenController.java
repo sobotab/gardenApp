@@ -1,6 +1,8 @@
 package pkgController;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import pkgModel.DrawGardenModel;
@@ -42,5 +44,9 @@ public class DrawGardenController {
 		dgm.addPreOutline(dgv.getCurrent());
 		dgm.addPlot(dgv.getDrawing(), dgv.getSoil());
 		return dgm.getEndPoint();
+	}
+	
+	public ArrayList<Point2D.Double> undo() {
+		return null;
 	}
 }

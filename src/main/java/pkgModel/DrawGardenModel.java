@@ -4,27 +4,30 @@ import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Stack;
 
 import pkgController.Soil;
 
 public class DrawGardenModel extends GardenModel {
 	ArrayList<Point2D.Double> preOutline;
-	HashMap<Soil, ArrayList<ArrayList<Point2D.Double>>> plots;
+	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
+	Stack<Soil> undoStack;
 	
 	Point2D.Double endPoint;
 	boolean set;
 	
 	public DrawGardenModel() {
 		plots = new HashMap<>();
-		plots.put(Soil.CLAY, new ArrayList<>());
-		plots.put(Soil.SANDY, new ArrayList<>());
-		plots.put(Soil.SILTY, new ArrayList<>());
-		plots.put(Soil.PEATY, new ArrayList<>());
-		plots.put(Soil.CHALKY, new ArrayList<>());
-		plots.put(Soil.LOAMY, new ArrayList<>());
+		plots.put(Soil.CLAY, new Stack<>());
+		plots.put(Soil.SANDY, new Stack<>());
+		plots.put(Soil.SILTY, new Stack<>());
+		plots.put(Soil.PEATY, new Stack<>());
+		plots.put(Soil.CHALKY, new Stack<>());
+		plots.put(Soil.LOAMY, new Stack<>());
 		endPoint = null;
 		preOutline = new ArrayList<>();
 		set = true;
+		undoStack = new Stack<>();
 	}
 
 
@@ -42,6 +45,13 @@ public class DrawGardenModel extends GardenModel {
 	
 	public Point2D.Double getEndPoint() {
 		return endPoint;
+	}
+	
+	public ArrayList<Point2D.Double> undo(){
+		if (undoStack.size() > 0) {
+			return plots.get(undoStack.pop()).pop();
+		}
+		return null;
 	}
 	
 	public void addPlot(boolean drawing, Soil soil) {

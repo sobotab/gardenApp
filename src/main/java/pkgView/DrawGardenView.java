@@ -1,6 +1,7 @@
 package pkgView;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.function.UnaryOperator;
 
 import javafx.scene.canvas.Canvas;
@@ -56,7 +57,8 @@ public class DrawGardenView extends BorderPane {
 		canvas = new Canvas(CANVASHEIGHT, CANVASWIDTH);
 		gc = canvas.getGraphicsContext2D();
 		gc.setLineWidth(lineWidth);
-		gc.strokeRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
+		gc.setFill(Color.LIGHTGREEN);
+		gc.fillRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
 		
 		polygon = new Polygon();
 		drawing = false;
@@ -223,6 +225,10 @@ public class DrawGardenView extends BorderPane {
 			default:
 				color = Color.BLACK; break;
 		}
+	}
+	
+	public void undo(ArrayList<Point2D.Double> points) {
+		//TODO write an undo button
 	}
 	
 	public Point2D.Double getStart() {

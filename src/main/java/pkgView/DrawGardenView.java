@@ -241,6 +241,7 @@ public class DrawGardenView extends BorderPane {
 	public void undo(ArrayList<Point2D.Double> points) {
 		gc.setStroke(Color.LIGHTGREEN);
 		gc.setFill(Color.LIGHTGREEN);
+		gc.moveTo(points.get(0).getX(), points.get(0).getY());
 		for (int i=0; i<points.size(); i++) {
 			gc.lineTo(points.get(i).getX(), points.get(i).getY());
 			gc.stroke();

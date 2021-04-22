@@ -70,5 +70,13 @@ public abstract class CarouselController {
 		}
 		return images;
 	}
+
+	public CarouselModel getCarouselModel() {
+		return carouselModel;
+	}
+
+	public void setCarouselModel(CarouselModel carouselModel) {
+		this.carouselModel = carouselModel;
+	}
 	
 }

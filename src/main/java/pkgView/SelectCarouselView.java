@@ -20,6 +20,9 @@ public class SelectCarouselView extends CarouselView{
 		String soil = "";
 		
 		images = scc.getImagesFromList();
+		//for(ImageView image: images) {
+			//image.setOnMousePressed(scc.getHandlerForPlantSelected());
+		//}
 		
 		Button left = new Button("<<<");
 		Button right = new Button(">>>");
@@ -35,5 +38,14 @@ public class SelectCarouselView extends CarouselView{
 	public void filter(String sun, String moisture, String soil) {
 		scc.filterCarousel(sun, moisture, soil);
 	}
+
+	public SelectCarouselController getScc() {
+		return scc;
+	}
+
+	public void setScc(SelectCarouselController scc) {
+		this.scc = scc;
+	}
+	
 	
 }

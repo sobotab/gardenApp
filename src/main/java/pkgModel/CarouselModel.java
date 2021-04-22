@@ -11,6 +11,7 @@ import pkgView.PlantView;
 public class CarouselModel {
 	public List<PlantModel> plants;
 	public List<PlantModel> filteredPlants;
+	public List<PlantModel> selectedPlants;
 	int firstPlant;
 	int lastPlant;
 	int viewPlant;
@@ -25,6 +26,7 @@ public class CarouselModel {
 		this.filteredPlants = new ArrayList<PlantModel>();
 		this.filteredPlants.addAll(plants2);
 		this.heldPlant = heldPlant;
+		this.selectedPlants = new ArrayList<PlantModel>();
 	}
 	
 	public CarouselModel(int firstPlant, int lastPlant) {
@@ -129,5 +131,9 @@ public class CarouselModel {
 				heldPlant = filteredPlants.size() - 1;
 			}
 		}
+	}
+	
+	public void selectPlant(PlantModel plant) {
+		selectedPlants.add(plant);
 	}
 }

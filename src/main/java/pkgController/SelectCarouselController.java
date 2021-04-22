@@ -6,6 +6,7 @@ import java.util.List;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
 import pkgView.CarouselView;
@@ -16,6 +17,8 @@ import pkgView.View;
 public class SelectCarouselController extends CarouselController {
 	View view;
 	SelectCarouselView scv;
+	private final double CENTER_IMAGE_SCALING = 1.3;
+	private final double CENTER_X = 400.0;
 	
 		
 	public SelectCarouselController(View view, CarouselView carouselView) {
@@ -23,13 +26,33 @@ public class SelectCarouselController extends CarouselController {
 		scv = (SelectCarouselView)carouselView;
 	}
 	
-	public void plantSelected(ActionEvent event) {
-		
-	}
+//	public void plantSelected(MouseEvent event) {
+//		ImageView img = (ImageView)event.getSource();
+//		int index = 0;
+//		if(img.getScaleX() == CENTER_IMAGE_SCALING) {
+//			index = carouselModel.getHeldPlant();
+//		}
+//		else if(event.getSceneX() < CENTER_X) {
+//			index = carouselModel.getHeldPlant() - 1;
+//			if(index < 0) {
+//				index = carouselModel.getFilteredPlants().size() - 1;
+//			}
+//		}
+//		else {
+//			index = carouselModel.getHeldPlant() + 1;
+//			if(index >= carouselModel.getFilteredPlants().size()) {
+//				index = 0;
+//			}
+//		}
+//		PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByIndex(index);
+//		carouselModel.getFilteredPlants().remove(index);
+//		scv.getFilteredImages().remove(index);
+//		
+//	}
 	
-	public EventHandler getHandlerForPlantSelected() {
-		return event -> plantSelected((ActionEvent) event);
-	}
+//	public EventHandler getHandlerForPlantSelected() {
+//		return event -> plantSelected((MouseEvent) event);
+//	}
 	
 	public void filterCarousel(String sun, String moisture, String soil) {
 		List<PlantModel> plants = carouselModel.getPlants();
@@ -50,6 +73,14 @@ public class SelectCarouselController extends CarouselController {
 		scv.setFilteredImages(filteredImages);
 		carouselModel.setFilteredPlants(filteredPlants);
 		scv.update();
+	}
+
+	public SelectCarouselView getScv() {
+		return scv;
+	}
+
+	public void setScv(SelectCarouselView scv) {
+		this.scv = scv;
 	}
 	
 	

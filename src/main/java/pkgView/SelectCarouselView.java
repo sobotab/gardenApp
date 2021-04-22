@@ -20,10 +20,6 @@ public class SelectCarouselView extends CarouselView{
 		String soil = "";
 		
 		images = scc.getImagesFromList();
-		filteredImages = new ArrayList<ImageView>();
-		for(ImageView image: images) {
-			filteredImages.add(image);
-		}
 		
 		Button left = new Button("<<<");
 		Button right = new Button(">>>");

@@ -22,7 +22,7 @@ public class SelectPlantsView extends BorderPane {
 		this.setBottom(back);
 		this.setTop(title);
 		this.setRight(finish);
-		this.setBottom(selectionCarousel);
+		this.setCenter(selectionCarousel);
 	}
 	
 	void updateLeps(int numLeps) {}

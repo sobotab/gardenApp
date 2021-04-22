@@ -54,6 +54,18 @@ public class InfoCarouselView extends CarouselView{
 		  }
 	  
 	  public void filter(String sun, String moisture, String soil, String type) {
+		  if(soil == null) {
+			  soil = "";
+		  }
+		  if(moisture == null) {
+			  moisture = "";
+		  }
+		  if(type == null) {
+			  type = "";
+		  }
+		  if(sun == null) {
+			  sun = "";
+		  }
 		  icc.filterCarousel(sun, moisture, soil, type);
 	  }
 	 

@@ -7,9 +7,11 @@ import pkgController.SelectPlantsController;
 
 public class SelectPlantsView extends BorderPane {
 	SelectCarouselView selectionCarousel; 
+	SelectPlantsController spc;
 	
 	public SelectPlantsView(View view) {
-		SelectPlantsController spc = new SelectPlantsController(view);
+		spc = new SelectPlantsController(view);
+		selectionCarousel = new SelectCarouselView(view);
 		
 		Label title = new Label("Select Plants");
 		Button back = new Button("Back to drawing garden.");
@@ -19,7 +21,8 @@ public class SelectPlantsView extends BorderPane {
 		
 		this.setBottom(back);
 		this.setTop(title);
-		this.setCenter(finish);
+		this.setRight(finish);
+		this.setBottom(selectionCarousel);
 	}
 	
 	void updateLeps(int numLeps) {}
@@ -35,5 +38,6 @@ public class SelectPlantsView extends BorderPane {
 	public void setSelectionCarousel(SelectCarouselView carousel) {
 		this.selectionCarousel = carousel;
 	}
+	
 	
 }

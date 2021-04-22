@@ -68,6 +68,5 @@ public class InfoCarouselView extends CarouselView{
 		  }
 		  icc.filterCarousel(sun, moisture, soil, type);
 	  }
-	 
 	
 }

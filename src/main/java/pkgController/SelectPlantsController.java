@@ -62,10 +62,22 @@ public class SelectPlantsController {
 		scc.getScv().update();
 		spv.selectPlant(img);
 		carouselModel.selectPlant(plant);
+		//Maybe put deselected handler in here so the same plant would be remembered
 	}
 	
 	public EventHandler getHandlerForPlantSelected() {
 		return event -> plantSelected((MouseEvent) event);
+	}
+	
+	public void plantDeselected(MouseEvent event) {
+		SelectCarouselView carouselView = scc.getScv();
+		CarouselModel carouselModel = scc.getCarouselModel();
+		ImageView img = (ImageView)event.getSource();
+		
+	}
+	
+	public EventHandler getHandlerForPlantDeSelected() {
+		return event -> plantDeselected((MouseEvent) event);
 	}
 	
 	//Make more methods for organizing the gardens

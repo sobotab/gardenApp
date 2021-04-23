@@ -165,4 +165,12 @@ public abstract class CarouselView extends FlowPane {
 			}
 		}
 	}
+
+	public int getCenter() {
+		return center;
+	}
+
+	public void setCenter(int center) {
+		this.center = center;
+	}
 }

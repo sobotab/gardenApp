@@ -47,5 +47,12 @@ public class SelectCarouselView extends CarouselView{
 		this.scc = scc;
 	}
 	
+	public void decrementCenter() {
+		center--;
+		if(center < 0) {
+			center++;
+		}
+	}
+	
 	
 }

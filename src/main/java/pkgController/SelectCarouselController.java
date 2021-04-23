@@ -71,7 +71,9 @@ public class SelectCarouselController extends CarouselController {
 			}
 		}
 		scv.setFilteredImages(filteredImages);
+		scv.setCenter(0);
 		carouselModel.setFilteredPlants(filteredPlants);
+		carouselModel.setHeldPlant(0);
 		scv.update();
 	}
 

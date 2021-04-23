@@ -8,6 +8,7 @@ import pkgModel.CarouselModel;
 import pkgModel.PlantInfoModel;
 import pkgView.DrawGardenView;
 import pkgView.EditGardenView;
+import pkgView.SelectCarouselView;
 import pkgView.SelectPlantsView;
 import pkgView.View;
 
@@ -34,6 +35,7 @@ public class SelectPlantsController {
 	}
 	
 	public void plantSelected(MouseEvent event) {
+		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
 		ImageView img = (ImageView)event.getSource();
 		int index = 0;
@@ -54,7 +56,9 @@ public class SelectPlantsController {
 		}
 		PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByIndex(index);
 		carouselModel.getFilteredPlants().remove(index);
-		scc.getScv().getFilteredImages().remove(index);
+		carouselModel.decrementHeldPlant();
+		carouselView.getFilteredImages().remove(index);
+		carouselView.decrementCenter();
 		scc.getScv().update();
 		spv.selectPlant(img);
 		carouselModel.selectPlant(plant);

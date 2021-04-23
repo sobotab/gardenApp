@@ -48,7 +48,7 @@ public class CarouselModel {
 	
 	public void rotateRight() {
 		heldPlant += 1;
-		if(heldPlant == filteredPlants.size()) {
+		if(heldPlant >= filteredPlants.size()) {
 			heldPlant = 0;
 		}
 	}
@@ -135,5 +135,12 @@ public class CarouselModel {
 	
 	public void selectPlant(PlantModel plant) {
 		selectedPlants.add(plant);
+	}
+	
+	public void decrementHeldPlant() {
+		heldPlant--;
+		if(heldPlant < 0) {
+			heldPlant++;
+		}
 	}
 }

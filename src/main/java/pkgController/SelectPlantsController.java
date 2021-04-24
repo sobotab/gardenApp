@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import pkgModel.CarouselModel;
 import pkgModel.PlantInfoModel;
 import pkgView.DrawGardenView;
@@ -37,7 +38,7 @@ public class SelectPlantsController {
 	public void plantSelected(MouseEvent event) {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
-		ImageView img = (ImageView)event.getSource();
+		VBox img = (VBox)event.getSource();
 		int index = 0;
 		if(img.getScaleX() == CENTER_IMAGE_SCALING) {
 			index = carouselModel.getHeldPlant();

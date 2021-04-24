@@ -9,6 +9,8 @@ import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import pkgModel.CarouselModel;
 import pkgModel.Model;
 import pkgModel.PlantInfoModel;
@@ -59,14 +61,17 @@ public abstract class CarouselController {
 	
 	
 	
-	public List<ImageView> getImagesFromList(){
+	public List<VBox> getImagesFromList(){
 		List<PlantModel> plants = carouselModel.getPlants();
-		List<ImageView> images = new ArrayList<>();
+		List<VBox> images = new ArrayList<>();
 		for(PlantModel plant: plants) {
 			String sciName = plant.getSciName();
 			Image image = new Image(getClass().getResourceAsStream("/images/" + sciName + ".jpg"));
 			ImageView img = new ImageView(image);
-			images.add(img);
+			Text label = new Text(plant.getName());
+			VBox box = new VBox();
+			box.getChildren().addAll(label, img);
+			images.add(box);
 		}
 		return images;
 	}

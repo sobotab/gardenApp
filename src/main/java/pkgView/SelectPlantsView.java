@@ -10,6 +10,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import pkgController.SelectPlantsController;
 
 public class SelectPlantsView extends BorderPane {
@@ -24,7 +25,7 @@ public class SelectPlantsView extends BorderPane {
 		spc = new SelectPlantsController(view, this, selectionCarousel.getScc());
 		
 		
-		for(ImageView image: selectionCarousel.getFilteredImages()) {
+		for(VBox image: selectionCarousel.getFilteredImages()) {
 			image.setOnMousePressed(spc.getHandlerForPlantSelected());
 		}
 		
@@ -62,11 +63,12 @@ public class SelectPlantsView extends BorderPane {
 		this.selectionCarousel = carousel;
 	}
 	
-	public void selectPlant(ImageView img) {
-		img.setScaleX(.5);
-		img.setScaleY(.5);
-		selectedPlants.add(img);
-		plants.getChildren().add(img);
+	public void selectPlant(VBox box) {
+		ImageView imv = (ImageView)box.getChildren().get(1);
+		imv.setScaleX(.5);
+		imv.setScaleY(.5);
+		selectedPlants.add(imv);
+		plants.getChildren().add(imv);
 	}
 	
 	

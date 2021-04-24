@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.VBox;
 import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
 import pkgView.CarouselView;
@@ -25,9 +26,10 @@ public class InfoCarouselController extends CarouselController {
 		}
 		
 		public void clickedPopup(MouseEvent event) {
-			ImageView img = (ImageView)event.getSource();
+			VBox box = (VBox)event.getSource();
+			ImageView img = (ImageView)box.getChildren().get(1);
 			int index = 0;
-			if(img.getScaleX() == CENTER_IMAGE_SCALING) {
+			if(box.getScaleX() == CENTER_IMAGE_SCALING) {
 				index = carouselModel.getHeldPlant();
 			}
 			else if(event.getSceneX() < CENTER_X) {
@@ -52,9 +54,9 @@ public class InfoCarouselController extends CarouselController {
 		
 		public void filterCarousel(String sun, String moisture, String soil, String type) {
 			List<PlantModel> plants = carouselModel.getPlants();
-			List<ImageView> images = icv.getImages();
+			List<VBox> images = icv.getImages();
 			List<PlantModel> filteredPlants = new ArrayList<>();
-			List<ImageView> filteredImages = new ArrayList<ImageView>();
+			List<VBox> filteredImages = new ArrayList<VBox>();
 			for(int i = 0; i < plants.size(); i++) {
 				PlantInfoModel plant = (PlantInfoModel)plants.get(i);
 				String sunLevel = plant.getSun().getLevel();

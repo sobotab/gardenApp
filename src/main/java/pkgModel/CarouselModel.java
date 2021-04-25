@@ -143,4 +143,19 @@ public class CarouselModel {
 			heldPlant++;
 		}
 	}
+	
+	public PlantModel getPlantByName(String name) {
+		System.out.println(plants);
+		for(PlantModel plant: plants) {
+			System.out.println(plant);
+			if(plant.getName().equals(name)) {
+				return plant;
+			}
+		}
+		return null;
+	}
+	
+	public void deSelectPlant(PlantModel plant) {
+		selectedPlants.remove(plant);
+	}
 }

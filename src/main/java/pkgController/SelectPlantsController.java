@@ -5,6 +5,7 @@ import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import pkgModel.CarouselModel;
 import pkgModel.PlantInfoModel;
 import pkgView.DrawGardenView;
@@ -60,10 +61,9 @@ public class SelectPlantsController {
 		carouselModel.decrementHeldPlant();
 		carouselView.getFilteredImages().remove(index);
 		carouselView.decrementCenter();
-		scc.getScv().update();
+		carouselView.update();
 		spv.selectPlant(img);
 		carouselModel.selectPlant(plant);
-		//Maybe put deselected handler in here so the same plant would be remembered
 	}
 	
 	public EventHandler getHandlerForPlantSelected() {
@@ -73,8 +73,15 @@ public class SelectPlantsController {
 	public void plantDeselected(MouseEvent event) {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
-		ImageView img = (ImageView)event.getSource();
-		
+		VBox img = (VBox)event.getSource();
+		spv.deSelectPlant(img);
+		Text text = (Text)img.getChildren().get(0);
+		String name = text.getText();
+		PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByName(name);
+		carouselModel.getFilteredPlants().add(plant);
+		carouselModel.deSelectPlant(plant);
+		carouselView.getFilteredImages().add(img);
+		carouselView.update();
 	}
 	
 	public EventHandler getHandlerForPlantDeSelected() {

@@ -65,10 +65,18 @@ public class SelectPlantsView extends BorderPane {
 	
 	public void selectPlant(VBox box) {
 		ImageView imv = (ImageView)box.getChildren().get(1);
-		imv.setScaleX(.5);
-		imv.setScaleY(.5);
+		box.setScaleX(.5);
+		box.setScaleY(.5);
 		selectedPlants.add(imv);
-		plants.getChildren().add(imv);
+		plants.getChildren().add(box);
+		box.setOnMousePressed(spc.getHandlerForPlantDeSelected());
+	}
+	
+	public void deSelectPlant(VBox box) {
+		ImageView imv = (ImageView)box.getChildren().get(1);
+		selectedPlants.remove(imv);
+		plants.getChildren().remove(box);
+		box.setOnMousePressed(spc.getHandlerForPlantSelected());
 	}
 	
 	

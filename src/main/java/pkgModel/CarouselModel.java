@@ -11,6 +11,7 @@ import pkgView.PlantView;
 public class CarouselModel {
 	public List<PlantModel> plants;
 	public List<PlantModel> filteredPlants;
+	public List<PlantModel> selectedPlants;
 	int firstPlant;
 	int lastPlant;
 	int viewPlant;
@@ -25,6 +26,7 @@ public class CarouselModel {
 		this.filteredPlants = new ArrayList<PlantModel>();
 		this.filteredPlants.addAll(plants2);
 		this.heldPlant = heldPlant;
+		this.selectedPlants = new ArrayList<PlantModel>();
 	}
 	
 	public CarouselModel(int firstPlant, int lastPlant) {
@@ -46,7 +48,7 @@ public class CarouselModel {
 	
 	public void rotateRight() {
 		heldPlant += 1;
-		if(heldPlant == filteredPlants.size()) {
+		if(heldPlant >= filteredPlants.size()) {
 			heldPlant = 0;
 		}
 	}
@@ -129,5 +131,31 @@ public class CarouselModel {
 				heldPlant = filteredPlants.size() - 1;
 			}
 		}
+	}
+	
+	public void selectPlant(PlantModel plant) {
+		selectedPlants.add(plant);
+	}
+	
+	public void decrementHeldPlant() {
+		heldPlant--;
+		if(heldPlant < 0) {
+			heldPlant++;
+		}
+	}
+	
+	public PlantModel getPlantByName(String name) {
+		System.out.println(plants);
+		for(PlantModel plant: plants) {
+			System.out.println(plant);
+			if(plant.getName().equals(name)) {
+				return plant;
+			}
+		}
+		return null;
+	}
+	
+	public void deSelectPlant(PlantModel plant) {
+		selectedPlants.remove(plant);
 	}
 }

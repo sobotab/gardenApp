@@ -20,7 +20,7 @@ public class DragDropCarouselView extends CarouselView {
 		plants = new ArrayList<PlantView>();
 		heldPlant = null;
 		
-		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost.png")));
+		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost.png")), 0);
     	compost.setPreserveRatio(true);
     	compost.setFitHeight(80);
     	
@@ -35,6 +35,12 @@ public class DragDropCarouselView extends CarouselView {
 	public void addPlant(PlantView plant) {
 		this.plants.add(plant);
 		this.getChildren().add(plant);
+	}
+	
+	public void addPlantAtIndex(PlantView plant, int index) {
+		//this.plants.add(plant);
+		this.plants.add(index, plant);
+		this.getChildren().add(index, plant);
 	}
 	
 	public PlantView removePlant(int index) {

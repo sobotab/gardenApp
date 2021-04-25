@@ -9,8 +9,6 @@ import java.util.Set;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -31,7 +29,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
+import javafx.util.Pair;
 import pkgController.EditGardenController;
 
 public class EditGardenView extends BorderPane{
@@ -41,26 +42,29 @@ public class EditGardenView extends BorderPane{
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
 	List<PlantView> plants;
+	List<Circle> plantSpreads;
 	List<Point> gardenOutline;
+	Polygon gardenOutlineShape;
 	EditGardenController egc;
-	Canvas gardenOutlineImg;
-	List<String> plantInput;
+	List<Pair<String, Integer>> plantInput;
+	double maxDimension;
 	
 	public EditGardenView(View view) {
 		
-		plantInput = new ArrayList<String>();
+		this.plantInput = new ArrayList<Pair<String, Integer>>();
 		this.egc = new EditGardenController(view, this);
 		this.plants = new ArrayList<PlantView>();
+		this.plantSpreads = new ArrayList<Circle>();
 		
 		
 		// Initialize carousel
 		//NOTE: this.plants ONLY contains plants in garden. NOT those in carousel, for organization
 		
 		plantCarousel = new DragDropCarouselView();
-		for (String sciName : plantInput)
-			plantCarousel.addPlant(makePlantView(sciName));
+		for (Pair plantInfo : plantInput)
+			plantCarousel.addPlant(makePlantView((String)plantInfo.getKey(), (int)plantInfo.getValue()));
 			System.out.println(plantInput.size());
-			
+		
 			
 		// Build & organize buttons, title
 			
@@ -102,28 +106,23 @@ public class EditGardenView extends BorderPane{
 		gardenOutline.add(new Point(300, 50));
 		gardenOutline.add(new Point(180, 0));
 		
-		gardenOutlineImg = new Canvas(400, 400);
-    	GraphicsContext gc = gardenOutlineImg.getGraphicsContext2D();
-    	gc.setFill(Color.LIGHTGREEN);
-		
-		int j;
-    	gc.setStroke(Color.DARKGREEN);
-    	gc.beginPath();
-    	for (j = 0; j < gardenOutline.size(); j++)
-    		gc.lineTo(gardenOutline.get(j).getX(), gardenOutline.get(j).getY());
-    		gc.stroke();
-    	gc.closePath();
-    	gc.fill();
-    	
+		gardenOutlineShape = new Polygon();
+    	for (Point point : gardenOutline) {
+    		gardenOutlineShape.getPoints().add((double)point.x);
+    		gardenOutlineShape.getPoints().add((double)point.y);
+    	}
+		gardenOutlineShape.setStroke(Color.DARKGREEN);
+		gardenOutlineShape.setFill(Color.LIGHTGREEN);
     	
     	// Make garden as stackpane
     	
 		garden = new StackPane();
 		garden.setBackground(new Background(new BackgroundFill(Color.WHITE, 
                 CornerRadii.EMPTY, Insets.EMPTY)));
-		garden.getChildren().add(gardenOutlineImg);
-		garden.setAlignment(Pos.CENTER);	  
-    	
+		garden.getChildren().add(gardenOutlineShape);
+		gardenOutlineShape.setViewOrder(2);
+		garden.setAlignment(gardenOutlineShape, Pos.CENTER);
+	
     	
     	// Organize elements on screen
     	
@@ -137,8 +136,8 @@ public class EditGardenView extends BorderPane{
 	}
 	
 	// Helper function to build new plantviews
-	public PlantView makePlantView(String sci_name) {
-    	PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/images/" + sci_name + ".jpg")));
+	public PlantView makePlantView(String sci_name, int spread) {
+    	PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/images/" + sci_name + ".jpg")), spread);
     	pv.setPreserveRatio(true);
     	pv.setFitHeight(60);
 		pv.setOnMousePressed(egc.getHandlerForPress());
@@ -149,8 +148,8 @@ public class EditGardenView extends BorderPane{
     }
 	
 	// Same as above but builds from existing image
-	public PlantView makePlantView(Image img) {
-    	PlantView pv = new PlantView(img);
+	public PlantView makePlantView(Image img, int spread) {
+    	PlantView pv = new PlantView(img, spread);
     	pv.setPreserveRatio(true);
     	pv.setFitHeight(60);
 		pv.setOnMousePressed(egc.getHandlerForPress());
@@ -161,28 +160,52 @@ public class EditGardenView extends BorderPane{
     }
 	
 	public void replacePlant(int index) {
-		PlantView duplicatePlant = makePlantView(plantCarousel.getPlants().get(index).getImage());
-		plantCarousel.addPlant(duplicatePlant);
+		PlantView duplicatePlant = makePlantView(
+				plantCarousel.getPlants().get(index).getImage(),
+				plantCarousel.getPlants().get(index).getSpread()
+				);
+		plantCarousel.addPlantAtIndex(duplicatePlant, index+1);
+	}
+
+	public void drawSpread(int index, double x, double y) {
+		
+		if (plantSpreads.size() == index) {
+	        Circle spread = new Circle(x, y, plants.get(index).getSpread()/2);
+	        plantSpreads.add(spread);
+	        garden.getChildren().add(spread);
+	        garden.setAlignment(spread, Pos.TOP_LEFT);
+	        plantSpreads.get(index).setViewOrder(1);
+		}
+		
+		Circle spread = plantSpreads.get(index);
+		spread.setCenterX(x - spread.getRadius() + plants.get(index).getFitHeight()/2);
+		spread.setCenterY(y - spread.getRadius() + plants.get(index).getFitHeight()/2);
+		spread.setTranslateX(spread.getCenterX());
+		spread.setTranslateY(spread.getCenterY());
+		
+        spread.setStroke(Color.WHITE);
+		spread.setFill(Color.LIGHTBLUE);
+
 	}
 	
-	
-	public void drawSpread(int index, double x, double y) {
-		GraphicsContext gc = this.gardenOutlineImg.getGraphicsContext2D();
-        Circle spread = new Circle(x - gardenOutlineImg.getLayoutX(), y - gardenOutlineImg.getLayoutY(), 80);
-        //Circle spread = new Circle(10, 10, 30);
-		gc.setStroke(Color.AZURE);
-        gc.setFill(Color.LIGHTBLUE);
-        gc.beginPath();
-		gc.fillOval(spread.getCenterX(), spread.getCenterY(), spread.getRadius(), spread.getRadius());
-		gc.strokeOval(spread.getCenterX(), spread.getCenterY(), spread.getRadius(), spread.getRadius());
-		gc.closePath();
-		
+	public void updateSpread(int index, boolean inGarden, boolean overlap) {
+		Circle spread = plantSpreads.get(index);
+		spread.setFill(Color.LIGHTBLUE);
+		if (overlap)
+			spread.setFill(Color.YELLOW);
+		if (!inGarden)
+			spread.setFill(Color.RED);
 	}
 	
 	public void addPlantFromCarousel(int index, Node n, MouseEvent event) {
 		plants.add(plantCarousel.removePlant(index));
 		garden.getChildren().add(n);	// should also remove from carousel pane
 		garden.setAlignment(n, Pos.TOP_LEFT);
+		
+		int newIndex = plants.indexOf(n);
+		plants.get(newIndex).setFitHeight(plants.get(newIndex).spread/4 + 20);
+		plants.get(newIndex).setFitWidth(plants.get(newIndex).spread/4 + 20);
+		
 	}
 	
 	public List<Point> movePlant() {
@@ -218,8 +241,12 @@ public class EditGardenView extends BorderPane{
 		return this.plants;
 	}
 	
-	public List<String> getPlantInput() {
+	public List<Pair<String, Integer>> getPlantInput() {
 		return this.plantInput;
+	}
+	
+	public Polygon getGardenOutlineShape() {
+		return gardenOutlineShape;
 	}
 	
 	
@@ -264,8 +291,12 @@ public class EditGardenView extends BorderPane{
 		return this.gardenOutline;
 	}
 	
-	public void setPlantInput(List<String> input) {
+	public void setPlantInput(List<Pair<String, Integer>> input) {
 		this.plantInput = input;
+	}
+
+	public void setGardenOutlineShape(Polygon gardenOutlineShape) {
+		this.gardenOutlineShape = gardenOutlineShape;
 	}
 	
 }

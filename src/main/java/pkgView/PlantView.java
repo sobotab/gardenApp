@@ -5,12 +5,14 @@ import javafx.scene.image.ImageView;
 
 public class PlantView extends ImageView{
 	Image plantImage;
+	int spread;
 	boolean selected;
 	boolean correctZone;
 	
-	public PlantView(Image plantImage) {
+	public PlantView(Image plantImage, int spread) {
 		this.plantImage = plantImage;
 		this.setImage(plantImage);
+		this.spread = spread;
 	}
 	
 	public void updateLocation(int x, int y) {}
@@ -31,6 +33,9 @@ public class PlantView extends ImageView{
 	public boolean isCorrectZone() {
 		return this.correctZone;
 	}
+	public int getSpread() {
+		return this.spread;
+	}
 	public void setPlantImage(Image image) {
 		this.plantImage = image;
 	}
@@ -39,5 +44,8 @@ public class PlantView extends ImageView{
 	}
 	public void setCorrectZone(boolean correctZone) {
 		this.correctZone = correctZone;
+	}
+	public void setSpread(int spread) {
+		this.spread = spread;
 	}
 }

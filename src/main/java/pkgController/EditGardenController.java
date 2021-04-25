@@ -1,6 +1,7 @@
 package pkgController;
 
 import java.awt.Point;
+import java.awt.Polygon;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
+import javafx.util.Pair;
 import pkgModel.Model;
 import pkgModel.PlantGardenModel;
 import pkgModel.PlantInfoModel;
@@ -35,6 +37,9 @@ public class EditGardenController {
 	
 	public EditGardenController(View view, EditGardenView gardenView) {	
 		
+		// Hard-coded max dimension
+		double max_height = 500;
+		
 		// Temporary source of plants until we get scraper running
 		
 		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
@@ -50,12 +55,17 @@ public class EditGardenController {
 		plants2.add(Agalinis_purpurea);
 		plants2.add(Quercus_stellata);
 		
+		// Add plants to view
 		this.view=view;
 		this.gardenView = gardenView;
 
-		for (PlantModel plant : plants2)
-			gardenView.getPlantInput().add(plant.getSciName());
+		for (PlantModel plant : plants2) {
+			gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
+			//gardenView.getPlantCarousel().addPlant(
+			//		gardenView.makePlantView(plant.getSciName(), plant.getSpreadDiameter()));
+		}
 		
+		// Add plants to model
 		this.gardenModel = new PlantGardenModel(plants2);
 	}
 	
@@ -78,14 +88,25 @@ public class EditGardenController {
 		
 		int index = gardenView.getPlants().indexOf(n);
 		
-		gardenModel.dragPlant(index, event.getX(), event.getY(), gardenView.getGarden().getWidth() - 60, gardenView.getGarden().getHeight() - 60);
+		gardenModel.dragPlant(index, event.getX(), event.getY(),
+				gardenView.getGarden().getWidth() - gardenView.getPlants().get(index).getFitHeight(), 
+				gardenView.getGarden().getHeight() - gardenView.getPlants().get(index).getFitHeight());
 		
-		gardenView.setX( index, gardenModel.getPlants().get(index).getX() );
-		gardenView.setY( index, gardenModel.getPlants().get(index).getY() );
+		double x_loc = gardenModel.getPlants().get(index).getX();
+		double y_loc = gardenModel.getPlants().get(index).getY();
+		gardenView.setX( index, x_loc );
+		gardenView.setY( index, y_loc );
+		
+		
+		gardenView.drawSpread(index, x_loc, y_loc);
 		
 		checkInsideGarden(index);
+
+		for (PlantView plant : gardenView.getPlants()) {
+			int spreadIndex = gardenView.getPlants().indexOf(plant);
+			gardenView.updateSpread(spreadIndex, checkInsideGarden(spreadIndex), gardenModel.checkSpread(spreadIndex));
+		}
 		
-		//System.out.println("Model x,y =  " + gardenModel.getPlants().get(index).getX() +",  " + gardenModel.getPlants().get(index).getY());
 		
 		return;
 	}
@@ -105,10 +126,7 @@ public class EditGardenController {
 			
 			gardenView.replacePlant(indexCarousel);
 			gardenView.addPlantFromCarousel(indexCarousel, n, event);
-
 		}
-		//int index = gardenView.getPlants().indexOf(n);
-		//gardenModel.setPlantLocation(index, event.getSceneX(), event.getSceneY());
 		return;
 	}
 	
@@ -122,25 +140,25 @@ public class EditGardenController {
 		return;
 	}
 	
-	// Check point is within garden in model. Does not work.
-	// Currently I'm compare model coordinates to points in view's outline,
-	// Which is then drawn on a canvas, and stored in borderpane's center. 
-	// So obviously, these don't line up. 
-	
 	public boolean checkInsideGarden(int index) {
-		if ( gardenModel.checkInsideGarden(gardenView.getGardenOutline(), index) ) {
-			System.out.println("inside!");
-			return true;
+		
+		// Initialize model outline
+		if (gardenModel.getGardenOutline() == null) {
+			Polygon gardenOutlineModel = new Polygon();
+			for (Point coord : gardenView.getGardenOutline()) {
+				gardenOutlineModel.addPoint(
+						coord.x + (int)gardenView.getGardenOutlineShape().getLayoutX(), 
+						coord.y + (int)gardenView.getGardenOutlineShape().getLayoutY()
+						);
+			}
+			gardenModel.setGardenOutline(gardenOutlineModel);
 		}
-		return false;
+		
+		return gardenModel.checkInsideGarden(index);
 	}
 	
 	public void release(MouseEvent event) {
-		Node n = (Node)event.getSource();
-		int index = gardenView.getPlants().indexOf(n);
-		double x = gardenModel.getPlants().get(index).getX() - 10;
-		double y = gardenModel.getPlants().get(index).getY() - 10;
-		gardenView.drawSpread(index, x, y);
+		
 	}
 	
 	

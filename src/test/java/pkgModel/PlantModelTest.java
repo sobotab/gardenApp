@@ -63,7 +63,7 @@ public class PlantModelTest {
 
 	@Test
 	public void testGetMoisture() {
-		assertEquals(Moisture.DAMP,plant.getMoisture());
+		assertEquals(Moisture.MOIST,plant.getMoisture());
 	}
 
 	@Test

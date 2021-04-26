@@ -23,6 +23,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.util.StringConverter;
 import pkgController.DrawGardenController;
+import pkgController.Moisture;
 import pkgController.Soil;
 import pkgController.Sun;
 
@@ -289,6 +290,15 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public Moisture getMoisture() {
-		return moisture.getValue();
+		if (moisture.getValue() == 0d) {
+			return Moisture.DRY;
+		} else if (moisture.getValue() == 1d) {
+			return Moisture.MOIST;
+		} else if (moisture.getValue() == 2d) {
+			return Moisture.WET;
+		} else if (moisture.getValue() == 3d) {
+			return Moisture.FLOODED;
+		}
+		return Moisture.DRY;
 	}
 }

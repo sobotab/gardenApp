@@ -39,7 +39,6 @@ public abstract class CarouselController {
 		carouselModel = new CarouselModel(model.makePlants(), 2);
 	}
 	
-	
 	public void clickedRight(ActionEvent event) {
 		carouselView.rotateRight();
 		carouselModel.rotateRight();

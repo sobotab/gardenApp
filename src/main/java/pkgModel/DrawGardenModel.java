@@ -62,4 +62,8 @@ public class DrawGardenModel extends GardenModel {
 			undoStack.add(soil);
 		}
 	}
+	
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> getPlots() {
+		return this.plots;
+	}
 }

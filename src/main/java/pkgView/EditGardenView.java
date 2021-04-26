@@ -1,14 +1,26 @@
 package pkgView;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Stack;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
@@ -34,25 +46,77 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.util.Pair;
 import pkgController.EditGardenController;
+import pkgController.Soil;
 
 public class EditGardenView extends BorderPane{
-	int userX;
-	int userY;
+	final int CANVASHEIGHT = 500;
+	final int CANVASWIDTH = 500;
 	boolean clicked;
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
 	List<PlantView> plants;
 	List<Circle> plantSpreads;
-	List<Point> gardenOutline;
-	Polygon gardenOutlineShape;
+	//List<Point> gardenOutline;
+	List<List<Point2D.Double>> gardenOutlines;
+	List<Polygon> gardenOutlineShapes;
 	EditGardenController egc;
 	List<Pair<String, Integer>> plantInput;
 	double maxDimension;
+	Canvas canvas;
 	
 	public EditGardenView(View view) {
 		
+		// Read in information from drawGarden
+		
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = null;
+		try {
+			FileInputStream fis = new FileInputStream("gardenData.ser");
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        plots = (HashMap<Soil, Stack<ArrayList<Point2D.Double>>>)ois.readObject();
+	        ois.close();
+		} catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        } catch (ClassNotFoundException e) {
+        	e.printStackTrace();
+        }
+		
+		this.canvas = new Canvas();
+		canvas = new Canvas(CANVASHEIGHT, CANVASWIDTH);
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setLineWidth(2.0);
+		gc.setStroke(Color.BLACK);
+		gc.setFill(Color.LIGHTGREEN);
+		gc.fillRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
+		
+		Iterator plotIter = plots.entrySet().iterator();
+		
+		while (plotIter.hasNext()) {
+			
+			Map.Entry plotEntry = (Map.Entry)plotIter.next();
+			
+			if (plotEntry.getKey() == Soil.CLAY) { gc.setFill(Color.RED); } 
+			else if (plotEntry.getKey() == Soil.LOAMY) { gc.setFill(Color.BROWN); }
+			else { gc.setFill(Color.CORNSILK); }
+			
+			Stack<ArrayList<Point2D.Double>> plotStack = (Stack<ArrayList<Point2D.Double>>)plotEntry.getValue();
+	
+			for (ArrayList<Point2D.Double> plot : plotStack) {
+				gc.beginPath();
+				for (Point2D.Double point : plot) {
+					gc.lineTo(point.x, point.y);
+					gc.stroke();
+				}
+				gc.fill();
+				gc.closePath();
+			}
+		}
+		
+
+		
 		this.plantInput = new ArrayList<Pair<String, Integer>>();
-		this.egc = new EditGardenController(view, this);
+		this.egc = new EditGardenController(view, this, plots);
 		this.plants = new ArrayList<PlantView>();
 		this.plantSpreads = new ArrayList<Circle>();
 		
@@ -96,32 +160,15 @@ public class EditGardenView extends BorderPane{
 				bSize)));
 		
 		
-		// Hard-coded gardenOutline for testing
-		
-		gardenOutline = new ArrayList<Point>();
-		gardenOutline.add(new Point(180, 0));
-		gardenOutline.add(new Point(0, 180));
-		gardenOutline.add(new Point(180, 360));
-		gardenOutline.add(new Point(360, 180));
-		gardenOutline.add(new Point(300, 50));
-		gardenOutline.add(new Point(180, 0));
-		
-		gardenOutlineShape = new Polygon();
-    	for (Point point : gardenOutline) {
-    		gardenOutlineShape.getPoints().add((double)point.x);
-    		gardenOutlineShape.getPoints().add((double)point.y);
-    	}
-		gardenOutlineShape.setStroke(Color.DARKGREEN);
-		gardenOutlineShape.setFill(Color.LIGHTGREEN);
-    	
     	// Make garden as stackpane
     	
 		garden = new StackPane();
 		garden.setBackground(new Background(new BackgroundFill(Color.WHITE, 
                 CornerRadii.EMPTY, Insets.EMPTY)));
-		garden.getChildren().add(gardenOutlineShape);
-		gardenOutlineShape.setViewOrder(2);
-		garden.setAlignment(gardenOutlineShape, Pos.CENTER);
+
+		garden.getChildren().add(canvas);
+		canvas.setViewOrder(2);
+		garden.setAlignment(canvas, Pos.CENTER);
 	
     	
     	// Organize elements on screen
@@ -217,14 +264,6 @@ public class EditGardenView extends BorderPane{
 	
 	
 	// getters
-	public int getUserX() {
-		return this.userX;
-	}
-	
-	public int getUserY() {
-		return this.userY;
-	}
-	
 	public boolean isClicked() {
 		return this.clicked;
 	}
@@ -245,20 +284,16 @@ public class EditGardenView extends BorderPane{
 		return this.plantInput;
 	}
 	
-	public Polygon getGardenOutlineShape() {
-		return gardenOutlineShape;
+	public List<Polygon> getGardenOutlineShapes() {
+		return gardenOutlineShapes;
+	}
+	
+	public Canvas getCanvas() {
+		return this.canvas;
 	}
 	
 	
 	// setters
-	public void setUserX(int x) {
-		this.userX = x;
-	}
-	
-	public void setUserY(int y) {
-		this.userY = y;
-	}
-	
 	public void setClicked(boolean clicked) {
 		this.clicked = clicked;
 	}
@@ -287,16 +322,16 @@ public class EditGardenView extends BorderPane{
     	img.setTranslateY(y);
     }
 
-	public List<Point> getGardenOutline() {
-		return this.gardenOutline;
+	public List<List<Point2D.Double>> getGardenOutlines() {
+		return this.gardenOutlines;
 	}
 	
 	public void setPlantInput(List<Pair<String, Integer>> input) {
 		this.plantInput = input;
 	}
 
-	public void setGardenOutlineShape(Polygon gardenOutlineShape) {
-		this.gardenOutlineShape = gardenOutlineShape;
+	public void setGardenOutlineShapes(List<Polygon> gardenOutlineShapes) {
+		this.gardenOutlineShapes = gardenOutlineShapes;
 	}
 	
 }

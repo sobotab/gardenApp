@@ -2,10 +2,16 @@ package pkgModel;
 
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
+
+import pkgController.Soil;
 
 
 public class PlantGardenModel extends GardenModel{
@@ -13,12 +19,13 @@ public class PlantGardenModel extends GardenModel{
 	List<PlantObjectModel> compost;
 	ObjectCarouselModel carousel;
 	Polygon gardenOutline;
+	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
 	int numLeps;
 	int dollars;
 	int heldPlant;
 
-	public PlantGardenModel(List<PlantModel> plantInput) {
-		
+	public PlantGardenModel(List<PlantModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+		this.plots = plots;
 		this.carousel = new ObjectCarouselModel(plantInput, 0);
 		this.plants = new ArrayList<PlantObjectModel>();
 		//this.plants.addAll(carousel.plants);
@@ -36,9 +43,48 @@ public class PlantGardenModel extends GardenModel{
 	public boolean checkInsideGarden(int index) {
 	    PlantObjectModel plantCheck = plants.get(index);
 
-	    return(gardenOutline.contains(plantCheck.x, plantCheck.y, 
-	    		plantCheck.spreadDiameter*0.6, plantCheck.spreadDiameter*0.6));
+	    //return(gardenOutline.contains(plantCheck.x, plantCheck.y, 
+	    //		plantCheck.spreadDiameter*0.6, plantCheck.spreadDiameter*0.6));
+	    
+	    return false;
+	}
+	
+	
+	public boolean inPolygon (Point2D.Double testPoint, ArrayList<Point2D.Double> polygon) {
+		int vertex, adjacentVertex;
+		int count = 0;
+		
+		for (vertex = 0; vertex < polygon.size(); vertex++) {
+			adjacentVertex = vertex + 1;
+			if (vertex == polygon.size()-1) { 
+				adjacentVertex = 0; 
+			}
+			
+			Point2D.Double v1 = polygon.get(vertex);
+			Point2D.Double v2 = polygon.get(adjacentVertex);
+			
+			if ((v1.y > testPoint.y) != (v2.y > testPoint.y)) {					// is testPoint between adjacent vertices?
+				Double slope = (testPoint.y - v1.y) / (v2.y - v1.y);			// find x-coordinate of where line between adjacent vertices would intersect
+				if ( slope * (v2.x - v1.x) + v1.x < testPoint.x)				// with horizontal line extending from testPoint
+					count++;
+			}
+		}
+		return (count % 2 != 0);					// if odd number of intersections to the left of testPoint, it is inside polygon
+	}
 
+	public boolean checkCanvas(int index, double canvas_x, double canvas_y) {
+		PlantObjectModel plantCheck = plants.get(index);
+		Iterator validPlotsIter = plots.get( plantCheck.getSoil() ).iterator();
+		
+		while (validPlotsIter.hasNext()) {		
+			Point2D.Double testPoint = new Point2D.Double(plantCheck.x - canvas_x, plantCheck.y - canvas_y);
+			
+			if (inPolygon(testPoint, (ArrayList<Point2D.Double>)validPlotsIter.next())) {
+				System.out.println("inside!");
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	

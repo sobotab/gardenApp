@@ -2,11 +2,18 @@ package pkgController;
 
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.Point2D;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -19,6 +26,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.util.Pair;
+import pkgModel.DrawGardenModel;
 import pkgModel.Model;
 import pkgModel.PlantGardenModel;
 import pkgModel.PlantInfoModel;
@@ -35,7 +43,7 @@ public class EditGardenController {
 	EditGardenView gardenView;
 	PlantGardenModel gardenModel;
 	
-	public EditGardenController(View view, EditGardenView gardenView) {	
+	public EditGardenController(View view, EditGardenView gardenView, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {	
 		
 		// Hard-coded max dimension
 		double max_height = 500;
@@ -66,7 +74,7 @@ public class EditGardenController {
 		}
 		
 		// Add plants to model
-		this.gardenModel = new PlantGardenModel(plants2);
+		this.gardenModel = new PlantGardenModel(plants2, plots);
 	}
 	
 	// Screen control
@@ -100,11 +108,18 @@ public class EditGardenController {
 		
 		gardenView.drawSpread(index, x_loc, y_loc);
 		
-		checkInsideGarden(index);
-
+		gardenModel.checkCanvas(index, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutY());
+		//checkInsideGarden(index);
+		
 		for (PlantView plant : gardenView.getPlants()) {
 			int spreadIndex = gardenView.getPlants().indexOf(plant);
-			gardenView.updateSpread(spreadIndex, checkInsideGarden(spreadIndex), gardenModel.checkSpread(spreadIndex));
+			//gardenView.updateSpread(spreadIndex, checkInsideGarden(spreadIndex), gardenModel.checkSpread(spreadIndex));
+			System.out.println(gardenView.getCanvas().getLayoutX());
+			gardenView.updateSpread(
+					spreadIndex, 
+					gardenModel.checkCanvas(index, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutY()),
+					gardenModel.checkSpread(spreadIndex)
+					);
 		}
 		
 		
@@ -145,10 +160,10 @@ public class EditGardenController {
 		// Initialize model outline
 		if (gardenModel.getGardenOutline() == null) {
 			Polygon gardenOutlineModel = new Polygon();
-			for (Point coord : gardenView.getGardenOutline()) {
+			for (Point2D.Double coord : gardenView.getGardenOutlines().get(0)) {
 				gardenOutlineModel.addPoint(
-						coord.x + (int)gardenView.getGardenOutlineShape().getLayoutX(), 
-						coord.y + (int)gardenView.getGardenOutlineShape().getLayoutY()
+						(int)(coord.x + gardenView.getGardenOutlineShapes().get(0).getLayoutX()), 
+						(int)(coord.y + gardenView.getGardenOutlineShapes().get(0).getLayoutY())
 						);
 			}
 			gardenModel.setGardenOutline(gardenOutlineModel);

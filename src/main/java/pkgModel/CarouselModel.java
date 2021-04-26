@@ -29,8 +29,6 @@ public class CarouselModel {
 		this.filteredPlants.addAll(plants2);
 		this.heldPlant = heldPlant;
 		this.selectedPlants = new HashMap<String, PlantModel>();
-		//this.selectedPlants = new ArrayList<PlantModel>();
-		//this.hashedPlants = mapNameToPlants();
 		
 	}
 	
@@ -157,16 +155,16 @@ public class CarouselModel {
 		}
 	}
 	
-	public PlantModel getPlantByName(String name) {
-		System.out.println(plants);
-		for(PlantModel plant: plants) {
-			System.out.println(plant);
-			if(plant.getName().equals(name)) {
-				return plant;
-			}
-		}
-		return null;
-	}
+//	public PlantModel getPlantByName(String name) {
+//		System.out.println(plants);
+//		for(PlantModel plant: plants) {
+//			System.out.println(plant);
+//			if(plant.getName().equals(name)) {
+//				return plant;
+//			}
+//		}
+//		return null;
+//	}
 	
 	public void deSelectPlant(PlantModel plant) {
 		selectedPlants.remove(plant.getName());

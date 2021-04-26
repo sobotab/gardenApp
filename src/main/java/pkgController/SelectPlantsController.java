@@ -64,7 +64,6 @@ public class SelectPlantsController {
 		carouselView.update();
 		spv.selectPlant(img);
 		carouselModel.selectPlant(plant);
-		System.out.println(carouselModel.getSelectedPlants());
 	}
 	
 	public EventHandler getHandlerForPlantSelected() {
@@ -78,10 +77,8 @@ public class SelectPlantsController {
 		spv.deSelectPlant(img);
 		Text text = (Text)img.getChildren().get(0);
 		String name = text.getText();
-		System.out.println(carouselModel.getSelectedPlants());
-		PlantInfoModel plant = (PlantInfoModel)carouselModel.getSelectedPlants().get(name);
+		PlantInfoModel plant = (PlantInfoModel)carouselModel.getSelectedPlants().remove(name);
 		carouselModel.getFilteredPlants().add(plant);
-		carouselModel.deSelectPlant(plant);
 		carouselView.getFilteredImages().add(img);
 		carouselView.update();
 	}
@@ -90,7 +87,6 @@ public class SelectPlantsController {
 		return event -> plantDeselected((MouseEvent) event);
 	}
 	
-	//Make more methods for organizing the gardens
 	
 	public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);

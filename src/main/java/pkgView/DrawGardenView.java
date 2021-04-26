@@ -2,7 +2,6 @@ package pkgView;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.function.UnaryOperator;
 
 import javafx.event.ActionEvent;
@@ -24,7 +23,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.util.StringConverter;
 import pkgController.DrawGardenController;
+import pkgController.Moisture;
 import pkgController.Soil;
+import pkgController.Sun;
 
 public class DrawGardenView extends BorderPane {
 	
@@ -79,12 +80,12 @@ public class DrawGardenView extends BorderPane {
 		
 		soilComboBox= new ComboBox<>();
 		soilComboBox.setPromptText("Choose Soil");
+		//loamy, clay, sandy
 		soilComboBox.getItems().add(Soil.CLAY);
 		soilComboBox.getItems().add(Soil.SANDY);
-		soilComboBox.getItems().add(Soil.SILTY);
-		soilComboBox.getItems().add(Soil.PEATY);
-		soilComboBox.getItems().add(Soil.CHALKY);
 		soilComboBox.getItems().add(Soil.LOAMY);
+		
+		Label sunLabel = new Label("Sun");
 		
 		sun = new Slider();
 		sun.setMin(0);
@@ -97,7 +98,7 @@ public class DrawGardenView extends BorderPane {
 		sun.setLabelFormatter(new StringConverter<Double>() {
             @Override
             public String toString(Double n) {
-                if (n < 0.5) return "None";
+                if (n < 0.5) return "Shade";
                 if (n < 1.5) return "Partial";
                 if (n < 2.5) return "Full";
                 return "Full";
@@ -106,7 +107,7 @@ public class DrawGardenView extends BorderPane {
             @Override
             public Double fromString(String s) {
                 switch (s) {
-                    case "None":
+                    case "Shade":
                         return 0d;
                     case "Partial":
                         return 1d;
@@ -119,9 +120,11 @@ public class DrawGardenView extends BorderPane {
             }
         });
 		
+		Label moistureLabel = new Label("Moisture");
+		
 		moisture = new Slider();
 		moisture.setMin(0);
-		moisture.setMax(2);
+		moisture.setMax(3);
 		moisture.setMinorTickCount(0);
 		moisture.setMajorTickUnit(1);
 		moisture.setSnapToTicks(true);
@@ -130,10 +133,11 @@ public class DrawGardenView extends BorderPane {
 		moisture.setLabelFormatter(new StringConverter<Double>() {
             @Override
             public String toString(Double n) {
-                if (n < 0.5) return "None";
-                if (n < 1.5) return "Partial";
-                if (n < 2.5) return "Full";
-                return "Full";
+                if (n < 0.5) return "Dry";
+                if (n < 1.5) return "Moist";
+                if (n < 2.5) return "Wet";
+                if (n < 3.5) return "Flooded";
+                return "Flooded";
             }
 
             @Override
@@ -145,9 +149,11 @@ public class DrawGardenView extends BorderPane {
                         return 1d;
                     case "Full":
                         return 2d;
+                    case "Flooded":
+                    	return 3d;
 
                     default:
-                        return 2d;
+                        return 3d;
                 }
             }
         });
@@ -172,8 +178,8 @@ public class DrawGardenView extends BorderPane {
 		toolBox.getChildren().addAll(drawButton, polyButton);
 		
 		VBox sideTool = new VBox();
-		sideTool.getChildren().addAll(toolBox, soilComboBox, sun, moisture,
-				budget, undoButton);
+		sideTool.getChildren().addAll(toolBox, soilComboBox, sunLabel, sun,
+				moistureLabel, moisture, budget, undoButton);
 		
 		this.setTop(title);
 		this.setLeft(sideTool);
@@ -225,12 +231,6 @@ public class DrawGardenView extends BorderPane {
 				color = Color.RED; break;
 			case SANDY:
 				color = Color.CORNSILK; break;
-			case SILTY:
-				color = Color.GREY; break;
-			case PEATY:
-				color = Color.DARKGOLDENROD; break;
-			case CHALKY:
-				color = Color.LIGHTGRAY; break;
 			case LOAMY:
 				color = Color.BROWN; break;
 			default:
@@ -276,5 +276,29 @@ public class DrawGardenView extends BorderPane {
 	
 	public Soil getSoil() {
 		return soilComboBox.getValue();
+	}
+	
+	public Sun getSun() {
+		if (sun.getValue() == 0d) {
+			return Sun.SHADE;
+		} else if (sun.getValue() == 1d) {
+			return Sun.PARTSUN;
+		} else if (sun.getValue() == 2d) {
+			return Sun.FULLSUN;
+		}
+		return Sun.SHADE;
+	}
+	
+	public Moisture getMoisture() {
+		if (moisture.getValue() == 0d) {
+			return Moisture.DRY;
+		} else if (moisture.getValue() == 1d) {
+			return Moisture.MOIST;
+		} else if (moisture.getValue() == 2d) {
+			return Moisture.WET;
+		} else if (moisture.getValue() == 3d) {
+			return Moisture.FLOODED;
+		}
+		return Moisture.DRY;
 	}
 }

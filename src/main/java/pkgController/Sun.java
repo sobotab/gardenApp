@@ -4,7 +4,7 @@ public enum Sun {
 	
 	FULLSUN("full sun"), 
 	PARTSUN("part sun"), 
-	FULLSHADE("full shade");
+	SHADE("shade");
 
 	private String level = null;
 	

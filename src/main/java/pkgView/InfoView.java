@@ -53,17 +53,17 @@ public class InfoView extends BorderPane {
 		
 		ComboBox<String> sun = new ComboBox();
 		sun.setPromptText("Sun Level");
-		sun.setItems(FXCollections.observableArrayList("","full sun", "part sun", "full shade"));
+		sun.setItems(FXCollections.observableArrayList("","full sun", "part sun", "shade"));
 		sun.setPrefWidth(FILTER_WIDTH);
 	
 		ComboBox<String> moisture = new ComboBox();
 		moisture.setPromptText("Moisture Level");
-		moisture.setItems(FXCollections.observableArrayList("", "wet", "damp", "dry"));
+		moisture.setItems(FXCollections.observableArrayList("","flooded","wet", "damp", "dry"));
 		moisture.setPrefWidth(FILTER_WIDTH);
 		
 		ComboBox<String> soil = new ComboBox();
 		soil.setPromptText("Soil Type");
-		soil.setItems(FXCollections.observableArrayList("","clay","sandy","silty","peaty","chalky","loamy"));
+		soil.setItems(FXCollections.observableArrayList("","clay","sandy","loamy"));
 		soil.setPrefWidth(FILTER_WIDTH);
 		
 		

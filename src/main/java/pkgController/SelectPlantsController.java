@@ -64,6 +64,7 @@ public class SelectPlantsController {
 		carouselView.update();
 		spv.selectPlant(img);
 		carouselModel.selectPlant(plant);
+		System.out.println(carouselModel.getSelectedPlants());
 	}
 	
 	public EventHandler getHandlerForPlantSelected() {
@@ -77,7 +78,8 @@ public class SelectPlantsController {
 		spv.deSelectPlant(img);
 		Text text = (Text)img.getChildren().get(0);
 		String name = text.getText();
-		PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByName(name);
+		System.out.println(carouselModel.getSelectedPlants());
+		PlantInfoModel plant = (PlantInfoModel)carouselModel.getSelectedPlants().get(name);
 		carouselModel.getFilteredPlants().add(plant);
 		carouselModel.deSelectPlant(plant);
 		carouselView.getFilteredImages().add(img);

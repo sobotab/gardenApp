@@ -44,13 +44,13 @@ public class Model {
 		return plants;
 	}
 	
-	public HashMap<String, PlantModel> mapNameToPlants(){
-		HashMap<String, PlantModel> map = new HashMap<>();
-		for(PlantModel plant: potentialPlants) {
-			map.put(plant.sciName, plant);
-		}
-		return map;
-	}
+//	public HashMap<String, PlantModel> mapNameToPlants(){
+//		HashMap<String, PlantModel> map = new HashMap<>();
+//		for(PlantModel plant: potentialPlants) {
+//			map.put(plant.sciName, plant);
+//		}
+//		return map;
+//	}
 
 	public void setPlants(Set<PlantModel> plants) {
 		this.plants = plants;

@@ -86,6 +86,8 @@ public class DrawGardenView extends BorderPane {
 		soilComboBox.getItems().add(Soil.CHALKY);
 		soilComboBox.getItems().add(Soil.LOAMY);
 		
+		Label sunLabel = new Label("Sun");
+		
 		sun = new Slider();
 		sun.setMin(0);
 		sun.setMax(2);
@@ -97,7 +99,7 @@ public class DrawGardenView extends BorderPane {
 		sun.setLabelFormatter(new StringConverter<Double>() {
             @Override
             public String toString(Double n) {
-                if (n < 0.5) return "None";
+                if (n < 0.5) return "Shade";
                 if (n < 1.5) return "Partial";
                 if (n < 2.5) return "Full";
                 return "Full";
@@ -106,7 +108,7 @@ public class DrawGardenView extends BorderPane {
             @Override
             public Double fromString(String s) {
                 switch (s) {
-                    case "None":
+                    case "Shade":
                         return 0d;
                     case "Partial":
                         return 1d;
@@ -119,9 +121,11 @@ public class DrawGardenView extends BorderPane {
             }
         });
 		
+		Label moistureLabel = new Label("Moisture");
+		
 		moisture = new Slider();
 		moisture.setMin(0);
-		moisture.setMax(2);
+		moisture.setMax(3);
 		moisture.setMinorTickCount(0);
 		moisture.setMajorTickUnit(1);
 		moisture.setSnapToTicks(true);
@@ -130,10 +134,11 @@ public class DrawGardenView extends BorderPane {
 		moisture.setLabelFormatter(new StringConverter<Double>() {
             @Override
             public String toString(Double n) {
-                if (n < 0.5) return "None";
-                if (n < 1.5) return "Partial";
-                if (n < 2.5) return "Full";
-                return "Full";
+                if (n < 0.5) return "Dry";
+                if (n < 1.5) return "Moist";
+                if (n < 2.5) return "Wet";
+                if (n < 3.5) return "Flooded";
+                return "Flooded";
             }
 
             @Override
@@ -145,9 +150,11 @@ public class DrawGardenView extends BorderPane {
                         return 1d;
                     case "Full":
                         return 2d;
+                    case "Flooded":
+                    	return 3d;
 
                     default:
-                        return 2d;
+                        return 3d;
                 }
             }
         });
@@ -172,8 +179,8 @@ public class DrawGardenView extends BorderPane {
 		toolBox.getChildren().addAll(drawButton, polyButton);
 		
 		VBox sideTool = new VBox();
-		sideTool.getChildren().addAll(toolBox, soilComboBox, sun, moisture,
-				budget, undoButton);
+		sideTool.getChildren().addAll(toolBox, soilComboBox, sunLabel, sun,
+				moistureLabel, moisture, budget, undoButton);
 		
 		this.setTop(title);
 		this.setLeft(sideTool);
@@ -276,5 +283,13 @@ public class DrawGardenView extends BorderPane {
 	
 	public Soil getSoil() {
 		return soilComboBox.getValue();
+	}
+	
+	public double getSun() {
+		return sun.getValue();
+	}
+	
+	public double getMoisture() {
+		return moisture.getValue();
 	}
 }

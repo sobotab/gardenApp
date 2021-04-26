@@ -4,46 +4,126 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import pkgController.Moisture;
+import pkgController.Soil;
+import pkgController.Sun;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CarouselModelTest {
 	
 	CarouselModel carousel1 = new CarouselModel(1,10,5,150,200,1,3);
+	Set<PlantModel> plants = new HashSet<PlantModel>();
+	CarouselModel carousel2 = new CarouselModel(plants, 0);
 
 	
 	@Test
 	public void testCarouselModel() {
-		CarouselModel carousel2 = new CarouselModel();
+		CarouselModel carousel2 = new CarouselModel(new HashSet<PlantModel>(), 0);
 		CarouselModel carousel3 = new CarouselModel(0,0);
-		assertEquals(carousel2.firstPlant,carousel3.firstPlant);
-		assertEquals(carousel2.lastPlant,carousel3.lastPlant);
+		assertEquals(carousel2.firstPlant,carousel1.firstPlant);
+		assertEquals(carousel3.lastPlant,carousel1.lastPlant);
 	}
 	
 	@Test
 	public void testRotateLeft() {
-		carousel1.rotateLeft();
-		assertEquals(6,carousel1.viewPlant);
+		PlantModel plant = new PlantInfoModel("","",0,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 0,0,"");
+		carousel2.filteredPlants.add(plant);
+		carousel2.rotateLeft();
+		assertEquals(6,carousel2.heldPlant);
 	}
 	
 	@Test
 	public void testRotateRight() {
-		carousel1.rotateRight();
-		assertEquals(5,carousel1.viewPlant);
+		PlantModel plant = new PlantInfoModel("","",0,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 0,0,"");
+		carousel2.filteredPlants.add(plant);
+		carousel2.rotateRight();
+		assertEquals(4,carousel2.heldPlant);
+	}
+	
+//	@Test
+//	public void testPlantSelected() {
+//		carousel1.plants.add(new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, ""));
+//		assertEquals(11,carousel1.plantSelected(0, 0));
+//	}
+	@Test
+	public void testMapNameToPlants() {
+		PlantModel plant = new PlantInfoModel("","",0,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 0,0,"");
+		carousel2.plants.add(plant);
+		assertEquals(10, carousel2.mapNameToPlants().get("").getSpreadDiameter());
 	}
 	
 	@Test
-	public void testPlantSelected() {
-		carousel1.plants.add(new PlantObjectModel(0,0,0,0));
-		assertEquals(11,carousel1.plantSelected(0, 0));
+	public void testGetPlantByIndex() {
+		PlantModel plant = new PlantInfoModel("","",0,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 0,0,"");
+		carousel2.filteredPlants.add(plant);
+		assertEquals(10, carousel2.getPlantByIndex(0).getSpreadDiameter());
+	}
+	
+	@Test
+	public void testGetFilteredPlants() {
+		assertEquals(5, carousel2.getFilteredPlants().size());
+	}
+	
+	@Test
+	public void testSetFilteredPlants() {
+		List<PlantModel> filteredPlants = new ArrayList<PlantModel>();
+		carousel2.heldPlant = 5;
+		carousel2.setFilteredPlants(filteredPlants);
+		assertEquals(0, carousel2.heldPlant);
+		PlantModel plant = new PlantInfoModel("","",0,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 5,6,"");
+		filteredPlants.add(plant);
+		carousel2.heldPlant = 5;
+		carousel2.setFilteredPlants(filteredPlants);
+		assertEquals(3, carousel2.heldPlant);
+	}
+	
+	@Test
+	public void testSelectPlant() {
+		PlantModel plant = new PlantInfoModel("","",10,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 5,6,"");
+		carousel2.selectPlant(plant);
+		assertEquals(0, carousel2.selectedPlants.get("").getSpreadDiameter());
+	}
+	
+	@Test
+	public void testDerementHeldPlant() {
+		carousel2.heldPlant = 0;
+		carousel2.decrementHeldPlant();
+		assertEquals(-1, carousel2.heldPlant);
+	}
+	
+	@Test
+	public void testDeSelectPlant() {
+		PlantModel plant = new PlantInfoModel("","",10,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 5,6,"");
+		carousel2.selectedPlants.put(plant.getName(), plant);
+		carousel2.deSelectPlant(plant);
+		assertEquals(1, carousel2.selectedPlants.size());
+	}
+	
+	@Test
+	public void testGetSelectedPlants() {
+		assertEquals(1, carousel2.getSelectedPlants().size());
+	}
+	
+	@Test
+	public void testSetSelectedPlants() {
+		HashMap<String, PlantModel> map = new HashMap<String, PlantModel>();
+		PlantInfoModel plant = new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, "");
+		map.put("Name", plant);
+		carousel2.setSelectedPlants(map);
+		assertEquals(0, carousel2.selectedPlants.get("Name").getSpreadDiameter());
 	}
 
 	@Test
 	public void testGetPlants() {
-		PlantObjectModel plant = new PlantObjectModel(0,0,0,0);
-		carousel1.plants.add(new PlantObjectModel(0,0,0,0));
+		PlantInfoModel plant = new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, "");
+		//carousel1.plants.add(new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, ""));
 		int test;
 		if(carousel1.getPlants().contains(plant)) {
 			test = 1;
@@ -56,8 +136,8 @@ public class CarouselModelTest {
 
 	@Test
 	public void testSetPlants() {
-		Set<PlantModel> plants = new HashSet<>();
-		PlantObjectModel plant = new PlantObjectModel(0,0,0,0);
+		List<PlantModel> plants = new ArrayList<PlantModel>();
+		PlantInfoModel plant = new PlantInfoModel("Plant","Sciname",1,Sun.PARTSUN, Moisture.DAMP, Soil.LOAMY, 12, 6, "");
 		plants.add(plant);
 		carousel1.setPlants(plants);
 		int test;
@@ -78,7 +158,7 @@ public class CarouselModelTest {
 
 	@Test
 	public void testSetFirstPlant() {
-		CarouselModel carousel2 = new CarouselModel();
+		CarouselModel carousel2 = new CarouselModel(1,1);
 		carousel2.setFirstPlant(0);
 		assertEquals(carousel2.firstPlant,0);
 	}
@@ -90,7 +170,7 @@ public class CarouselModelTest {
 
 	@Test
 	public void testSetLastPlant() {
-		CarouselModel carousel2 = new CarouselModel();
+		CarouselModel carousel2 = new CarouselModel(0,0);
 		carousel2.setLastPlant(1);
 		assertEquals(carousel2.lastPlant,1);
 

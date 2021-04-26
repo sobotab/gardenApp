@@ -4,13 +4,17 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import pkgController.Moisture;
+import pkgController.Soil;
+import pkgController.Sun;
+
 public class PlantInfoModelTest {
 	
-	PlantInfoModel plantInfo = new PlantInfoModel(0,0,"");
+	PlantInfoModel plantInfo = new PlantInfoModel("name", "sciName", 100, Sun.FULLSUN, Moisture.DRY, Soil.CLAY, 15, 20, "");
 
 	@Test
 	public void testPlantInfoModel() {
-		assertEquals("",plantInfo.description);
+		assertEquals("plant",plantInfo.description);
 	}
 
 	@Test

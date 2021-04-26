@@ -36,9 +36,9 @@ public class Model {
 		
 	}
 	
-	public void update() {
-		
-	}
+//	public void update() {
+//		
+//	}
 
 	public Set<PlantModel> getPlants() {
 		return plants;

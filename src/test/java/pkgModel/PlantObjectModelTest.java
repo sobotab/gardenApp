@@ -4,35 +4,39 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import pkgController.Moisture;
+import pkgController.Soil;
+import pkgController.Sun;
+
 public class PlantObjectModelTest {
 	
-	PlantObjectModel plant = new PlantObjectModel(1,2,3,4);
+	PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
 
 	@Test
 	public void testPlantObjectModel() {
-		assertEquals(1,plant.x);
+		assertEquals(1,(int)plant.x);
 	}
 
 	@Test
 	public void testGetX() {
-		assertEquals(1,plant.getX());
+		assertEquals(1,(int)plant.getX());
 	}
 
 	@Test
 	public void testSetX() {
 		plant.setX(11);
-		assertEquals(11,plant.x);
+		assertEquals(11,(int)plant.x);
 	}
 
 	@Test
 	public void testGetY() {
-		assertEquals(2,plant.getY());
+		assertEquals(2,(int)plant.getY());
 	}
 
 	@Test
 	public void testSetY() {
 		plant.setY(12);
-		assertEquals(12,plant.y);
+		assertEquals(12,(int)plant.y);
 	}
 
 	@Test

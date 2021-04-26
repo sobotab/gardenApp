@@ -61,7 +61,6 @@ public class InfoCarouselController extends CarouselController {
 			Iterator<PlantModel> plantIter = plants.iterator();
 			Iterator<VBox> imageIter = images.iterator();
 			while(plantIter.hasNext() && imageIter.hasNext()) {
-			//for(int i = 0; i < plants.size(); i++) {
 				PlantInfoModel plant = (PlantInfoModel)plantIter.next();
 				VBox imageBox = imageIter.next();
 				String sunLevel = plant.getSun().getLevel();
@@ -75,8 +74,8 @@ public class InfoCarouselController extends CarouselController {
 				else {
 					plantType = "woody";
 				}
-				//use startWith instead of equals so the empty string will reset the carousel
-				if(sunLevel.startsWith(sun) && moistureLevel.startsWith(moisture) && soilType.startsWith(soil) && plantType.startsWith(type)) {
+				//use contains instead of equals so the empty string will reset the carousel, also one plant can have multiple soil or moisture levels
+				if(sunLevel.contains(sun) && moistureLevel.contains(moisture) && soilType.contains(soil) && plantType.contains(type)) {
 					filteredImages.add(imageBox);
 					filteredPlants.add(plant);
 				}

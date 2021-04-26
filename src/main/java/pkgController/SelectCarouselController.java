@@ -42,7 +42,7 @@ public class SelectCarouselController extends CarouselController {
 			String sunLevel = plant.getSun().getLevel();
 			String moistureLevel = plant.getMoisture().getLevel();
 			String soilType = plant.getSoil().getLevel();
-			if(sunLevel.startsWith(sun) && moistureLevel.startsWith(moisture) && soilType.startsWith(soil)) {
+			if(sunLevel.contains(sun) && moistureLevel.contains(moisture) && soilType.contains(soil)) {
 				filteredPlants.add(plant);
 				filteredImages.add(imageBox);
 			}

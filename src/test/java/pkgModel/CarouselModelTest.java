@@ -137,7 +137,7 @@ public class CarouselModelTest {
 	@Test
 	public void testSetPlants() {
 		List<PlantModel> plants = new ArrayList<PlantModel>();
-		PlantInfoModel plant = new PlantInfoModel("Plant","Sciname",1,Sun.PARTSUN, Moisture.DAMP, Soil.LOAMY, 12, 6, "");
+		PlantInfoModel plant = new PlantInfoModel("Plant","Sciname",1,Sun.PARTSUN, Moisture.MOIST, Soil.LOAMY, 12, 6, "");
 		plants.add(plant);
 		carousel1.setPlants(plants);
 		int test;

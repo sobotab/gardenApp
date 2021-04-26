@@ -58,7 +58,7 @@ public class InfoView extends BorderPane {
 	
 		ComboBox<String> moisture = new ComboBox();
 		moisture.setPromptText("Moisture Level");
-		moisture.setItems(FXCollections.observableArrayList("","flooded","wet", "damp", "dry"));
+		moisture.setItems(FXCollections.observableArrayList("","flooded","wet", "moist", "dry"));
 		moisture.setPrefWidth(FILTER_WIDTH);
 		
 		ComboBox<String> soil = new ComboBox();

@@ -1,6 +1,7 @@
 package pkgController;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javafx.event.ActionEvent;
@@ -57,8 +58,12 @@ public class InfoCarouselController extends CarouselController {
 			List<VBox> images = icv.getImages();
 			List<PlantModel> filteredPlants = new ArrayList<>();
 			List<VBox> filteredImages = new ArrayList<VBox>();
-			for(int i = 0; i < plants.size(); i++) {
-				PlantInfoModel plant = (PlantInfoModel)plants.get(i);
+			Iterator<PlantModel> plantIter = plants.iterator();
+			Iterator<VBox> imageIter = images.iterator();
+			while(plantIter.hasNext() && imageIter.hasNext()) {
+			//for(int i = 0; i < plants.size(); i++) {
+				PlantInfoModel plant = (PlantInfoModel)plantIter.next();
+				VBox imageBox = imageIter.next();
 				String sunLevel = plant.getSun().getLevel();
 				String moistureLevel = plant.getMoisture().getLevel();
 				String soilType = plant.getSoil().getLevel();
@@ -72,8 +77,8 @@ public class InfoCarouselController extends CarouselController {
 				}
 				//use startWith instead of equals so the empty string will reset the carousel
 				if(sunLevel.startsWith(sun) && moistureLevel.startsWith(moisture) && soilType.startsWith(soil) && plantType.startsWith(type)) {
-					filteredImages.add(images.get(i));
-					filteredPlants.add(plants.get(i));
+					filteredImages.add(imageBox);
+					filteredPlants.add(plant);
 				}
 			}
 			icv.setFilteredImages(filteredImages);

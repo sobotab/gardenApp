@@ -13,7 +13,6 @@ public class CarouselModel {
 	public List<PlantModel> plants;
 	public List<PlantModel> filteredPlants;
 	public HashMap<String, PlantModel> selectedPlants;
-	//public HashMap<String, PlantModel> hashedPlants;
 	int firstPlant;
 	int lastPlant;
 	int viewPlant;
@@ -154,17 +153,6 @@ public class CarouselModel {
 			heldPlant++;
 		}
 	}
-	
-//	public PlantModel getPlantByName(String name) {
-//		System.out.println(plants);
-//		for(PlantModel plant: plants) {
-//			System.out.println(plant);
-//			if(plant.getName().equals(name)) {
-//				return plant;
-//			}
-//		}
-//		return null;
-//	}
 	
 	public void deSelectPlant(PlantModel plant) {
 		selectedPlants.remove(plant.getName());

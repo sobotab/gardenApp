@@ -62,5 +62,11 @@ public class DrawGardenModel extends GardenModel {
 		}
 	}
 	
+	public void setMoisture(Moisture moisture) {
+		this.moisture = moisture;
+	}
 	
+	public void setSun(Sun sun) {
+		this.sun = sun;
+	}
 }

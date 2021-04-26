@@ -2,7 +2,6 @@ package pkgView;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.function.UnaryOperator;
 
 import javafx.event.ActionEvent;
@@ -25,6 +24,7 @@ import javafx.scene.shape.Polygon;
 import javafx.util.StringConverter;
 import pkgController.DrawGardenController;
 import pkgController.Soil;
+import pkgController.Sun;
 
 public class DrawGardenView extends BorderPane {
 	
@@ -277,11 +277,18 @@ public class DrawGardenView extends BorderPane {
 		return soilComboBox.getValue();
 	}
 	
-	public double getSun() {
-		return sun.getValue();
+	public Sun getSun() {
+		if (sun.getValue() == 0d) {
+			return Sun.SHADE;
+		} else if (sun.getValue() == 1d) {
+			return Sun.PARTSUN;
+		} else if (sun.getValue() == 2d) {
+			return Sun.FULLSUN;
+		}
+		return Sun.SHADE;
 	}
 	
-	public double getMoisture() {
+	public Moisture getMoisture() {
 		return moisture.getValue();
 	}
 }

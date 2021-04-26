@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 import org.junit.Test;
 
@@ -44,6 +45,12 @@ public class DrawGardenModelTest {
 	
 	@Test
 	public void testUndo() {
+		assertEquals(null, drawGarden1.undo());
+		drawGarden1.undoStack.push(Soil.CLAY);
+		System.out.println(drawGarden1.undoStack.size());
+		Stack<ArrayList<Point2D.Double>> stack = new Stack<ArrayList<Point2D.Double>>();
+		stack.push(new ArrayList<Point2D.Double>());
+		drawGarden1.plots.put(Soil.CLAY, stack);
 		List<Point2D.Double> list = new ArrayList<Point2D.Double>();
 		assertEquals(list, drawGarden1.undo());
 	}

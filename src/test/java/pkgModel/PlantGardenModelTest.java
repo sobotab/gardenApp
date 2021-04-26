@@ -34,7 +34,12 @@ public class PlantGardenModelTest {
 	public void testCheckSpread() {
 		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
 		plantGarden.addPlant(plant);
-		assertTrue(plantGarden.checkSpread(0));
+		PlantObjectModel plant2 = new PlantObjectModel("","",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+		plantGarden.addPlant(plant2);
+		assertFalse(plantGarden.checkSpread(0));
+		PlantObjectModel plant3 = new PlantObjectModel("","",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 150, 200, 150, 200);
+		plantGarden.addPlant(plant3);
+		assertTrue(plantGarden.checkSpread(2));
 	}
 	
 	@Test

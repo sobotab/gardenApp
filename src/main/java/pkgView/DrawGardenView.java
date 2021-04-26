@@ -79,11 +79,9 @@ public class DrawGardenView extends BorderPane {
 		
 		soilComboBox= new ComboBox<>();
 		soilComboBox.setPromptText("Choose Soil");
+		//loamy, clay, sandy
 		soilComboBox.getItems().add(Soil.CLAY);
 		soilComboBox.getItems().add(Soil.SANDY);
-		soilComboBox.getItems().add(Soil.SILTY);
-		soilComboBox.getItems().add(Soil.PEATY);
-		soilComboBox.getItems().add(Soil.CHALKY);
 		soilComboBox.getItems().add(Soil.LOAMY);
 		
 		Label sunLabel = new Label("Sun");
@@ -232,12 +230,6 @@ public class DrawGardenView extends BorderPane {
 				color = Color.RED; break;
 			case SANDY:
 				color = Color.CORNSILK; break;
-			case SILTY:
-				color = Color.GREY; break;
-			case PEATY:
-				color = Color.DARKGOLDENROD; break;
-			case CHALKY:
-				color = Color.LIGHTGRAY; break;
 			case LOAMY:
 				color = Color.BROWN; break;
 			default:

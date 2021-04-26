@@ -1,17 +1,19 @@
 package pkgModel;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Stack;
 
+import pkgController.Moisture;
 import pkgController.Soil;
+import pkgController.Sun;
 
 public class DrawGardenModel extends GardenModel {
 	ArrayList<Point2D.Double> preOutline;
 	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
 	Stack<Soil> undoStack;
+	Moisture moisture;
+	Sun sun;
 	
 	Point2D.Double endPoint;
 	boolean set;
@@ -20,9 +22,6 @@ public class DrawGardenModel extends GardenModel {
 		plots = new HashMap<>();
 		plots.put(Soil.CLAY, new Stack<>());
 		plots.put(Soil.SANDY, new Stack<>());
-		plots.put(Soil.SILTY, new Stack<>());
-		plots.put(Soil.PEATY, new Stack<>());
-		plots.put(Soil.CHALKY, new Stack<>());
 		plots.put(Soil.LOAMY, new Stack<>());
 		endPoint = null;
 		preOutline = new ArrayList<>();
@@ -62,4 +61,6 @@ public class DrawGardenModel extends GardenModel {
 			undoStack.add(soil);
 		}
 	}
+	
+	
 }

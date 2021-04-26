@@ -4,9 +4,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import pkgController.Moisture;
+import pkgController.Soil;
+import pkgController.Sun;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class CarouselModelTest {
@@ -16,34 +22,34 @@ public class CarouselModelTest {
 	
 	@Test
 	public void testCarouselModel() {
-		CarouselModel carousel2 = new CarouselModel();
+		CarouselModel carousel2 = new CarouselModel(new HashSet<PlantModel>(), 0);
 		CarouselModel carousel3 = new CarouselModel(0,0);
-		assertEquals(carousel2.firstPlant,carousel3.firstPlant);
-		assertEquals(carousel2.lastPlant,carousel3.lastPlant);
+		assertEquals(carousel2.firstPlant,carousel1.firstPlant);
+		assertEquals(carousel3.lastPlant,carousel1.lastPlant);
 	}
 	
 	@Test
 	public void testRotateLeft() {
 		carousel1.rotateLeft();
-		assertEquals(6,carousel1.viewPlant);
+		assertEquals(6,carousel1.heldPlant);
 	}
 	
 	@Test
 	public void testRotateRight() {
 		carousel1.rotateRight();
-		assertEquals(5,carousel1.viewPlant);
+		assertEquals(4,carousel1.heldPlant);
 	}
 	
-	@Test
-	public void testPlantSelected() {
-		carousel1.plants.add(new PlantObjectModel(0,0,0,0));
-		assertEquals(11,carousel1.plantSelected(0, 0));
-	}
+//	@Test
+//	public void testPlantSelected() {
+//		carousel1.plants.add(new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, ""));
+//		assertEquals(11,carousel1.plantSelected(0, 0));
+//	}
 
 	@Test
 	public void testGetPlants() {
-		PlantObjectModel plant = new PlantObjectModel(0,0,0,0);
-		carousel1.plants.add(new PlantObjectModel(0,0,0,0));
+		PlantInfoModel plant = new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, "");
+		//carousel1.plants.add(new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, ""));
 		int test;
 		if(carousel1.getPlants().contains(plant)) {
 			test = 1;
@@ -56,8 +62,8 @@ public class CarouselModelTest {
 
 	@Test
 	public void testSetPlants() {
-		Set<PlantModel> plants = new HashSet<>();
-		PlantObjectModel plant = new PlantObjectModel(0,0,0,0);
+		List<PlantModel> plants = new ArrayList<PlantModel>();
+		PlantInfoModel plant = new PlantInfoModel("Plant","Sciname",1,Sun.PARTSUN, Moisture.DAMP, Soil.LOAMY, 12, 6, "");
 		plants.add(plant);
 		carousel1.setPlants(plants);
 		int test;
@@ -78,7 +84,7 @@ public class CarouselModelTest {
 
 	@Test
 	public void testSetFirstPlant() {
-		CarouselModel carousel2 = new CarouselModel();
+		CarouselModel carousel2 = new CarouselModel(1,1);
 		carousel2.setFirstPlant(0);
 		assertEquals(carousel2.firstPlant,0);
 	}
@@ -90,7 +96,7 @@ public class CarouselModelTest {
 
 	@Test
 	public void testSetLastPlant() {
-		CarouselModel carousel2 = new CarouselModel();
+		CarouselModel carousel2 = new CarouselModel(0,0);
 		carousel2.setLastPlant(1);
 		assertEquals(carousel2.lastPlant,1);
 

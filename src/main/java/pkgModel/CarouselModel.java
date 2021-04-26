@@ -63,9 +63,9 @@ public class CarouselModel {
 		}
 	}
 	
-	public int plantSelected(int x, int y) {
-		return 0;
-	}
+//	public int plantSelected(int x, int y) {
+//		return 0;
+//	}
 
 	public List<PlantModel> getPlants() {
 		return plants;

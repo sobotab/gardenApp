@@ -4,7 +4,8 @@ public enum Moisture {
 	
 	WET("wet"), 
 	DAMP("damp"), 
-	DRY("dry");
+	DRY("dry"),
+	FLOODED("flooded");
 
 	private String level = null;
 	

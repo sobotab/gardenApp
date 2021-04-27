@@ -15,8 +15,7 @@ public class DragDropCarouselController extends CarouselController {
 	ObjectCarouselModel carouselModel;
 	
 	public DragDropCarouselController(View view, CarouselView carouselView) {
-		this.view = view;
-		this.carouselView = carouselView;
+		super(view,carouselView);
 		dcv = (DragDropCarouselView)carouselView;
 		carouselModel = new ObjectCarouselModel();
 	}

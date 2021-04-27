@@ -47,19 +47,19 @@ public class EditGardenController {
 		
 		// Hard-coded max dimension
 		//double max_height = 500;
-		
+		/*
 		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, "full sun", "wet", "sandy", 4, 6, "Example Description");
 		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, "full sun", "moist", "clay", 463, 20, "Example Description");
 		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, "full sun","moist","clay", 2, 6, "Example Description");
 		PlantModel Aralia_racemosa = new PlantInfoModel("spikenard","Aralia-racemosa",1,"shade","moist","clay",6, 6, "Example Description");
 		PlantModel Acer_rubrum = new PlantInfoModel("red maple","Acer-rubrum",75,"full sun","moist","clay",256,20,"Example Description");
 		
-		List<PlantModel> plants2 = new ArrayList<PlantModel>();
-		plants2.add(Acer_rubrum);
-		plants2.add(Aralia_racemosa);
-		plants2.add(Anemone_virginiana);
-		plants2.add(Agalinis_purpurea);
-		plants2.add(Quercus_stellata);
+		List<PlantModel> plants = new ArrayList<PlantModel>();
+		plants.add(Acer_rubrum);
+		plants.add(Aralia_racemosa);
+		plants.add(Anemone_virginiana);
+		plants.add(Agalinis_purpurea);
+		plants.add(Quercus_stellata);
 		*/
 		ArrayList<PlantInfoModel> plants2 = null;
 		try {

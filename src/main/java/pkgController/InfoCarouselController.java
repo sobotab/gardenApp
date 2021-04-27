@@ -20,7 +20,7 @@ public class InfoCarouselController extends CarouselController {
 		View view;
 		InfoCarouselView icv;
 		private final double CENTER_IMAGE_SCALING = 1.3;
-		private final double CENTER_X = 400.0;
+	//	private final double CENTER_X = 400.0;
 
 		public InfoCarouselController(View view, CarouselView carouselView) {
 			super(view, carouselView);
@@ -30,18 +30,21 @@ public class InfoCarouselController extends CarouselController {
 		public void clickedPopup(MouseEvent event) {
 			VBox box = (VBox)event.getSource();
 			ImageView img = (ImageView)box.getChildren().get(1);
+			int centerIndex = carouselModel.getHeldPlant();
+			VBox centerImage = icv.getFilteredImages().get(centerIndex);
+			double centerX = centerImage.getLayoutX();
 			int index = 0;
 			if(box.getScaleX() == CENTER_IMAGE_SCALING) {
-				index = carouselModel.getHeldPlant();
+				index = centerIndex;
 			}
-			else if(event.getSceneX() < CENTER_X) {
-				index = carouselModel.getHeldPlant() - 1;
+			else if(event.getSceneX() < centerX) {
+				index = centerIndex - 1;
 				if(index < 0) {
 					index = carouselModel.getFilteredPlants().size() - 1;
 				}
 			}
 			else {
-				index = carouselModel.getHeldPlant() + 1;
+				index = centerIndex + 1;
 				if(index >= carouselModel.getFilteredPlants().size()) {
 					index = 0;
 				}

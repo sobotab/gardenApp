@@ -54,4 +54,5 @@ public class DrawGardenController {
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
 	}
+
 }

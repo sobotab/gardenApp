@@ -113,9 +113,9 @@ public class EditGardenView extends BorderPane{
 			}
 		}
 		
-
 		
 		this.plantInput = new ArrayList<Pair<String, Integer>>();
+		this.plantCarousel = new DragDropCarouselView(view);
 		this.egc = new EditGardenController(view, this, plots);
 		this.plants = new ArrayList<PlantView>();
 		this.plantSpreads = new ArrayList<Circle>();
@@ -124,10 +124,8 @@ public class EditGardenView extends BorderPane{
 		// Initialize carousel
 		//NOTE: this.plants ONLY contains plants in garden. NOT those in carousel, for organization
 		
-		plantCarousel = new DragDropCarouselView();
 		for (Pair plantInfo : plantInput)
-			plantCarousel.addPlant(makePlantView((String)plantInfo.getKey(), (int)plantInfo.getValue()));
-			System.out.println(plantInput.size());
+			plantCarousel.initializePlant(makePlantView((String)plantInfo.getKey(), (int)plantInfo.getValue()));
 		
 			
 		// Build & organize buttons, title
@@ -164,7 +162,7 @@ public class EditGardenView extends BorderPane{
     	
 		garden = new StackPane();
 		garden.setBackground(new Background(new BackgroundFill(Color.WHITE, 
-                CornerRadii.EMPTY, Insets.EMPTY)));
+				new CornerRadii(5), Insets.EMPTY)));
 
 		garden.getChildren().add(canvas);
 		canvas.setViewOrder(2);

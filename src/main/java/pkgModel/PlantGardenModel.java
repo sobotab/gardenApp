@@ -18,15 +18,16 @@ public class PlantGardenModel extends GardenModel{
 	List<PlantObjectModel> plants;
 	List<PlantObjectModel> compost;
 	ObjectCarouselModel carousel;
-	Polygon gardenOutline;
 	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
 	int numLeps;
 	int dollars;
 	int heldPlant;
 
-	public PlantGardenModel(List<PlantModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
 		this.plots = plots;
-		this.carousel = new ObjectCarouselModel(plantInput, 0);
+		//this.carousel = new ObjectCarouselModel(plantInput, 0);
+		this.carousel = carouselModel;
+		carousel.fillCarousel(plantInput, 0);
 		this.plants = new ArrayList<PlantObjectModel>();
 		//this.plants.addAll(carousel.plants);
 		//this.compost = new Set<PlantObjectModel>();
@@ -39,16 +40,6 @@ public class PlantGardenModel extends GardenModel{
 		plant.setY(init_y);
 		plants.add(plant);
 	}
-		
-	public boolean checkInsideGarden(int index) {
-	    PlantObjectModel plantCheck = plants.get(index);
-
-	    //return(gardenOutline.contains(plantCheck.x, plantCheck.y, 
-	    //		plantCheck.spreadDiameter*0.6, plantCheck.spreadDiameter*0.6));
-	    
-	    return false;
-	}
-	
 	
 	public boolean inPolygon (Point2D.Double testPoint, ArrayList<Point2D.Double> polygon) {
 		int vertex, adjacentVertex;
@@ -80,7 +71,6 @@ public class PlantGardenModel extends GardenModel{
 			Point2D.Double testPoint = new Point2D.Double(plantCheck.x - canvas_x, plantCheck.y - canvas_y);
 			
 			if (inPolygon(testPoint, (ArrayList<Point2D.Double>)validPlotsIter.next())) {
-				System.out.println("inside!");
 				return true;
 			}
 		}
@@ -179,14 +169,6 @@ public class PlantGardenModel extends GardenModel{
 	
 	public void setCarousel(ObjectCarouselModel carousel) {
 		this.carousel = carousel;
-	}
-	
-	public Polygon getGardenOutline() {
-		return this.gardenOutline;
-	}
-
-	public void setGardenOutline(Polygon gardenOutlineModel) {
-		this.gardenOutline = gardenOutlineModel;
 	}
 
 }

@@ -72,5 +72,6 @@ public class DrawGardenController {
 	public void save() {
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
+		dgm.setBudget(dgv.getBudget());
 	}
 }

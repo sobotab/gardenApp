@@ -1,10 +1,11 @@
 package pkgModel;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Set;
 
-public abstract class GardenModel {
+public abstract class GardenModel implements Serializable {
 	
 	Set<Point> outline;
 	Set<HashMap<String, Set<Point>>> conditions;

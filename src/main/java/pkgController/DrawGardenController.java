@@ -35,11 +35,15 @@ public class DrawGardenController {
 	public void clickedNext(ActionEvent event) {
 		
 		// Send plots info
+		ArrayList<Object> sendData = new ArrayList<Object>();
+		int budget = 60;
+		sendData.add(dgm.getPlots());
+		sendData.add(budget);
 		
 		try {
 			FileOutputStream fos = new FileOutputStream("gardenData.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
-        	oos.writeObject(dgm.getPlots());
+        	oos.writeObject(sendData);
             oos.close();
         } catch (FileNotFoundException e) {
         	System.out.println("File not found");

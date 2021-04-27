@@ -42,15 +42,6 @@ public class SelectPlantsController {
 	public void clickNext(ActionEvent event) {
 		
 		// Send plants info
-		/*
-		ArrayList<PlantInfoModel> plantList = new ArrayList<PlantInfoModel>();
-		Iterator iter = scc.carouselModel.selectedPlants.entrySet().iterator();
-		while (iter.hasNext()) {
-			Map.Entry plantEntry = (Map.Entry)iter.next();
-			plantList.add((PlantInfoModel)plantEntry.getValue());
-		}
-		ArrayList<Double> testList = new ArrayList<Double>();
-		*/
 		
 		ArrayList<PlantInfoModel> plantList = new ArrayList<PlantInfoModel>();
 		for (PlantModel plant : scc.carouselModel.selectedPlants.values()) {
@@ -69,9 +60,7 @@ public class SelectPlantsController {
         } catch (IOException e) {
         	System.out.println("Error initializing stream");
         } 
-		
 		view.setCurrentScreen(new EditGardenView(view));
-		
 	}
 	
 	public void plantSelected(MouseEvent event) {

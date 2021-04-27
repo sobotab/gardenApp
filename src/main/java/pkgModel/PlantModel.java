@@ -14,14 +14,18 @@ public abstract class PlantModel implements Serializable{
 	Sun sun;
 	Moisture moisture;
 	Soil soil;
+	int numLeps;
+	int dollars;
 
-	public PlantModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil) {
+	public PlantModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, int numLeps, int dollars) {
 		this.name = name;
 		this.sciName = sciName;
 		this.spreadDiameter = spreadDiameter;
 		this.sun = sun;
 		this.moisture = moisture;
 		this.soil = soil;
+		this.numLeps = numLeps;
+		this.dollars = dollars;
 	}
 
 	public String getName() {
@@ -69,7 +73,23 @@ public abstract class PlantModel implements Serializable{
 	}
 
 	public void setSoil(Soil soil) {
-		soil = soil;
+		this.soil = soil;
+	}
+	
+	public int getNumLeps() {
+		return numLeps;
+	}
+
+	public void setNumLeps(int numLeps) {
+		this.numLeps = numLeps;
+	}
+
+	public int getDollars() {
+		return dollars;
+	}
+
+	public void setDollars(int dollars) {
+		this.dollars = dollars;
 	}
 	
 	

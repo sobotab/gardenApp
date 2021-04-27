@@ -39,6 +39,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
@@ -54,11 +55,12 @@ public class EditGardenView extends BorderPane{
 	boolean clicked;
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
+	TilePane infoTab;
+	VBox budgetBox;
+	VBox lepBox;
+	int budget;
 	List<PlantView> plants;
 	List<Circle> plantSpreads;
-	//List<Point> gardenOutline;
-	List<List<Point2D.Double>> gardenOutlines;
-	List<Polygon> gardenOutlineShapes;
 	EditGardenController egc;
 	List<Pair<String, Integer>> plantInput;
 	double maxDimension;
@@ -66,24 +68,116 @@ public class EditGardenView extends BorderPane{
 	
 	public EditGardenView(View view) {
 		
-		// Read in information from drawGarden
+		this.plantInput = new ArrayList<Pair<String, Integer>>();
+		this.plantCarousel = new DragDropCarouselView(view);
+		this.egc = new EditGardenController(view, this);
+		this.plants = new ArrayList<PlantView>();
+		this.plantSpreads = new ArrayList<Circle>();
 		
-		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = null;
-		try {
-			FileInputStream fis = new FileInputStream("gardenData.ser");
-	        ObjectInputStream ois = new ObjectInputStream(fis);
-	        plots = (HashMap<Soil, Stack<ArrayList<Point2D.Double>>>)ois.readObject();
-	        ois.close();
-		} catch (FileNotFoundException e) {
-        	System.out.println("File not found");
-        } catch (IOException e) {
-        	System.out.println("Error initializing stream");
-        } catch (ClassNotFoundException e) {
-        	e.printStackTrace();
-        }
 		
-		this.canvas = new Canvas();
-		canvas = new Canvas(CANVASHEIGHT, CANVASWIDTH);
+		// Initialize carousel
+		
+		for (Pair plantInfo : plantInput)
+			plantCarousel.initializePlant(makePlantView((String)plantInfo.getKey(), (int)plantInfo.getValue()));
+		plantCarousel.update();
+		
+		
+		// Build & organize buttons, title
+			
+		Label title = new Label("Edit Garden   ");
+		title.setTextFill(Color.WHITE);
+		title.setFont(Font.font("Cambria", 30));
+		
+		Button back = new Button("Back to plant select");
+		back.setOnAction(egc.getHandlerForBack());
+		
+		Button save = new Button("Save");
+		save.setOnAction(egc.getHandlerForSave());
+		
+		Button exit = new Button("Exit");
+		exit.setOnAction(egc.getHandlerForExit());
+		
+		VBox buttonBox = new VBox();
+		buttonBox.getChildren().addAll(title, back, save, exit);
+		buttonBox.setAlignment(Pos.CENTER);
+		buttonBox.setPadding(new Insets(10,0,0,0));
+		buttonBox.setSpacing(5);
+		
+		
+		// Build budget/lep info tab
+		
+		infoTab = new TilePane();
+		infoTab.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
+				new CornerRadii(5), new Insets(0,0,0,10))));
+		infoTab.setPrefWidth(150);
+		infoTab.setAlignment(Pos.TOP_CENTER);
+		
+		budgetBox = new VBox();
+		
+		Label budgetTitle = new Label("Budget Tracker:");
+		budgetTitle.setFont(Font.font("Trebuchet MS", 15));
+		
+		Label budgetRatio = new Label(0 + " / " + budget);
+		budgetRatio.setFont(Font.font("Trebuchet MS", 30));
+		
+		budgetBox.getChildren().addAll(budgetTitle, budgetRatio);
+		budgetBox.setAlignment(Pos.TOP_CENTER);
+		budgetBox.setPadding(new Insets(10,0,0,0));
+		
+		
+		lepBox = new VBox();
+		
+		Label lepTitle = new Label("Leps Supported:");
+		lepTitle.setFont(Font.font("Trebuchet MS", 15));
+		
+		Label lepDisplay = new Label("" + 0);
+		lepDisplay.setFont(Font.font("Trebuchet MS", 30));
+		
+		lepBox.getChildren().addAll(lepTitle, lepDisplay);
+		lepBox.setAlignment(Pos.TOP_CENTER);
+		lepBox.setPadding(new Insets(20,0,0,0));
+		
+		infoTab.getChildren().addAll(budgetBox, lepBox, buttonBox);
+		
+		
+		// Background
+		
+		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
+		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-blurred.jpg")),
+				BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT,
+				BackgroundPosition.CENTER,
+				bSize)));
+		
+		
+    	// Make garden as stackpane
+    	
+		garden = new StackPane();
+		garden.setBackground(new Background(new BackgroundFill(Color.WHITE, 
+				new CornerRadii(5), Insets.EMPTY)));
+
+		garden.getChildren().add(canvas);
+		canvas.setViewOrder(2);
+		garden.setAlignment(canvas, Pos.CENTER);
+	
+    	
+    	// Organize elements on screen
+    	
+		this.setTop(title);
+		//this.setTop(hBox);
+		this.setBottom(plantCarousel);
+		this.setCenter(garden);
+		this.setRight(infoTab);
+		
+		this.setPadding(new Insets(10, 10, 10, 10));
+    	this.setMargin(this.getBottom(), new Insets(10, 10, 10, 10));
+    	
+	}
+	
+	// Draw garden on canvas according to plot data
+	
+	public void makeCanvas(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+		this.canvas = new Canvas(CANVASHEIGHT, CANVASWIDTH);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setLineWidth(2.0);
 		gc.setStroke(Color.BLACK);
@@ -112,75 +206,37 @@ public class EditGardenView extends BorderPane{
 				gc.closePath();
 			}
 		}
-		
-		
-		this.plantInput = new ArrayList<Pair<String, Integer>>();
-		this.plantCarousel = new DragDropCarouselView(view);
-		this.egc = new EditGardenController(view, this, plots);
-		this.plants = new ArrayList<PlantView>();
-		this.plantSpreads = new ArrayList<Circle>();
-		
-		
-		// Initialize carousel
-		//NOTE: this.plants ONLY contains plants in garden. NOT those in carousel, for organization
-		
-		for (Pair plantInfo : plantInput)
-			plantCarousel.initializePlant(makePlantView((String)plantInfo.getKey(), (int)plantInfo.getValue()));
-		plantCarousel.update();
-			
-		// Build & organize buttons, title
-			
-		Label title = new Label("Edit Garden   ");
-		title.setTextFill(Color.WHITE);
-		title.setFont(Font.font("Cambria", 30));
-		
-		Button back = new Button("Back to plant select");
-		back.setOnAction(egc.getHandlerForBack());
-		
-		Button save = new Button("Save");
-		
-		Button exit = new Button("Exit");
-		exit.setOnAction(egc.getHandlerForExit());
-		
-		HBox hBox = new HBox();
-		hBox.setPrefSize(100,500);
-		hBox.getChildren().addAll(title, back, save, exit);
-		hBox.setMaxSize(500, 50);
-		
-		
-		// Background
-		
-		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
-		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-blurred.jpg")),
-				BackgroundRepeat.NO_REPEAT,
-				BackgroundRepeat.NO_REPEAT,
-				BackgroundPosition.CENTER,
-				bSize)));
-		
-		
-    	// Make garden as stackpane
-    	
-		garden = new StackPane();
-		garden.setBackground(new Background(new BackgroundFill(Color.WHITE, 
-				new CornerRadii(5), Insets.EMPTY)));
-
-		garden.getChildren().add(canvas);
-		canvas.setViewOrder(2);
-		garden.setAlignment(canvas, Pos.CENTER);
-	
-    	
-    	// Organize elements on screen
-    	
-		this.setTop(hBox);
-		this.setBottom(plantCarousel);
-		this.setCenter(garden);
-		
-		this.setPadding(new Insets(10, 10, 10, 10));
-    	this.setMargin(this.getBottom(), new Insets(10, 10, 10, 10));
-    	
 	}
 	
+	
+	// Update info panel as new plants are added to garden
+	
+	public void updateInfoPanel(int dollars, int leps) {
+		this.budgetBox.getChildren().remove(1);
+		this.lepBox.getChildren().remove(1);
+		
+		Label newBudgetRatio = new Label(dollars + " / " + budget);
+		newBudgetRatio.setFont(Font.font("Trebuchet MS", 30));
+		
+		if (dollars > budget*0.75) {
+			newBudgetRatio.setTextFill(Color.GOLDENROD);
+		}
+		if (dollars > budget) {
+			newBudgetRatio.setTextFill(Color.RED);
+		}
+		
+		Label newLepDisplay = new Label("" + leps);
+		newLepDisplay.setFont(Font.font("Trebuchet MS", 30));
+
+		this.budgetBox.getChildren().add(newBudgetRatio);
+		this.lepBox.getChildren().add(newLepDisplay);
+		
+		System.out.println(leps);
+	}
+	
+	
 	// Helper function to build new plantviews
+	
 	public PlantView makePlantView(String sci_name, int spread) {
     	PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/images/" + sci_name + ".jpg")), spread);
     	pv.setPreserveRatio(true);
@@ -192,7 +248,9 @@ public class EditGardenView extends BorderPane{
     	return pv;
     }
 	
+	
 	// Same as above but builds from existing image
+	
 	public PlantView makePlantView(Image img, int spread) {
     	PlantView pv = new PlantView(img, spread);
     	pv.setPreserveRatio(true);
@@ -204,6 +262,9 @@ public class EditGardenView extends BorderPane{
     	return pv;
     }
 	
+	
+	// Helper function for replacing plants dragged from carousel
+	
 	public void replacePlant(int index) {
 		PlantView duplicatePlant = makePlantView(
 				plantCarousel.getPlants().get(index).getImage(),
@@ -212,6 +273,9 @@ public class EditGardenView extends BorderPane{
 		plantCarousel.addPlantAtIndex(duplicatePlant, index+1);
 	}
 
+	
+	// Draw or update spread circle location and reset color 
+	
 	public void drawSpread(int index, double x, double y) {
 		
 		if (plantSpreads.size() == index) {
@@ -233,6 +297,9 @@ public class EditGardenView extends BorderPane{
 
 	}
 	
+	
+	// Update spread circle color according to whether it is inside garden or overlaps other spreads
+	
 	public void updateSpread(int index, boolean inGarden, boolean overlap) {
 		Circle spread = plantSpreads.get(index);
 		spread.setFill(Color.LIGHTBLUE);
@@ -241,6 +308,9 @@ public class EditGardenView extends BorderPane{
 		if (!inGarden)
 			spread.setFill(Color.RED);
 	}
+	
+	
+	// Helper for handling node transport from carousel to garden pane
 	
 	public void addPlantFromCarousel(int index, Node n, MouseEvent event) {
 		plants.add(plantCarousel.removePlant(index));
@@ -282,12 +352,12 @@ public class EditGardenView extends BorderPane{
 		return this.plantInput;
 	}
 	
-	public List<Polygon> getGardenOutlineShapes() {
-		return gardenOutlineShapes;
-	}
-	
 	public Canvas getCanvas() {
 		return this.canvas;
+	}
+	
+	public int getBudget() {
+		return(this.budget);
 	}
 	
 	
@@ -319,17 +389,13 @@ public class EditGardenView extends BorderPane{
     	//img.setTranslateY(img.getLayoutY() + y);
     	img.setTranslateY(y);
     }
-
-	public List<List<Point2D.Double>> getGardenOutlines() {
-		return this.gardenOutlines;
-	}
 	
 	public void setPlantInput(List<Pair<String, Integer>> input) {
 		this.plantInput = input;
 	}
-
-	public void setGardenOutlineShapes(List<Polygon> gardenOutlineShapes) {
-		this.gardenOutlineShapes = gardenOutlineShapes;
+	
+	public void setBudget(int budget) {
+		this.budget = budget;
 	}
 	
 }

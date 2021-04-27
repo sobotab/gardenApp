@@ -3,6 +3,7 @@ package pkgModel;
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.geom.Point2D;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,17 +15,20 @@ import java.util.Stack;
 import pkgController.Soil;
 
 
-public class PlantGardenModel extends GardenModel{
+public class PlantGardenModel extends GardenModel implements Serializable {
 	List<PlantObjectModel> plants;
 	List<PlantObjectModel> compost;
 	ObjectCarouselModel carousel;
 	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
 	int numLeps;
+	int budget;
 	int dollars;
 	int heldPlant;
 
-	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots, int budget) {
 		this.plots = plots;
+		this.budget = budget;
+		this.numLeps = 0;
 		//this.carousel = new ObjectCarouselModel(plantInput, 0);
 		this.carousel = carouselModel;
 		carousel.fillCarousel(plantInput, 0);
@@ -39,6 +43,9 @@ public class PlantGardenModel extends GardenModel{
 		plant.setX(init_x);
 		plant.setY(init_y);
 		plants.add(plant);
+		
+		this.dollars += plant.dollars;
+		this.numLeps += plant.numLeps;
 	}
 	
 	public boolean inPolygon (Point2D.Double testPoint, ArrayList<Point2D.Double> polygon) {
@@ -124,7 +131,7 @@ public class PlantGardenModel extends GardenModel{
 	}
 
 	public List<PlantObjectModel> getPlants() {
-		return plants;
+		return this.plants;
 	}
 
 	public void setPlants(List<PlantObjectModel> plants) {
@@ -132,7 +139,7 @@ public class PlantGardenModel extends GardenModel{
 	}
 
 	public List<PlantObjectModel> getCompost() {
-		return compost;
+		return this.compost;
 	}
 
 	public void setCompost(List<PlantObjectModel> compost) {
@@ -140,15 +147,23 @@ public class PlantGardenModel extends GardenModel{
 	}
 
 	public int getNumLeps() {
-		return numLeps;
+		return this.numLeps;
 	}
 
 	public void setNumLeps(int numLeps) {
 		this.numLeps = numLeps;
 	}
+	
+	public int getBudget() {
+		return this.budget;
+	}
+
+	public void setBudget(int budget) {
+		this.budget = budget;
+	}
 
 	public int getDollars() {
-		return dollars;
+		return this.dollars;
 	}
 
 	public void setDollars(int dollars) {
@@ -156,7 +171,7 @@ public class PlantGardenModel extends GardenModel{
 	}
 
 	public int getHeldPlant() {
-		return heldPlant;
+		return this.heldPlant;
 	}
 
 	public void setHeldPlant(int heldPlant) {

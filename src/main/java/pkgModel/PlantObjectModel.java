@@ -1,10 +1,12 @@
 package pkgModel;
 
+import java.io.Serializable;
+
 import pkgController.Moisture;
 import pkgController.Soil;
 import pkgController.Sun;
 
-public class PlantObjectModel extends PlantModel{
+public class PlantObjectModel extends PlantModel implements Serializable {
 	
 	double x;
 	double y;
@@ -13,9 +15,8 @@ public class PlantObjectModel extends PlantModel{
 	//private final double Y_MAX = 400;
 	//private final double X_MAX = 700;
 	
-	public PlantObjectModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, double x, double y, int height ,int width) {
-		super(name,sciName,spreadDiameter,sun,moisture,soil);
-
+	public PlantObjectModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, int numLeps, int dollars, double x, double y, int height ,int width) {
+		super(name,sciName,spreadDiameter,sun,moisture,soil,numLeps,dollars);
 		this.x = x;
 		this.y = y;
 		this.height = height;

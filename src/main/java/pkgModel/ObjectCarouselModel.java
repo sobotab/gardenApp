@@ -1,5 +1,6 @@
 package pkgModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -10,7 +11,7 @@ import pkgController.Moisture;
 import pkgController.Soil;
 import pkgController.Sun;
 
-public class ObjectCarouselModel {
+public class ObjectCarouselModel implements Serializable {
 	public List<PlantObjectModel> plants;
 	int firstPlant;
 	int lastPlant;
@@ -32,6 +33,7 @@ public class ObjectCarouselModel {
 					plant.name, plant.sciName, 
 					plant.spreadDiameter, 
 					plant.sun, plant.moisture, plant.soil, 
+					plant.numLeps, plant.dollars,
 					0, 0, 10, 10));
 		
 		this.focusedPlant = focusedPlant;
@@ -43,6 +45,7 @@ public class ObjectCarouselModel {
 					plant.name, plant.sciName, 
 					plant.spreadDiameter, 
 					plant.sun, plant.moisture, plant.soil, 
+					plant.numLeps, plant.dollars,
 					0, 0, 10, 10));
 		
 		this.focusedPlant = focusedPlant;
@@ -56,6 +59,8 @@ public class ObjectCarouselModel {
 				plants.get(index).sun, 
 				plants.get(index).moisture,
 				plants.get(index).soil,
+				plants.get(index).numLeps,
+				plants.get(index).dollars,
 				plants.get(index).x,
 				plants.get(index).y,
 				plants.get(index).height,

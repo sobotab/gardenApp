@@ -33,7 +33,7 @@ public class Model {
 			lines.add(sc.nextLine().strip());
 		}
 		for(String line: lines) {
-			String[] latestLine = line.split(",");
+			String[] latestLine = line.split(",", 9);
 			String name = latestLine[0];
 			String sciName = latestLine[1];
 			int spread = Integer.parseInt(latestLine[2]);

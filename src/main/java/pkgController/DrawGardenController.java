@@ -1,6 +1,10 @@
 package pkgController;
 
 import java.awt.geom.Point2D;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javafx.event.ActionEvent;
@@ -29,6 +33,21 @@ public class DrawGardenController {
 	}
 	
 	public void clickedNext(ActionEvent event) {
+		
+		// Send plots info
+		
+		try {
+			FileOutputStream fos = new FileOutputStream("gardenData.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+        	oos.writeObject(dgm.getPlots());
+            oos.close();
+        } catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        } 
+		
+		
 		view.setCurrentScreen(new SelectPlantsView(view));
 	}
 	

@@ -1,10 +1,12 @@
 package pkgModel;
 
+import java.io.Serializable;
+
 import pkgController.Moisture;
 import pkgController.Soil;
 import pkgController.Sun;
 
-public abstract class PlantModel {
+public abstract class PlantModel implements Serializable{
 	
 	String name;
 	String sciName;

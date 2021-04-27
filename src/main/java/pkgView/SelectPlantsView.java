@@ -1,10 +1,14 @@
 package pkgView;
 
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Stack;
 
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
+import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -13,6 +17,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import pkgController.SelectPlantsController;
+import pkgController.Soil;
 
 public class SelectPlantsView extends BorderPane {
 	SelectCarouselView selectionCarousel; 

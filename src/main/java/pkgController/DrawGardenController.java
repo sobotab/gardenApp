@@ -68,4 +68,9 @@ public class DrawGardenController {
 	public ArrayList<Point2D.Double> undo() {
 		return dgm.undo();
 	}
+	
+	public void save() {
+		dgm.setMoisture(dgv.getMoisture());
+		dgm.setSun(dgv.getSun());
+	}
 }

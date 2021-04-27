@@ -1,7 +1,9 @@
 package pkgModel;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import pkgController.Moisture;
@@ -10,7 +12,7 @@ import pkgController.Sun;
 
 public class Model {
 	Set<PlantModel> plants;
-	Set<PlantModel> potentialPlants;
+	List<PlantModel> potentialPlants;
 	Set<PlantModel> selectedPlants;
 	int x;
 	int y;
@@ -20,47 +22,47 @@ public class Model {
 		
 	}
 	
-	public Set<PlantModel> makePlants() {
-		Set<PlantModel> plants = new HashSet<PlantModel>();
+	public List<PlantModel> makePlants() {
+		List<PlantModel> plants = new ArrayList<PlantModel>();
 		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
-		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.DAMP, Soil.CLAY, 463, 20, "Example Description");
-		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.DAMP,Soil.CLAY, 2, 6, "Example Description");
-		PlantModel Aralia_racemosa = new PlantInfoModel("spikenard","Aralia-racemosa",1,Sun.PARTSUN,Moisture.DAMP,Soil.CLAY,6, 6, "Example Description");
-		PlantModel Acer_rubrum = new PlantInfoModel("red maple","Acer-rubrum",75,Sun.FULLSUN,Moisture.DAMP,Soil.CLAY,256,20,"Example Description");
-		plants.add(Acer_rubrum);
+		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.MOIST, Soil.CLAY, 463, 20, "Example Description");
+		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.MOIST,Soil.CLAY, 2, 6, "Example Description");
+		PlantModel Aralia_racemosa = new PlantInfoModel("spikenard","Aralia-racemosa",1,Sun.PARTSUN,Moisture.MOIST,Soil.CLAY,6, 6, "Example Description");
+		PlantModel Acer_rubrum = new PlantInfoModel("red maple","Acer-rubrum",75,Sun.FULLSUN,Moisture.MOIST,Soil.CLAY,256,20,"Example Description");
+		plants.add(Agalinis_purpurea);
 		plants.add(Aralia_racemosa);
 		plants.add(Anemone_virginiana);
-		plants.add(Agalinis_purpurea);
+		plants.add(Acer_rubrum);
 		plants.add(Quercus_stellata);
 		return plants;
 		
 	}
 	
-	public void update() {
-		
-	}
+//	public void update() {
+//		
+//	}
 
 	public Set<PlantModel> getPlants() {
 		return plants;
 	}
 	
-	public HashMap<String, PlantModel> mapNameToPlants(){
-		HashMap<String, PlantModel> map = new HashMap<>();
-		for(PlantModel plant: potentialPlants) {
-			map.put(plant.sciName, plant);
-		}
-		return map;
-	}
+//	public HashMap<String, PlantModel> mapNameToPlants(){
+//		HashMap<String, PlantModel> map = new HashMap<>();
+//		for(PlantModel plant: potentialPlants) {
+//			map.put(plant.sciName, plant);
+//		}
+//		return map;
+//	}
 
 	public void setPlants(Set<PlantModel> plants) {
 		this.plants = plants;
 	}
 
-	public Set<PlantModel> getPotentialPlants() {
+	public List<PlantModel> getPotentialPlants() {
 		return potentialPlants;
 	}
 
-	public void setPotentialPlants(Set<PlantModel> potentialPlants) {
+	public void setPotentialPlants(List<PlantModel> potentialPlants) {
 		this.potentialPlants = potentialPlants;
 	}
 

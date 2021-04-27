@@ -1,6 +1,7 @@
 package pkgModel;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +12,7 @@ import pkgView.PlantView;
 public class CarouselModel {
 	public List<PlantModel> plants;
 	public List<PlantModel> filteredPlants;
-	public List<PlantModel> selectedPlants;
+	public HashMap<String, PlantModel> selectedPlants;
 	int firstPlant;
 	int lastPlant;
 	int viewPlant;
@@ -20,13 +21,14 @@ public class CarouselModel {
 	int rationDecrease;
 	int heldPlant;
 	
-	public CarouselModel(Set<PlantModel> plants2, int heldPlant) {
-		this.plants = new ArrayList<PlantModel>();
-		this.plants.addAll(plants2);
+	public CarouselModel(List<PlantModel> plants2, int heldPlant) {
+		this.plants = plants2;
+		//this.plants.addAll(plants2);
 		this.filteredPlants = new ArrayList<PlantModel>();
 		this.filteredPlants.addAll(plants2);
 		this.heldPlant = heldPlant;
-		this.selectedPlants = new ArrayList<PlantModel>();
+		this.selectedPlants = new HashMap<String, PlantModel>();
+		
 	}
 	
 	public CarouselModel(int firstPlant, int lastPlant) {
@@ -35,6 +37,14 @@ public class CarouselModel {
 	
 	public CarouselModel(int firstPlant, int lastPlant, int viewPlant, int viewHeight, int viewWidth, int rationDecrease, int heldPlant) {
 		
+	}
+	
+	public HashMap<String, PlantModel> mapNameToPlants(){
+		HashMap<String, PlantModel> map = new HashMap<>();
+		for(PlantModel plant: plants) {
+			map.put(plant.sciName, plant);
+		}
+		return map;
 	}
 	
 	public void rotateLeft() {
@@ -53,9 +63,9 @@ public class CarouselModel {
 		}
 	}
 	
-	public int plantSelected(int x, int y) {
-		return 0;
-	}
+//	public int plantSelected(int x, int y) {
+//		return 0;
+//	}
 
 	public List<PlantModel> getPlants() {
 		return plants;
@@ -134,7 +144,7 @@ public class CarouselModel {
 	}
 	
 	public void selectPlant(PlantModel plant) {
-		selectedPlants.add(plant);
+		selectedPlants.put(plant.getName(), plant);
 	}
 	
 	public void decrementHeldPlant() {
@@ -144,18 +154,15 @@ public class CarouselModel {
 		}
 	}
 	
-	public PlantModel getPlantByName(String name) {
-		System.out.println(plants);
-		for(PlantModel plant: plants) {
-			System.out.println(plant);
-			if(plant.getName().equals(name)) {
-				return plant;
-			}
-		}
-		return null;
-	}
-	
 	public void deSelectPlant(PlantModel plant) {
-		selectedPlants.remove(plant);
+		selectedPlants.remove(plant.getName());
+	}
+
+	public HashMap<String, PlantModel> getSelectedPlants() {
+		return selectedPlants;
+	}
+
+	public void setSelectedPlants(HashMap<String, PlantModel> selectedPlants) {
+		this.selectedPlants = selectedPlants;
 	}
 }

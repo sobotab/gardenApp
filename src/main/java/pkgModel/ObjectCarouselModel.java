@@ -76,9 +76,9 @@ public class ObjectCarouselModel {
 		Collections.rotate(plants, 1);
 	}
 	
-	public int plantSelected(int x, int y) {
-		return 0;
-	}
+//	public int plantSelected(int x, int y) {
+//		return 0;
+//	}
 
 	public List<PlantObjectModel> getPlants() {
 		return plants;

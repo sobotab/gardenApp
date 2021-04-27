@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Stack;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -43,6 +44,7 @@ public class SelectPlantsView extends BorderPane {
 		Label flowLabel = new Label("Plants you have selected");
 		
 		plants = new FlowPane(Orientation.VERTICAL);
+		plants.setColumnHalignment(HPos.CENTER);
 		plants.getChildren().add(flowLabel);
 		
 		HBox box = new HBox();

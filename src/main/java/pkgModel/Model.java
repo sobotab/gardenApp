@@ -18,7 +18,7 @@ public class Model {
 	int y;
 	
 	public Model() {
-		potentialPlants = makePlants();
+		//potentialPlants = makePlants();
 		
 	}
 	

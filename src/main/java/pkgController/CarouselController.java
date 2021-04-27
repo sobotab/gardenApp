@@ -27,16 +27,16 @@ public abstract class CarouselController {
 	CarouselModel carouselModel; 
 	CarouselView carouselView;
 	
-	public CarouselController() {
-		model = new Model();
-		carouselModel = new CarouselModel(model.getPotentialPlants(), 2);
-	}
-	
+//	public CarouselController() {
+//		model = new Model();
+//		carouselModel = new CarouselModel(model.getPotentialPlants(), 2);
+//	}
+//	
 	public CarouselController(View view, CarouselView carouselView) {
 		this.view = view;
 		this.carouselView = carouselView;
 		model = new Model();
-		carouselModel = new CarouselModel(model.getPotentialPlants(), 2);
+		carouselModel = new CarouselModel(view.getController().getPlants(), 2);
 	}
 	
 	public void clickedRight(ActionEvent event) {

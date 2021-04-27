@@ -30,8 +30,9 @@ import pkgController.Sun;
 public class DrawGardenView extends BorderPane {
 	
 	DrawGardenController dgc;
-	final int CANVASHEIGHT = 500;
-	final int CANVASWIDTH = 500;
+	final int CANVASHEIGHT = 800;
+	final int CANVASWIDTH = 800;
+	int spacing;
 	Canvas canvas;
 	GraphicsContext gc;
 	Polygon polygon;
@@ -63,6 +64,10 @@ public class DrawGardenView extends BorderPane {
 		gc.setLineWidth(lineWidth);
 		gc.setFill(Color.LIGHTGREEN);
 		gc.fillRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
+		/*
+		 * spacing = 5; int lineCount = CANVASHEIGHT/spacing; for (int i = 0; i <
+		 * lineCount; i++) { gc.strokeLine(); }
+		 */
 		
 		polygon = new Polygon();
 		drawing = false;
@@ -158,17 +163,11 @@ public class DrawGardenView extends BorderPane {
             }
         });
 		
+		Label budgetLabel = new Label("$");
 		budget = new TextField();
 		budget.setPromptText("Budget");
-		UnaryOperator<TextFormatter.Change> filter = change -> {
-			if (change.getControlNewText().startsWith("$")) {
-				return change;
-			} else {
-				return null;
-			}
-		};
-		TextFormatter<String> formatter = new TextFormatter<>(filter);
-		budget.setTextFormatter(formatter);
+		HBox budgetBox = new HBox();
+		budgetBox.getChildren().addAll(budgetLabel, budget);
 		
 		undoButton = new Button("Undo");
 		undoButton.setOnAction(event -> undoButtonPressed(event));
@@ -179,7 +178,7 @@ public class DrawGardenView extends BorderPane {
 		
 		VBox sideTool = new VBox();
 		sideTool.getChildren().addAll(toolBox, soilComboBox, sunLabel, sun,
-				moistureLabel, moisture, budget, undoButton);
+				moistureLabel, moisture, budgetBox, undoButton);
 		
 		this.setTop(title);
 		this.setLeft(sideTool);
@@ -213,7 +212,6 @@ public class DrawGardenView extends BorderPane {
 		if (drawButton.isSelected() && drawing) {
 			drawing = false;
 			Point2D.Double point = dgc.draw();
-			System.out.println(point.toString());
 			gc.lineTo(point.getX(), point.getY());
 			gc.stroke();
 			gc.fill();
@@ -245,7 +243,10 @@ public class DrawGardenView extends BorderPane {
 		for (int i=0; i<points.size(); i++) {
 			gc.lineTo(points.get(i).getX(), points.get(i).getY());
 			gc.stroke();
+			System.out.println(points.get(i).toString());
 		}
+		gc.lineTo(points.get(0).getX(), points.get(0).getY());
+		gc.stroke();
 		gc.fill();
 		gc.closePath();
 	}
@@ -304,5 +305,9 @@ public class DrawGardenView extends BorderPane {
 			return Moisture.FLOODED;
 		}
 		return Moisture.DRY;
+	}
+	
+	public int getBudget() {
+		return Integer.valueOf(budget.getText());
 	}
 }

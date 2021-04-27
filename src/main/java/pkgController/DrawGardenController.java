@@ -35,6 +35,9 @@ public class DrawGardenController {
 	public void clickedNext(ActionEvent event) {
 		
 		// Send plots info
+		dgm.setMoisture(dgv.getMoisture());
+		dgm.setSun(dgv.getSun());
+		dgm.setBudget(dgv.getBudget());
 		
 		try {
 			FileOutputStream fos = new FileOutputStream("gardenData.ser");
@@ -68,9 +71,5 @@ public class DrawGardenController {
 	public ArrayList<Point2D.Double> undo() {
 		return dgm.undo();
 	}
-	
-	public void save() {
-		dgm.setMoisture(dgv.getMoisture());
-		dgm.setSun(dgv.getSun());
-	}
+
 }

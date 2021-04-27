@@ -45,6 +45,10 @@ public class SelectPlantsView extends BorderPane {
 	 * The program's View that is only initialized once
 	 */
 	View view;
+	/**
+	 * Scaling of a plant's size that should be used when the plant is selected
+	 */
+	private final double SELECTED_PLANT_SCALING = 0.5;
 	
 	/**
 	 * Constructor for SelectPlantsView that initializes the SelectPlantsCarousel and all other necessary buttons and images for the select plants screen.
@@ -111,8 +115,8 @@ public class SelectPlantsView extends BorderPane {
 	 */
 	public void selectPlant(VBox box) {
 		ImageView imv = (ImageView)box.getChildren().get(1);
-		box.setScaleX(.5);
-		box.setScaleY(.5);
+		box.setScaleX(SELECTED_PLANT_SCALING);
+		box.setScaleY(SELECTED_PLANT_SCALING);
 		selectedPlants.add(imv);
 		plants.getChildren().add(box);
 		box.setOnMousePressed(spc.getHandlerForPlantDeSelected());

@@ -65,12 +65,15 @@ public class Controller extends Application {
 		List<PlantModel> plants = this.plants;
 		List<VBox> images = new ArrayList<>();
 		for(PlantModel plant: plants) {
-			String sciName = plant.getSciName();
+			PlantInfoModel infoPlant = (PlantInfoModel)plant;
+			String sciName = infoPlant.getSciName();
 			Image image = new Image(getClass().getResourceAsStream("/images/" + sciName + ".jpg"));
 			ImageView img = new ImageView(image);
-			Text label = new Text(plant.getName());
+			Text label = new Text(infoPlant.getName());
+			Text leps = new Text("Leps supported: " + infoPlant.getNumLeps());
+			Text price = new Text("Price: $" + infoPlant.getDollars());
 			VBox box = new VBox();
-			box.getChildren().addAll(label, img);
+			box.getChildren().addAll(label, img, leps, price);
 			images.add(box);
 		}
 		return images;

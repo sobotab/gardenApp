@@ -17,10 +17,24 @@ import javafx.stage.Stage;
 import pkgController.InfoCarouselController;
 import pkgController.InfoController;
 
+/**
+ * 
+ * @author Zane Greenholt
+ * The InfoCarouselView class extends CarouselView and is the implementation for the info screen of the program
+ * This carousel's images can be clicked to bring up a popup screen with plant information.
+ */
 public class InfoCarouselView extends CarouselView{
 	
+	/**
+	 * The controller for the info carousel
+	 */
 	InfoCarouselController icc;
 
+	/**
+	 * Constructor for the InfoCarouselView.
+	 * This constructor created the necessary buttons for using a carousel and puts them on the screen.
+	 * @param view The View of the program that is only created once
+	 */
 	public InfoCarouselView(View view) {
 
 		icc = new InfoCarouselController(view, this);
@@ -45,29 +59,46 @@ public class InfoCarouselView extends CarouselView{
 		this.setAlignment(Pos.CENTER);
 		
 	}
-	
-	  public void openInfoPopUp(View view, ImageView img, String name, String sciName, int numLeps, int dollars, String description) {
-		  Stage popupWindow = new Stage();
-		  popupWindow.initModality(Modality.NONE);
-		  popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description),500,400));
-		  popupWindow.setAlwaysOnTop(true);
-		  popupWindow.show(); 
-		  }
+	/**
+	 * Part of the handler for opening a popup screen when an image is clicked. It has plant data passed into it from the controller to be displayed.
+	 * @param view The program's view that is only initialized once
+	 * @param img The same image that was clicked
+	 * @param name The common name of the plant that had its image clicked
+	 * @param sciName The scientific name of the plant that had its image clicked
+	 * @param numLeps The number of lep species supported by the plant that had its image clicked
+	 * @param dollars The price of the plant that had its image clicked
+	 * @param description A short description of the plant that had its image clicked
+	 */
+	public void openInfoPopUp(View view, ImageView img, String name, String sciName, int numLeps, int dollars, String description) {
+		Stage popupWindow = new Stage();
+		popupWindow.initModality(Modality.NONE);
+		popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description),500,400));
+		popupWindow.setAlwaysOnTop(true);
+		popupWindow.show(); 
+		}
 	  
-	  public void filter(String sun, String moisture, String soil, String type) {
-		  if(soil == null) {
-			  soil = "";
-		  }
-		  if(moisture == null) {
-			  moisture = "";
-		  }
-		  if(type == null) {
-			  type = "";
-		  }
-		  if(sun == null) {
-			  sun = "";
-		  }
-		  icc.filterCarousel(sun, moisture, soil, type);
-	  }
+	/**
+	 * A method that is part of the process of filtering the plants in the carousel. This part sets the values from the drop downs for 
+	 * filtering to the empty string if the user did not select a specific value.
+	 * @param sun The chosen value from the sun comboBox on the info screen
+	 * @param moisture The chosen value from the moisture comboBox on the info screen
+	 * @param soil The chosen value from the soil comboBox on the info screen
+	 * @param type The chosen value from the plantType comboBox on the info screen
+	 */
+	public void filter(String sun, String moisture, String soil, String type) {
+		if(soil == null) {
+			soil = "";
+		}
+		if(moisture == null) {
+			moisture = "";
+		}
+		if(type == null) {
+			type = "";
+		}
+		if(sun == null) {
+			sun = "";
+		}
+		icc.filterCarousel(sun, moisture, soil, type);
+	}
 	
 }

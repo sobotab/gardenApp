@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
 import pkgView.CarouselView;

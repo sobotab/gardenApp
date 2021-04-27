@@ -19,7 +19,7 @@ public class SelectCarouselView extends CarouselView{
 		String moisture = "";
 		String soil = "";
 		
-		images = scc.getImagesFromList();
+		images = scc.getImagesFromController();
 		
 		Button left = new Button("<<<");
 		Button right = new Button(">>>");

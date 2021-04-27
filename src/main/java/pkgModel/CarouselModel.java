@@ -21,9 +21,9 @@ public class CarouselModel {
 	int rationDecrease;
 	int heldPlant;
 	
-	public CarouselModel(Set<PlantModel> plants2, int heldPlant) {
-		this.plants = new ArrayList<PlantModel>();
-		this.plants.addAll(plants2);
+	public CarouselModel(List<PlantModel> plants2, int heldPlant) {
+		this.plants = plants2;
+		//this.plants.addAll(plants2);
 		this.filteredPlants = new ArrayList<PlantModel>();
 		this.filteredPlants.addAll(plants2);
 		this.heldPlant = heldPlant;

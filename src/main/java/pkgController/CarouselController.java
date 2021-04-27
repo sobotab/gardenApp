@@ -29,14 +29,14 @@ public abstract class CarouselController {
 	
 	public CarouselController() {
 		model = new Model();
-		carouselModel = new CarouselModel(model.makePlants(), 2);
+		carouselModel = new CarouselModel(model.getPotentialPlants(), 2);
 	}
 	
 	public CarouselController(View view, CarouselView carouselView) {
 		this.view = view;
 		this.carouselView = carouselView;
 		model = new Model();
-		carouselModel = new CarouselModel(model.makePlants(), 2);
+		carouselModel = new CarouselModel(model.getPotentialPlants(), 2);
 	}
 	
 	public void clickedRight(ActionEvent event) {
@@ -58,22 +58,24 @@ public abstract class CarouselController {
 		return event -> clickedLeft((ActionEvent) event);
 	}
 	
-	
-	
-	public List<VBox> getImagesFromList(){
-		List<PlantModel> plants = carouselModel.getPlants();
-		List<VBox> images = new ArrayList<>();
-		for(PlantModel plant: plants) {
-			String sciName = plant.getSciName();
-			Image image = new Image(getClass().getResourceAsStream("/images/" + sciName + ".jpg"));
-			ImageView img = new ImageView(image);
-			Text label = new Text(plant.getName());
-			VBox box = new VBox();
-			box.getChildren().addAll(label, img);
-			images.add(box);
-		}
-		return images;
+	public List<VBox> getImagesFromController(){
+		return view.getController().getImages();
 	}
+	
+//	public List<VBox> getImagesFromList(){
+//		List<PlantModel> plants = carouselModel.getPlants();
+//		List<VBox> images = new ArrayList<>();
+//		for(PlantModel plant: plants) {
+//			String sciName = plant.getSciName();
+//			Image image = new Image(getClass().getResourceAsStream("/images/" + sciName + ".jpg"));
+//			ImageView img = new ImageView(image);
+//			Text label = new Text(plant.getName());
+//			VBox box = new VBox();
+//			box.getChildren().addAll(label, img);
+//			images.add(box);
+//		}
+//		return images;
+//	}
 
 	public CarouselModel getCarouselModel() {
 		return carouselModel;

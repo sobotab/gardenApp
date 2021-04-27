@@ -66,11 +66,11 @@ public class EditGardenView extends BorderPane{
 	double maxDimension;
 	Canvas canvas;
 	
-	public EditGardenView(View view) {
+	public EditGardenView(View view, String loadName) {
 		
 		this.plantInput = new ArrayList<Pair<String, Integer>>();
 		this.plantCarousel = new DragDropCarouselView(view);
-		this.egc = new EditGardenController(view, this);
+		this.egc = new EditGardenController(view, this, loadName);
 		this.plants = new ArrayList<PlantView>();
 		this.plantSpreads = new ArrayList<Circle>();
 		
@@ -172,6 +172,8 @@ public class EditGardenView extends BorderPane{
 		this.setPadding(new Insets(10, 10, 10, 10));
     	this.setMargin(this.getBottom(), new Insets(10, 10, 10, 10));
     	
+    	if (loadName != null)
+    		egc.fetchGardenInfo();
 	}
 	
 	// Draw garden on canvas according to plot data
@@ -319,8 +321,7 @@ public class EditGardenView extends BorderPane{
 		
 		int newIndex = plants.indexOf(n);
 		plants.get(newIndex).setFitHeight(plants.get(newIndex).spread/4 + 20);
-		plants.get(newIndex).setFitWidth(plants.get(newIndex).spread/4 + 20);
-		
+		plants.get(newIndex).setFitWidth(plants.get(newIndex).spread/4 + 20);	
 	}
 	
 	public List<Point> movePlant() {

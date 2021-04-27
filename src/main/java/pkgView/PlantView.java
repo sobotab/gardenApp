@@ -15,7 +15,10 @@ public class PlantView extends ImageView{
 		this.spread = spread;
 	}
 	
-	public void updateLocation(int x, int y) {}
+	public void updateLocation(double x, double y) {
+		this.setTranslateX(x);
+		this.setTranslateY(y);
+	}
 	
 	public void updateSpread(int x, int y) {}
 	

@@ -198,4 +198,8 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		this.carousel = carousel;
 	}
 
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> getPlots() {
+		return this.plots;
+	}
+
 }

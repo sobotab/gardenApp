@@ -10,7 +10,7 @@ public class PlantInfoModel extends PlantModel{
 	int dollars;
 	String description;
 
-	public PlantInfoModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, int numLeps, int dollars, String description) {
+	public PlantInfoModel(String name, String sciName, int spreadDiameter, String sun, String moisture, String soil, int numLeps, int dollars, String description) {
 		super(name,sciName,spreadDiameter,sun,moisture,soil);
 		this.numLeps = numLeps;
 		this.dollars = dollars;

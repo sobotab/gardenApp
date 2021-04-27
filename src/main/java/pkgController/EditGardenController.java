@@ -42,11 +42,11 @@ public class EditGardenController {
 		
 		// Temporary source of plants until we get scraper running
 		
-		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
-		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.MOIST, Soil.CLAY, 463, 20, "Example Description");
-		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.MOIST,Soil.CLAY, 2, 6, "Example Description");
-		PlantModel Aralia_racemosa = new PlantInfoModel("spikenard","Aralia-racemosa",1,Sun.PARTSUN,Moisture.MOIST,Soil.CLAY,6, 6, "Example Description");
-		PlantModel Acer_rubrum = new PlantInfoModel("red maple","Acer-rubrum",75,Sun.FULLSUN,Moisture.MOIST,Soil.CLAY,256,20,"Example Description");
+		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, "full sun", "wet", "sandy", 4, 6, "Example Description");
+		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, "full sun", "moist", "clay", 463, 20, "Example Description");
+		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, "full sun","moist","clay", 2, 6, "Example Description");
+		PlantModel Aralia_racemosa = new PlantInfoModel("spikenard","Aralia-racemosa",1,"part sun","moist","clay",6, 6, "Example Description");
+		PlantModel Acer_rubrum = new PlantInfoModel("red maple","Acer-rubrum",75,"full sun","moist","clay",256,20,"Example Description");
 		
 		List<PlantModel> plants2 = new ArrayList<PlantModel>();
 		plants2.add(Acer_rubrum);

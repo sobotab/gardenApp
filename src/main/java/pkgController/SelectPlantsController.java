@@ -1,5 +1,13 @@
 package pkgController;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
@@ -8,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import pkgModel.CarouselModel;
 import pkgModel.PlantInfoModel;
+import pkgModel.PlantModel;
 import pkgView.DrawGardenView;
 import pkgView.EditGardenView;
 import pkgView.SelectCarouselView;
@@ -31,8 +40,27 @@ public class SelectPlantsController {
 	}
 	
 	public void clickNext(ActionEvent event) {
-		view.setCurrentScreen(new EditGardenView(view));
 		
+		// Send plants info
+		
+		ArrayList<PlantInfoModel> plantList = new ArrayList<PlantInfoModel>();
+		for (PlantModel plant : scc.carouselModel.selectedPlants.values()) {
+			plantList.add((PlantInfoModel)plant);
+		}
+		
+		
+		try {
+			FileOutputStream fos = new FileOutputStream("plantData.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+        	oos.writeObject(plantList);
+        	System.out.println(plantList.get(0));
+            oos.close();
+        } catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        } 
+		view.setCurrentScreen(new EditGardenView(view));
 	}
 	
 	public void plantSelected(MouseEvent event) {

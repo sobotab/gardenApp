@@ -5,26 +5,32 @@ import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import pkgModel.DrawGardenModel;
 import pkgModel.Model;
@@ -34,6 +40,7 @@ import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
 import pkgModel.PlantObjectModel;
 import pkgView.EditGardenView;
+import pkgView.InfoPopupView;
 import pkgView.PlantView;
 import pkgView.SelectPlantsView;
 import pkgView.View;
@@ -44,25 +51,45 @@ public class EditGardenController {
 	EditGardenView gardenView;
 	PlantGardenModel gardenModel;
 	
-	public EditGardenController(View view, EditGardenView gardenView, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {	
+	public EditGardenController(View view, EditGardenView gardenView) {	
 		
 		// Hard-coded max dimension
 		//double max_height = 500;
 		
-		// Temporary source of plants
+		// Read in data from DrawGarden screen
 		
-		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
-		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.MOIST, Soil.CLAY, 463, 20, "Example Description");
-		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.MOIST,Soil.CLAY, 2, 6, "Example Description");
-		PlantModel Aralia_racemosa = new PlantInfoModel("spikenard","Aralia-racemosa",1,Sun.PARTSUN,Moisture.MOIST,Soil.CLAY,6, 6, "Example Description");
-		PlantModel Acer_rubrum = new PlantInfoModel("red maple","Acer-rubrum",75,Sun.FULLSUN,Moisture.MOIST,Soil.CLAY,256,20,"Example Description");
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = null;
+		int budget = 0;
+		try {
+			FileInputStream fis = new FileInputStream("gardenData.ser");
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        ArrayList<Object> receiveData = (ArrayList<Object>)ois.readObject();
+	        plots = (HashMap<Soil, Stack<ArrayList<Point2D.Double>>>)receiveData.get(0);
+			budget = (int)receiveData.get(1);
+	        ois.close();
+		} catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        } catch (ClassNotFoundException e) {
+        	e.printStackTrace();
+        }
 		
-		List<PlantModel> plants2 = new ArrayList<PlantModel>();
-		plants2.add(Acer_rubrum);
-		plants2.add(Aralia_racemosa);
-		plants2.add(Anemone_virginiana);
-		plants2.add(Agalinis_purpurea);
-		plants2.add(Quercus_stellata);
+		// Read in data from SelectPlants screen
+		
+		ArrayList<PlantInfoModel> plants2 = null;
+		try {
+			FileInputStream fis = new FileInputStream("plantData.ser");
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        plants2 = (ArrayList<PlantInfoModel>)ois.readObject();
+	        ois.close();
+		} catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        } catch (ClassNotFoundException e) {
+        	e.printStackTrace();
+        }
 		
 		// Initialize & Add plants to view
 		this.view=view;
@@ -71,11 +98,12 @@ public class EditGardenController {
 		for (PlantModel plant : plants2) {
 			gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
 		}
+		gardenView.setBudget(budget);
+		gardenView.makeCanvas(plots);
 		
 		// Initialize & Add plants to model
 		ObjectCarouselModel carouselModel = gardenView.getPlantCarousel().getController().carouselModel;
-		this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots);
-		
+		this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots, budget);		
 	}
 	
 	// Screen control
@@ -88,6 +116,37 @@ public class EditGardenController {
 	
 	public void clickExit(ActionEvent event) {
 		view.setCurrentScreen(new WelcomeView(view));
+	}
+	
+	// Saving garden
+	
+	public void clickedSave(ActionEvent event) {
+		
+		TextInputDialog savePopup = new TextInputDialog("type name here!");
+		savePopup.setHeaderText("Enter the name of your garden:");
+		Optional<String> inputName = savePopup.showAndWait(); 
+		
+		if (inputName.isPresent()) {
+			System.out.println(inputName);
+		}
+		else {
+			inputName = Optional.ofNullable("New Garden");
+		}
+		
+		HashMap<String, PlantGardenModel> gardenData = new HashMap<String, PlantGardenModel>();
+		gardenData.put(inputName.get(), gardenModel);
+		//HashMap<String, ArrayList<PlantModel>, Stack<ArrayList<Point2D.Double>>> gardenDataBundled = new HashSet<>();
+		try {
+			FileOutputStream fos = new FileOutputStream("finalGardenData.ser");
+	        ObjectOutputStream oos = new ObjectOutputStream(fos);
+	        oos.writeObject(gardenData);
+	        oos.close();
+		} catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        }
+		
 	}
 		
 	// Handle drag
@@ -132,6 +191,7 @@ public class EditGardenController {
 			gardenModel.getCarousel().replacePlant(indexCarousel);									// Subtract 1 from model carousel index b/c it does not contain compost
 			gardenModel.addPlantFromCarousel(indexCarousel, 0, 0);	
 			
+			gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps());
 			gardenView.replacePlant(indexCarousel);
 			gardenView.addPlantFromCarousel(indexCarousel, n, event);
 		}
@@ -152,6 +212,7 @@ public class EditGardenController {
 		
 	}
 	
+
 	
 	//Make more methods for organizing the gardens
 	
@@ -160,7 +221,7 @@ public class EditGardenController {
 	}
 	
 	public EventHandler getHandlerForSave() {
-		return event -> clickNext((ActionEvent) event);
+		return event -> clickedSave((ActionEvent) event);
 	}
 	
 	public EventHandler getHandlerForExit() {

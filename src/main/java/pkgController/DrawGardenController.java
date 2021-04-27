@@ -38,7 +38,12 @@ public class DrawGardenController {
 		
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
-		dgm.setBudget(dgv.getBudget());
+		try {
+			dgm.setBudget(dgv.getBudget());
+		} catch (NumberFormatException e) {
+			dgv.errorPopup("Set a budget before continuing!");
+			return;
+		}
 		
 		ArrayList<Object> sendData = new ArrayList<Object>();
 		int budget = 60;

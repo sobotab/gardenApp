@@ -274,6 +274,10 @@ public class DrawGardenView extends BorderPane {
 		return drawing;
 	}
 	
+	public Canvas getCanvas() {
+		return this.canvas;
+	}
+	
 	public Soil getSoil() {
 		return soilComboBox.getValue();
 	}

@@ -93,12 +93,7 @@ public class DragDropCarouselView extends CarouselView {
 	public void initializePlant(PlantView plant) {
 		this.plants.add(plant);
 		if (plants.size() <= maxViewSize) {
-			if (plants.size() == 1 || plants.size() == maxViewSize)
-				plant.setFitHeight( plant.getFitHeight() * SHRINK_IMG_SCALE );
 			this.getChildren().add(plant);
-		}
-		if (plants.size() == maxViewSize) {
-			this.getChildren().add(right);
 		}
 	}
 	
@@ -106,7 +101,7 @@ public class DragDropCarouselView extends CarouselView {
 		//this.plants.add(plant);
 		this.plants.add(index, plant);
 		this.getChildren().add(index+2, plant);
-		if (index == 1 || index == maxViewSize)
+		if ((index == 1 || index == maxViewSize) && maxViewSize >= plants.size()-1)
 			plant.setFitHeight( plant.getFitHeight() * SHRINK_IMG_SCALE);
 	}
 	

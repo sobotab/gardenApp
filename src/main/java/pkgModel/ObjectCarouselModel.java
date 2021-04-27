@@ -37,7 +37,7 @@ public class ObjectCarouselModel {
 		this.focusedPlant = focusedPlant;
 	}
 	
-	public void fillCarousel(List<PlantModel> plantInput, int focusedPlant) {
+	public void fillCarousel(List<PlantInfoModel> plantInput, int focusedPlant) {
 		for (PlantModel plant : plantInput)
 			this.plants.add(new PlantObjectModel(
 					plant.name, plant.sciName, 

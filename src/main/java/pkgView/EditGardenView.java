@@ -126,7 +126,7 @@ public class EditGardenView extends BorderPane{
 		
 		for (Pair plantInfo : plantInput)
 			plantCarousel.initializePlant(makePlantView((String)plantInfo.getKey(), (int)plantInfo.getValue()));
-		
+		plantCarousel.update();
 			
 		// Build & organize buttons, title
 			

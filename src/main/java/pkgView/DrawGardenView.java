@@ -32,6 +32,7 @@ public class DrawGardenView extends BorderPane {
 	DrawGardenController dgc;
 	final int CANVASHEIGHT = 800;
 	final int CANVASWIDTH = 800;
+	int spacing;
 	Canvas canvas;
 	GraphicsContext gc;
 	Polygon polygon;
@@ -63,6 +64,10 @@ public class DrawGardenView extends BorderPane {
 		gc.setLineWidth(lineWidth);
 		gc.setFill(Color.LIGHTGREEN);
 		gc.fillRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
+		/*
+		 * spacing = 5; int lineCount = CANVASHEIGHT/spacing; for (int i = 0; i <
+		 * lineCount; i++) { gc.strokeLine(); }
+		 */
 		
 		polygon = new Polygon();
 		drawing = false;

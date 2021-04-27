@@ -37,7 +37,12 @@ public class DrawGardenController {
 		// Send plots info
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
-		dgm.setBudget(dgv.getBudget());
+		try {
+			dgm.setBudget(dgv.getBudget());
+		} catch (NumberFormatException e) {
+			dgv.errorPopup("Set a budget before continuing!");
+			return;
+		}
 		
 		try {
 			FileOutputStream fos = new FileOutputStream("gardenData.ser");

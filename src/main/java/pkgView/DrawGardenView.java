@@ -2,9 +2,9 @@ package pkgView;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
-import java.util.function.UnaryOperator;
 
 import javafx.event.ActionEvent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -12,7 +12,6 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +20,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import pkgController.DrawGardenController;
 import pkgController.Moisture;
@@ -64,10 +64,6 @@ public class DrawGardenView extends BorderPane {
 		gc.setLineWidth(lineWidth);
 		gc.setFill(Color.LIGHTGREEN);
 		gc.fillRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
-		/*
-		 * spacing = 5; int lineCount = CANVASHEIGHT/spacing; for (int i = 0; i <
-		 * lineCount; i++) { gc.strokeLine(); }
-		 */
 		
 		polygon = new Polygon();
 		drawing = false;
@@ -187,15 +183,17 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public void mousePressed(MouseEvent e) {
-		setColor();
 		setCurrent(e.getX(), e.getY());
 		if (drawButton.isSelected()) {
+			setColor();
 			drawing = true;
 			dgc.draw();
 			gc.setStroke(Color.BLACK);
 			gc.setFill(color);
 			gc.beginPath();
 			gc.moveTo(e.getX(),e.getY());
+		} else {
+			errorPopup("Choose a drawing tool");
 		}
 	}
 	
@@ -220,19 +218,27 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public void undoButtonPressed(ActionEvent event) {
-		undo(dgc.undo());
+		try {
+			undo(dgc.undo());
+		} catch (NullPointerException e) {
+			System.out.println("Nothing to undo");
+		}
 	}
 	
 	public void setColor() {
-		switch (soilComboBox.getValue()) {
-			case CLAY:
-				color = Color.RED; break;
-			case SANDY:
-				color = Color.CORNSILK; break;
-			case LOAMY:
-				color = Color.BROWN; break;
-			default:
-				color = Color.BLACK; break;
+		try {
+			switch (soilComboBox.getValue()) {
+				case CLAY:
+					color = Color.RED; break;
+				case SANDY:
+					color = Color.CORNSILK; break;
+				case LOAMY:
+					color = Color.BROWN; break;
+				default:
+					color = Color.BLACK; break;
+			}
+		} catch (NullPointerException e) {
+			errorPopup("Choose a soil before drawing!");
 		}
 	}
 	
@@ -309,5 +315,14 @@ public class DrawGardenView extends BorderPane {
 	
 	public int getBudget() {
 		return Integer.valueOf(budget.getText());
+	}
+	
+	public void errorPopup(String error) {
+		Stage errorPopup = new Stage();
+		errorPopup.setTitle("Error");
+		Label errorLabel = new Label(error);
+		Scene scene = new Scene(errorLabel);
+		errorPopup.setScene(scene);
+		errorPopup.show();
 	}
 }

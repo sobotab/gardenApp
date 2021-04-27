@@ -46,6 +46,10 @@ public class DrawGardenModel extends GardenModel {
 		return endPoint;
 	}
 	
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> getPlots() {
+		return this.plots;
+	}
+	
 	public ArrayList<Point2D.Double> undo(){
 		if (undoStack.size() > 0) {
 			return plots.get(undoStack.pop()).pop();

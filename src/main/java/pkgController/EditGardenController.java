@@ -24,7 +24,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.util.Pair;
 import pkgModel.DrawGardenModel;
 import pkgModel.Model;
@@ -50,7 +49,7 @@ public class EditGardenController {
 		//double max_height = 500;
 		
 		// Temporary source of plants
-		
+		/*
 		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
 		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.MOIST, Soil.CLAY, 463, 20, "Example Description");
 		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.MOIST,Soil.CLAY, 2, 6, "Example Description");
@@ -63,7 +62,20 @@ public class EditGardenController {
 		plants2.add(Anemone_virginiana);
 		plants2.add(Agalinis_purpurea);
 		plants2.add(Quercus_stellata);
-		
+		*/
+		ArrayList<PlantInfoModel> plants2 = null;
+		try {
+			FileInputStream fis = new FileInputStream("plantData.ser");
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        plants2 = (ArrayList<PlantInfoModel>)ois.readObject();
+	        ois.close();
+		} catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        } catch (ClassNotFoundException e) {
+        	e.printStackTrace();
+        }
 		// Initialize & Add plants to view
 		this.view=view;
 		this.gardenView = gardenView;

@@ -23,7 +23,7 @@ public class PlantGardenModel extends GardenModel{
 	int dollars;
 	int heldPlant;
 
-	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
 		this.plots = plots;
 		//this.carousel = new ObjectCarouselModel(plantInput, 0);
 		this.carousel = carouselModel;

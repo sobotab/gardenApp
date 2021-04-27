@@ -27,11 +27,25 @@ import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
 import pkgController.InfoController;
-
+/**
+ * 
+ * @author Zane Greenholt
+ * Class that contains and displays all necessary objects on the info screen of the program
+ */
 public class InfoView extends BorderPane {
+	/**
+	 * An infoCarouselView which holds plant images and names
+	 */
 	InfoCarouselView infoCarousel;
+	/**
+	 * The preferred width of the comboBoxes that are used for filtering the carousel images
+	 */
 	private final double FILTER_WIDTH = 125.0;
 	
+	/**
+	 * Constructor that initializes an infoCarousel and all necessary buttons and comboBoxes for filtering, and displays everything on the screen.
+	 * @param view The program's View that is only initialized once
+	 */
 	public InfoView(View view) {
 		infoCarousel = new InfoCarouselView(view);
 		InfoController ic = new InfoController(view, infoCarousel);
@@ -99,10 +113,18 @@ public class InfoView extends BorderPane {
 	}
 	
 	// getters & setters
+	/**
+	 * Getter for the infoCarousel field
+	 * @return infoCarousel field - an InfoCarouselView that displays plant images
+	 */
 	public InfoCarouselView getInfoCarousel() {
 		return this.infoCarousel;
 	}
 	
+	/**
+	 * Setter for the infoCarousel field
+	 * @param carousel An InfoCarouselView that will replace the current infoCarousel field
+	 */
 	public void setInfoCarousel(InfoCarouselView carousel) {
 		this.infoCarousel = carousel;
 	}

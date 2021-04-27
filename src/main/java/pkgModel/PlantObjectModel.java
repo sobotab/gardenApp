@@ -13,7 +13,7 @@ public class PlantObjectModel extends PlantModel{
 	//private final double Y_MAX = 400;
 	//private final double X_MAX = 700;
 	
-	public PlantObjectModel(String name, String sciName, int spreadDiameter, Sun sun, Moisture moisture, Soil soil, double x, double y, int height ,int width) {
+	public PlantObjectModel(String name, String sciName, int spreadDiameter, String sun, String moisture, String soil, double x, double y, int height ,int width) {
 		super(name,sciName,spreadDiameter,sun,moisture,soil);
 
 		this.x = x;

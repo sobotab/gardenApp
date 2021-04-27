@@ -36,9 +36,9 @@ public class SelectCarouselController extends CarouselController {
 		while(plantIter.hasNext() && imageIter.hasNext()) {
 			PlantInfoModel plant = (PlantInfoModel)plantIter.next();
 			VBox imageBox = imageIter.next();
-			String sunLevel = plant.getSun().getLevel();
-			String moistureLevel = plant.getMoisture().getLevel();
-			String soilType = plant.getSoil().getLevel();
+			String sunLevel = plant.getSun();
+			String moistureLevel = plant.getMoisture();
+			String soilType = plant.getSoil();
 			if(sunLevel.contains(sun) && moistureLevel.contains(moisture) && soilType.contains(soil)) {
 				filteredPlants.add(plant);
 				filteredImages.add(imageBox);

@@ -66,9 +66,9 @@ public class InfoCarouselController extends CarouselController {
 			while(plantIter.hasNext() && imageIter.hasNext()) {
 				PlantInfoModel plant = (PlantInfoModel)plantIter.next();
 				VBox imageBox = imageIter.next();
-				String sunLevel = plant.getSun().getLevel();
-				String moistureLevel = plant.getMoisture().getLevel();
-				String soilType = plant.getSoil().getLevel();
+				String sunLevel = plant.getSun();
+				String moistureLevel = plant.getMoisture();
+				String soilType = plant.getSoil();
 				int price = plant.getDollars();
 				String plantType;
 				if(price == 6) {

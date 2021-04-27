@@ -24,9 +24,10 @@ public class SelectPlantsView extends BorderPane {
 	SelectPlantsController spc;
 	List<ImageView> selectedPlants;
 	FlowPane plants;
-		
+	View view;
+	
 	public SelectPlantsView(View view) {
-		
+		this.view = view;
 		selectionCarousel = new SelectCarouselView(view);
 		selectedPlants = new ArrayList<ImageView>();
 		spc = new SelectPlantsController(view, this, selectionCarousel.getScc());

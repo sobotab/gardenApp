@@ -19,14 +19,39 @@ import javafx.scene.layout.VBox;
 import pkgController.SelectPlantsController;
 import pkgController.Soil;
 
+/**
+ * 
+ * @author Zane Greenholt
+ * Class that contains and displays a selectCarouselView as well as a list of selected plants. This class represents the entire select plants screen.
+ */
 public class SelectPlantsView extends BorderPane {
+	/**
+	 * A SelectCarouselView with plant images that can be clicked on to be selected
+	 */
 	SelectCarouselView selectionCarousel; 
+	/**
+	 * The controller for the selectPlants screen
+	 */
 	SelectPlantsController spc;
+	/**
+	 * A list of selected plant images
+	 */
 	List<ImageView> selectedPlants;
+	/**
+	 * A flowpane that will display the select plants and allow them to be deselected
+	 */
 	FlowPane plants;
-		
+	/**
+	 * The program's View that is only initialized once
+	 */
+	View view;
+	
+	/**
+	 * Constructor for SelectPlantsView that initializes the SelectPlantsCarousel and all other necessary buttons and images for the select plants screen.
+	 * @param view The program's View that is only initialized once
+	 */
 	public SelectPlantsView(View view) {
-		
+		this.view = view;
 		selectionCarousel = new SelectCarouselView(view);
 		selectedPlants = new ArrayList<ImageView>();
 		spc = new SelectPlantsController(view, this, selectionCarousel.getScc());
@@ -63,14 +88,27 @@ public class SelectPlantsView extends BorderPane {
 	
 	
 	// getters & setters
+	/**
+	 * Getter for the selectionCarousel field
+	 * @return selectionCarousel field - A SelectCarouselView that displays plant images that can be clicked to be selected
+	 */
 	public SelectCarouselView getSelectionCarousel() {
 		return this.selectionCarousel;
 	}
 	
+	/**
+	 * Setter for the selectionCarousel field
+	 * @param carousel A SelectCarouselView that will replace the current selectionCarousel field
+	 */
 	public void setSelectionCarousel(SelectCarouselView carousel) {
 		this.selectionCarousel = carousel;
 	}
 	
+	/**
+	 * Method that moves a plant's image from the carousel to the plants flowPane when it is clicked. This also sets that images
+	 * OnMousePressed handler to be ready for deselection if clicked again.
+	 * @param box A VBox that was clicked in order to be selected from the carousel
+	 */
 	public void selectPlant(VBox box) {
 		ImageView imv = (ImageView)box.getChildren().get(1);
 		box.setScaleX(.5);
@@ -80,6 +118,11 @@ public class SelectPlantsView extends BorderPane {
 		box.setOnMousePressed(spc.getHandlerForPlantDeSelected());
 	}
 	
+	/**
+	 * Method that moves a plant's image from the plants flowPane to the selectionCarousel when it is clicked. THis also sets that images
+	 * OnMousePressed handler to be ready for selection if clicked again.
+	 * @param box A VBox that was clicked in order to be deselected from the plants flowPane
+	 */
 	public void deSelectPlant(VBox box) {
 		ImageView imv = (ImageView)box.getChildren().get(1);
 		selectedPlants.remove(imv);

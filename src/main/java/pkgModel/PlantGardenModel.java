@@ -72,7 +72,19 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 
 	public boolean checkCanvas(int index, double canvas_x, double canvas_y) {
 		PlantObjectModel plantCheck = plants.get(index);
-		Iterator validPlotsIter = plots.get( plantCheck.getSoil() ).iterator();
+		//Added this bit to account for planCheck's soil type now being string
+		Soil soil = null;
+		if(plantCheck.getSoil().contains("clay")) {
+			soil = Soil.CLAY;
+		}
+		else if(plantCheck.getSoil().contains("sandy")) {
+			soil = Soil.SANDY;
+		}
+		else {
+			soil = Soil.LOAMY;
+		}
+		//Added bit ends
+		Iterator validPlotsIter = plots.get( soil ).iterator();
 		
 		while (validPlotsIter.hasNext()) {		
 			Point2D.Double testPoint = new Point2D.Double(plantCheck.x - canvas_x, plantCheck.y - canvas_y);

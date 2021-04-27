@@ -1,3 +1,9 @@
+/**
+ * @author - Ryan Dean
+ * @author - Benjamin Sobota
+ * @author - Zane Greenholt
+ * @author - Rakesh Gadde
+ */
 package pkgController;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +19,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import pkgModel.Model;
+import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
 import pkgView.View;
 
@@ -21,6 +28,7 @@ public class Controller extends Application {
 	Model model;
 	View view;
 	List<VBox> images;
+	List<PlantModel> plants;
 	
 	public Controller() {
 		//May or may not make view first and use it here. 
@@ -35,7 +43,7 @@ public class Controller extends Application {
         view = new View(theStage, this);
 		model = new Model();
 		makePlantsFromData();
-		images = getImagesFromList();
+		images = loadImagesFromList();
         new AnimationTimer() {
             public void handle(long currentNanoTime)
             {
@@ -50,12 +58,11 @@ public class Controller extends Application {
     }
 	
 	public void makePlantsFromData() {
-		//Image im1 = new Image(getClass().getResourceAsStream("/img/commonMilkweed.png"));
-		
+		plants = model.makePlants();
 	}
 	
-	public List<VBox> getImagesFromList(){
-		List<PlantModel> plants = model.getPotentialPlants();
+	public List<VBox> loadImagesFromList(){
+		List<PlantModel> plants = this.plants;
 		List<VBox> images = new ArrayList<>();
 		for(PlantModel plant: plants) {
 			String sciName = plant.getSciName();
@@ -95,5 +102,13 @@ public class Controller extends Application {
 
 	public void setImages(List<VBox> images) {
 		this.images = images;
+	}
+
+	public List<PlantModel> getPlants() {
+		return plants;
+	}
+
+	public void setPlants(List<PlantModel> plants) {
+		this.plants = plants;
 	}
 }

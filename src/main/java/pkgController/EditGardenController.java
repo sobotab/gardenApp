@@ -20,6 +20,7 @@ import java.util.Stack;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -51,45 +52,77 @@ public class EditGardenController {
 	EditGardenView gardenView;
 	PlantGardenModel gardenModel;
 	
-	public EditGardenController(View view, EditGardenView gardenView) {	
+	public EditGardenController(View view, EditGardenView gardenView, String loadName) {	
 		
 		// Hard-coded max dimension
 		//double max_height = 500;
 		
-		// Read in data from DrawGarden screen
-		
+		HashMap<String, PlantGardenModel> gardenData = null;
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = null;
 		int budget = 0;
-		try {
-			FileInputStream fis = new FileInputStream("gardenData.ser");
-	        ObjectInputStream ois = new ObjectInputStream(fis);
-	        ArrayList<Object> receiveData = (ArrayList<Object>)ois.readObject();
-	        plots = (HashMap<Soil, Stack<ArrayList<Point2D.Double>>>)receiveData.get(0);
-			budget = (int)receiveData.get(1);
-	        ois.close();
-		} catch (FileNotFoundException e) {
-        	System.out.println("File not found");
-        } catch (IOException e) {
-        	System.out.println("Error initializing stream");
-        } catch (ClassNotFoundException e) {
-        	e.printStackTrace();
-        }
 		
-		// Read in data from SelectPlants screen
+		if (loadName != null) {
+			try {
+				FileInputStream fis = new FileInputStream("finalGardenData.ser");
+		        ObjectInputStream ois = new ObjectInputStream(fis);
+		        gardenData = (HashMap<String, PlantGardenModel>)ois.readObject();
+		        ois.close();
+			} catch (FileNotFoundException e) {
+	        	System.out.println("File not found");
+	        } catch (IOException e) {
+	        	System.out.println("Error initializing stream");
+	        } catch (ClassNotFoundException e) {
+	        	e.printStackTrace();
+	        }
+			
+			this.view=view;
+			this.gardenView = gardenView;
+			
+			this.gardenModel = gardenData.get(loadName);
+			for (PlantModel plant : gardenModel.getCarousel().getPlants()) {
+				gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
+			}
+			
+			gardenView.setBudget(gardenModel.getBudget());
+			gardenView.makeCanvas(gardenModel.getPlots());
+			
+		} 
 		
-		ArrayList<PlantInfoModel> plants2 = null;
-		try {
-			FileInputStream fis = new FileInputStream("plantData.ser");
-	        ObjectInputStream ois = new ObjectInputStream(fis);
-	        plants2 = (ArrayList<PlantInfoModel>)ois.readObject();
-	        ois.close();
-		} catch (FileNotFoundException e) {
-        	System.out.println("File not found");
-        } catch (IOException e) {
-        	System.out.println("Error initializing stream");
-        } catch (ClassNotFoundException e) {
-        	e.printStackTrace();
-        }
+		else {
+			
+			// Read in data from DrawGarden screen
+
+			try {
+				FileInputStream fis = new FileInputStream("gardenData.ser");
+		        ObjectInputStream ois = new ObjectInputStream(fis);
+		        ArrayList<Object> receiveData = (ArrayList<Object>)ois.readObject();
+		        plots = (HashMap<Soil, Stack<ArrayList<Point2D.Double>>>)receiveData.get(0);
+				budget = (int)receiveData.get(1);
+		        ois.close();
+			} catch (FileNotFoundException e) {
+	        	System.out.println("File not found");
+	        } catch (IOException e) {
+	        	System.out.println("Error initializing stream");
+	        } catch (ClassNotFoundException e) {
+	        	e.printStackTrace();
+	        }
+			
+			// Read in data from SelectPlants screen
+			
+			ArrayList<PlantInfoModel> plants2 = null;
+			try {
+				FileInputStream fis = new FileInputStream("plantData.ser");
+		        ObjectInputStream ois = new ObjectInputStream(fis);
+		        plants2 = (ArrayList<PlantInfoModel>)ois.readObject();
+		        ois.close();
+			} catch (FileNotFoundException e) {
+	        	System.out.println("File not found");
+	        } catch (IOException e) {
+	        	System.out.println("Error initializing stream");
+	        } catch (ClassNotFoundException e) {
+	        	e.printStackTrace();
+	        }
+		
 		
 		// Initialize & Add plants to view
 		this.view=view;
@@ -104,6 +137,7 @@ public class EditGardenController {
 		// Initialize & Add plants to model
 		ObjectCarouselModel carouselModel = gardenView.getPlantCarousel().getController().carouselModel;
 		this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots, budget);		
+		}
 	}
 	
 	// Screen control
@@ -116,6 +150,32 @@ public class EditGardenController {
 	
 	public void clickExit(ActionEvent event) {
 		view.setCurrentScreen(new WelcomeView(view));
+	}
+	
+	// Updating view after loading a saved garden
+	
+	public void fetchGardenInfo() {
+		gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps());
+		for (PlantObjectModel plantInModel : gardenModel.getPlants()) {
+			PlantView plantInView = gardenView.makePlantView(plantInModel.getSciName(), plantInModel.getSpreadDiameter());
+			plantInView.setFitHeight(plantInModel.getSpreadDiameter()/4 + 20);
+			plantInView.setFitWidth(plantInModel.getSpreadDiameter()/4 + 20);	
+			
+			gardenView.getPlants().add(plantInView);
+			gardenView.getGarden().getChildren().add(plantInView);
+			gardenView.getGarden().setAlignment(plantInView, Pos.TOP_LEFT);
+			plantInView.updateLocation(plantInModel.getX(), plantInModel.getY());
+			
+			int viewIndex = gardenView.getPlants().size()-1;
+			gardenView.drawSpread(
+					viewIndex, 
+					plantInModel.getX(), 
+					plantInModel.getY());
+			gardenView.updateSpread(
+					viewIndex, 
+					gardenModel.checkCanvas(viewIndex, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutX()), 
+					gardenModel.checkSpread(viewIndex));
+		}
 	}
 	
 	// Saving garden
@@ -133,9 +193,25 @@ public class EditGardenController {
 			inputName = Optional.ofNullable("New Garden");
 		}
 		
-		HashMap<String, PlantGardenModel> gardenData = new HashMap<String, PlantGardenModel>();
+		HashMap<String, PlantGardenModel> gardenData = null;
+		
+		// Load existing data
+		try {
+			FileInputStream fis = new FileInputStream("finalGardenData.ser");
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        gardenData = (HashMap<String, PlantGardenModel>)ois.readObject();
+	        ois.close();
+		} catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        } catch (ClassNotFoundException e) {
+        	e.printStackTrace();
+        }
+		
 		gardenData.put(inputName.get(), gardenModel);
-		//HashMap<String, ArrayList<PlantModel>, Stack<ArrayList<Point2D.Double>>> gardenDataBundled = new HashSet<>();
+		
+		// Re-save with appended info
 		try {
 			FileOutputStream fos = new FileOutputStream("finalGardenData.ser");
 	        ObjectOutputStream oos = new ObjectOutputStream(fos);

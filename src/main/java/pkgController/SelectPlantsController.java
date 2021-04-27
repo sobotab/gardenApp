@@ -60,7 +60,7 @@ public class SelectPlantsController {
         } catch (IOException e) {
         	System.out.println("Error initializing stream");
         } 
-		view.setCurrentScreen(new EditGardenView(view));
+		view.setCurrentScreen(new EditGardenView(view, null));
 	}
 	
 	public void plantSelected(MouseEvent event) {

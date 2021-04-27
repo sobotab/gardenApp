@@ -30,8 +30,8 @@ import pkgController.Sun;
 public class DrawGardenView extends BorderPane {
 	
 	DrawGardenController dgc;
-	final int CANVASHEIGHT = 800;
-	final int CANVASWIDTH = 800;
+	final int CANVASHEIGHT = 500;
+	final int CANVASWIDTH = 500;
 	int spacing;
 	Canvas canvas;
 	GraphicsContext gc;

@@ -14,6 +14,7 @@ public class DrawGardenModel extends GardenModel {
 	Stack<Soil> undoStack;
 	Moisture moisture;
 	Sun sun;
+	int budget;
 	
 	Point2D.Double endPoint;
 	boolean set;
@@ -46,6 +47,10 @@ public class DrawGardenModel extends GardenModel {
 		return endPoint;
 	}
 	
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> getPlots() {
+		return this.plots;
+	}
+	
 	public ArrayList<Point2D.Double> undo(){
 		if (undoStack.size() > 0) {
 			return plots.get(undoStack.pop()).pop();
@@ -68,5 +73,21 @@ public class DrawGardenModel extends GardenModel {
 	
 	public void setSun(Sun sun) {
 		this.sun = sun;
+	}
+	
+	public void setBudget(int budget) {
+		this.budget = budget;
+	}
+
+	public Moisture getMoisture() {
+		return moisture;
+	}
+
+	public Sun getSun() {
+		return sun;
+	}
+	
+	public int getBudget() {
+		return budget;
 	}
 }

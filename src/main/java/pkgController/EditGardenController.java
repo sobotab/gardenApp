@@ -2,11 +2,18 @@ package pkgController;
 
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.geom.Point2D;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,9 +24,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.TransferMode;
 import javafx.util.Pair;
+import pkgModel.DrawGardenModel;
 import pkgModel.Model;
+import pkgModel.ObjectCarouselModel;
 import pkgModel.PlantGardenModel;
 import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
@@ -35,13 +43,13 @@ public class EditGardenController {
 	EditGardenView gardenView;
 	PlantGardenModel gardenModel;
 	
-	public EditGardenController(View view, EditGardenView gardenView) {	
+	public EditGardenController(View view, EditGardenView gardenView, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {	
 		
 		// Hard-coded max dimension
-		double max_height = 500;
+		//double max_height = 500;
 		
-		// Temporary source of plants until we get scraper running
-		
+		// Temporary source of plants
+		/*
 		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
 		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.MOIST, Soil.CLAY, 463, 20, "Example Description");
 		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.MOIST,Soil.CLAY, 2, 6, "Example Description");
@@ -54,19 +62,32 @@ public class EditGardenController {
 		plants2.add(Anemone_virginiana);
 		plants2.add(Agalinis_purpurea);
 		plants2.add(Quercus_stellata);
-		
-		// Add plants to view
+		*/
+		ArrayList<PlantInfoModel> plants2 = null;
+		try {
+			FileInputStream fis = new FileInputStream("plantData.ser");
+	        ObjectInputStream ois = new ObjectInputStream(fis);
+	        plants2 = (ArrayList<PlantInfoModel>)ois.readObject();
+	        ois.close();
+		} catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        } catch (ClassNotFoundException e) {
+        	e.printStackTrace();
+        }
+		// Initialize & Add plants to view
 		this.view=view;
 		this.gardenView = gardenView;
 
 		for (PlantModel plant : plants2) {
 			gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
-			//gardenView.getPlantCarousel().addPlant(
-			//		gardenView.makePlantView(plant.getSciName(), plant.getSpreadDiameter()));
 		}
 		
-		// Add plants to model
-		this.gardenModel = new PlantGardenModel(plants2);
+		// Initialize & Add plants to model
+		ObjectCarouselModel carouselModel = gardenView.getPlantCarousel().getController().carouselModel;
+		this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots);
+		
 	}
 	
 	// Screen control
@@ -97,17 +118,16 @@ public class EditGardenController {
 		gardenView.setX( index, x_loc );
 		gardenView.setY( index, y_loc );
 		
-		
 		gardenView.drawSpread(index, x_loc, y_loc);
-		
-		checkInsideGarden(index);
-
+				
 		for (PlantView plant : gardenView.getPlants()) {
 			int spreadIndex = gardenView.getPlants().indexOf(plant);
-			gardenView.updateSpread(spreadIndex, checkInsideGarden(spreadIndex), gardenModel.checkSpread(spreadIndex));
+			gardenView.updateSpread(
+					spreadIndex, 
+					gardenModel.checkCanvas(spreadIndex, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutY()),
+					gardenModel.checkSpread(spreadIndex)
+					);
 		}
-		
-		
 		return;
 	}
 	
@@ -121,8 +141,8 @@ public class EditGardenController {
 			
 			int indexCarousel = gardenView.getPlantCarousel().getPlants().indexOf(n);
 			
-			gardenModel.getCarousel().replacePlant(indexCarousel-1);									// Subtract 1 from model carousel index b/c it does not contain compost
-			gardenModel.addPlantFromCarousel(indexCarousel-1, 0, 0);	
+			gardenModel.getCarousel().replacePlant(indexCarousel);									// Subtract 1 from model carousel index b/c it does not contain compost
+			gardenModel.addPlantFromCarousel(indexCarousel, 0, 0);	
 			
 			gardenView.replacePlant(indexCarousel);
 			gardenView.addPlantFromCarousel(indexCarousel, n, event);
@@ -138,23 +158,6 @@ public class EditGardenController {
 		//pv.startFullDrag();
 		System.out.print("drag detected       ");
 		return;
-	}
-	
-	public boolean checkInsideGarden(int index) {
-		
-		// Initialize model outline
-		if (gardenModel.getGardenOutline() == null) {
-			Polygon gardenOutlineModel = new Polygon();
-			for (Point coord : gardenView.getGardenOutline()) {
-				gardenOutlineModel.addPoint(
-						coord.x + (int)gardenView.getGardenOutlineShape().getLayoutX(), 
-						coord.y + (int)gardenView.getGardenOutlineShape().getLayoutY()
-						);
-			}
-			gardenModel.setGardenOutline(gardenOutlineModel);
-		}
-		
-		return gardenModel.checkInsideGarden(index);
 	}
 	
 	public void release(MouseEvent event) {

@@ -1,10 +1,12 @@
 package pkgModel;
 
+import java.io.Serializable;
+
 import pkgController.Moisture;
 import pkgController.Soil;
 import pkgController.Sun;
 
-public class PlantInfoModel extends PlantModel{
+public class PlantInfoModel extends PlantModel implements Serializable{
 	
 	int numLeps;
 	int dollars;

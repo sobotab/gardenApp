@@ -1,6 +1,7 @@
 package pkgModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -19,9 +20,24 @@ public class ObjectCarouselModel {
 	int rationDecrease;
 	int focusedPlant;
 	
+	public ObjectCarouselModel() {
+		this.plants = new ArrayList<PlantObjectModel>();
+	}
+	
 	public ObjectCarouselModel(List<PlantModel> plantInput, int focusedPlant) {
 		this.plants = new ArrayList<PlantObjectModel>();
 		
+		for (PlantModel plant : plantInput)
+			this.plants.add(new PlantObjectModel(
+					plant.name, plant.sciName, 
+					plant.spreadDiameter, 
+					plant.sun, plant.moisture, plant.soil, 
+					0, 0, 10, 10));
+		
+		this.focusedPlant = focusedPlant;
+	}
+	
+	public void fillCarousel(List<PlantInfoModel> plantInput, int focusedPlant) {
 		for (PlantModel plant : plantInput)
 			this.plants.add(new PlantObjectModel(
 					plant.name, plant.sciName, 
@@ -53,23 +69,16 @@ public class ObjectCarouselModel {
 	}
 	
 	public void rotateLeft() {
-		focusedPlant -= 1;
-		if(focusedPlant < 0) {
-			focusedPlant = plants.size() - 1;
-		}
-		
+		Collections.rotate(plants, -1);
 	}
 	
 	public void rotateRight() {
-		focusedPlant += 1;
-		if(focusedPlant == plants.size()) {
-			focusedPlant = 0;
-		}
+		Collections.rotate(plants, 1);
 	}
 	
-	public int plantSelected(int x, int y) {
-		return 0;
-	}
+//	public int plantSelected(int x, int y) {
+//		return 0;
+//	}
 
 	public List<PlantObjectModel> getPlants() {
 		return plants;

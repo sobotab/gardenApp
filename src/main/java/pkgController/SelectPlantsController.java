@@ -1,5 +1,13 @@
 package pkgController;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
@@ -8,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import pkgModel.CarouselModel;
 import pkgModel.PlantInfoModel;
+import pkgModel.PlantModel;
 import pkgView.DrawGardenView;
 import pkgView.EditGardenView;
 import pkgView.SelectCarouselView;
@@ -19,7 +28,6 @@ public class SelectPlantsController {
 	SelectCarouselController scc;
 	SelectPlantsView spv;
 	private final double CENTER_IMAGE_SCALING = 1.3;
-	private final double CENTER_X = 400.0;
 	
 	public SelectPlantsController(View view, SelectPlantsView spv, SelectCarouselController scc) {
 		this.view = view;
@@ -32,6 +40,36 @@ public class SelectPlantsController {
 	}
 	
 	public void clickNext(ActionEvent event) {
+		
+		// Send plants info
+		/*
+		ArrayList<PlantInfoModel> plantList = new ArrayList<PlantInfoModel>();
+		Iterator iter = scc.carouselModel.selectedPlants.entrySet().iterator();
+		while (iter.hasNext()) {
+			Map.Entry plantEntry = (Map.Entry)iter.next();
+			plantList.add((PlantInfoModel)plantEntry.getValue());
+		}
+		ArrayList<Double> testList = new ArrayList<Double>();
+		*/
+		
+		ArrayList<PlantInfoModel> plantList = new ArrayList<PlantInfoModel>();
+		for (PlantModel plant : scc.carouselModel.selectedPlants.values()) {
+			plantList.add((PlantInfoModel)plant);
+		}
+		
+		
+		try {
+			FileOutputStream fos = new FileOutputStream("plantData.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+        	oos.writeObject(plantList);
+        	System.out.println(plantList.get(0));
+            oos.close();
+        } catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        } 
+		
 		view.setCurrentScreen(new EditGardenView(view));
 		
 	}
@@ -40,18 +78,21 @@ public class SelectPlantsController {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
 		VBox img = (VBox)event.getSource();
+		int centerIndex = carouselModel.getHeldPlant();
+		VBox centerImage = carouselView.getFilteredImages().get(centerIndex);
+		double centerX = centerImage.getLayoutX();
 		int index = 0;
 		if(img.getScaleX() == CENTER_IMAGE_SCALING) {
-			index = carouselModel.getHeldPlant();
+			index = centerIndex;
 		}
-		else if(event.getSceneX() < CENTER_X) {
-			index = carouselModel.getHeldPlant() - 1;
+		else if(event.getSceneX() < centerX) {
+			index = centerIndex - 1;
 			if(index < 0) {
 				index = carouselModel.getFilteredPlants().size() - 1;
 			}
 		}
 		else {
-			index = carouselModel.getHeldPlant() + 1;
+			index = centerIndex + 1;
 			if(index >= carouselModel.getFilteredPlants().size()) {
 				index = 0;
 			}

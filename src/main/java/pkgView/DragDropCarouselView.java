@@ -74,14 +74,19 @@ public class DragDropCarouselView extends CarouselView {
 	public void update() {
 		this.getChildren().removeAll(plants);
 		this.getChildren().remove(right);
-
-		for (int i = 0; i < maxViewSize; i++) {
-			plants.get(i).setFitHeight( DEFAULT_IMG_SIZE );
-			this.getChildren().add( plants.get(i) );
-			if (i == 0 || i == maxViewSize-1) {
-				plants.get(i).setFitHeight( plants.get(i).getFitHeight() * SHRINK_IMG_SCALE);
-			} 
+		
+		for (PlantView plant : plants) {
+			plant.setFitHeight( DEFAULT_IMG_SIZE );
+			
+			if (plants.indexOf(plant) < maxViewSize)
+				this.getChildren().add( plant );
+			
+			if (plants.size() >= maxViewSize) {
+				if (plants.indexOf(plant) == 0 || plants.indexOf(plant) == maxViewSize - 1)
+					plant.setFitHeight( plant.getFitHeight() * SHRINK_IMG_SCALE);
+			}
 		}
+		
 		this.getChildren().add(right);
 	}	
 	

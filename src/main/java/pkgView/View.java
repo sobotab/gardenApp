@@ -26,8 +26,9 @@ public class View {
 	Stage theStage;
 	Scene theScene;
 	
-	public View(Stage theStage) {
+	public View(Stage theStage, Controller controller) {
 		this.theStage = theStage;
+		this.controller = controller;
 		theStage.setTitle("Garden Software");
 		//First screen is the WelcomeView
 		theStage.setScene(new Scene(new WelcomeView(this), SCENEWIDTH, SCENEHEIGHT));
@@ -84,6 +85,14 @@ public class View {
 		//to the event handlers of the previous/next buttons
 		Scene theScene = theStage.getScene();
 		theStage.setScene(new Scene(pane, theScene.getWidth(), theScene.getHeight()));
+	}
+
+	public Controller getController() {
+		return controller;
+	}
+
+	public void setController(Controller controller) {
+		this.controller = controller;
 	}
 	
 }

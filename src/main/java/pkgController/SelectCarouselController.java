@@ -19,9 +19,6 @@ import pkgView.View;
 public class SelectCarouselController extends CarouselController {
 	View view;
 	SelectCarouselView scv;
-	private final double CENTER_IMAGE_SCALING = 1.3;
-	private final double CENTER_X = 400.0;
-	
 		
 	public SelectCarouselController(View view, CarouselView carouselView) {
 		super(view, carouselView);

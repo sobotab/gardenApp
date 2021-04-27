@@ -26,7 +26,7 @@ public class InfoCarouselView extends CarouselView{
 		icc = new InfoCarouselController(view, this);
 		this.setHgap(10);
 
-		images = icc.getImagesFromList();
+		images = icc.getImagesFromController();
 		filteredImages = new ArrayList<VBox>();
 		for(VBox image: images) {
 			filteredImages.add(image);

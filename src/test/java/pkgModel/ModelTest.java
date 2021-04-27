@@ -2,7 +2,9 @@ package pkgModel;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
@@ -55,7 +57,7 @@ public class ModelTest {
 
 	@Test
 	public void testSetPotentialPlants() {
-		Set<PlantModel> plants = new HashSet<>();
+		List<PlantModel> plants = new ArrayList<PlantModel>();
 		PlantModel plant = new PlantInfoModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, "");
 		plants.add(plant);
 		model.setPotentialPlants(plants);

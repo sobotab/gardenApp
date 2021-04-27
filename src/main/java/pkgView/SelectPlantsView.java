@@ -3,6 +3,7 @@ package pkgView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -37,6 +38,7 @@ public class SelectPlantsView extends BorderPane {
 		Label flowLabel = new Label("Plants you have selected");
 		
 		plants = new FlowPane(Orientation.VERTICAL);
+		plants.setColumnHalignment(HPos.CENTER);
 		plants.getChildren().add(flowLabel);
 		
 		HBox box = new HBox();

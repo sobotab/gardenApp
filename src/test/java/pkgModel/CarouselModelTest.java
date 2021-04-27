@@ -19,13 +19,13 @@ import java.util.Set;
 public class CarouselModelTest {
 	
 	CarouselModel carousel1 = new CarouselModel(1,10,5,150,200,1,3);
-	Set<PlantModel> plants = new HashSet<PlantModel>();
+	List<PlantModel> plants = new ArrayList<PlantModel>();
 	CarouselModel carousel2 = new CarouselModel(plants, 0);
 
 	
 	@Test
 	public void testCarouselModel() {
-		CarouselModel carousel2 = new CarouselModel(new HashSet<PlantModel>(), 0);
+		CarouselModel carousel2 = new CarouselModel(new ArrayList<PlantModel>(), 0);
 		CarouselModel carousel3 = new CarouselModel(0,0);
 		assertEquals(carousel2.firstPlant,carousel1.firstPlant);
 		assertEquals(carousel3.lastPlant,carousel1.lastPlant);

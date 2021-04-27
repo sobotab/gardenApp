@@ -19,7 +19,6 @@ public class SelectPlantsController {
 	SelectCarouselController scc;
 	SelectPlantsView spv;
 	private final double CENTER_IMAGE_SCALING = 1.3;
-	private final double CENTER_X = 400.0;
 	
 	public SelectPlantsController(View view, SelectPlantsView spv, SelectCarouselController scc) {
 		this.view = view;
@@ -40,18 +39,21 @@ public class SelectPlantsController {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
 		VBox img = (VBox)event.getSource();
+		int centerIndex = carouselModel.getHeldPlant();
+		VBox centerImage = carouselView.getFilteredImages().get(centerIndex);
+		double centerX = centerImage.getLayoutX();
 		int index = 0;
 		if(img.getScaleX() == CENTER_IMAGE_SCALING) {
-			index = carouselModel.getHeldPlant();
+			index = centerIndex;
 		}
-		else if(event.getSceneX() < CENTER_X) {
-			index = carouselModel.getHeldPlant() - 1;
+		else if(event.getSceneX() < centerX) {
+			index = centerIndex - 1;
 			if(index < 0) {
 				index = carouselModel.getFilteredPlants().size() - 1;
 			}
 		}
 		else {
-			index = carouselModel.getHeldPlant() + 1;
+			index = centerIndex + 1;
 			if(index >= carouselModel.getFilteredPlants().size()) {
 				index = 0;
 			}

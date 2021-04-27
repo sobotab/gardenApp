@@ -213,7 +213,6 @@ public class DrawGardenView extends BorderPane {
 		if (drawButton.isSelected() && drawing) {
 			drawing = false;
 			Point2D.Double point = dgc.draw();
-			System.out.println(point.toString());
 			gc.lineTo(point.getX(), point.getY());
 			gc.stroke();
 			gc.fill();
@@ -245,7 +244,10 @@ public class DrawGardenView extends BorderPane {
 		for (int i=0; i<points.size(); i++) {
 			gc.lineTo(points.get(i).getX(), points.get(i).getY());
 			gc.stroke();
+			System.out.println(points.get(i).toString());
 		}
+		gc.lineTo(points.get(0).getX(), points.get(0).getY());
+		gc.stroke();
 		gc.fill();
 		gc.closePath();
 	}

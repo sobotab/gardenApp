@@ -19,7 +19,6 @@ public class SelectPlantsController {
 	SelectCarouselController scc;
 	SelectPlantsView spv;
 	private final double CENTER_IMAGE_SCALING = 1.3;
-	private final double CENTER_X = 400.0;
 	
 	public SelectPlantsController(View view, SelectPlantsView spv, SelectCarouselController scc) {
 		this.view = view;

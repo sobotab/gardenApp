@@ -20,7 +20,6 @@ public class InfoCarouselController extends CarouselController {
 		View view;
 		InfoCarouselView icv;
 		private final double CENTER_IMAGE_SCALING = 1.3;
-	//	private final double CENTER_X = 400.0;
 
 		public InfoCarouselController(View view, CarouselView carouselView) {
 			super(view, carouselView);

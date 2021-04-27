@@ -2,29 +2,44 @@ package pkgModel;
 
 import static org.junit.Assert.*;
 
+import java.awt.Polygon;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Test;
 
+import pkgController.Moisture;
+import pkgController.Soil;
+import pkgController.Sun;
+
 public class PlantGardenModelTest {
 	
-	PlantGardenModel plantGarden = new PlantGardenModel();
+	PlantGardenModel plantGarden = new PlantGardenModel(new ArrayList<PlantModel>());
 	
-	public void testPlantGarden() {
+	public void testGardenModel() {
 		assertEquals(false, plantGarden.compost == null);
+	}
+	
+	
+	@Test
+	public void testAddPlant() {
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+		plantGarden.addPlant(plant);
+		assertEquals(true, plantGarden.plants.contains(plant));
 	}
 	
 	@Test
 	public void testCheckSpread() {
-		assertEquals(true, plantGarden.checkSpread());
-	}
-	
-	@Test
-	public void testAddPlant() {
-		PlantModel plant = new PlantObjectModel(0,0,0,0);
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
 		plantGarden.addPlant(plant);
-		assertEquals(true, plantGarden.plants.contains(plant));
+		PlantObjectModel plant2 = new PlantObjectModel("","",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+		plantGarden.addPlant(plant2);
+		assertFalse(plantGarden.checkSpread(0));
+		PlantObjectModel plant3 = new PlantObjectModel("","",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 150, 200, 150, 200);
+		plantGarden.addPlant(plant3);
+		assertTrue(plantGarden.checkSpread(2));
 	}
 	
 	@Test
@@ -35,7 +50,7 @@ public class PlantGardenModelTest {
 	
 	@Test
 	public void testCompost() {
-		PlantModel plant = new PlantObjectModel(0,0,0,0);
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
 		plantGarden.compost(plant);
 		assertEquals(true,plantGarden.compost.contains(plant));
 	}
@@ -52,8 +67,8 @@ public class PlantGardenModelTest {
 
 	@Test
 	public void testSetPlants() {
-		Set<PlantModel> plants = new HashSet<>();
-		PlantObjectModel plant = new PlantObjectModel(0,0,0,0);
+		List<PlantObjectModel> plants = new ArrayList<>();
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
 		plants.add(plant);
 		plantGarden.setPlants(plants);
 		assertEquals(true, plantGarden.plants.contains(plant));
@@ -66,8 +81,8 @@ public class PlantGardenModelTest {
 
 	@Test
 	public void testSetCompost() {
-		Set<PlantModel> compost = new HashSet<>();
-		PlantObjectModel plant = new PlantObjectModel(0,0,0,0);
+		List<PlantObjectModel> compost = new ArrayList<>();
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
 		compost.add(plant);
 		plantGarden.setCompost(compost);
 		assertEquals(true, plantGarden.compost.contains(plant));
@@ -104,6 +119,73 @@ public class PlantGardenModelTest {
 	public void testSetHeldPlant() {
 		plantGarden.setHeldPlant(3);
 		assertEquals(3, plantGarden.heldPlant);
+	}
+	
+	@Test
+	public void testSetPlantLocation() {
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+		plantGarden.addPlant(plant);
+		int initialX = (int)plantGarden.plants.get(0).x;
+		plantGarden.setPlantLocation(0, 20, 25);
+		int  finalX = (int)plantGarden.plants.get(0).x;
+		assertEquals(initialX, finalX);
+	}
+	
+	@Test
+	public void testDragPlant() {
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+		plantGarden.addPlant(plant);
+		int initialX = (int)plantGarden.plants.get(0).x;
+		plantGarden.dragPlant(0, 10, 10, 500, 500);
+		int finalX = (int)plantGarden.plants.get(0).x;
+		assertEquals(initialX, finalX);
+	}
+	
+	@Test
+	public void testGetCarousel() {
+		assertEquals(new ObjectCarouselModel(new ArrayList<PlantModel>(), 0), plantGarden.getCarousel());
+	}
+	
+	@Test
+	public void testSetCarousel() {
+		ObjectCarouselModel carousel = plantGarden.carousel;
+		ObjectCarouselModel carousel2 = new ObjectCarouselModel(new ArrayList<PlantModel>(), 0);
+		plantGarden.setCarousel(carousel2);
+		assertEquals(carousel, plantGarden.carousel);
+	}
+	
+	@Test
+	public void testGetGardenOutline() {
+		assertEquals(new Polygon(), plantGarden.getGardenOutline());
+	}
+	
+	@Test
+	public void testSetGardenOutline() {
+		java.awt.Polygon polygon = plantGarden.gardenOutline;
+		java.awt.Polygon polygon2 = new Polygon();
+		plantGarden.setGardenOutline(polygon2);
+		assertEquals(polygon, plantGarden.gardenOutline);
+	}
+	
+	@Test
+	public void testAddPlantFromCarousel() {
+		int initialSize = plantGarden.getPlants().size();
+		PlantModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+		List<PlantModel> plants = new ArrayList<PlantModel>();
+		plants.add(plant);
+		plantGarden.setCarousel(new ObjectCarouselModel(plants, 0));
+		plantGarden.addPlantFromCarousel(0, 15, 15);
+		int finalSize = plantGarden.getPlants().size();
+		assertEquals(initialSize, finalSize);
+	}
+	
+	@Test
+	public void testCheckInsideGarden() {
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+		plantGarden.addPlant(plant);
+		java.awt.Polygon polygon2 = new Polygon();
+		plantGarden.setGardenOutline(polygon2);
+		assertTrue(plantGarden.checkInsideGarden(0));
 	}
 
 }

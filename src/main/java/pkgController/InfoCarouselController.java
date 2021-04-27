@@ -1,6 +1,7 @@
 package pkgController;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javafx.event.ActionEvent;
@@ -8,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
 import pkgView.CarouselView;
@@ -18,7 +20,6 @@ public class InfoCarouselController extends CarouselController {
 		View view;
 		InfoCarouselView icv;
 		private final double CENTER_IMAGE_SCALING = 1.3;
-		private final double CENTER_X = 400.0;
 
 		public InfoCarouselController(View view, CarouselView carouselView) {
 			super(view, carouselView);
@@ -28,18 +29,21 @@ public class InfoCarouselController extends CarouselController {
 		public void clickedPopup(MouseEvent event) {
 			VBox box = (VBox)event.getSource();
 			ImageView img = (ImageView)box.getChildren().get(1);
+			int centerIndex = carouselModel.getHeldPlant();
+			VBox centerImage = icv.getFilteredImages().get(centerIndex);
+			double centerX = centerImage.getLayoutX();
 			int index = 0;
 			if(box.getScaleX() == CENTER_IMAGE_SCALING) {
-				index = carouselModel.getHeldPlant();
+				index = centerIndex;
 			}
-			else if(event.getSceneX() < CENTER_X) {
-				index = carouselModel.getHeldPlant() - 1;
+			else if(event.getSceneX() < centerX) {
+				index = centerIndex - 1;
 				if(index < 0) {
 					index = carouselModel.getFilteredPlants().size() - 1;
 				}
 			}
 			else {
-				index = carouselModel.getHeldPlant() + 1;
+				index = centerIndex + 1;
 				if(index >= carouselModel.getFilteredPlants().size()) {
 					index = 0;
 				}
@@ -57,8 +61,11 @@ public class InfoCarouselController extends CarouselController {
 			List<VBox> images = icv.getImages();
 			List<PlantModel> filteredPlants = new ArrayList<>();
 			List<VBox> filteredImages = new ArrayList<VBox>();
-			for(int i = 0; i < plants.size(); i++) {
-				PlantInfoModel plant = (PlantInfoModel)plants.get(i);
+			Iterator<PlantModel> plantIter = plants.iterator();
+			Iterator<VBox> imageIter = images.iterator();
+			while(plantIter.hasNext() && imageIter.hasNext()) {
+				PlantInfoModel plant = (PlantInfoModel)plantIter.next();
+				VBox imageBox = imageIter.next();
 				String sunLevel = plant.getSun().getLevel();
 				String moistureLevel = plant.getMoisture().getLevel();
 				String soilType = plant.getSoil().getLevel();
@@ -70,10 +77,10 @@ public class InfoCarouselController extends CarouselController {
 				else {
 					plantType = "woody";
 				}
-				//use startWith instead of equals so the empty string will reset the carousel
-				if(sunLevel.startsWith(sun) && moistureLevel.startsWith(moisture) && soilType.startsWith(soil) && plantType.startsWith(type)) {
-					filteredImages.add(images.get(i));
-					filteredPlants.add(plants.get(i));
+				//use contains instead of equals so the empty string will reset the carousel, also one plant can have multiple soil or moisture levels
+				if(sunLevel.contains(sun) && moistureLevel.contains(moisture) && soilType.contains(soil) && plantType.contains(type)) {
+					filteredImages.add(imageBox);
+					filteredPlants.add(plant);
 				}
 			}
 			icv.setFilteredImages(filteredImages);

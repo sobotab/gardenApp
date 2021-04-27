@@ -19,7 +19,6 @@ public class SelectPlantsController {
 	SelectCarouselController scc;
 	SelectPlantsView spv;
 	private final double CENTER_IMAGE_SCALING = 1.3;
-	private final double CENTER_X = 400.0;
 	
 	public SelectPlantsController(View view, SelectPlantsView spv, SelectCarouselController scc) {
 		this.view = view;
@@ -40,18 +39,21 @@ public class SelectPlantsController {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
 		VBox img = (VBox)event.getSource();
+		int centerIndex = carouselModel.getHeldPlant();
+		VBox centerImage = carouselView.getFilteredImages().get(centerIndex);
+		double centerX = centerImage.getLayoutX();
 		int index = 0;
 		if(img.getScaleX() == CENTER_IMAGE_SCALING) {
-			index = carouselModel.getHeldPlant();
+			index = centerIndex;
 		}
-		else if(event.getSceneX() < CENTER_X) {
-			index = carouselModel.getHeldPlant() - 1;
+		else if(event.getSceneX() < centerX) {
+			index = centerIndex - 1;
 			if(index < 0) {
 				index = carouselModel.getFilteredPlants().size() - 1;
 			}
 		}
 		else {
-			index = carouselModel.getHeldPlant() + 1;
+			index = centerIndex + 1;
 			if(index >= carouselModel.getFilteredPlants().size()) {
 				index = 0;
 			}
@@ -77,9 +79,8 @@ public class SelectPlantsController {
 		spv.deSelectPlant(img);
 		Text text = (Text)img.getChildren().get(0);
 		String name = text.getText();
-		PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByName(name);
+		PlantInfoModel plant = (PlantInfoModel)carouselModel.getSelectedPlants().remove(name);
 		carouselModel.getFilteredPlants().add(plant);
-		carouselModel.deSelectPlant(plant);
 		carouselView.getFilteredImages().add(img);
 		carouselView.update();
 	}
@@ -88,7 +89,6 @@ public class SelectPlantsController {
 		return event -> plantDeselected((MouseEvent) event);
 	}
 	
-	//Make more methods for organizing the gardens
 	
 	public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);

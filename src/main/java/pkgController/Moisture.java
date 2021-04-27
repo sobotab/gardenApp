@@ -3,8 +3,9 @@ package pkgController;
 public enum Moisture {
 	
 	WET("wet"), 
-	DAMP("damp"), 
-	DRY("dry");
+	MOIST("moist"), 
+	DRY("dry"),
+	FLOODED("flooded");
 
 	private String level = null;
 	

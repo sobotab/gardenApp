@@ -14,8 +14,6 @@ import pkgController.CarouselController;
 
 
 public abstract class CarouselView extends FlowPane {
-	//List<ImageView> filteredImages;
-	//List<ImageView> images;
 	List<VBox> filteredImages;
 	List<VBox> images;
 	boolean rotateLeft;
@@ -82,12 +80,7 @@ public abstract class CarouselView extends FlowPane {
 	private List<VBox> makeFullCarousel(int leftMostNode, int rightMostNode) {
 		List<VBox> sublist = new ArrayList<VBox>();
 		
-//		ImageView left = filteredImages.get(leftMostNode);
-//		ImageView middle = filteredImages.get(center);
-//		ImageView right = filteredImages.get(rightMostNode);
-		
 		VBox left = filteredImages.get(leftMostNode);
-		//ImageView leftImage = (ImageView)left.getChildren().get(1);
 		VBox middle = filteredImages.get(center);
 		VBox right = filteredImages.get(rightMostNode);
 		
@@ -108,7 +101,6 @@ public abstract class CarouselView extends FlowPane {
 	
 	private List<VBox> makeSmallCarousel(){
 		List<VBox> sublist = new ArrayList<>();
-		//ImageView middle = filteredImages.get(center);
 		VBox middle = filteredImages.get(center);
 		
 		middle.setScaleX(CENTER_IMAGE_SCALING);

@@ -1,41 +1,98 @@
 package pkgModel;
 
 import java.awt.Point;
+import java.awt.Polygon;
+import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
+
+import pkgController.Soil;
+
 
 public class PlantGardenModel extends GardenModel{
-	
 	List<PlantObjectModel> plants;
-	Set<PlantObjectModel> compost;
+	List<PlantObjectModel> compost;
 	ObjectCarouselModel carousel;
+	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
 	int numLeps;
 	int dollars;
 	int heldPlant;
 
-	public PlantGardenModel(Set<PlantModel> plantModels, int heldPlant) {
-		this.carousel = new ObjectCarouselModel(plantModels, heldPlant);
+	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+		this.plots = plots;
+		//this.carousel = new ObjectCarouselModel(plantInput, 0);
+		this.carousel = carouselModel;
+		carousel.fillCarousel(plantInput, 0);
 		this.plants = new ArrayList<PlantObjectModel>();
-		this.plants.addAll(carousel.plants);
+		//this.plants.addAll(carousel.plants);
 		//this.compost = new Set<PlantObjectModel>();
+		
 	}
 	
-	public boolean isInsideGarden(List<Point> gardenOutline, Point plantLoc) {
-	      int i;
-	      int j;
-	      boolean result = false;
-	      for (i = 0, j = gardenOutline.size() - 1; i < gardenOutline.size(); j = i++) {
-	        if ((gardenOutline.get(i).y > plantLoc.y) != (gardenOutline.get(j).y > plantLoc.y) &&
-	            (plantLoc.x < (gardenOutline.get(j).x - gardenOutline.get(i).x) * (plantLoc.y - gardenOutline.get(i).y) / (gardenOutline.get(j).y-gardenOutline.get(i).y) + gardenOutline.get(i).x)) {
-	          result = !result;
-	         }
-	        //System.out.println("y =  " + gardenOutline.get(i).y + " " + plantLoc.y + " x =  " + gardenOutline.get(i).x + " " + plantLoc.x);
-	      } 
-	      return result;
-	    }
+	public void addPlantFromCarousel(int index, double init_x, double init_y) {
+		PlantObjectModel plant = (carousel.removePlant(index));
+		plant.setX(init_x);
+		plant.setY(init_y);
+		plants.add(plant);
+	}
 	
-	public boolean checkSpread() {
+	public boolean inPolygon (Point2D.Double testPoint, ArrayList<Point2D.Double> polygon) {
+		int vertex, adjacentVertex;
+		int count = 0;
+		
+		for (vertex = 0; vertex < polygon.size(); vertex++) {
+			adjacentVertex = vertex + 1;
+			if (vertex == polygon.size()-1) { 
+				adjacentVertex = 0; 
+			}
+			
+			Point2D.Double v1 = polygon.get(vertex);
+			Point2D.Double v2 = polygon.get(adjacentVertex);
+			
+			if ((v1.y > testPoint.y) != (v2.y > testPoint.y)) {					// is testPoint between adjacent vertices?
+				Double slope = (testPoint.y - v1.y) / (v2.y - v1.y);			// find x-coordinate of where line between adjacent vertices would intersect
+				if ( slope * (v2.x - v1.x) + v1.x < testPoint.x)				// with horizontal line extending from testPoint
+					count++;
+			}
+		}
+		return (count % 2 != 0);					// if odd number of intersections to the left of testPoint, it is inside polygon
+	}
+
+	public boolean checkCanvas(int index, double canvas_x, double canvas_y) {
+		PlantObjectModel plantCheck = plants.get(index);
+		Iterator validPlotsIter = plots.get( plantCheck.getSoil() ).iterator();
+		
+		while (validPlotsIter.hasNext()) {		
+			Point2D.Double testPoint = new Point2D.Double(plantCheck.x - canvas_x, plantCheck.y - canvas_y);
+			
+			if (inPolygon(testPoint, (ArrayList<Point2D.Double>)validPlotsIter.next())) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	public boolean checkSpread(int index) {
+		PlantObjectModel plant1 = plants.get(index);
+		double x1 = plant1.x + (plant1.getSpreadDiameter()/7);
+		double y1 = plant1.y + (plant1.getSpreadDiameter()/7);
+		
+		for (PlantObjectModel plant2 : this.plants) {	
+			double x2 = plant2.x + (plant2.getSpreadDiameter()/7);		// Model coordinates represent top-left corner of PlantView		
+			double y2 = plant2.y + (plant2.getSpreadDiameter()/7);		// Add this value to coordinate vals to offset to center of PlantView
+			
+			if (plant1 != plant2) {
+				double distance = ( Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) );
+				if (distance <= ( Math.pow( (plant1.getSpreadDiameter()/2) + (plant2.getSpreadDiameter()/2), 2) ))
+					return true;	
+			}
+		}
 		return false;
 	}
 	
@@ -45,6 +102,17 @@ public class PlantGardenModel extends GardenModel{
 	
 	public void removePlant(int x, int y) {
 		
+	}
+	
+	public void setPlantLocation(int index, double x, double y) {
+		plants.get(index).setX(x);
+		plants.get(index).setY(y);
+	}
+	
+	public void dragPlant(int index, double x, double y, double x_max, double y_max) {
+		PlantObjectModel dragPlant = plants.get(index);
+		dragPlant.setXInBounds( dragPlant.getX() + x, x_max);	
+		dragPlant.setYInBounds( dragPlant.getY() + y, y_max);
 	}
 	
 	public void compost(PlantObjectModel plant) {
@@ -63,11 +131,11 @@ public class PlantGardenModel extends GardenModel{
 		this.plants = plants;
 	}
 
-	public Set<PlantObjectModel> getCompost() {
+	public List<PlantObjectModel> getCompost() {
 		return compost;
 	}
 
-	public void setCompost(Set<PlantObjectModel> compost) {
+	public void setCompost(List<PlantObjectModel> compost) {
 		this.compost = compost;
 	}
 
@@ -102,5 +170,5 @@ public class PlantGardenModel extends GardenModel{
 	public void setCarousel(ObjectCarouselModel carousel) {
 		this.carousel = carousel;
 	}
-	
+
 }

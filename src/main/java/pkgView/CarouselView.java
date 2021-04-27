@@ -9,35 +9,40 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import pkgController.CarouselController;
 
 
 public abstract class CarouselView extends FlowPane {
-	List<ImageView> filteredImages;
-	List<ImageView> images;
+	//List<ImageView> filteredImages;
+	//List<ImageView> images;
+	List<VBox> filteredImages;
+	List<VBox> images;
 	boolean rotateLeft;
 	boolean rotateRight;
 	List<Button> list;
 	int center;
 	int x;
 	int y;
+	private final double CENTER_IMAGE_SCALING = 1.3;
+	private final double SIDE_IMAGE_SCALING = .75;
 	
 	public CarouselView() {
 	}
 	
 	public void rotateLeft() {
-		// I imagine this is where we will use flowpane.add() and .remove() to simulate rotating carousel
-		// We can even choose index in .add() so a new plant appears on the left side
-		center -= 1;
-		if(center < 0) {
-			center = filteredImages.size()-1;
+		if(filteredImages.size() > 0) {
+			center -= 1;
+			if(center < 0) {
+				center = filteredImages.size()-1;
+			}
+			update();
 		}
-		update();
 	}
 	
 	public void rotateRight() {
 		center += 1;
-		if(center == filteredImages.size()) {
+		if(center >= filteredImages.size()) {
 			center = 0;
 		}
 		update();
@@ -51,46 +56,70 @@ public abstract class CarouselView extends FlowPane {
 	public void update() {
 		
 		this.getChildren().removeAll(images);
-		int leftMostNode = center-1;
-		if(leftMostNode < 0) {
-			leftMostNode = filteredImages.size() -1;
+		List<VBox> sublist = new ArrayList<>();
+		if(filteredImages.size() >= 3) {
+			int leftMostNode = center-1;
+			if(leftMostNode < 0) {
+				leftMostNode = filteredImages.size() - 1;
+			}
+			int rightMostNode = center + 1;
+			if(rightMostNode >= filteredImages.size()) {
+				rightMostNode = 0;
+			}
+			sublist = makeFullCarousel(leftMostNode, rightMostNode);
+			this.setHgap(10.0);
 		}
-		int rightMostNode = center + 1;
-		if(rightMostNode == filteredImages.size()) {
-			rightMostNode = 0;
+		else if (filteredImages.size() >= 1) {
+			sublist = makeSmallCarousel();
+			this.setHgap(50.0);
 		}
-		List<Node> sublist = new ArrayList<Node>();
-
-    /*
-		images.get(leftMostNode).setScaleX(.75);
-		images.get(leftMostNode).setScaleY(.75);
-		sublist.add(images.get(leftMostNode));
-		images.get(center).setScaleX(1.25);
-		images.get(center).setScaleY(1.25);
-		sublist.add(images.get(center));
-		images.get(rightMostNode).setScaleX(.75);
-		images.get(rightMostNode).setScaleY(.75);;
-		sublist.add(images.get(rightMostNode));
-    */
-
-    
-		filteredImages.get(leftMostNode).setScaleX(.75);
-		filteredImages.get(leftMostNode).setScaleY(.75);
-		sublist.add(filteredImages.get(leftMostNode));
-		filteredImages.get(center).setScaleX(1.3);
-		filteredImages.get(center).setScaleY(1.3);
-		sublist.add(filteredImages.get(center));
-		filteredImages.get(rightMostNode).setScaleX(.75);
-		filteredImages.get(rightMostNode).setScaleY(.75);;
-		sublist.add(filteredImages.get(rightMostNode));
     
     
 		this.getChildren().addAll(1,sublist);
 		
 	}
 	
+	private List<VBox> makeFullCarousel(int leftMostNode, int rightMostNode) {
+		List<VBox> sublist = new ArrayList<VBox>();
+		
+//		ImageView left = filteredImages.get(leftMostNode);
+//		ImageView middle = filteredImages.get(center);
+//		ImageView right = filteredImages.get(rightMostNode);
+		
+		VBox left = filteredImages.get(leftMostNode);
+		//ImageView leftImage = (ImageView)left.getChildren().get(1);
+		VBox middle = filteredImages.get(center);
+		VBox right = filteredImages.get(rightMostNode);
+		
+		left.setScaleX(SIDE_IMAGE_SCALING);
+		left.setScaleY(SIDE_IMAGE_SCALING);
+		sublist.add(left);
+		
+		middle.setScaleX(CENTER_IMAGE_SCALING);
+		middle.setScaleY(CENTER_IMAGE_SCALING);
+		sublist.add(middle);
+		
+		right.setScaleX(SIDE_IMAGE_SCALING);
+		right.setScaleY(SIDE_IMAGE_SCALING);;
+		sublist.add(right);
+		
+		return sublist;
+	}
+	
+	private List<VBox> makeSmallCarousel(){
+		List<VBox> sublist = new ArrayList<>();
+		//ImageView middle = filteredImages.get(center);
+		VBox middle = filteredImages.get(center);
+		
+		middle.setScaleX(CENTER_IMAGE_SCALING);
+		middle.setScaleY(CENTER_IMAGE_SCALING);
+		sublist.add(middle);
+		
+		return sublist;
+	}
+	
 	// getters
-	public List<ImageView> getImages() {
+	public List<VBox> getImages() {
 		return this.images;
 	}
 	
@@ -111,7 +140,7 @@ public abstract class CarouselView extends FlowPane {
 	}
 	
 	// setters
-	public void setImages(List<ImageView> images) {
+	public void setImages(List<VBox> images) {
 		this.images = images;
 	}
 	
@@ -131,11 +160,26 @@ public abstract class CarouselView extends FlowPane {
 		this.y = y;
 	}
 	
-	public List<ImageView> getFilteredImages(){
+	public List<VBox> getFilteredImages(){
 		return filteredImages;
 	}
 	
-	public void setFilteredImages(List<ImageView> filteredImages) {
+	public void setFilteredImages(List<VBox> filteredImages) {
 		this.filteredImages = filteredImages;
+		if(center >= filteredImages.size()) {
+			if(filteredImages.size() == 0)
+				center = 0;
+			else {
+				center = filteredImages.size() - 1;
+			}
+		}
+	}
+
+	public int getCenter() {
+		return center;
+	}
+
+	public void setCenter(int center) {
+		this.center = center;
 	}
 }

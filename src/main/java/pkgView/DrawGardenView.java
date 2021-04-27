@@ -1,13 +1,19 @@
 package pkgView;
 
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.function.UnaryOperator;
 
-import javafx.scene.Cursor;
-
+import javafx.event.ActionEvent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
@@ -15,25 +21,28 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Rectangle;
-
+import javafx.scene.shape.Polygon;
+import javafx.util.StringConverter;
 import pkgController.DrawGardenController;
+import pkgController.Soil;
 
 public class DrawGardenView extends BorderPane {
 	
 	DrawGardenController dgc;
+	final int CANVASHEIGHT = 500;
+	final int CANVASWIDTH = 500;
 	Canvas canvas;
 	GraphicsContext gc;
-	Line line;
-	int lineThickness;
-	ToggleButton drawButton, polyButton, rectButton, circButton;
+	Polygon polygon;
+	ToggleButton drawButton, polyButton;
+	ComboBox<Soil> soilComboBox;
+	Slider sun, moisture;
+	TextField budget;
+	Button undoButton;
 	Color color;
+	double lineWidth;
 	Point2D.Double start, current;
-	boolean makingLine, shapeDone;
+	boolean drawing, shapeDone;
 	
 	public DrawGardenView(View view) {
 		dgc = new DrawGardenController(view, this);
@@ -47,107 +56,198 @@ public class DrawGardenView extends BorderPane {
 		bottomHBox.getChildren().addAll(back, finish);
 		
 		//Garden Drawing Tool
-		canvas = new Canvas(400, 400);
+		lineWidth=2.0;
+		canvas = new Canvas(CANVASHEIGHT, CANVASWIDTH);
 		gc = canvas.getGraphicsContext2D();
+		gc.setLineWidth(lineWidth);
+		gc.setFill(Color.LIGHTGREEN);
+		gc.fillRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
 		
-		drawButton = new ToggleButton("Draw");
-		polyButton = new ToggleButton("Polygon");
-		rectButton = new ToggleButton("Rectangle");
-		circButton = new ToggleButton("Circle");
-		
-		ToggleButton[] toolsArr = {drawButton, polyButton, rectButton, circButton};	
-		ToggleGroup tools = new ToggleGroup();
-		
-		for (ToggleButton tool : toolsArr) {
-            tool.setMinWidth(90);
-            tool.setToggleGroup(tools);
-            tool.setCursor(Cursor.HAND);
-        }
-		
-		line = new Line();
-		makingLine = false;
-		
-		VBox buttons = new VBox();
-		buttons.getChildren().addAll(drawButton, polyButton);//, rectButton, circButton);
+		polygon = new Polygon();
+		drawing = false;
 		
 		canvas.setOnMousePressed(event -> mousePressed((MouseEvent) event));
 		canvas.setOnMouseDragged(event -> mouseDragged((MouseEvent) event));
 		canvas.setOnMouseReleased(event -> mouseReleased((MouseEvent) event));
 		
-		HBox hBox = new HBox();
-		hBox.getChildren().addAll(back, finish);
-		/*
-		StackPane canvasHolder = new StackPane();
-		canvasHolder.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, 
-                CornerRadii.EMPTY, Insets.EMPTY)));
 		
-		Canvas drawCanvas = new Canvas(250,300);
-		GraphicsContext gc = drawCanvas.getGraphicsContext2D();
-		canvasHolder.getChildren().add(drawCanvas);
+		//Making sidetool		
+		drawButton = new ToggleButton("Draw");
+		polyButton = new ToggleButton("Polygon");
+		ToggleGroup tg = new ToggleGroup();
+		tg.getToggles().addAll(drawButton, polyButton);
 		
-		drawCanvas.setOnDragDetected(dgc.getHandlerForDraw(drawCanvas));
-		*/
+		soilComboBox= new ComboBox<>();
+		soilComboBox.setPromptText("Choose Soil");
+		soilComboBox.getItems().add(Soil.CLAY);
+		soilComboBox.getItems().add(Soil.SANDY);
+		soilComboBox.getItems().add(Soil.SILTY);
+		soilComboBox.getItems().add(Soil.PEATY);
+		soilComboBox.getItems().add(Soil.CHALKY);
+		soilComboBox.getItems().add(Soil.LOAMY);
+		
+		sun = new Slider();
+		sun.setMin(0);
+		sun.setMax(2);
+		sun.setMinorTickCount(0);
+		sun.setMajorTickUnit(1);
+		sun.setSnapToTicks(true);
+		sun.setShowTickMarks(true);
+		sun.setShowTickLabels(true);
+		sun.setLabelFormatter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double n) {
+                if (n < 0.5) return "None";
+                if (n < 1.5) return "Partial";
+                if (n < 2.5) return "Full";
+                return "Full";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "None":
+                        return 0d;
+                    case "Partial":
+                        return 1d;
+                    case "Full":
+                        return 2d;
+
+                    default:
+                        return 2d;
+                }
+            }
+        });
+		
+		moisture = new Slider();
+		moisture.setMin(0);
+		moisture.setMax(2);
+		moisture.setMinorTickCount(0);
+		moisture.setMajorTickUnit(1);
+		moisture.setSnapToTicks(true);
+		moisture.setShowTickMarks(true);
+		moisture.setShowTickLabels(true);
+		moisture.setLabelFormatter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double n) {
+                if (n < 0.5) return "None";
+                if (n < 1.5) return "Partial";
+                if (n < 2.5) return "Full";
+                return "Full";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "None":
+                        return 0d;
+                    case "Partial":
+                        return 1d;
+                    case "Full":
+                        return 2d;
+
+                    default:
+                        return 2d;
+                }
+            }
+        });
+		
+		budget = new TextField();
+		budget.setPromptText("Budget");
+		UnaryOperator<TextFormatter.Change> filter = change -> {
+			if (change.getControlNewText().startsWith("$")) {
+				return change;
+			} else {
+				return null;
+			}
+		};
+		TextFormatter<String> formatter = new TextFormatter<>(filter);
+		budget.setTextFormatter(formatter);
+		
+		undoButton = new Button("Undo");
+		undoButton.setOnAction(event -> undoButtonPressed(event));
+		
+		//Adding to borderpane 
+		HBox toolBox = new HBox();
+		toolBox.getChildren().addAll(drawButton, polyButton);
+		
+		VBox sideTool = new VBox();
+		sideTool.getChildren().addAll(toolBox, soilComboBox, sun, moisture,
+				budget, undoButton);
+		
 		this.setTop(title);
-		this.setLeft(buttons);
+		this.setLeft(sideTool);
 		this.setCenter(canvas);
-		this.setBottom(hBox);
+		this.setBottom(bottomHBox);
 	}
 	
 	public void mousePressed(MouseEvent e) {
-		if(polyButton.isSelected()) {
-			if (makingLine) {
-				gc.strokeLine(line.getStartX(), line.getStartY(), e.getX(), e.getY());
-				line.setStartX(e.getX());
-				line.setStartY(e.getY());
-			} else {
-				line.setStartX(e.getX());
-				line.setStartY(e.getY());
-				setStart(e.getX(), e.getY());
-				makingLine = true;
-			}
-			setCurrent(e.getX(), e.getY());
+		setColor();
+		setCurrent(e.getX(), e.getY());
+		if (drawButton.isSelected()) {
+			drawing = true;
 			dgc.draw();
-			if (shapeDone) {
-				polyButton.setSelected(false);
-				shapeDone = false;
-				makingLine = false;
-			}
-		} else if (drawButton.isSelected()) {
-			setStart(e.getX(), e.getY());
-			gc.setStroke(color);
-            gc.beginPath();
-            dgc.draw();
+			gc.setStroke(Color.BLACK);
+			gc.setFill(color);
+			gc.beginPath();
+			gc.moveTo(e.getX(),e.getY());
 		}
 	}
 	
 	public void mouseDragged(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
-		if (shapeDone) {
-			drawButton.setSelected(false);
-			shapeDone = false;
-			makingLine = false;
-		}
-		
-		if(drawButton.isSelected()) {
-			if (shapeDone) {
-				gc.closePath();
-			} else {
-				gc.lineTo(e.getX(), e.getY());
-	            gc.stroke();
-			}
+		if(drawButton.isSelected() && drawing) {
 			dgc.draw();
+			gc.lineTo(e.getX(),e.getY());
+			gc.stroke();
 		}
 	}
 	
 	public void mouseReleased(MouseEvent e) {
-		if (drawButton.isSelected()) {
-            gc.closePath();
+		if (drawButton.isSelected() && drawing) {
+			drawing = false;
+			Point2D.Double point = dgc.draw();
+			System.out.println(point.toString());
+			gc.lineTo(point.getX(), point.getY());
+			gc.stroke();
+			gc.fill();
+			gc.closePath();
 		}
-		
-		if (shapeDone) {
-			polyButton.setSelected(false);
-			drawButton.setSelected(false);
+	}
+	
+	public void undoButtonPressed(ActionEvent event) {
+		undo(dgc.undo());
+	}
+	
+	public void setColor() {
+		switch (soilComboBox.getValue()) {
+			case CLAY:
+				color = Color.RED; break;
+			case SANDY:
+				color = Color.CORNSILK; break;
+			case SILTY:
+				color = Color.GREY; break;
+			case PEATY:
+				color = Color.DARKGOLDENROD; break;
+			case CHALKY:
+				color = Color.LIGHTGRAY; break;
+			case LOAMY:
+				color = Color.BROWN; break;
+			default:
+				color = Color.BLACK; break;
 		}
+	}
+	
+	public void undo(ArrayList<Point2D.Double> points) {
+		gc.setStroke(Color.LIGHTGREEN);
+		gc.setFill(Color.LIGHTGREEN);
+		gc.moveTo(points.get(0).getX(), points.get(0).getY());
+		for (int i=0; i<points.size(); i++) {
+			gc.lineTo(points.get(i).getX(), points.get(i).getY());
+			gc.stroke();
+		}
+		gc.fill();
+		gc.closePath();
 	}
 	
 	public Point2D.Double getStart() {
@@ -165,8 +265,20 @@ public class DrawGardenView extends BorderPane {
 	public void setCurrent(double x, double y) {
 		current = new Point2D.Double(x, y);
 	}
-
-	public void setShapeDone(boolean shapeDone) {
-		this.shapeDone = shapeDone;
+	
+	public void setDrawing(boolean drawing) {
+		this.drawing = drawing;
+	}
+	
+	public boolean getDrawing() {
+		return drawing;
+	}
+	
+	public Soil getSoil() {
+		return soilComboBox.getValue();
+	}
+	
+	public Canvas getCanvas() {
+		return this.canvas;
 	}
 }

@@ -11,6 +11,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pkgController.InfoCarouselController;
@@ -26,8 +27,8 @@ public class InfoCarouselView extends CarouselView{
 		this.setHgap(10);
 
 		images = icc.getImagesFromList();
-		filteredImages = new ArrayList<ImageView>();
-		for(ImageView image: images) {
+		filteredImages = new ArrayList<VBox>();
+		for(VBox image: images) {
 			filteredImages.add(image);
 			image.setOnMousePressed(icc.getHandlerForPopup());
 		}
@@ -53,9 +54,20 @@ public class InfoCarouselView extends CarouselView{
 		  popupWindow.show(); 
 		  }
 	  
-	  public void filter(String sun) {
-		  icc.filterCarousel(sun);
+	  public void filter(String sun, String moisture, String soil, String type) {
+		  if(soil == null) {
+			  soil = "";
+		  }
+		  if(moisture == null) {
+			  moisture = "";
+		  }
+		  if(type == null) {
+			  type = "";
+		  }
+		  if(sun == null) {
+			  sun = "";
+		  }
+		  icc.filterCarousel(sun, moisture, soil, type);
 	  }
-	 
 	
 }

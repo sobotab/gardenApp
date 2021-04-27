@@ -1,17 +1,16 @@
 package pkgController;
 
-import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.List;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.scene.Node;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.input.MouseEvent;
 import pkgModel.DrawGardenModel;
 import pkgView.DrawGardenView;
-
 import pkgView.SelectPlantsView;
 import pkgView.View;
 import pkgView.WelcomeView;
@@ -34,6 +33,21 @@ public class DrawGardenController {
 	}
 	
 	public void clickedNext(ActionEvent event) {
+		
+		// Send plots info
+		
+		try {
+			FileOutputStream fos = new FileOutputStream("gardenData.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+        	oos.writeObject(dgm.getPlots());
+            oos.close();
+        } catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        } 
+		
+		
 		view.setCurrentScreen(new SelectPlantsView(view));
 	}
 	
@@ -45,8 +59,13 @@ public class DrawGardenController {
 		return event -> clickedNext((ActionEvent) event);
 	}
 	
-	public void draw() {
+	public Point2D.Double draw() {
 		dgm.addPreOutline(dgv.getCurrent());
-		dgv.setShapeDone(dgm.checkEnd(dgv.getCurrent()));
+		dgm.addPlot(dgv.getDrawing(), dgv.getSoil());
+		return dgm.getEndPoint();
+	}
+	
+	public ArrayList<Point2D.Double> undo() {
+		return dgm.undo();
 	}
 }

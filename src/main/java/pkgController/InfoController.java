@@ -35,29 +35,9 @@ public class InfoController {
 		view.setCurrentScreen(new WelcomeView(view));
 	}
 	
-//	public void clickedPopup(MouseEvent event) {
-//		ImageView img = (ImageView)event.getSource();
-////		String image_string = img.getImage().getUrl();
-////		String sciName = "";
-////		for(int i = 8; i < image_string.length(); i++) {
-////			if(image_string.charAt(i) == '.') {
-////				i = image_string.length();
-////			}
-////			else {
-////				sciName += image_string.charAt(i);
-////			}
-////		}
-////		System.out.println(sciName);
-//		PlantInfoModel plant = (PlantInfoModel)carouselModel.getCenterPlant();
-//		icv.openInfoPopUp(view, img, plant.getName(), plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription());
-//	}
 	
 	public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);
 	}
 	
-//	public EventHandler getHandlerForPopup() {
-//		return event -> clickedPopup((MouseEvent) event);
-//	}
-//	
 }

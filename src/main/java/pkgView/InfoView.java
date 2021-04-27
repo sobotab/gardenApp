@@ -10,6 +10,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
@@ -19,6 +20,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Modality;
@@ -28,6 +30,7 @@ import pkgController.InfoController;
 
 public class InfoView extends BorderPane {
 	InfoCarouselView infoCarousel;
+	private final double FILTER_WIDTH = 125.0;
 	
 	public InfoView(View view) {
 		infoCarousel = new InfoCarouselView(view);
@@ -43,22 +46,44 @@ public class InfoView extends BorderPane {
 		HBox hBox = new HBox();
 		hBox.getChildren().addAll(title, back);
 
+		ComboBox<String> type = new ComboBox();
+		type.setPromptText("Plant Type");
+		type.setItems(FXCollections.observableArrayList("","woody","herbaceous"));
+		type.setPrefWidth(FILTER_WIDTH);
 		
-		ChoiceBox sun = new ChoiceBox();
-		sun.setItems(FXCollections.observableArrayList("full sun", "part sun", "full shade"));
+		ComboBox<String> sun = new ComboBox();
+		sun.setPromptText("Sun Level");
+		sun.setItems(FXCollections.observableArrayList("","full sun", "part sun", "full shade"));
+		sun.setPrefWidth(FILTER_WIDTH);
+	
+		ComboBox<String> moisture = new ComboBox();
+		moisture.setPromptText("Moisture Level");
+		moisture.setItems(FXCollections.observableArrayList("", "wet", "damp", "dry"));
+		moisture.setPrefWidth(FILTER_WIDTH);
+		
+		ComboBox<String> soil = new ComboBox();
+		soil.setPromptText("Soil Type");
+		soil.setItems(FXCollections.observableArrayList("","clay","sandy","silty","peaty","chalky","loamy"));
+		soil.setPrefWidth(FILTER_WIDTH);
+		
 		
 		Button filter = new Button("Filter");
 		filter.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event) {
-				infoCarousel.filter((String)sun.getValue());
+				String sunLevel = sun.getValue();
+				String moistureLevel = moisture.getValue();
+				String soilType = soil.getValue();
+				String plantType = type.getValue();
+				infoCarousel.filter(sunLevel, moistureLevel, soilType, plantType);
+				
 			}
 		});
-		HBox box = new HBox();
-		//Label title = new Label("Glossary");
-		box.getChildren().addAll(sun,filter);
+		
+		VBox vbox = new VBox();
+		vbox.getChildren().addAll(type, moisture, soil, sun, filter);
      	
 		
-		this.setRight(box);
+		this.setRight(vbox);
 		this.setTop(hBox);
 		this.setCenter(infoCarousel);
 		this.setBottom(back);

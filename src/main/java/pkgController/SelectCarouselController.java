@@ -22,14 +22,39 @@ import pkgView.CarouselView;
 import pkgView.InfoCarouselView;
 import pkgView.SelectCarouselView;
 import pkgView.View;
-
+/**
+ * 
+ * @author Zane Greenholt
+ * SelectCarouselController extends the CarouselController class and holds the handlers for the carousel on the select plants screen.
+ */
 public class SelectCarouselController extends CarouselController {
+	/**
+	 * The program's view that is only initialized once
+	 */
 	View view;
+	/**
+	 * A SelectCarouselView that holds the images for the carousel
+	 */
 	SelectCarouselView scv;
+	/**
+	 * A String representing the moisture level selected by the user on the drawGarden screen.
+	 */
 	String moisture;
+	/**
+	 * A String representing the sun level selected by the user on the drawGarden screen.
+	 */
 	String sun;
+	/**
+	 * A list of Strings representing all soil types used for plots by the user on the drawGarden screen.
+	 */
 	List<String> soil;
 		
+	/**
+	 * Constructor initializes view and carouselView, but also reads in gardenData from a .ser file in order to capture the user's 
+	 * decisions for sun, soil, and moisture.
+	 * @param view The program's view that is only initialized once
+	 * @param carouselView A carouselView that holds the images for the carousel
+	 */
 	public SelectCarouselController(View view, CarouselView carouselView) {
 		super(view, carouselView);
 		scv = (SelectCarouselView)carouselView;
@@ -66,7 +91,13 @@ public class SelectCarouselController extends CarouselController {
 		this.sun = sun2.getLevel();
 	}
 
-	
+	/**
+	 * Filters the images in the SelectCarouselView and the corresponding carouselModel plants based on the user's soil, moisture, and sun decisions from
+	 * the drawGarden screen.
+	 * @param sun String representing the user's choice of sun level
+	 * @param moisture String representing the user's choice of moisture level
+	 * @param soil List of Strings representing all soils chosen by the user
+	 */
 	public void filterCarousel(String sun, String moisture, List<String> soil) {
 		List<PlantModel> plants = carouselModel.getPlants();
 		List<VBox> images = scv.getImages();
@@ -98,41 +129,67 @@ public class SelectCarouselController extends CarouselController {
 		carouselModel.setHeldPlant(0);
 		scv.update();
 	}
-
+	
+	/**
+	 * Getter for scv field
+	 * @return scv field - A SelectCarouselView with the images for the carousel
+	 */
 	public SelectCarouselView getScv() {
 		return scv;
 	}
-
+	
+	/**
+	 * Setter for scv field
+	 * @param scv A SelectCarouselView that will replace the current scv field
+	 */
 	public void setScv(SelectCarouselView scv) {
 		this.scv = scv;
 	}
 
-
+	/**
+	 * Getter for the moisture field
+	 * @return moisture field - A String representing the user's moisture level choice
+	 */
 	public String getMoisture() {
 		return moisture;
 	}
 
-
+	/**
+	 * Setter for the moisture field
+	 * @param moisture A String representing a moisture level
+	 */
 	public void setMoisture(String moisture) {
 		this.moisture = moisture;
 	}
 
-
+	/**
+	 * Getter for the sun field
+	 * @return sun field - A String representing the user's sun level choice
+	 */
 	public String getSun() {
 		return sun;
 	}
 
-
+	/**
+	 * Setter for the sun field
+	 * @param sun String representing a sun level
+	 */
 	public void setSun(String sun) {
 		this.sun = sun;
 	}
 
-
+	/**
+	 * Getter for the soil field
+	 * @return soil field - A List of Strings representing all soil types chosen by the user
+	 */
 	public List<String> getSoil() {
 		return soil;
 	}
 
-
+	/**
+	 * Setter for the soil field
+	 * @param soil List of Strings representing different soil types
+	 */
 	public void setSoil(List<String> soil) {
 		this.soil = soil;
 	}

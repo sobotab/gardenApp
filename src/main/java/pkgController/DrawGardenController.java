@@ -49,7 +49,8 @@ public class DrawGardenController {
 		int budget = 60;
 		sendData.add(dgm.getPlots());
 		sendData.add(dgm.getBudget());
-		
+		sendData.add(dgm.getMoisture());
+		sendData.add(dgm.getSun());
 		try {
 			FileOutputStream fos = new FileOutputStream("gardenData.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);

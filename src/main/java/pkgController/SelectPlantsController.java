@@ -1,11 +1,14 @@
 package pkgController;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javafx.event.ActionEvent;
@@ -53,7 +56,6 @@ public class SelectPlantsController {
 			FileOutputStream fos = new FileOutputStream("plantData.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
         	oos.writeObject(plantList);
-        	System.out.println(plantList.get(0));
             oos.close();
         } catch (FileNotFoundException e) {
         	System.out.println("File not found");

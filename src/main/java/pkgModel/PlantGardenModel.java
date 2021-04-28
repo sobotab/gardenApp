@@ -13,9 +13,11 @@ import java.util.Set;
 import java.util.Stack;
 
 import pkgController.Soil;
+import pkgView.PlantView;
 
 
 public class PlantGardenModel extends GardenModel implements Serializable {
+	final int DEFAULTSCALE = 25;
 	List<PlantObjectModel> plants;
 	List<PlantObjectModel> compost;
 	ObjectCarouselModel carousel;
@@ -24,8 +26,9 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	int budget;
 	int dollars;
 	int heldPlant;
+	//int scale;
 
-	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots, int budget) {
+	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots, int budget, int scale) {
 		this.plots = plots;
 		this.budget = budget;
 		this.numLeps = 0;
@@ -108,11 +111,22 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 			
 			if (plant1 != plant2) {
 				double distance = ( Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) );
-				if (distance <= ( Math.pow( (plant1.getSpreadDiameter()/2) + (plant2.getSpreadDiameter()/2), 2) ))
+				//if (distance <= ( Math.pow( (plant1.getSpreadDiameter()/2) + (plant2.getSpreadDiameter()/2), 2) ))
+				if (distance <= ( Math.pow( computeScaleSize(plant1) + computeScaleSize(plant2), 2) ))
 					return true;	
 			}
 		}
 		return false;
+	}
+	
+	public double computeScaleSize(PlantObjectModel plant) {
+		double default_radius = plant.getSpreadDiameter()/2;
+		if (Math.abs(this.scale - DEFAULTSCALE) < 1) {
+			return default_radius;
+		}
+		double scaled_radius = default_radius + (default_radius / (this.scale - DEFAULTSCALE) );
+		System.out.println("default: " + default_radius + ", this scale: " + this.scale + ", " + "new radius: " + scaled_radius);
+		return Math.min(1.0, scaled_radius);
 	}
 	
 	public void addPlant(PlantObjectModel plant) {

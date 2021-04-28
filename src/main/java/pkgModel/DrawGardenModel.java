@@ -17,7 +17,7 @@ public class DrawGardenModel extends GardenModel {
 	int budget;
 	int height;
 	int width;
-	int scale;
+	double scale;
 	
 	Point2D.Double endPoint;
 	boolean set;

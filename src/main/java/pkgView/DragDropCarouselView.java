@@ -83,12 +83,12 @@ public class DragDropCarouselView extends CarouselView {
 			if (plants.indexOf(plant) < maxViewSize)
 				this.getChildren().add( plant );
 			
+			
 			if (plants.size() >= maxViewSize) {
 				if (plants.indexOf(plant) == 0 || plants.indexOf(plant) == maxViewSize - 1)
 					plant.setFitHeight( plant.getFitHeight() * SHRINK_IMG_SCALE);
-			}
-		}
-		
+			}	
+		}		
 		this.getChildren().add(right);
 	}	
 	
@@ -103,7 +103,7 @@ public class DragDropCarouselView extends CarouselView {
 		//this.plants.add(plant);
 		this.plants.add(index, plant);
 		this.getChildren().add(index+1, plant);
-		if ((index == 1 || index == maxViewSize) && maxViewSize >= plants.size()-1)
+		if ((index == 1 || index == maxViewSize) && maxViewSize <= plants.size()-1)
 			plant.setFitHeight( plant.getFitHeight() * SHRINK_IMG_SCALE);
 	}
 	

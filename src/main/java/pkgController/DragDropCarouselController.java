@@ -39,4 +39,5 @@ public class DragDropCarouselController extends CarouselController {
 		return event -> clickedLeft((ActionEvent) event);
 	}
 	
+	
 }

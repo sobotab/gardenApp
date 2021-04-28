@@ -58,13 +58,10 @@ public class EditGardenController {
 	
 	public EditGardenController(View view, EditGardenView gardenView, String loadName) {	
 		
-		// Hard-coded max dimension
-		//double max_height = 500;
-		//double default_max_height = 500;
-		
 		HashMap<String, PlantGardenModel> gardenData = null;
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = null;
 		int budget = 0;
+		int scale = 25;
 		
 		if (loadName != null) {
 			try {
@@ -87,10 +84,10 @@ public class EditGardenController {
 			for (PlantModel plant : gardenModel.getCarousel().getPlants()) {
 				gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
 			}
-			
+			gardenView.getPlantCarousel().getController().carouselModel = gardenModel.getCarousel();
 			gardenView.setBudget(gardenModel.getBudget());
 			gardenView.makeCanvas(gardenModel.getPlots());
-			
+			gardenView.setScale(gardenModel.getScale());
 		} 
 		
 		else {
@@ -103,6 +100,8 @@ public class EditGardenController {
 		        ArrayList<Object> receiveData = (ArrayList<Object>)ois.readObject();
 		        plots = (HashMap<Soil, Stack<ArrayList<Point2D.Double>>>)receiveData.get(0);
 				budget = (int)receiveData.get(1);
+				scale = (int)receiveData.get(4);
+				System.out.println("whats in data4: " + scale);
 		        ois.close();
 			} catch (FileNotFoundException e) {
 	        	System.out.println("File not found");
@@ -129,19 +128,22 @@ public class EditGardenController {
 	        }
 		
 		
-		// Initialize & Add plants to view
-		this.view=view;
-		this.gardenView = gardenView;
+			// Initialize & Add plants to view
+			this.view=view;
+			this.gardenView = gardenView;
+	
+			for (PlantModel plant : plants2) {
+				gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
+			}
+			gardenView.setBudget(budget);
+			gardenView.makeCanvas(plots);
+			gardenView.setScale(scale);
+			
+			// Initialize & Add plants to model
+			ObjectCarouselModel carouselModel = gardenView.getPlantCarousel().getController().carouselModel;
+			this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots, budget, scale);		
+			gardenModel.setScale((int)scale);
 
-		for (PlantModel plant : plants2) {
-			gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
-		}
-		gardenView.setBudget(budget);
-		gardenView.makeCanvas(plots);
-		
-		// Initialize & Add plants to model
-		ObjectCarouselModel carouselModel = gardenView.getPlantCarousel().getController().carouselModel;
-		this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots, budget);		
 		}
 	}
 	
@@ -243,7 +245,7 @@ public class EditGardenController {
 			inputName = Optional.ofNullable("New Garden");
 		}
 		
-		HashMap<String, PlantGardenModel> gardenData = null;
+		HashMap<String, PlantGardenModel> gardenData = new HashMap<String, PlantGardenModel>();
 		
 		// Load existing data
 		try {
@@ -281,7 +283,7 @@ public class EditGardenController {
 		Node n = (Node)event.getSource();
 		
 		int index = gardenView.getPlants().indexOf(n);
-		
+		System.out.println("plant in model: " + gardenModel.getPlants().get(index).getName());
 		gardenModel.dragPlant(index, event.getX(), event.getY(),
 				gardenView.getGarden().getWidth() - gardenView.getPlants().get(index).getFitHeight(), 
 				gardenView.getGarden().getHeight() - gardenView.getPlants().get(index).getFitHeight());
@@ -291,7 +293,7 @@ public class EditGardenController {
 		gardenView.setX( index, x_loc );
 		gardenView.setY( index, y_loc );
 		
-		System.out.println("coordinates: " + x_loc + ", " + y_loc);
+		//System.out.println("coordinates: " + x_loc + ", " + y_loc);
 		
 		gardenView.drawSpread(index, x_loc, y_loc);
 				
@@ -322,6 +324,7 @@ public class EditGardenController {
 			gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps());
 			gardenView.replacePlant(indexCarousel);
 			gardenView.addPlantFromCarousel(indexCarousel, n, event);
+			
 		}
 		return;
 	}
@@ -330,14 +333,14 @@ public class EditGardenController {
 	
 	public void dragDetect(MouseEvent event, PlantView pv) {
 		//pv.startFullDrag();
-		System.out.print("drag detected      ");
+		//System.out.print("drag detected      ");
 		return;
 	}
 	
 	public void release(MouseEvent event) {
 		Node n = (Node)event.getSource();
 		int index = gardenView.getPlants().indexOf(n);
-		System.out.println("index " + index);
+		//System.out.println("index " + index);
 		PlantObjectModel plantModel = gardenModel.getPlants().get(index);
 		if (plantModel.getX() <= 60 && plantModel.getY() >= gardenView.getGarden().getHeight() - 60) {
 			

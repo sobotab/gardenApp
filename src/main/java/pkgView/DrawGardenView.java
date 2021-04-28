@@ -402,4 +402,8 @@ public class DrawGardenView extends BorderPane {
 		buildPlots(plots);
 		buildScaleText();
 	}
+
+	public double getScale() {
+		return this.scale;
+	}
 }

@@ -53,6 +53,7 @@ import pkgController.Soil;
 public class EditGardenView extends BorderPane{
 	final int CANVASHEIGHT = 500;
 	final int CANVASWIDTH = 500;
+	final int DEFAULTSCALE = 25;
 	boolean clicked;
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
@@ -64,7 +65,7 @@ public class EditGardenView extends BorderPane{
 	List<Circle> plantSpreads;
 	EditGardenController egc;
 	List<Pair<String, Integer>> plantInput;
-	double maxDimension;
+	int scale;
 	Canvas canvas;
 	
 	public EditGardenView(View view, String loadName) {
@@ -184,7 +185,7 @@ public class EditGardenView extends BorderPane{
     		egc.fetchGardenInfo();
     	
     	// Adding some listeners so plant coordinates stay within window
-    	
+    	/*
     	canvas.layoutXProperty().addListener((obs, oldVal, newVal) -> {
     		if ((double)newVal != 0.0) {
     			egc.fitCoordinatesToWindowWidth((double)oldVal, (double)newVal);
@@ -197,6 +198,7 @@ public class EditGardenView extends BorderPane{
     			System.out.println(oldVal + " " + (double)oldVal);
     		}
     	 });
+    	 */
     	
 	}
 	
@@ -248,7 +250,7 @@ public class EditGardenView extends BorderPane{
 			newBudgetRatio.setTextFill(Color.GOLDENROD);
 		}
 		if (dollars > budget) {
-			newBudgetRatio.setTextFill(Color.RED);
+			newBudgetRatio.setTextFill(Color.CRIMSON);
 		}
 		
 		Label newLepDisplay = new Label("" + leps);
@@ -305,7 +307,11 @@ public class EditGardenView extends BorderPane{
 	public void drawSpread(int index, double x, double y) {
 		
 		if (plantSpreads.size() == index) {
-	        Circle spread = new Circle(x, y, plants.get(index).getSpread()/2);
+	        Circle spread = new Circle(
+	        		x,
+	        		y,
+	        		//plants.get(index).getSpread()/2);
+	        		computeScaleSize(plants.get(index)));
 	        plantSpreads.add(spread);
 	        garden.getChildren().add(spread);
 	        garden.setAlignment(spread, Pos.TOP_LEFT);
@@ -321,6 +327,16 @@ public class EditGardenView extends BorderPane{
         spread.setStroke(Color.WHITE);
 		spread.setFill(Color.LIGHTBLUE);
 
+	}
+	
+	public double computeScaleSize(PlantView plant) {
+		double default_radius = plant.getSpread()/2;
+		if (Math.abs(this.scale - DEFAULTSCALE) < 1) {
+			return default_radius;
+		}
+		double scaled_radius = default_radius + (default_radius / (this.scale - DEFAULTSCALE) );
+		System.out.println("default: " + default_radius + ", this scale: " + this.scale + ", " + "new radius: " + scaled_radius);
+		return Math.min(1.0, scaled_radius);
 	}
 	
 	
@@ -425,6 +441,11 @@ public class EditGardenView extends BorderPane{
 	
 	public void setBudget(int budget) {
 		this.budget = budget;
+	}
+
+	public void setScale(int scale) {
+		this.scale = scale;
+		
 	}
 	
 }

@@ -44,7 +44,7 @@ public class ModelTest {
 	@Test
 	public void testSetPlants() {
 		Set<PlantModel> plants = new HashSet<>();
-		PlantModel plant = new PlantInfoModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, "");
+		PlantModel plant = new PlantInfoModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, "");
 		plants.add(plant);
 		model.setPlants(plants);
 		assertEquals(true, model.plants.contains(plant));
@@ -58,7 +58,7 @@ public class ModelTest {
 	@Test
 	public void testSetPotentialPlants() {
 		List<PlantModel> plants = new ArrayList<PlantModel>();
-		PlantModel plant = new PlantInfoModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, "");
+		PlantModel plant = new PlantInfoModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, "");
 		plants.add(plant);
 		model.setPotentialPlants(plants);
 		assertEquals(true, model.potentialPlants.contains(plant));
@@ -72,7 +72,7 @@ public class ModelTest {
 	@Test
 	public void testSetSelectedPlants() {
 		Set<PlantModel> plants = new HashSet<>();
-		PlantModel plant = new PlantInfoModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, "");
+		PlantModel plant = new PlantInfoModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, "");
 		plants.add(plant);
 		model.setSelectedPlants(plants);
 		assertEquals(true, model.selectedPlants.contains(plant));

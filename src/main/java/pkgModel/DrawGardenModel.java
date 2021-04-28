@@ -1,12 +1,11 @@
 package pkgModel;
 import java.awt.geom.Point2D;
-import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
+import javafx.scene.transform.Scale;
+import javafx.scene.transform.Transform;
 import pkgController.Moisture;
 import pkgController.Soil;
 import pkgController.Sun;
@@ -160,11 +159,13 @@ public class DrawGardenModel extends GardenModel {
 	}
 	
 	public void scale(double xScale, double yScale) {
+		Scale scale = new Scale(xScale/this.xScale, yScale/this.yScale);
+		ArrayList<Double> tmpArray = new ArrayList<>();
 		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
 			for (ArrayList<Point2D.Double> plot: soil) {
 				for (Point2D.Double point: plot) {
-					Point2D.Double tmp = new Point2D.Double();
-					//tmp.setLocation(point.getX())
+					tmpArray.add(point.getX());
+					tmpArray.add(point.getY());
 				}
 			}
 		}

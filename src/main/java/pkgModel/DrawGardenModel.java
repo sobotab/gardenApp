@@ -3,6 +3,8 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import pkgController.Moisture;
@@ -38,6 +40,7 @@ public class DrawGardenModel extends GardenModel {
 
 	public void addPreOutline(Point2D.Double point) {
 		preOutline.add(scalePoint(point));
+		System.out.println("how many times is this called");
 		setEndPoint(point);
 	}
 
@@ -54,22 +57,27 @@ public class DrawGardenModel extends GardenModel {
 		return scaledPoint;
 	}
 	
-	public Point2D.Double unScalePoint(Point2D.Double point) {
+	public void unScalePoint(Point2D.Double point) {
 		Point2D.Double scaledPoint = new Point2D.Double();
 		scaledPoint.setLocation(point.getX()*width, point.getY()*height);
-		return scaledPoint;
+		point.setLocation(scaledPoint.getX(), scaledPoint.getY());
 	}
 	
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> unScalePlots() {
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> tmpHashMap = new HashMap<>();
-		tmpHashMap = (HashMap<Soil, Stack<ArrayList<Double>>>) plots.clone();
+		tmpHashMap.put(Soil.CLAY, (Stack<ArrayList<Point2D.Double>>)plots.get(Soil.CLAY).clone());
+		tmpHashMap.put(Soil.SANDY, (Stack<ArrayList<Point2D.Double>>)plots.get(Soil.SANDY).clone());
+		tmpHashMap.put(Soil.SANDY, (Stack<ArrayList<Point2D.Double>>)plots.get(Soil.LOAMY).clone());
 		for (Stack<ArrayList<Point2D.Double>> soil: tmpHashMap.values()) {
 			for (ArrayList<Point2D.Double> plot: soil) {
 				for (Point2D.Double point: plot) {
-					point=unScalePoint(point);
+					unScalePoint(point);
 				}
 			}
 		}
+		System.out.println(tmpHashMap.equals(plots));
+		System.out.println(plots);
+		System.out.println(tmpHashMap);
 		return tmpHashMap;
 	}
 	
@@ -91,7 +99,7 @@ public class DrawGardenModel extends GardenModel {
 	
 	public void addPlot(boolean drawing, Soil soil) {
 		if (!drawing) {
-			preOutline.add(scalePoint(preOutline.get(0)));
+			preOutline.add((Point2D.Double)preOutline.get(0).clone());
 			plots.get(soil).add(preOutline);
 			preOutline = new ArrayList<>();
 			set = true;

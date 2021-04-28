@@ -361,7 +361,6 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public void buildPlots(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
-		System.out.println(plots);
 		for (ArrayList<Point2D.Double> points: plots.get(Soil.CLAY)) {
 			gc.setStroke(Color.BLACK);
 			gc.setFill(Color.RED);

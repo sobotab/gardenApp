@@ -80,7 +80,7 @@ public class DrawGardenController {
 	public Point2D.Double draw() {
 		dgm.addPreOutline(dgv.getCurrent());
 		dgm.addPlot(dgv.getDrawing(), dgv.getSoil());
-		//dgm.setXYScale(dgv.getXScale(), dgv.getYScale());
+		dgm.setXYScale(dgv.getXScale(), dgv.getYScale());
 		return dgm.getEndPoint();
 	}
 	
@@ -89,7 +89,7 @@ public class DrawGardenController {
 	}
 	
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double xScale, double yScale) {
-		//dgm.scale(xScale, yScale);
+		dgm.scale(xScale, yScale);
 		return dgm.getPlots();
 	}
 }

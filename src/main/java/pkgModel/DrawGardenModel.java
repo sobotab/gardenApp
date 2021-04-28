@@ -159,16 +159,17 @@ public class DrawGardenModel extends GardenModel {
 	}
 	
 	public void scale(double xScale, double yScale) {
-		Scale scale = new Scale(xScale/this.xScale, yScale/this.yScale);
 		ArrayList<Double> tmpArray = new ArrayList<>();
 		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
 			for (ArrayList<Point2D.Double> plot: soil) {
 				for (Point2D.Double point: plot) {
-					tmpArray.add(point.getX());
-					tmpArray.add(point.getY());
+					tmpArray.add(point.getX()/(xScale/this.xScale));
+					tmpArray.add(point.getY()/(yScale/this.yScale));
 				}
 			}
 		}
+		this.xScale = xScale;
+		this.yScale = yScale;
 	}
 	
 	public void setXYScale(double xScale, double yScale) {

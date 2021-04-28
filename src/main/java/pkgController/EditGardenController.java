@@ -2,6 +2,8 @@ package pkgController;
 
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -32,6 +34,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Pair;
 import pkgModel.DrawGardenModel;
 import pkgModel.Model;
@@ -56,6 +59,7 @@ public class EditGardenController {
 		
 		// Hard-coded max dimension
 		//double max_height = 500;
+		//double default_max_height = 500;
 		
 		HashMap<String, PlantGardenModel> gardenData = null;
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = null;
@@ -152,6 +156,51 @@ public class EditGardenController {
 		view.setCurrentScreen(new WelcomeView(view));
 	}
 	
+	// Change coordinates when window size changes
+	
+	public void fitCoordinatesToWindowWidth(double oldWidth, double newWidth) {
+		Iterator plantViewIter = gardenView.getPlants().iterator();
+		for (PlantObjectModel plantModel : gardenModel.getPlants()) {
+			plantModel.setXInBounds( 
+					plantModel.getX() + (newWidth - oldWidth),  
+					gardenView.getGarden().getWidth() - 30);
+			
+			PlantView plantView = (PlantView)plantViewIter.next();
+			plantView.setTranslateX( plantModel.getX() );
+			int index = gardenView.getPlants().indexOf(plantView);
+			gardenView.drawSpread(
+					index, 
+					plantModel.getX(), 
+					plantModel.getY());
+			gardenView.updateSpread(
+					index, 
+					gardenModel.checkCanvas(index, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutX()),
+					gardenModel.checkSpread(index));
+		}
+	}
+	
+	public void fitCoordinatesToWindowHeight(double oldHeight, double newHeight) {
+		Iterator plantViewIter = gardenView.getPlants().iterator();
+		for (PlantObjectModel plantModel : gardenModel.getPlants()) {
+			plantModel.setYInBounds( 
+					plantModel.getY() + (newHeight - oldHeight),
+					gardenView.getGarden().getWidth() - 30);
+			
+			PlantView plantView = (PlantView)plantViewIter.next();
+			plantView.setTranslateY( plantModel.getY() );
+			int index = gardenView.getPlants().indexOf(plantView);
+			gardenView.drawSpread(
+					index, 
+					plantModel.getX(), 
+					plantModel.getY());
+			gardenView.updateSpread(
+					index, 
+					gardenModel.checkCanvas(index, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutX()),
+					gardenModel.checkSpread(index));
+		}
+	}
+	
+	
 	// Updating view after loading a saved garden
 	
 	public void fetchGardenInfo() {
@@ -240,6 +289,8 @@ public class EditGardenController {
 		double y_loc = gardenModel.getPlants().get(index).getY();
 		gardenView.setX( index, x_loc );
 		gardenView.setY( index, y_loc );
+		
+		System.out.println("coordinates: " + x_loc + ", " + y_loc);
 		
 		gardenView.drawSpread(index, x_loc, y_loc);
 				

@@ -1,7 +1,10 @@
 package pkgModel;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import pkgController.Moisture;
@@ -15,9 +18,7 @@ public class DrawGardenModel extends GardenModel {
 	Moisture moisture;
 	Sun sun;
 	int budget;
-	int height;
-	int width;
-	double scale;
+	double height, width, scale;
 	
 	Point2D.Double endPoint;
 	boolean set;
@@ -31,14 +32,15 @@ public class DrawGardenModel extends GardenModel {
 		preOutline = new ArrayList<>();
 		set = true;
 		undoStack = new Stack<>();
-		height = 500;
-		width = 500;
+		height = 500.0;
+		width = 500.0;
 		scale = 25;
 	}
 
 
 	public void addPreOutline(Point2D.Double point) {
-		preOutline.add(point);
+		preOutline.add(scalePoint(point));
+		System.out.println("how many times is this called");
 		setEndPoint(point);
 	}
 
@@ -49,24 +51,55 @@ public class DrawGardenModel extends GardenModel {
 		}
 	}
 	
+	public Point2D.Double scalePoint(Point2D.Double point) {
+		Point2D.Double scaledPoint = new Point2D.Double();
+		scaledPoint.setLocation(point.getX()/width, point.getY()/height);
+		return scaledPoint;
+	}
+	
+	public void unScalePoint(Point2D.Double point) {
+		Point2D.Double scaledPoint = new Point2D.Double();
+		scaledPoint.setLocation(point.getX()*width, point.getY()*height);
+		point.setLocation(scaledPoint.getX(), scaledPoint.getY());
+	}
+	
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> unScalePlots() {
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> tmpHashMap = new HashMap<>();
+		tmpHashMap.put(Soil.CLAY, (Stack<ArrayList<Point2D.Double>>)plots.get(Soil.CLAY).clone());
+		tmpHashMap.put(Soil.SANDY, (Stack<ArrayList<Point2D.Double>>)plots.get(Soil.SANDY).clone());
+		tmpHashMap.put(Soil.SANDY, (Stack<ArrayList<Point2D.Double>>)plots.get(Soil.LOAMY).clone());
+		for (Stack<ArrayList<Point2D.Double>> soil: tmpHashMap.values()) {
+			for (ArrayList<Point2D.Double> plot: soil) {
+				for (Point2D.Double point: plot) {
+					unScalePoint(point);
+				}
+			}
+		}
+		System.out.println(tmpHashMap.equals(plots));
+		System.out.println(plots);
+		System.out.println(tmpHashMap);
+		return tmpHashMap;
+	}
+	
 	public Point2D.Double getEndPoint() {
 		return endPoint;
 	}
 	
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> getPlots() {
-		return this.plots;
+		return unScalePlots();
 	}
 	
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> undo(){
 		if (undoStack.size() > 0) {
 			plots.get(undoStack.pop()).pop();
-			return plots;
+			return unScalePlots();
 		}
 		return null;
 	}
 	
 	public void addPlot(boolean drawing, Soil soil) {
 		if (!drawing) {
+			preOutline.add((Point2D.Double)preOutline.get(0).clone());
 			plots.get(soil).add(preOutline);
 			preOutline = new ArrayList<>();
 			set = true;
@@ -98,14 +131,18 @@ public class DrawGardenModel extends GardenModel {
 		return budget;
 	}
 	
+	public void setScale(int scale) {
+		this.scale = scale;
+	}
+	
 	public boolean scale(double change) {
 		boolean inRange = true;
 		for (Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
 			for (int i=0; i<soil.size(); i++) {
 				for (Point2D.Double point: soil.get(i)) {
-					double x = point.getX()/(scale/(scale+change));
-					double y = point.getY()/(scale/(scale+change));
-					if (x > 475 || y > 475) {
+					double x = (point.getX()+250.0)/(scale/(scale+change))-250.0;
+					double y = (point.getY()+250.0)/(scale/(scale+change))-250.0;
+					if (x > 450 || y > 450) {
 						inRange = false;
 					}
 					point.setLocation(x, y);
@@ -119,7 +156,6 @@ public class DrawGardenModel extends GardenModel {
 	public void finish() {
 		int i = 1;
 		while(scale(i)) {
-			System.out.println(i);
 			i++;
 		}
 	}

@@ -107,8 +107,8 @@ public class DrawGardenModel extends GardenModel {
 		for (Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
 			for (int i=0; i<soil.size(); i++) {
 				for (Point2D.Double point: soil.get(i)) {
-					double x = (point.getX()+250d)/(scale/(scale+change))-250d;
-					double y = (point.getY()+250d)/(scale/(scale+change))-250d;
+					double x = point.getX()/(scale/(scale+change));
+					double y = point.getY()/(scale/(scale+change));
 					if (x > 475 || y > 475) {
 						inRange = false;
 					}

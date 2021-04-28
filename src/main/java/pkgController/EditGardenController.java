@@ -177,7 +177,7 @@ public class EditGardenController {
 					plantModel.getY());
 			gardenView.updateSpread(
 					index, 
-					gardenModel.checkCanvas(index, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutX()),
+					gardenModel.checkCanvas(index, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutY()),					
 					gardenModel.checkSpread(index));
 		}
 	}
@@ -198,7 +198,7 @@ public class EditGardenController {
 					plantModel.getY());
 			gardenView.updateSpread(
 					index, 
-					gardenModel.checkCanvas(index, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutX()),
+					gardenModel.checkCanvas(index, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutY()),
 					gardenModel.checkSpread(index));
 		}
 	}
@@ -225,7 +225,7 @@ public class EditGardenController {
 					plantInModel.getY());
 			gardenView.updateSpread(
 					viewIndex, 
-					gardenModel.checkCanvas(viewIndex, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutX()), 
+					gardenModel.checkCanvas(viewIndex, gardenModel.getCanvasXOffset(), gardenModel.getCanvasYOffset()), 
 					gardenModel.checkSpread(viewIndex));
 		}
 	}

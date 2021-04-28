@@ -2,6 +2,8 @@ package pkgView;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Stack;
 
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -30,9 +32,9 @@ import pkgController.Sun;
 public class DrawGardenView extends BorderPane {
 	
 	DrawGardenController dgc;
-	final int CANVASHEIGHT = 500;
-	final int CANVASWIDTH = 500;
-	int spacing;
+	int canvasHeight = 500;
+	int canvasWidth = 500;
+	double scale;
 	Canvas canvas;
 	GraphicsContext gc;
 	Polygon polygon;
@@ -40,7 +42,7 @@ public class DrawGardenView extends BorderPane {
 	ComboBox<Soil> soilComboBox;
 	Slider sun, moisture;
 	TextField budget;
-	Button undoButton;
+	Button undoButton, incButton, decButton;
 	Color color;
 	double lineWidth;
 	Point2D.Double start, current;
@@ -59,11 +61,11 @@ public class DrawGardenView extends BorderPane {
 		
 		//Garden Drawing Tool
 		lineWidth=2.0;
-		canvas = new Canvas(CANVASHEIGHT, CANVASWIDTH);
+		canvas = new Canvas(canvasHeight, canvasWidth);
 		gc = canvas.getGraphicsContext2D();
-		gc.setLineWidth(lineWidth);
-		gc.setFill(Color.LIGHTGREEN);
-		gc.fillRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
+		scale = 25d;
+		buildGrid();
+		buildScaleText();
 		
 		polygon = new Polygon();
 		drawing = false;
@@ -75,13 +77,12 @@ public class DrawGardenView extends BorderPane {
 		
 		//Making sidetool		
 		drawButton = new ToggleButton("Draw");
-		polyButton = new ToggleButton("Polygon");
+		//polyButton = new ToggleButton("Polygon");
 		ToggleGroup tg = new ToggleGroup();
-		tg.getToggles().addAll(drawButton, polyButton);
+		tg.getToggles().addAll(drawButton);//, polyButton);
 		
 		soilComboBox= new ComboBox<>();
 		soilComboBox.setPromptText("Choose Soil");
-		//loamy, clay, sandy
 		soilComboBox.getItems().add(Soil.CLAY);
 		soilComboBox.getItems().add(Soil.SANDY);
 		soilComboBox.getItems().add(Soil.LOAMY);
@@ -168,13 +169,20 @@ public class DrawGardenView extends BorderPane {
 		undoButton = new Button("Undo");
 		undoButton.setOnAction(event -> undoButtonPressed(event));
 		
+		incButton = new Button("+");
+		incButton.setOnAction(event -> incButtonPressed(event));
+		decButton = new Button("-");
+		decButton.setOnAction(event -> decButtonPressed(event));
+		HBox scaleButtonBox = new HBox();
+		scaleButtonBox.getChildren().addAll(incButton, decButton);
+		
 		//Adding to borderpane 
 		HBox toolBox = new HBox();
-		toolBox.getChildren().addAll(drawButton, polyButton);
+		toolBox.getChildren().addAll(drawButton);//, polyButton);
 		
 		VBox sideTool = new VBox();
 		sideTool.getChildren().addAll(toolBox, soilComboBox, sunLabel, sun,
-				moistureLabel, moisture, budgetBox, undoButton);
+				moistureLabel, moisture, budgetBox, undoButton, scaleButtonBox);
 		
 		this.setTop(title);
 		this.setLeft(sideTool);
@@ -184,6 +192,7 @@ public class DrawGardenView extends BorderPane {
 	
 	public void mousePressed(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
+		gc.setLineWidth(2d);
 		if (drawButton.isSelected()) {
 			setColor();
 			drawing = true;
@@ -222,6 +231,7 @@ public class DrawGardenView extends BorderPane {
 			undo(dgc.undo());
 		} catch (NullPointerException e) {
 			System.out.println("Nothing to undo");
+			buildScaleText();
 		}
 	}
 	
@@ -242,19 +252,10 @@ public class DrawGardenView extends BorderPane {
 		}
 	}
 	
-	public void undo(ArrayList<Point2D.Double> points) {
-		gc.setStroke(Color.LIGHTGREEN);
-		gc.setFill(Color.LIGHTGREEN);
-		gc.moveTo(points.get(0).getX(), points.get(0).getY());
-		for (int i=0; i<points.size(); i++) {
-			gc.lineTo(points.get(i).getX(), points.get(i).getY());
-			gc.stroke();
-			System.out.println(points.get(i).toString());
-		}
-		gc.lineTo(points.get(0).getX(), points.get(0).getY());
-		gc.stroke();
-		gc.fill();
-		gc.closePath();
+	public void undo(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+		buildGrid();
+		buildPlots(plots);
+		buildScaleText();
 	}
 	
 	public Point2D.Double getStart() {
@@ -327,5 +328,78 @@ public class DrawGardenView extends BorderPane {
 		Scene scene = new Scene(errorLabel);
 		errorPopup.setScene(scene);
 		errorPopup.show();
+	}
+	
+	private void buildGrid() {
+		gc.setLineWidth(1d);
+		gc.setStroke(Color.YELLOW);
+		gc.setFill(Color.LIGHTBLUE);
+		gc.fillRect(0f, 0f, canvasWidth, canvasHeight);
+		for (double i=1; i*scale < canvasWidth; i++) {
+			gc.strokeLine(i*scale, 0, i*scale, canvasHeight);
+			gc.strokeLine(0, i*scale, canvasWidth, i*scale);
+		}
+	}
+	
+	private void buildScaleText() {
+		gc.setLineWidth(4);
+		gc.setStroke(color.BLACK);
+		gc.strokeLine(scale, scale, scale+scale, scale);
+		gc.setLineWidth(1);
+		gc.strokeLine(scale, scale-scale/3, scale, scale+scale/3);
+		gc.strokeLine(scale+scale, scale-scale/3, scale+scale, scale+scale/3);
+		gc.strokeText(Integer.valueOf((int) scale) + "ft", scale, scale+scale/2);
+	}
+	
+	public void buildPlots(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+		System.out.println(plots);
+		for (ArrayList<Point2D.Double> points: plots.get(Soil.CLAY)) {
+			System.out.println("clay");
+			gc.setStroke(Color.BLACK);
+			gc.setFill(Color.RED);
+			drawPlot(points);
+		}
+		for (ArrayList<Point2D.Double> points: plots.get(Soil.SANDY)) {
+			System.out.println("sandy");
+			gc.setStroke(Color.BLACK);
+			gc.setFill(Color.CORNSILK);
+			drawPlot(points);
+		}
+		for (ArrayList<Point2D.Double> points: plots.get(Soil.LOAMY)) {
+			System.out.println("loamy");
+			gc.setStroke(Color.BLACK);
+			gc.setFill(Color.BROWN);
+			drawPlot(points);
+		}
+	}
+	
+	private void drawPlot(ArrayList<Point2D.Double> points) {
+		gc.beginPath();
+		gc.setLineWidth(2d);
+		gc.moveTo(points.get(0).getX(), points.get(0).getY());
+		for (int i=0; i<points.size(); i++) {
+			gc.lineTo(points.get(i).getX(), points.get(i).getY());
+			gc.stroke();
+		}
+		gc.lineTo(points.get(0).getX(), points.get(0).getY());
+		gc.stroke();
+		gc.fill();
+		gc.closePath();
+	}
+	
+	public void incButtonPressed(ActionEvent e) {
+		scale(1d);
+	}
+	
+	public void decButtonPressed(ActionEvent e) {
+		scale(-1d);
+	}
+	
+	public void scale(double change) {
+		scale += change;
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(change);
+		buildGrid();
+		buildPlots(plots);
+		buildScaleText();
 	}
 }

@@ -34,7 +34,7 @@ public class DrawGardenView extends BorderPane {
 	DrawGardenController dgc;
 	int canvasHeight = 500;
 	int canvasWidth = 500;
-	double scale;
+	double xScale, yScale, scale, rows, columns;
 	Canvas canvas;
 	GraphicsContext gc;
 	Polygon polygon;
@@ -63,7 +63,12 @@ public class DrawGardenView extends BorderPane {
 		lineWidth=2.0;
 		canvas = new Canvas(canvasHeight, canvasWidth);
 		gc = canvas.getGraphicsContext2D();
-		scale = 25d;
+		rows=15;
+		columns=15;
+		scale = 3.0;
+		xScale = ((double)canvasWidth)/columns;
+		yScale = ((double)canvasHeight)/rows;
+		
 		buildGrid();
 		buildScaleText();
 		
@@ -335,38 +340,39 @@ public class DrawGardenView extends BorderPane {
 		gc.setStroke(Color.YELLOW);
 		gc.setFill(Color.LIGHTBLUE);
 		gc.fillRect(0f, 0f, canvasWidth, canvasHeight);
-		for (double i=1; i*scale < canvasWidth; i++) {
-			gc.strokeLine(i*scale, 0, i*scale, canvasHeight);
-			gc.strokeLine(0, i*scale, canvasWidth, i*scale);
+		xScale=((double)canvasHeight)/rows;
+		yScale=((double)canvasWidth)/columns;
+		for (double i=0.0; i<rows; i++) {
+			gc.strokeLine(0.0,i*xScale,canvasHeight,i*xScale);
+		}
+		for (double i=0.0; i<columns; i++) {
+			gc.strokeLine(i*yScale,0.0,i*yScale,canvasWidth);
 		}
 	}
 	
 	private void buildScaleText() {
 		gc.setLineWidth(4);
 		gc.setStroke(color.BLACK);
-		gc.strokeLine(scale, scale, scale+scale, scale);
+		gc.strokeLine(xScale, yScale, xScale*2.0, yScale);
 		gc.setLineWidth(1);
-		gc.strokeLine(scale, scale-scale/3, scale, scale+scale/3);
-		gc.strokeLine(scale+scale, scale-scale/3, scale+scale, scale+scale/3);
-		gc.strokeText(Integer.valueOf((int) scale) + "ft", scale, scale+scale/2);
+		gc.strokeLine(xScale, yScale-yScale/3, xScale,  yScale+yScale/3);
+		gc.strokeLine(xScale*2.0, yScale-yScale/3, xScale*2.0,  yScale+yScale/3);
+		gc.strokeText(Integer.valueOf(3) + "ft", xScale, yScale+20.0);
 	}
 	
 	public void buildPlots(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
 		System.out.println(plots);
 		for (ArrayList<Point2D.Double> points: plots.get(Soil.CLAY)) {
-			System.out.println("clay");
 			gc.setStroke(Color.BLACK);
 			gc.setFill(Color.RED);
 			drawPlot(points);
 		}
 		for (ArrayList<Point2D.Double> points: plots.get(Soil.SANDY)) {
-			System.out.println("sandy");
 			gc.setStroke(Color.BLACK);
 			gc.setFill(Color.CORNSILK);
 			drawPlot(points);
 		}
 		for (ArrayList<Point2D.Double> points: plots.get(Soil.LOAMY)) {
-			System.out.println("loamy");
 			gc.setStroke(Color.BLACK);
 			gc.setFill(Color.BROWN);
 			drawPlot(points);
@@ -381,7 +387,6 @@ public class DrawGardenView extends BorderPane {
 			gc.lineTo(points.get(i).getX(), points.get(i).getY());
 			gc.stroke();
 		}
-		gc.lineTo(points.get(0).getX(), points.get(0).getY());
 		gc.stroke();
 		gc.fill();
 		gc.closePath();
@@ -396,8 +401,9 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public void scale(double change) {
-		scale += change;
-		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(change);
+		rows-=change;
+		columns-=change;
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(scale);
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();

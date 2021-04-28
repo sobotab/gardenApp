@@ -84,5 +84,9 @@ public class DrawGardenController {
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> undo() {
 		return dgm.undo();
 	}
-
+	
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double change) {
+		dgm.scale(change);
+		return dgm.getPlots();
+	}
 }

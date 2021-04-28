@@ -102,11 +102,12 @@ public class DrawGardenModel extends GardenModel {
 		this.scale = scale;
 	}
 	
-	public void scale(int change) {
+	public void scale(double change) {
 		for (Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
 			for (int i=0; i<soil.size(); i++) {
 				for (Point2D.Double point: soil.get(i)) {
-					point.setLocation(point.getX()/(scale/(scale+change)), point.getY()/(scale/(scale+change)));
+					point.setLocation(point.getX()/(scale/(scale+change))+((scale/(scale+change))*change),
+							point.getY()/(scale/(scale+change))+(scale/(scale+change)*change));
 				}
 			}
 		}

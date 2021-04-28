@@ -34,7 +34,7 @@ public class DrawGardenView extends BorderPane {
 	DrawGardenController dgc;
 	int canvasHeight = 500;
 	int canvasWidth = 500;
-	int spacing;
+	double scale;
 	Canvas canvas;
 	GraphicsContext gc;
 	Polygon polygon;
@@ -42,7 +42,7 @@ public class DrawGardenView extends BorderPane {
 	ComboBox<Soil> soilComboBox;
 	Slider sun, moisture;
 	TextField budget;
-	Button undoButton;
+	Button undoButton, incButton, decButton;
 	Color color;
 	double lineWidth;
 	Point2D.Double start, current;
@@ -63,7 +63,7 @@ public class DrawGardenView extends BorderPane {
 		lineWidth=2.0;
 		canvas = new Canvas(canvasHeight, canvasWidth);
 		gc = canvas.getGraphicsContext2D();
-		spacing = 25;
+		scale = 25d;
 		buildGrid();
 		buildScaleText();
 		
@@ -169,13 +169,20 @@ public class DrawGardenView extends BorderPane {
 		undoButton = new Button("Undo");
 		undoButton.setOnAction(event -> undoButtonPressed(event));
 		
+		incButton = new Button("+");
+		incButton.setOnAction(event -> incButtonPressed(event));
+		decButton = new Button("-");
+		decButton.setOnAction(event -> decButtonPressed(event));
+		HBox scaleButtonBox = new HBox();
+		scaleButtonBox.getChildren().addAll(incButton, decButton);
+		
 		//Adding to borderpane 
 		HBox toolBox = new HBox();
 		toolBox.getChildren().addAll(drawButton);//, polyButton);
 		
 		VBox sideTool = new VBox();
 		sideTool.getChildren().addAll(toolBox, soilComboBox, sunLabel, sun,
-				moistureLabel, moisture, budgetBox, undoButton);
+				moistureLabel, moisture, budgetBox, undoButton, scaleButtonBox);
 		
 		this.setTop(title);
 		this.setLeft(sideTool);
@@ -328,20 +335,20 @@ public class DrawGardenView extends BorderPane {
 		gc.setStroke(Color.YELLOW);
 		gc.setFill(Color.LIGHTBLUE);
 		gc.fillRect(0f, 0f, canvasWidth, canvasHeight);
-		for (int i=1; i*spacing < canvasWidth; i++) {
-			gc.strokeLine(i*spacing, 0, i*spacing, canvasHeight);
-			gc.strokeLine(0, i*spacing, canvasWidth, i*spacing);
+		for (double i=1; i*scale < canvasWidth; i++) {
+			gc.strokeLine(i*scale, 0, i*scale, canvasHeight);
+			gc.strokeLine(0, i*scale, canvasWidth, i*scale);
 		}
 	}
 	
 	private void buildScaleText() {
 		gc.setLineWidth(4);
 		gc.setStroke(color.BLACK);
-		gc.strokeLine(spacing, spacing, spacing+spacing, spacing);
+		gc.strokeLine(scale, scale, scale+scale, scale);
 		gc.setLineWidth(1);
-		gc.strokeLine(spacing, spacing-spacing/3, spacing, spacing+spacing/3);
-		gc.strokeLine(spacing+spacing, spacing-spacing/3, spacing+spacing, spacing+spacing/3);
-		gc.strokeText(Integer.valueOf(spacing) + "ft", spacing, spacing+spacing/2);
+		gc.strokeLine(scale, scale-scale/3, scale, scale+scale/3);
+		gc.strokeLine(scale+scale, scale-scale/3, scale+scale, scale+scale/3);
+		gc.strokeText(Integer.valueOf((int) scale) + "ft", scale, scale+scale/2);
 	}
 	
 	public void buildPlots(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
@@ -378,5 +385,21 @@ public class DrawGardenView extends BorderPane {
 		gc.stroke();
 		gc.fill();
 		gc.closePath();
+	}
+	
+	public void incButtonPressed(ActionEvent e) {
+		scale(1d);
+	}
+	
+	public void decButtonPressed(ActionEvent e) {
+		scale(-1d);
+	}
+	
+	public void scale(double change) {
+		scale += change;
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(change);
+		buildGrid();
+		buildPlots(plots);
+		buildScaleText();
 	}
 }

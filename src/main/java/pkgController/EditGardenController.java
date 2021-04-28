@@ -32,6 +32,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Circle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -326,17 +327,32 @@ public class EditGardenController {
 	}
 	
 	// Used to run startFullDrag(), which can only be run inside setOnDragDetected.
-	// Makes JavaFX start delivering drag events WITHOUT interfering with mouse events!
-	// This lets me do stuff to what's UNDER what I'm dragging
 	
 	public void dragDetect(MouseEvent event, PlantView pv) {
 		//pv.startFullDrag();
-		System.out.print("drag detected       ");
+		System.out.print("drag detected      ");
 		return;
 	}
 	
 	public void release(MouseEvent event) {
-		
+		Node n = (Node)event.getSource();
+		int index = gardenView.getPlants().indexOf(n);
+		System.out.println("index " + index);
+		PlantObjectModel plantModel = gardenModel.getPlants().get(index);
+		if (plantModel.getX() <= 60 && plantModel.getY() >= gardenView.getGarden().getHeight() - 60) {
+			
+			gardenModel.setDollars(gardenModel.getDollars() - plantModel.getDollars());
+			gardenModel.setNumLeps(gardenModel.getNumLeps() - plantModel.getNumLeps());
+			gardenModel.getPlants().remove(plantModel);
+			
+			PlantView trashPlant = gardenView.getPlants().remove(index);
+			Circle trashSpread = gardenView.getSpreads().remove(index);
+			
+			gardenView.getGarden().getChildren().remove(trashPlant);
+			gardenView.getGarden().getChildren().remove(trashSpread);
+			gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps());
+
+		}
 	}
 	
 

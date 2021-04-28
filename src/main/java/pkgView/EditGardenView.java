@@ -162,6 +162,13 @@ public class EditGardenView extends BorderPane{
 		garden.setAlignment(canvas, Pos.CENTER);
 	
     	
+		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost.png")), 0);
+    	compost.setPreserveRatio(true);
+    	compost.setFitHeight(60);
+    	
+    	garden.getChildren().add(compost);
+    	garden.setAlignment(compost, Pos.BOTTOM_LEFT);
+		
     	// Organize elements on screen
     	
 		this.setTop(title);

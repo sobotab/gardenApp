@@ -126,7 +126,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		}
 		double scaled_radius = default_radius + (default_radius / (this.scale - DEFAULTSCALE) );
 		System.out.println("default: " + default_radius + ", this scale: " + this.scale + ", " + "new radius: " + scaled_radius);
-		return Math.min(1.0, scaled_radius);
+		return Math.max(1.0, scaled_radius);
 	}
 	
 	public void addPlant(PlantObjectModel plant) {

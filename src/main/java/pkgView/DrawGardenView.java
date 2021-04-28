@@ -75,13 +75,12 @@ public class DrawGardenView extends BorderPane {
 		
 		//Making sidetool		
 		drawButton = new ToggleButton("Draw");
-		polyButton = new ToggleButton("Polygon");
+		//polyButton = new ToggleButton("Polygon");
 		ToggleGroup tg = new ToggleGroup();
-		tg.getToggles().addAll(drawButton, polyButton);
+		tg.getToggles().addAll(drawButton);//, polyButton);
 		
 		soilComboBox= new ComboBox<>();
 		soilComboBox.setPromptText("Choose Soil");
-		//loamy, clay, sandy
 		soilComboBox.getItems().add(Soil.CLAY);
 		soilComboBox.getItems().add(Soil.SANDY);
 		soilComboBox.getItems().add(Soil.LOAMY);
@@ -170,7 +169,7 @@ public class DrawGardenView extends BorderPane {
 		
 		//Adding to borderpane 
 		HBox toolBox = new HBox();
-		toolBox.getChildren().addAll(drawButton, polyButton);
+		toolBox.getChildren().addAll(drawButton);//, polyButton);
 		
 		VBox sideTool = new VBox();
 		sideTool.getChildren().addAll(toolBox, soilComboBox, sunLabel, sun,

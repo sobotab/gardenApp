@@ -45,6 +45,7 @@ public class SelectCarouselView extends CarouselView{
 		this.getChildren().add(right);
 		this.filter(sun, moisture, soil);
 		this.setAlignment(Pos.CENTER);
+		
 	}
 	
 	/**

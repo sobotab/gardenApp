@@ -60,10 +60,10 @@ public class SelectCarouselController extends CarouselController {
 		if(plots.get(Soil.SANDY).size() != 0) {
 			soil.add("sandy");
 		}
-		Moisture moisture = (Moisture)gardenData.get(2);
-		this.moisture = moisture.getLevel();
-		Sun sun = (Sun)gardenData.get(3);
-		this.sun = sun.getLevel();
+		Moisture moisture2 = (Moisture)gardenData.get(2);
+		this.moisture = moisture2.getLevel();
+		Sun sun2 = (Sun)gardenData.get(3);
+		this.sun = sun2.getLevel();
 	}
 
 	
@@ -86,7 +86,6 @@ public class SelectCarouselController extends CarouselController {
 					correctSoil = true;
 				}
 			}
-			System.out.println(sunLevel + " " + sun + " " + moistureLevel + " " + moisture + " " + correctSoil );
 			if(sunLevel.contains(sun) && moistureLevel.contains(moisture) && correctSoil) {
 				filteredPlants.add(plant);
 				filteredImages.add(imageBox);

@@ -46,20 +46,6 @@ public class Model {
 			PlantModel plant = new PlantInfoModel(name, sciName, spread, sun, moisture, soil, numLeps, price, description);
 			plants.add(plant);
 		}
-//		List<PlantModel> plants = new ArrayList<PlantModel>();
-//		PlantModel Agalinis_purpurea = new PlantInfoModel("purple false foxglove", "Agalinis-purpurea", 1, Sun.FULLSUN, Moisture.WET, Soil.SANDY, 4, 6, "Example Description");
-//		PlantModel Quercus_stellata = new PlantInfoModel("iron oak", "Quercus-stellata", 50, Sun.FULLSUN, Moisture.MOIST, Soil.CLAY, 463, 20, "Example Description");
-//		PlantModel Anemone_virginiana = new PlantInfoModel("thimbleweed","Anemone-virginiana",1, Sun.FULLSUN,Moisture.MOIST,Soil.CLAY, 2, 6, "Example Description");
-//		PlantModel Aralia_racemosa = new PlantInfoModel("spikenard","Aralia-racemosa",1,Sun.PARTSUN,Moisture.MOIST,Soil.CLAY,6, 6, "Example Description");
-//		PlantModel Acer_rubrum = new PlantInfoModel("red maple","Acer-rubrum",75,Sun.FULLSUN,Moisture.MOIST,Soil.CLAY,256,20,"Example Description");
-//		plants.add(Agalinis_purpurea);
-//		plants.add(Aralia_racemosa);
-//		plants.add(Anemone_virginiana);
-//		plants.add(Acer_rubrum);
-//		plants.add(Quercus_stellata);
-		for(PlantModel plant: plants) {
-			System.out.println(plant.getName());
-		}
 		return plants;
 		
 	}

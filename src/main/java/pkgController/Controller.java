@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import pkgModel.Model;
@@ -69,6 +70,10 @@ public class Controller extends Application {
 			String sciName = infoPlant.getSciName();
 			Image image = new Image(getClass().getResourceAsStream("/images/" + sciName + ".jpg"));
 			ImageView img = new ImageView(image);
+			Rectangle frame = new Rectangle(150, 150);
+			frame.setArcWidth(20);
+			frame.setArcHeight(20);
+			img.setClip(frame);
 			Text label = new Text(infoPlant.getName());
 			Text leps = new Text("Leps supported: " + infoPlant.getNumLeps());
 			Text price = new Text("Price: $" + infoPlant.getDollars());

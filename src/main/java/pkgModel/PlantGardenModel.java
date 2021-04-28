@@ -26,6 +26,8 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	int budget;
 	int dollars;
 	int heldPlant;
+	double canvasXOffset;
+	double canvasYOffset;
 	//int scale;
 
 	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots, int budget, int scale) {
@@ -74,6 +76,10 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	}
 
 	public boolean checkCanvas(int index, double canvas_x, double canvas_y) {
+		if (this.canvasXOffset != canvas_x && canvas_x != 0) {
+			this.canvasXOffset = canvas_x;
+			this.canvasYOffset = canvas_y;
+		}
 		PlantObjectModel plantCheck = plants.get(index);
 		//Added this bit to account for planCheck's soil type now being string
 		Soil soil = null;
@@ -124,7 +130,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		if (Math.abs(this.scale - DEFAULTSCALE) < 1) {
 			return default_radius;
 		}
-		double scaled_radius = default_radius + (default_radius / (this.scale - DEFAULTSCALE) );
+		double scaled_radius = default_radius + (default_radius / (DEFAULTSCALE - this.scale) );
 		System.out.println("default: " + default_radius + ", this scale: " + this.scale + ", " + "new radius: " + scaled_radius);
 		return Math.max(1.0, scaled_radius);
 	}
@@ -214,6 +220,14 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> getPlots() {
 		return this.plots;
+	}
+
+	public double getCanvasXOffset() {
+		return this.canvasXOffset;
+	}
+
+	public double getCanvasYOffset() {
+		return this.canvasYOffset;
 	}
 
 }

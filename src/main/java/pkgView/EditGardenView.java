@@ -160,8 +160,7 @@ public class EditGardenView extends BorderPane{
 
 		garden.getChildren().add(canvas);
 		canvas.setViewOrder(2);
-		garden.setAlignment(canvas, Pos.CENTER);
-	
+		garden.setAlignment(canvas, Pos.CENTER);	
     	
 		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost.png")), 0);
     	compost.setPreserveRatio(true);
@@ -334,7 +333,7 @@ public class EditGardenView extends BorderPane{
 		if (Math.abs(this.scale - DEFAULTSCALE) < 1) {
 			return default_radius;
 		}
-		double scaled_radius = default_radius + (default_radius / (this.scale - DEFAULTSCALE) );
+		double scaled_radius = default_radius + (default_radius / (DEFAULTSCALE - this.scale) );
 		System.out.println("default: " + default_radius + ", this scale: " + this.scale + ", " + "new radius: " + scaled_radius);
 		return Math.max(1.0, scaled_radius);
 	}

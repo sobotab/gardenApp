@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Stack;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -79,7 +81,7 @@ public class DrawGardenController {
 		return dgm.getEndPoint();
 	}
 	
-	public ArrayList<Point2D.Double> undo() {
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> undo() {
 		return dgm.undo();
 	}
 

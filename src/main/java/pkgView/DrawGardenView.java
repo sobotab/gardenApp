@@ -2,6 +2,8 @@ package pkgView;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Stack;
 
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
@@ -30,8 +32,8 @@ import pkgController.Sun;
 public class DrawGardenView extends BorderPane {
 	
 	DrawGardenController dgc;
-	final int CANVASHEIGHT = 500;
-	final int CANVASWIDTH = 500;
+	int canvasHeight = 500;
+	int canvasWidth = 500;
 	int spacing;
 	Canvas canvas;
 	GraphicsContext gc;
@@ -59,11 +61,11 @@ public class DrawGardenView extends BorderPane {
 		
 		//Garden Drawing Tool
 		lineWidth=2.0;
-		canvas = new Canvas(CANVASHEIGHT, CANVASWIDTH);
+		canvas = new Canvas(canvasHeight, canvasWidth);
 		gc = canvas.getGraphicsContext2D();
-		gc.setLineWidth(lineWidth);
-		gc.setFill(Color.LIGHTGREEN);
-		gc.fillRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
+		spacing = 25;
+		buildGrid();
+		buildScaleText();
 		
 		polygon = new Polygon();
 		drawing = false;
@@ -183,6 +185,7 @@ public class DrawGardenView extends BorderPane {
 	
 	public void mousePressed(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
+		gc.setLineWidth(2d);
 		if (drawButton.isSelected()) {
 			setColor();
 			drawing = true;
@@ -221,6 +224,7 @@ public class DrawGardenView extends BorderPane {
 			undo(dgc.undo());
 		} catch (NullPointerException e) {
 			System.out.println("Nothing to undo");
+			buildScaleText();
 		}
 	}
 	
@@ -241,19 +245,10 @@ public class DrawGardenView extends BorderPane {
 		}
 	}
 	
-	public void undo(ArrayList<Point2D.Double> points) {
-		gc.setStroke(Color.LIGHTGREEN);
-		gc.setFill(Color.LIGHTGREEN);
-		gc.moveTo(points.get(0).getX(), points.get(0).getY());
-		for (int i=0; i<points.size(); i++) {
-			gc.lineTo(points.get(i).getX(), points.get(i).getY());
-			gc.stroke();
-			System.out.println(points.get(i).toString());
-		}
-		gc.lineTo(points.get(0).getX(), points.get(0).getY());
-		gc.stroke();
-		gc.fill();
-		gc.closePath();
+	public void undo(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+		buildGrid();
+		buildPlots(plots);
+		buildScaleText();
 	}
 	
 	public Point2D.Double getStart() {
@@ -326,5 +321,62 @@ public class DrawGardenView extends BorderPane {
 		Scene scene = new Scene(errorLabel);
 		errorPopup.setScene(scene);
 		errorPopup.show();
+	}
+	
+	private void buildGrid() {
+		gc.setLineWidth(1d);
+		gc.setStroke(Color.YELLOW);
+		gc.setFill(Color.LIGHTBLUE);
+		gc.fillRect(0f, 0f, canvasWidth, canvasHeight);
+		for (int i=1; i*spacing < canvasWidth; i++) {
+			gc.strokeLine(i*spacing, 0, i*spacing, canvasHeight);
+			gc.strokeLine(0, i*spacing, canvasWidth, i*spacing);
+		}
+	}
+	
+	private void buildScaleText() {
+		gc.setLineWidth(4);
+		gc.setStroke(color.BLACK);
+		gc.strokeLine(spacing, spacing, spacing+spacing, spacing);
+		gc.setLineWidth(1);
+		gc.strokeLine(spacing, spacing-spacing/3, spacing, spacing+spacing/3);
+		gc.strokeLine(spacing+spacing, spacing-spacing/3, spacing+spacing, spacing+spacing/3);
+		gc.strokeText(Integer.valueOf(spacing) + "ft", spacing, spacing+spacing/2);
+	}
+	
+	public void buildPlots(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+		System.out.println(plots);
+		for (ArrayList<Point2D.Double> points: plots.get(Soil.CLAY)) {
+			System.out.println("clay");
+			gc.setStroke(Color.BLACK);
+			gc.setFill(Color.RED);
+			drawPlot(points);
+		}
+		for (ArrayList<Point2D.Double> points: plots.get(Soil.SANDY)) {
+			System.out.println("sandy");
+			gc.setStroke(Color.BLACK);
+			gc.setFill(Color.CORNSILK);
+			drawPlot(points);
+		}
+		for (ArrayList<Point2D.Double> points: plots.get(Soil.LOAMY)) {
+			System.out.println("loamy");
+			gc.setStroke(Color.BLACK);
+			gc.setFill(Color.BROWN);
+			drawPlot(points);
+		}
+	}
+	
+	private void drawPlot(ArrayList<Point2D.Double> points) {
+		gc.beginPath();
+		gc.setLineWidth(2d);
+		gc.moveTo(points.get(0).getX(), points.get(0).getY());
+		for (int i=0; i<points.size(); i++) {
+			gc.lineTo(points.get(i).getX(), points.get(i).getY());
+			gc.stroke();
+		}
+		gc.lineTo(points.get(0).getX(), points.get(0).getY());
+		gc.stroke();
+		gc.fill();
+		gc.closePath();
 	}
 }

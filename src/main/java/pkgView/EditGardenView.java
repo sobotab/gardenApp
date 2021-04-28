@@ -45,6 +45,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import pkgController.EditGardenController;
 import pkgController.Soil;
@@ -174,6 +175,22 @@ public class EditGardenView extends BorderPane{
     	
     	if (loadName != null)
     		egc.fetchGardenInfo();
+    	
+    	// Adding some listeners so plant coordinates stay within window
+    	
+    	canvas.layoutXProperty().addListener((obs, oldVal, newVal) -> {
+    		if ((double)newVal != 0.0) {
+    			egc.fitCoordinatesToWindowWidth((double)oldVal, (double)newVal);
+    			System.out.println(oldVal + " " + (double)oldVal);
+    		}
+    	 });
+    	canvas.layoutYProperty().addListener((obs, oldVal, newVal) -> {
+    		if ((double)newVal != 0.0) {
+    			egc.fitCoordinatesToWindowHeight((double)oldVal, (double)newVal);
+    			System.out.println(oldVal + " " + (double)oldVal);
+    		}
+    	 });
+    	
 	}
 	
 	// Draw garden on canvas according to plot data
@@ -347,6 +364,10 @@ public class EditGardenView extends BorderPane{
 	
 	public List<PlantView> getPlants() {
 		return this.plants;
+	}
+	
+	public List<Circle> getSpreads() {
+		return this.plantSpreads;
 	}
 	
 	public List<Pair<String, Integer>> getPlantInput() {

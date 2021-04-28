@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
 import pkgController.SelectCarouselController;
 /**
  * 
@@ -20,7 +21,7 @@ public class SelectCarouselView extends CarouselView{
 	SelectCarouselController scc;
 	
 	/**
-	 * Contructor for the SelectCarouselView which automatically filters the shown plants based on selections from the draw garden screen and 
+	 * Constructor for the SelectCarouselView which automatically filters the shown plants based on selections from the draw garden screen and 
 	 * initializes the left and right button for this carousel.
 	 * 
 	 * @param view The program's View that is only initialized once

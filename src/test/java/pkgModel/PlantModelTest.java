@@ -10,7 +10,7 @@ import pkgController.Sun;
 
 public class PlantModelTest {
 	
-	PlantModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+	PlantModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, 150, 200);
 	
 	@Test
 	public void testPlantModel() {
@@ -57,7 +57,7 @@ public class PlantModelTest {
 
 	@Test
 	public void testSetSun() {
-		plant.setSun(Sun.PARTSUN);
+		plant.setSun("part sun");
 		assertEquals(Sun.PARTSUN,plant.sun);
 	}
 
@@ -68,7 +68,7 @@ public class PlantModelTest {
 
 	@Test
 	public void testSetMoisture() {
-		plant.setMoisture(Moisture.DRY);
+		plant.setMoisture("dry");
 		assertEquals(Moisture.DRY,plant.moisture);
 	}
 
@@ -79,7 +79,7 @@ public class PlantModelTest {
 
 	@Test
 	public void testSetSoil() {
-		plant.setSoil(Soil.CLAY);
+		plant.setSoil("clay");
 		assertEquals(Soil.CLAY,plant.soil);
 	}
 

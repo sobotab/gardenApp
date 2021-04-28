@@ -18,7 +18,7 @@ public class ObjectCarouselModelTest{
 	
 	@Test
 	public void testReplacePlant() {
-		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, 150, 200);
 		ocm.plants.add(plant);
 		ocm.replacePlant(0);
 		assertEquals(5, ocm.plants.size());
@@ -26,7 +26,7 @@ public class ObjectCarouselModelTest{
 	
 	@Test
 	public void testRotateLeft() {
-		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, 150, 200);
 		ocm.plants.add(plant);
 		ocm.focusedPlant = 0;
 		ocm.rotateLeft();
@@ -35,7 +35,7 @@ public class ObjectCarouselModelTest{
 	
 	@Test
 	public void testRotateRight() {
-		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,Sun.FULLSUN, Moisture.WET, Soil.CLAY, 15, 20, 150, 200);
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, 150, 200);
 		ocm.plants.add(plant);
 		System.out.println(ocm.plants.size());
 		ocm.focusedPlant = 0;

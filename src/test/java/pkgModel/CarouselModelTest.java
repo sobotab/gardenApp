@@ -33,7 +33,7 @@ public class CarouselModelTest {
 	
 	@Test
 	public void testRotateLeft() {
-		PlantModel plant = new PlantInfoModel("","",0,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 0,0,"");
+		PlantModel plant = new PlantInfoModel("","",0,"full sun","moist", "sandy",0,0,"");
 		carousel2.filteredPlants.add(plant);
 		carousel2.rotateLeft();
 		assertEquals(6,carousel2.heldPlant);
@@ -41,7 +41,7 @@ public class CarouselModelTest {
 	
 	@Test
 	public void testRotateRight() {
-		PlantModel plant = new PlantInfoModel("","",0,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 0,0,"");
+		PlantModel plant = new PlantInfoModel("","",0,"full sun", "dry", "sandy", 0,0,"");
 		carousel2.filteredPlants.add(plant);
 		carousel2.rotateRight();
 		assertEquals(4,carousel2.heldPlant);
@@ -54,14 +54,14 @@ public class CarouselModelTest {
 //	}
 	@Test
 	public void testMapNameToPlants() {
-		PlantModel plant = new PlantInfoModel("","",0,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 0,0,"");
+		PlantModel plant = new PlantInfoModel("","",0,"full sun", "dry", "sandy", 0,0,"");
 		carousel2.plants.add(plant);
 		assertEquals(10, carousel2.mapNameToPlants().get("").getSpreadDiameter());
 	}
 	
 	@Test
 	public void testGetPlantByIndex() {
-		PlantModel plant = new PlantInfoModel("","",0,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 0,0,"");
+		PlantModel plant = new PlantInfoModel("","",0,"full sun", "dry", "sandy", 0,0,"");
 		carousel2.filteredPlants.add(plant);
 		assertEquals(10, carousel2.getPlantByIndex(0).getSpreadDiameter());
 	}
@@ -77,7 +77,7 @@ public class CarouselModelTest {
 		carousel2.heldPlant = 5;
 		carousel2.setFilteredPlants(filteredPlants);
 		assertEquals(0, carousel2.heldPlant);
-		PlantModel plant = new PlantInfoModel("","",0,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 5,6,"");
+		PlantModel plant = new PlantInfoModel("","",0,"full sun", "dry", "sandy", 0,0,"");
 		filteredPlants.add(plant);
 		carousel2.heldPlant = 5;
 		carousel2.setFilteredPlants(filteredPlants);
@@ -86,7 +86,7 @@ public class CarouselModelTest {
 	
 	@Test
 	public void testSelectPlant() {
-		PlantModel plant = new PlantInfoModel("","",10,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 5,6,"");
+		PlantModel plant = new PlantInfoModel("","",0,"full sun", "dry", "sandy", 0,0,"");
 		carousel2.selectPlant(plant);
 		assertEquals(0, carousel2.selectedPlants.get("").getSpreadDiameter());
 	}
@@ -100,7 +100,7 @@ public class CarouselModelTest {
 	
 	@Test
 	public void testDeSelectPlant() {
-		PlantModel plant = new PlantInfoModel("","",10,Sun.FULLSUN, Moisture.DRY, Soil.SANDY, 5,6,"");
+		PlantModel plant = new PlantInfoModel("","",0,"full sun", "dry", "sandy", 0,0,"");
 		carousel2.selectedPlants.put(plant.getName(), plant);
 		carousel2.deSelectPlant(plant);
 		assertEquals(1, carousel2.selectedPlants.size());
@@ -114,7 +114,7 @@ public class CarouselModelTest {
 	@Test
 	public void testSetSelectedPlants() {
 		HashMap<String, PlantModel> map = new HashMap<String, PlantModel>();
-		PlantInfoModel plant = new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, "");
+		PlantInfoModel plant = new PlantInfoModel("Name", "Plantius-leafius",1, "full sun", "dry",  "clay", 15, 6, "");
 		map.put("Name", plant);
 		carousel2.setSelectedPlants(map);
 		assertEquals(0, carousel2.selectedPlants.get("Name").getSpreadDiameter());
@@ -122,7 +122,7 @@ public class CarouselModelTest {
 
 	@Test
 	public void testGetPlants() {
-		PlantInfoModel plant = new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, "");
+		PlantInfoModel plant = new PlantInfoModel("Name", "Plantius-leafius",1, "full sun", "dry",  "clay", 15, 6, "");
 		//carousel1.plants.add(new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, ""));
 		int test;
 		if(carousel1.getPlants().contains(plant)) {
@@ -137,7 +137,7 @@ public class CarouselModelTest {
 	@Test
 	public void testSetPlants() {
 		List<PlantModel> plants = new ArrayList<PlantModel>();
-		PlantInfoModel plant = new PlantInfoModel("Plant","Sciname",1,Sun.PARTSUN, Moisture.MOIST, Soil.LOAMY, 12, 6, "");
+		PlantInfoModel plant = new PlantInfoModel("Name", "Plantius-leafius",1, "full sun", "dry",  "clay", 15, 6, "");
 		plants.add(plant);
 		carousel1.setPlants(plants);
 		int test;

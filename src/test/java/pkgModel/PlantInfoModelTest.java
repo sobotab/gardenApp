@@ -10,7 +10,7 @@ import pkgController.Sun;
 
 public class PlantInfoModelTest {
 	
-	PlantInfoModel plantInfo = new PlantInfoModel("name", "sciName", 100, Sun.FULLSUN, Moisture.DRY, Soil.CLAY, 15, 20, "");
+	PlantInfoModel plantInfo = new PlantInfoModel("name", "sciName", 100, "full sun", "dry", "clay", 15, 20, "");
 
 	@Test
 	public void testPlantInfoModel() {

@@ -18,17 +18,14 @@ import java.util.Set;
 
 public class CarouselModelTest {
 	
-	CarouselModel carousel1 = new CarouselModel(1,10,5,150,200,1,3);
 	List<PlantModel> plants = new ArrayList<PlantModel>();
 	CarouselModel carousel2 = new CarouselModel(plants, 0);
 
 	
 	@Test
 	public void testCarouselModel() {
-		CarouselModel carousel2 = new CarouselModel(new ArrayList<PlantModel>(), 0);
-		CarouselModel carousel3 = new CarouselModel(0,0);
-		assertEquals(carousel2.firstPlant,carousel1.firstPlant);
-		assertEquals(carousel3.lastPlant,carousel1.lastPlant);
+		assertEquals(1, carousel2.heldPlant);
+
 	}
 	
 	@Test
@@ -125,7 +122,7 @@ public class CarouselModelTest {
 		PlantInfoModel plant = new PlantInfoModel("Name", "Plantius-leafius",1, "full sun", "dry",  "clay", 15, 6, "");
 		//carousel1.plants.add(new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, ""));
 		int test;
-		if(carousel1.getPlants().contains(plant)) {
+		if(carousel2.getPlants().contains(plant)) {
 			test = 1;
 		}
 		else {
@@ -139,9 +136,9 @@ public class CarouselModelTest {
 		List<PlantModel> plants = new ArrayList<PlantModel>();
 		PlantInfoModel plant = new PlantInfoModel("Name", "Plantius-leafius",1, "full sun", "dry",  "clay", 15, 6, "");
 		plants.add(plant);
-		carousel1.setPlants(plants);
+		carousel2.setPlants(plants);
 		int test;
-		if(carousel1.plants.contains(plant)){
+		if(carousel2.plants.contains(plant)){
 			test = 1;
 		}
 		else {
@@ -151,75 +148,17 @@ public class CarouselModelTest {
 		
 	}
 
-	@Test
-	public void testGetFirstPlant() {
-		assertEquals(carousel1.getFirstPlant(),0);
-	}
-
-	@Test
-	public void testSetFirstPlant() {
-		CarouselModel carousel2 = new CarouselModel(1,1);
-		carousel2.setFirstPlant(0);
-		assertEquals(carousel2.firstPlant,0);
-	}
-
-	@Test
-	public void testGetLastPlant() {
-		assertEquals(carousel1.getLastPlant(),1);
-	}
-
-	@Test
-	public void testSetLastPlant() {
-		CarouselModel carousel2 = new CarouselModel(0,0);
-		carousel2.setLastPlant(1);
-		assertEquals(carousel2.lastPlant,1);
-
-	}
-
-	@Test
-	public void testGetViewPlant() {
-		assertEquals(5, carousel1.getViewPlant());
-
-	}
-
-	@Test
-	public void testSetViewPlant() {
-		carousel1.setViewPlant(4);
-		assertEquals(4, carousel1.viewPlant);
-	}
-
-	@Test
-	public void testGetViewHeight() {
-		assertEquals(150,carousel1.getViewHeight());
-	}
-
-	@Test
-	public void testSetViewHeight() {
-		carousel1.setViewHeight(200);
-		assertEquals(200,carousel1.viewHeight);
-	}
-
-	@Test
-	public void testGetViewWidth() {
-		assertEquals(200,carousel1.getViewWidth());
-	}
-
-	@Test
-	public void testSetViewWidth() {
-		carousel1.setViewWidth(150);
-		assertEquals(150,carousel1.getViewWidth());
-	}
 
 	@Test
 	public void testGetHeldPlant() {
-		assertEquals(3,carousel1.getHeldPlant());
+		assertEquals(3,carousel2.getHeldPlant());
 		
 	}
 
 	@Test
 	public void testSetHeldPlant() {
-		carousel1.setHeldPlant(2);
-		assertEquals(2,carousel1.heldPlant);
+		carousel2.setHeldPlant(2);
+		assertEquals(2,carousel2.heldPlant);
 	}
 
 }

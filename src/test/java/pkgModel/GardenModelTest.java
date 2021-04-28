@@ -20,6 +20,12 @@ public class GardenModelTest {
 	}
 
 	@Test
+	public void testSetScale() {
+		garden.setScale(10);
+		assertEquals(1, garden.getScale());
+	}
+	
+	@Test
 	public void testGetOutline() {
 		assertEquals(false, garden.getOutline() == null);
 	}
@@ -63,9 +69,5 @@ public class GardenModelTest {
 		assertEquals(0, garden.getScale());
 	}
 
-	@Test
-	public void testSetScale() {
-		garden.setScale(1);
-		assertEquals(1, garden.scale);
-	}
+
 }

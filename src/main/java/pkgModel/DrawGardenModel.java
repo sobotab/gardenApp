@@ -98,10 +98,6 @@ public class DrawGardenModel extends GardenModel {
 		return budget;
 	}
 	
-	public void setScale(int scale) {
-		this.scale = scale;
-	}
-	
 	public boolean scale(double change) {
 		boolean inRange = true;
 		for (Stack<ArrayList<Point2D.Double>> soil: plots.values()) {

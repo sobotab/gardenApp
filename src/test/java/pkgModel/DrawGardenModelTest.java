@@ -12,7 +12,9 @@ import java.util.Stack;
 
 import org.junit.Test;
 
+import pkgController.Moisture;
 import pkgController.Soil;
+import pkgController.Sun;
 
 public class DrawGardenModelTest {
 	
@@ -61,6 +63,91 @@ public class DrawGardenModelTest {
 		drawGarden1.addPlot(false, Soil.CLAY);
 		assertEquals(preOutline, drawGarden1.preOutline);
 		
+	}
+	
+	@Test
+	public void testGetPlots() {
+		assertEquals(1, drawGarden1.getPlots().get(Soil.CLAY).size());
+	}
+	
+	@Test
+	public void testSetMoisture() {
+		drawGarden1.setMoisture(Moisture.DRY);
+		assertEquals(Moisture.MOIST, drawGarden1.moisture);
+	}
+	
+	@Test
+	public void testSetSun() {
+		drawGarden1.setSun(Sun.FULLSUN);
+		assertEquals(Sun.PARTSUN, drawGarden1.sun);
+	}
+	
+	@Test
+	public void testSetBudget() {
+		drawGarden1.setBudget(100);
+		assertEquals(50, drawGarden1.budget);
+	}
+	
+	@Test
+	public void testGetMoisture() {
+		assertEquals(Moisture.FLOODED, drawGarden1.getMoisture());
+	}
+	
+	@Test
+	public void testGetSun() {
+		assertEquals(Sun.SHADE, drawGarden1.getSun());
+	}
+	
+	@Test
+	public void testGetBudget() {
+		assertEquals(25, drawGarden1.getBudget());
+	}
+	
+	@Test
+	public void testScale() {
+		Point2D.Double point = new Point2D.Double(5, 5);
+		Point2D.Double point2 = new Point2D.Double(5, 5);
+		Point2D.Double point3 = new Point2D.Double(5, 5);
+		ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>(); 
+		ArrayList<Point2D.Double> points2 = new ArrayList<Point2D.Double>(); 
+		ArrayList<Point2D.Double> points3 = new ArrayList<Point2D.Double>(); 
+		points.add(point);
+		points2.add(point2);
+		points3.add(point3);
+		Stack<ArrayList<Point2D.Double>> stack = new Stack<ArrayList<Point2D.Double>>();
+		Stack<ArrayList<Point2D.Double>> stack2 = new Stack<ArrayList<Point2D.Double>>();
+		Stack<ArrayList<Point2D.Double>> stack3 = new Stack<ArrayList<Point2D.Double>>();
+		stack.add(points);
+		stack2.add(points2);
+		stack3.add(points3);
+		drawGarden1.plots.put(Soil.CLAY, stack);
+		drawGarden1.plots.put(Soil.SANDY, stack2);
+		drawGarden1.plots.put(Soil.LOAMY, stack3);
+		assertEquals(false, drawGarden1.scale(5.0));
+	}
+	
+	@Test
+	public void testFinish() {
+		Point2D.Double point = new Point2D.Double(5, 5);
+		Point2D.Double point2 = new Point2D.Double(5, 5);
+		Point2D.Double point3 = new Point2D.Double(5, 5);
+		ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>(); 
+		ArrayList<Point2D.Double> points2 = new ArrayList<Point2D.Double>(); 
+		ArrayList<Point2D.Double> points3 = new ArrayList<Point2D.Double>(); 
+		points.add(point);
+		points2.add(point2);
+		points3.add(point3);
+		Stack<ArrayList<Point2D.Double>> stack = new Stack<ArrayList<Point2D.Double>>();
+		Stack<ArrayList<Point2D.Double>> stack2 = new Stack<ArrayList<Point2D.Double>>();
+		Stack<ArrayList<Point2D.Double>> stack3 = new Stack<ArrayList<Point2D.Double>>();
+		stack.add(points);
+		stack2.add(points2);
+		stack3.add(points3);
+		drawGarden1.plots.put(Soil.CLAY, stack);
+		drawGarden1.plots.put(Soil.SANDY, stack2);
+		drawGarden1.plots.put(Soil.LOAMY, stack3);
+		drawGarden1.finish();
+		assertTrue(false);
 	}
 
 }

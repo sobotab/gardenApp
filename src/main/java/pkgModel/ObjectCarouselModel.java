@@ -15,10 +15,6 @@ public class ObjectCarouselModel implements Serializable {
 	public List<PlantObjectModel> plants;
 	int firstPlant;
 	int lastPlant;
-	int viewPlant;
-	int viewHeight;
-	int viewWidth;
-	int rationDecrease;
 	int focusedPlant;
 	
 	public ObjectCarouselModel() {
@@ -80,10 +76,6 @@ public class ObjectCarouselModel implements Serializable {
 	public void rotateRight() {
 		Collections.rotate(plants, 1);
 	}
-	
-//	public int plantSelected(int x, int y) {
-//		return 0;
-//	}
 
 	public List<PlantObjectModel> getPlants() {
 		return plants;
@@ -91,30 +83,6 @@ public class ObjectCarouselModel implements Serializable {
 
 	public void setPlants(List<PlantObjectModel> plants) {
 		this.plants = plants;
-	}
-
-	public int getViewPlant() {
-		return viewPlant;
-	}
-
-	public void setViewPlant(int viewPlant) {
-		this.viewPlant = viewPlant;
-	}
-
-	public int getViewHeight() {
-		return viewHeight;
-	}
-
-	public void setViewHeight(int viewHeight) {
-		this.viewHeight = viewHeight;
-	}
-
-	public int getViewWidth() {
-		return viewWidth;
-	}
-
-	public void setViewWidth(int viewWidth) {
-		this.viewWidth = viewWidth;
 	}
 
 	public int getfocusedPlant() {

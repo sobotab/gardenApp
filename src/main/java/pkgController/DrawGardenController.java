@@ -46,7 +46,7 @@ public class DrawGardenController {
 			dgv.errorPopup("Set a budget before continuing!");
 			return;
 		}
-		
+		dgm.setBudget(60);
 		ArrayList<Object> sendData = new ArrayList<Object>();
 		sendData.add(dgm.getPlots());
 		sendData.add(dgm.getBudget());

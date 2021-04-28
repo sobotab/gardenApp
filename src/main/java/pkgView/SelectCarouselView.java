@@ -1,6 +1,7 @@
 package pkgView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -29,9 +30,9 @@ public class SelectCarouselView extends CarouselView{
 	public SelectCarouselView(View view) {
 		scc = new SelectCarouselController(view, this);
 		this.setHgap(10);
-		String sun = "full sun";
-		String moisture = "";
-		String soil = "";
+		String sun = scc.getSun();
+		String moisture = scc.getMoisture();
+		List<String> soil = scc.getSoil();
 		
 		images = scc.getImagesFromController();
 		
@@ -44,6 +45,7 @@ public class SelectCarouselView extends CarouselView{
 		this.getChildren().add(right);
 		this.filter(sun, moisture, soil);
 		this.setAlignment(Pos.CENTER);
+		
 	}
 	
 	/**
@@ -52,7 +54,7 @@ public class SelectCarouselView extends CarouselView{
 	 * @param moisture The moisture level selected by the user on the draw garden screen
 	 * @param soil The soil type selected by the user on the draw garden screen
 	 */
-	public void filter(String sun, String moisture, String soil) {
+	public void filter(String sun, String moisture, List<String> soil) {
 		scc.filterCarousel(sun, moisture, soil);
 	}
 	/**

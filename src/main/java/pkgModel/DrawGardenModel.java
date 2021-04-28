@@ -102,14 +102,28 @@ public class DrawGardenModel extends GardenModel {
 		this.scale = scale;
 	}
 	
-	public void scale(double change) {
+	public boolean scale(double change) {
+		boolean inRange = false;
 		for (Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
 			for (int i=0; i<soil.size(); i++) {
 				for (Point2D.Double point: soil.get(i)) {
-					point.setLocation(point.getX()/(scale/(scale+change))+((scale/(scale+change))*change),
-							point.getY()/(scale/(scale+change))+(scale/(scale+change)*change));
+					double x = point.getX()/(scale/(scale+change))+((scale/(scale+change))*change);
+					double y = point.getY()/(scale/(scale+change))+((scale/(scale+change))*change);
+					if (x > 500 || y > 500) {
+						inRange = true;
+					}
+					point.setLocation(x, y);
 				}
 			}
+		}
+		scale++;
+		return inRange;
+	}
+	
+	public void finish() {
+		int i = 1;
+		while(scale(1)) {
+			i++;
 		}
 	}
 }

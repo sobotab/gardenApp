@@ -64,10 +64,34 @@ public class DrawGardenModel extends GardenModel {
 	}
 	
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> unScalePlots() {
+		int j=0;
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> tmpHashMap = new HashMap<>();
-		tmpHashMap.put(Soil.CLAY, (Stack<ArrayList<Point2D.Double>>)plots.get(Soil.CLAY).clone());
-		tmpHashMap.put(Soil.SANDY, (Stack<ArrayList<Point2D.Double>>)plots.get(Soil.SANDY).clone());
-		tmpHashMap.put(Soil.SANDY, (Stack<ArrayList<Point2D.Double>>)plots.get(Soil.LOAMY).clone());
+		tmpHashMap.put(Soil.CLAY, new Stack<ArrayList<Point2D.Double>>());
+		tmpHashMap.put(Soil.SANDY, new Stack<ArrayList<Point2D.Double>>());
+		tmpHashMap.put(Soil.LOAMY, new Stack<ArrayList<Point2D.Double>>());
+		for (ArrayList<Point2D.Double> plot: plots.get(Soil.CLAY)) {
+			tmpHashMap.get(Soil.CLAY).push(new ArrayList());
+			for (Point2D.Double point: plot) {
+				tmpHashMap.get(Soil.CLAY).get(j).add((Point2D.Double)point.clone());
+			}
+			j++;
+		}
+		j=0;
+		for (ArrayList<Point2D.Double> plot: plots.get(Soil.SANDY)) {
+			tmpHashMap.get(Soil.SANDY).push(new ArrayList());
+			for (Point2D.Double point: plot) {
+				tmpHashMap.get(Soil.SANDY).get(j).add((Point2D.Double)point.clone());
+			}
+			j++;
+		}
+		j=0;
+		for (ArrayList<Point2D.Double> plot: plots.get(Soil.LOAMY)) {
+			tmpHashMap.get(Soil.LOAMY).push(new ArrayList());
+			for (Point2D.Double point: plot) {
+				tmpHashMap.get(Soil.LOAMY).get(j).add((Point2D.Double)point.clone());
+			}
+			j++;
+		}
 		for (Stack<ArrayList<Point2D.Double>> soil: tmpHashMap.values()) {
 			for (ArrayList<Point2D.Double> plot: soil) {
 				for (Point2D.Double point: plot) {

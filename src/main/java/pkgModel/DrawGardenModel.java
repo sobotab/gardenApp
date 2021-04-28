@@ -18,7 +18,7 @@ public class DrawGardenModel extends GardenModel {
 	Moisture moisture;
 	Sun sun;
 	int budget;
-	double height, width, scale;
+	double height, width, xScale, yScale, scale;
 	
 	Point2D.Double endPoint;
 	boolean set;
@@ -159,28 +159,19 @@ public class DrawGardenModel extends GardenModel {
 		this.scale = scale;
 	}
 	
-	public boolean scale(double change) {
-		boolean inRange = true;
-		for (Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
-			for (int i=0; i<soil.size(); i++) {
-				for (Point2D.Double point: soil.get(i)) {
-					double x = (point.getX()+250.0)/(scale/(scale+change))-250.0;
-					double y = (point.getY()+250.0)/(scale/(scale+change))-250.0;
-					if (x > 450 || y > 450) {
-						inRange = false;
-					}
-					point.setLocation(x, y);
+	public void scale(double xScale, double yScale) {
+		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
+			for (ArrayList<Point2D.Double> plot: soil) {
+				for (Point2D.Double point: plot) {
+					Point2D.Double tmp = new Point2D.Double();
+					//tmp.setLocation(point.getX())
 				}
 			}
 		}
-		scale++;
-		return inRange;
 	}
 	
-	public void finish() {
-		int i = 1;
-		while(scale(i)) {
-			i++;
-		}
+	public void setXYScale(double xScale, double yScale) {
+		this.xScale = xScale;
+		this.yScale = yScale;
 	}
 }

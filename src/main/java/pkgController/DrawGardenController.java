@@ -37,7 +37,7 @@ public class DrawGardenController {
 	public void clickedNext(ActionEvent event) {
 		
 		// Send plots info
-		dgm.finish();
+		//dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
 		try {
@@ -80,6 +80,7 @@ public class DrawGardenController {
 	public Point2D.Double draw() {
 		dgm.addPreOutline(dgv.getCurrent());
 		dgm.addPlot(dgv.getDrawing(), dgv.getSoil());
+		//dgm.setXYScale(dgv.getXScale(), dgv.getYScale());
 		return dgm.getEndPoint();
 	}
 	
@@ -87,8 +88,8 @@ public class DrawGardenController {
 		return dgm.undo();
 	}
 	
-	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double scale) {
-		//dgm.scale(change);
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double xScale, double yScale) {
+		//dgm.scale(xScale, yScale);
 		return dgm.getPlots();
 	}
 }

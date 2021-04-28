@@ -402,7 +402,7 @@ public class DrawGardenView extends BorderPane {
 	public void scale(double change) {
 		rows-=change;
 		columns-=change;
-		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(scale);
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(xScale, yScale);
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();
@@ -410,5 +410,13 @@ public class DrawGardenView extends BorderPane {
 
 	public double getScale() {
 		return this.scale;
+	}
+	
+	public double getXScale() {
+		return xScale;
+	}
+	
+	public double getYScale() {
+		return yScale;
 	}
 }

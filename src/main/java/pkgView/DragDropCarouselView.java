@@ -34,12 +34,14 @@ public class DragDropCarouselView extends CarouselView {
 		plants = new ArrayList<PlantView>();
 		heldPlant = null;
 		
+		/*
 		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost.png")), 0);
     	compost.setPreserveRatio(true);
     	compost.setFitHeight(80);
-    	
+    	*/
+		
     	//plants.add(compost);
-    	this.getChildren().add(compost);
+    	//this.getChildren().add(compost);
     	
     	left = new Button("<<<");
 		right = new Button(">>>");
@@ -100,7 +102,7 @@ public class DragDropCarouselView extends CarouselView {
 	public void addPlantAtIndex(PlantView plant, int index) {
 		//this.plants.add(plant);
 		this.plants.add(index, plant);
-		this.getChildren().add(index+2, plant);
+		this.getChildren().add(index+1, plant);
 		if ((index == 1 || index == maxViewSize) && maxViewSize >= plants.size()-1)
 			plant.setFitHeight( plant.getFitHeight() * SHRINK_IMG_SCALE);
 	}

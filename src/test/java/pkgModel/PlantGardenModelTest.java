@@ -20,7 +20,7 @@ import pkgController.Sun;
 public class PlantGardenModelTest {
 	ObjectCarouselModel ocm = new ObjectCarouselModel(new ArrayList<PlantModel>(), 0);
 	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = new HashMap<Soil, Stack<ArrayList<Point2D.Double>>>();
-	PlantGardenModel plantGarden = new PlantGardenModel(ocm, new ArrayList<PlantInfoModel>(), plots, 100);
+	PlantGardenModel plantGarden = new PlantGardenModel(ocm, new ArrayList<PlantInfoModel>(), plots, 100, 5);
 	
 	public void testGardenModel() {
 		assertEquals(false, plantGarden.compost == null);

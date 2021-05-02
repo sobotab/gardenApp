@@ -101,20 +101,6 @@ public abstract class CarouselController {
 		return view.getController().getImages();
 	}
 	
-//	public List<VBox> getImagesFromList(){
-//		List<PlantModel> plants = carouselModel.getPlants();
-//		List<VBox> images = new ArrayList<>();
-//		for(PlantModel plant: plants) {
-//			String sciName = plant.getSciName();
-//			Image image = new Image(getClass().getResourceAsStream("/images/" + sciName + ".jpg"));
-//			ImageView img = new ImageView(image);
-//			Text label = new Text(plant.getName());
-//			VBox box = new VBox();
-//			box.getChildren().addAll(label, img);
-//			images.add(box);
-//		}
-//		return images;
-//	}
 	/**
 	 * Getter for the carouselModel field
 	 * @return carouselModel field - a CarouselModel object

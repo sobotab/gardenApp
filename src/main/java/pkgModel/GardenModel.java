@@ -9,8 +9,8 @@ public abstract class GardenModel implements Serializable {
 	
 	Set<Point> outline;
 	Set<HashMap<String, Set<Point>>> conditions;
-	int orientation;
 	int scale;
+	int orientation;
 	
 	public GardenModel() {
 		

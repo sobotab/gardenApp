@@ -31,15 +31,10 @@ public abstract class CarouselView extends FlowPane {
 	 * The list of all plants' images in the program
 	 */
 	List<VBox> images;
-	boolean rotateLeft;
-	boolean rotateRight;
-	List<Button> list;
 	/**
 	 * int representing the index of the image in the center of the carousel's focus
 	 */
 	int center;
-	int x;
-	int y;
 	/**
 	 * Image scaling for the image in the center of the carousel's focus
 	 */
@@ -78,11 +73,6 @@ public abstract class CarouselView extends FlowPane {
 			center = 0;
 		}
 		update();
-	}
-	
-	List<Point> movePlant() {
-		List<Point> points = null;
-		return points;
 	}
 	
 	/**
@@ -167,46 +157,13 @@ public abstract class CarouselView extends FlowPane {
 	public List<VBox> getImages() {
 		return this.images;
 	}
-	
-	public boolean isRotateLeft() {
-		return this.rotateLeft;
-	}
-	
-	public boolean isRotateRight() {
-		return this.rotateRight;
-	}
-	
-	public int getX() {
-		return this.x;
-	}
-	
-	public int getY() {
-		return this.y;
-	}
-	
-	// setters
+
 	/**
 	 * Setter for images field
 	 * @param images A list of VBox's that will replace the current images field
 	 */
 	public void setImages(List<VBox> images) {
 		this.images = images;
-	}
-	
-	public void setRotateLeft(boolean rotate) {
-		this.rotateLeft = rotate;
-	}
-	
-	public void setRotateRight(boolean rotate) {
-		this.rotateRight = rotate;
-	}
-	
-	public void setX(int x) {
-		this.x = x;
-	}
-	
-	public void setY(int y) {
-		this.y = y;
 	}
 	
 	/**

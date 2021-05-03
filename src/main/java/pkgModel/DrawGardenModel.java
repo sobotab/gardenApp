@@ -199,5 +199,7 @@ public class DrawGardenModel extends GardenModel {
 		System.out.println(plots);
 		while(!scale(rows-1.0, columns-1.0)) {System.out.println("this loop does end");}
 		scale(rows+1.0, columns+1.0);
+
 	}
+
 }

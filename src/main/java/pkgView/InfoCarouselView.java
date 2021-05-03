@@ -69,10 +69,10 @@ public class InfoCarouselView extends CarouselView{
 	 * @param dollars The price of the plant that had its image clicked
 	 * @param description A short description of the plant that had its image clicked
 	 */
-	public void openInfoPopUp(View view, ImageView img, String name, String sciName, int numLeps, int dollars, String description) {
+	public void openInfoPopUp(ImageView img, String name, String sciName, int numLeps, int dollars, String description) {
 		Stage popupWindow = new Stage();
 		popupWindow.initModality(Modality.NONE);
-		popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description),500,400));
+		popupWindow.setScene(new Scene(new InfoPopupView(img, name, sciName, numLeps, dollars, description),500,400));
 		popupWindow.setAlwaysOnTop(true);
 		popupWindow.show(); 
 		}

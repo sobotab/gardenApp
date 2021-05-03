@@ -72,7 +72,7 @@ public class InfoCarouselController extends CarouselController {
 				}
 			}
 			PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByIndex(index);
-			icv.openInfoPopUp(view, img, plant.getName(), plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription());
+			icv.openInfoPopUp(img, plant.getName(), plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription());
 		}
 		
 		/**

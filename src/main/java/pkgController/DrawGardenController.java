@@ -37,7 +37,7 @@ public class DrawGardenController {
 	public void clickedNext(ActionEvent event) {
 		
 		// Send plots info
-		dgm.finish();
+		//dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
 		try {
@@ -48,7 +48,6 @@ public class DrawGardenController {
 		}
 		
 		ArrayList<Object> sendData = new ArrayList<Object>();
-		int budget = 60;
 		sendData.add(dgm.getPlots());
 		sendData.add(dgm.getBudget());
 		sendData.add(dgm.getMoisture());

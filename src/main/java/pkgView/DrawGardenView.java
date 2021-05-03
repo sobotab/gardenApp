@@ -63,8 +63,8 @@ public class DrawGardenView extends BorderPane {
 		lineWidth=2.0;
 		canvas = new Canvas(canvasHeight, canvasWidth);
 		gc = canvas.getGraphicsContext2D();
-		rows=15;
-		columns=15;
+		rows=15.0;
+		columns=15.0;
 		scale = 3.0;
 		xScale = ((double)canvasWidth)/columns;
 		yScale = ((double)canvasHeight)/rows;
@@ -402,7 +402,7 @@ public class DrawGardenView extends BorderPane {
 	public void scale(double change) {
 		rows-=change;
 		columns-=change;
-		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(xScale, yScale);
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(columns, rows);
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();

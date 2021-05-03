@@ -80,7 +80,6 @@ public class DrawGardenController {
 	public Point2D.Double draw() {
 		dgm.addPreOutline(dgv.getCurrent());
 		dgm.addPlot(dgv.getDrawing(), dgv.getSoil());
-		dgm.setXYScale(dgv.getXScale(), dgv.getYScale());
 		return dgm.getEndPoint();
 	}
 	

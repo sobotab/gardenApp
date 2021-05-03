@@ -17,7 +17,7 @@ public class DrawGardenModel extends GardenModel {
 	Moisture moisture;
 	Sun sun;
 	int budget;
-	double height, width, xScale, yScale, scale;
+	double height, width, rows, columns;
 	
 	Point2D.Double endPoint;
 	boolean set;
@@ -33,13 +33,13 @@ public class DrawGardenModel extends GardenModel {
 		undoStack = new Stack<>();
 		height = 500.0;
 		width = 500.0;
-		scale = 25;
+		rows = 15.0;
+		columns =15.0;
 	}
 
 
 	public void addPreOutline(Point2D.Double point) {
 		preOutline.add(scalePoint(point));
-		System.out.println("how many times is this called");
 		setEndPoint(point);
 	}
 
@@ -159,21 +159,16 @@ public class DrawGardenModel extends GardenModel {
 	}
 	
 	public void scale(double xScale, double yScale) {
-		ArrayList<Double> tmpArray = new ArrayList<>();
 		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
 			for (ArrayList<Point2D.Double> plot: soil) {
 				for (Point2D.Double point: plot) {
-					tmpArray.add(point.getX()/(xScale/this.xScale));
-					tmpArray.add(point.getY()/(yScale/this.yScale));
+					double x = point.getX()/(xScale/this.rows);
+					double y = point.getY()/(yScale/this.columns);
+					point.setLocation(x, y);
 				}
 			}
 		}
-		this.xScale = xScale;
-		this.yScale = yScale;
-	}
-	
-	public void setXYScale(double xScale, double yScale) {
-		this.xScale = xScale;
-		this.yScale = yScale;
+		this.rows=xScale;
+		this.columns=yScale;
 	}
 }

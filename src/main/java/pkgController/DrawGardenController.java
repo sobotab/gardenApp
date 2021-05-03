@@ -37,7 +37,7 @@ public class DrawGardenController {
 	public void clickedNext(ActionEvent event) {
 		
 		// Send plots info
-		//dgm.finish();
+		dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
 		try {

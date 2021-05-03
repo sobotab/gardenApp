@@ -98,9 +98,6 @@ public class DrawGardenModel extends GardenModel {
 				}
 			}
 		}
-		System.out.println(tmpHashMap.equals(plots));
-		System.out.println(plots);
-		System.out.println(tmpHashMap);
 		return tmpHashMap;
 	}
 	
@@ -158,17 +155,49 @@ public class DrawGardenModel extends GardenModel {
 		this.scale = scale;
 	}
 	
-	public void scale(double xScale, double yScale) {
+	public boolean scale(double xScale, double yScale) {
+		boolean outOfBounds = false;
 		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
 			for (ArrayList<Point2D.Double> plot: soil) {
 				for (Point2D.Double point: plot) {
 					double x = point.getX()/(xScale/this.rows);
 					double y = point.getY()/(yScale/this.columns);
 					point.setLocation(x, y);
+					if (x > 1.0 || y > 1.0) {
+						outOfBounds = true;
+					}
 				}
 			}
 		}
 		this.rows=xScale;
 		this.columns=yScale;
+		return outOfBounds;
+	}
+	
+	public void finish() {
+		double minX = 1.0;
+		double minY = 1.0;
+		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
+			for (ArrayList<Point2D.Double> plot: soil) {
+				for (Point2D.Double point: plot) {
+					if (point.getX() < minX) {
+						minX = point.getX();
+					}
+					if (point.getY() < minY) {
+						minY = point.getY();
+					}
+				}
+			}
+		}
+		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
+			for (ArrayList<Point2D.Double> plot: soil) {
+				for (Point2D.Double point: plot) {
+					point.setLocation(point.getX()-minX+.01, point.getY()-minY+.01);
+				}
+			}
+		}
+		System.out.println(plots);
+		while(!scale(rows-1.0, columns-1.0)) {System.out.println("this loop does end");}
+		scale(rows+1.0, columns+1.0);
 	}
 }

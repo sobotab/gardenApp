@@ -342,13 +342,12 @@ public class DrawGardenView extends BorderPane {
 	private void buildScaleText() {
 		double tmpScale = scale / rows;
 		gc.setLineWidth(4);
-		// change to tmp scale
 		gc.setStroke(color.BLACK);
-		gc.strokeLine(scale, scale, scale*2.0, scale);
+		gc.strokeLine(tmpScale, tmpScale, tmpScale*2.0, tmpScale);
 		gc.setLineWidth(1);
-		gc.strokeLine(scale, scale-scale/3, scale,  scale+scale/3);
-		gc.strokeLine(scale*2.0, scale-scale/3, scale*2.0,  scale+scale/3);
-		gc.strokeText(Integer.valueOf(3) + "ft", scale, scale+20.0);
+		gc.strokeLine(tmpScale, tmpScale-tmpScale/3, tmpScale,  tmpScale+tmpScale/3);
+		gc.strokeLine(tmpScale*2.0, tmpScale-tmpScale/3, tmpScale*2.0,  tmpScale+tmpScale/3);
+		gc.strokeText(Integer.valueOf(3) + "ft", tmpScale, tmpScale+20.0);
 	}
 	
 	public void buildPlots(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {

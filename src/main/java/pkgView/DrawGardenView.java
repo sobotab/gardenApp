@@ -30,24 +30,80 @@ import pkgController.Moisture;
 import pkgController.Soil;
 import pkgController.Sun;
 
+/**
+ * @author Benjamin Sobota
+ * View class to put the drawing tool onto the screen and collect input from the user
+ */
 public class DrawGardenView extends BorderPane {
 	
+	/**
+	 * Controller for scaling and storing information
+	 */
 	DrawGardenController dgc;
+	
+	/**
+	 * xScale: the number of pixels between columns in the grid
+	 * yScale: the number of pixels between the rows in the grid
+	 * scale: the smaller of canvasWidth and canvasHeight in pixels
+	 * rows: the number of rows on the grid
+	 * columns: the number of columns on the grid
+	 * canvasWidth: width of the canvas
+	 * canvasHeight: height of the canvas
+	 */
 	double xScale, yScale, scale, rows, columns,
 		canvasWidth, canvasHeight;
+	/**
+	 * Canvas that is resizable by changing the size of its parent
+	 */
 	ResizableCanvas canvas;
+	/**
+	 * Tool used in canvas for drawing
+	 */
 	GraphicsContext gc;
-	Polygon polygon;
-	ToggleButton drawButton, polyButton;
+	/**
+	 * drawButton: tool for tracking the users mouse
+	 */
+	ToggleButton drawButton;
+	/**
+	 * Drop down menu to let the user select a soil
+	 */
 	ComboBox<Soil> soilComboBox;
+	/**
+	 * Sliders to let user choose sun and moisture levels
+	 */
 	Slider sun, moisture;
+	/**
+	 * Entry box that allows user to enter a budget
+	 */
 	TextField budget;
+	/**
+	 * undoButton: button to let user undo last drawing
+	 * incButton: button to allow the user to zoom in
+	 * decButton: button to allow the user to zoom out
+	 */
 	Button undoButton, incButton, decButton;
+	/**
+	 * Current fill color based on the soil
+	 */
 	Color color;
+	/**
+	 * line width in pixels for drawing on the screen
+	 */
 	double lineWidth;
+	/**
+	 * start: point where the user begins drawing
+	 * current: point where the users mouse currently is
+	 */
 	Point2D.Double start, current;
+	/**
+	 * drawing: boolean to set the start point in the model
+	 * shapeDon: boolean to add the outline to plots in the model
+	 */
 	boolean drawing, shapeDone;
 	
+	/**
+	 * @param view
+	 */
 	public DrawGardenView(View view) {
 		dgc = new DrawGardenController(view, this);
 		Label title = new Label("Draw Garden");
@@ -69,7 +125,6 @@ public class DrawGardenView extends BorderPane {
 		buildGrid();
 		buildScaleText();
 		
-		polygon = new Polygon();
 		drawing = false;
 		
 		canvas.setOnMousePressed(event -> mousePressed((MouseEvent) event));

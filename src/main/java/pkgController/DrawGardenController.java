@@ -37,7 +37,7 @@ public class DrawGardenController {
 	public void clickedNext(ActionEvent event) {
 		
 		// Send plots info
-		dgm.finish();
+		//dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
 		try {
@@ -46,9 +46,8 @@ public class DrawGardenController {
 			dgv.errorPopup("Set a budget before continuing!");
 			return;
 		}
-		
+		dgm.setBudget(60);
 		ArrayList<Object> sendData = new ArrayList<Object>();
-		int budget = 60;
 		sendData.add(dgm.getPlots());
 		sendData.add(dgm.getBudget());
 		sendData.add(dgm.getMoisture());
@@ -87,8 +86,8 @@ public class DrawGardenController {
 		return dgm.undo();
 	}
 	
-	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double change) {
-		dgm.scale(change);
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double scale) {
+		//dgm.scale(change);
 		return dgm.getPlots();
 	}
 }

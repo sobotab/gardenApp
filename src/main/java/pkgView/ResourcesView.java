@@ -29,7 +29,12 @@ public class ResourcesView extends BorderPane{
 				+ "\nAlthough many may be led to believe that insects provide no ecological benefit, this is far from the case. Insects create the biological foundation for all terrestrial ecosystems. "
 				+ "\nThey cycle nutrients, pollinate plants, disperse seeds and maintain soil structure/fertility. It is critical to human society that ecosystems are properly functioning, and play an important role. "
 				+ "\nHowever, not all plants are able to support leps. Nonnative plants cannot support leps in the way that native plants can. Therefore, it is important to keep track of the native plants that are able to "
-				+ "\nsupport multiple lep species so that the environment can sustain itself. ");
+				+ "\nsupport multiple lep species so that the environment can sustain itself."
+				+ " \n \n To learn more about native plants visit: "
+				+ "\n https://mtcubacenter.org/native-plant-finder "
+				+ "\n https://bhwp.org/grow/garden-with-natives/native-plant-plant-profiles-a-to-z/"
+				+ "\n http://www.nativeplantcenter.net/plants/page/2/?s=quercus");
+		resource.setTextFill(Color.WHITE);
 		resource.setFont(Font.font("Cambria", 14));
 		
 		//this.setCenter(resource);

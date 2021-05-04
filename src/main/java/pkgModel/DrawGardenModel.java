@@ -31,8 +31,6 @@ public class DrawGardenModel extends GardenModel {
 		preOutline = new ArrayList<>();
 		set = true;
 		undoStack = new Stack<>();
-		height = 500.0;
-		width = 500.0;
 		rows = 15.0;
 		columns =15.0;
 	}
@@ -127,6 +125,14 @@ public class DrawGardenModel extends GardenModel {
 		}
 	}
 	
+	public void setWidth(double width) {
+		this.width = width;
+	}
+	
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	
 	public void setMoisture(Moisture moisture) {
 		this.moisture = moisture;
 	}
@@ -196,10 +202,8 @@ public class DrawGardenModel extends GardenModel {
 				}
 			}
 		}
-		System.out.println(plots);
 		while(!scale(rows-1.0, columns-1.0)) {System.out.println("this loop does end");}
 		scale(rows+1.0, columns+1.0);
-
 	}
 
 }

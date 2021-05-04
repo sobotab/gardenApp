@@ -416,4 +416,12 @@ public class DrawGardenView extends BorderPane {
 	public double getScale() {
 		return scale;
 	}
+	
+	public double getCanvasHeight() {
+		return this.canvasHeight;
+	}
+	
+	public double getCanvasWidth() {
+		return this.canvasWidth;
+	}
 }

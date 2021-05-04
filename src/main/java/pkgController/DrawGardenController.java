@@ -40,9 +40,9 @@ public class DrawGardenController {
 		dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
-		try {
+		if(dgv.getBudget() >= 0) {
 			dgm.setBudget(dgv.getBudget());
-		} catch (NumberFormatException e) {
+		} else {
 			dgv.errorPopup("Set a budget before continuing!");
 			return;
 		}
@@ -77,6 +77,8 @@ public class DrawGardenController {
 	}
 	
 	public Point2D.Double draw() {
+		dgm.setHeight(dgv.getCanvasHeight());
+		dgm.setWidth(dgv.getCanvasWidth());
 		dgm.addPreOutline(dgv.getCurrent());
 		dgm.addPlot(dgv.getDrawing(), dgv.getSoil());
 		return dgm.getEndPoint();
@@ -87,6 +89,8 @@ public class DrawGardenController {
 	}
 	
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double xScale, double yScale) {
+		dgm.setHeight(dgv.getCanvasHeight());
+		dgm.setWidth(dgv.getCanvasWidth());
 		dgm.scale(xScale, yScale);
 		return dgm.getPlots();
 	}

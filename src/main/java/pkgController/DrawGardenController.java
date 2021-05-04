@@ -37,12 +37,12 @@ public class DrawGardenController {
 	public void clickedNext(ActionEvent event) {
 		
 		// Send plots info
-		dgm.finish();
+		//dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
-		try {
+		if(dgv.getBudget() >= 0) {
 			dgm.setBudget(dgv.getBudget());
-		} catch (NumberFormatException e) {
+		} else {
 			dgv.errorPopup("Set a budget before continuing!");
 			return;
 		}

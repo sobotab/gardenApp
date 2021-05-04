@@ -19,6 +19,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -32,10 +33,9 @@ import pkgController.Sun;
 public class DrawGardenView extends BorderPane {
 	
 	DrawGardenController dgc;
-	int canvasHeight = 500;
-	int canvasWidth = 500;
-	double xScale, yScale, scale, rows, columns;
-	Canvas canvas;
+	double xScale, yScale, scale, rows, columns,
+		canvasWidth, canvasHeight;
+	ResizableCanvas canvas;
 	GraphicsContext gc;
 	Polygon polygon;
 	ToggleButton drawButton, polyButton;
@@ -60,14 +60,11 @@ public class DrawGardenView extends BorderPane {
 		bottomHBox.getChildren().addAll(back, finish);
 		
 		//Garden Drawing Tool
-		lineWidth=2.0;
-		canvas = new Canvas(canvasHeight, canvasWidth);
+		canvas = new ResizableCanvas();
+		canvas.heightProperty().addListener(event -> resize());
 		gc = canvas.getGraphicsContext2D();
 		rows=15.0;
 		columns=15.0;
-		scale = 3.0;
-		xScale = ((double)canvasWidth)/columns;
-		yScale = ((double)canvasHeight)/rows;
 		
 		buildGrid();
 		buildScaleText();
@@ -78,7 +75,6 @@ public class DrawGardenView extends BorderPane {
 		canvas.setOnMousePressed(event -> mousePressed((MouseEvent) event));
 		canvas.setOnMouseDragged(event -> mouseDragged((MouseEvent) event));
 		canvas.setOnMouseReleased(event -> mouseReleased((MouseEvent) event));
-		
 		
 		//Making sidetool		
 		drawButton = new ToggleButton("Draw");
@@ -193,6 +189,8 @@ public class DrawGardenView extends BorderPane {
 		this.setLeft(sideTool);
 		this.setCenter(canvas);
 		this.setBottom(bottomHBox);
+		
+		resize();
 	}
 	
 	public void mousePressed(MouseEvent e) {
@@ -262,10 +260,6 @@ public class DrawGardenView extends BorderPane {
 		buildPlots(plots);
 		buildScaleText();
 	}
-	
-	public Point2D.Double getStart() {
-		return start;
-	}
 
 	public Point2D.Double getCurrent() {
 		return current;
@@ -285,10 +279,6 @@ public class DrawGardenView extends BorderPane {
 	
 	public boolean getDrawing() {
 		return drawing;
-	}
-	
-	public Canvas getCanvas() {
-		return this.canvas;
 	}
 	
 	public Soil getSoil() {
@@ -340,13 +330,12 @@ public class DrawGardenView extends BorderPane {
 		gc.setStroke(Color.YELLOW);
 		gc.setFill(Color.LIGHTBLUE);
 		gc.fillRect(0f, 0f, canvasWidth, canvasHeight);
-		xScale=((double)canvasHeight)/rows;
-		yScale=((double)canvasWidth)/columns;
+		double tmpScale = scale / rows;
 		for (double i=0.0; i<rows; i++) {
-			gc.strokeLine(0.0,i*xScale,canvasHeight,i*xScale);
+			gc.strokeLine(0.0,i*tmpScale,canvasHeight,i*tmpScale);
 		}
 		for (double i=0.0; i<columns; i++) {
-			gc.strokeLine(i*yScale,0.0,i*yScale,canvasWidth);
+			gc.strokeLine(i*tmpScale,0.0,i*tmpScale,canvasWidth);
 		}
 	}
 	
@@ -400,6 +389,10 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public void scale(double change) {
+		canvasHeight = canvas.getHeight();
+		canvasWidth = canvas.getWidth();
+		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
+		canvas.resize(scale, scale);
 		rows-=change;
 		columns-=change;
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(columns, rows);
@@ -407,16 +400,19 @@ public class DrawGardenView extends BorderPane {
 		buildPlots(plots);
 		buildScaleText();
 	}
-
+	
+	public void resize() {
+		canvasHeight = canvas.getHeight();
+		canvasWidth = canvas.getWidth();
+		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
+		canvas.resize(scale, scale);
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(columns, rows);
+		buildGrid();
+		buildPlots(plots);
+		buildScaleText();
+	}
+	
 	public double getScale() {
-		return this.scale;
-	}
-	
-	public double getXScale() {
-		return xScale;
-	}
-	
-	public double getYScale() {
-		return yScale;
+		return scale;
 	}
 }

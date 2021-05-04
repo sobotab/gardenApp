@@ -46,7 +46,6 @@ public class CarouselModel {
 		
 	}
 	
-	
 	/**
 	 * Returns a hashmap of all the plants with their scientific names as keys
 	 * @return

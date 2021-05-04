@@ -15,7 +15,6 @@ import pkgController.Controller;
 public class View {
 	final int SCENEWIDTH = 800;
 	final int SCENEHEIGHT = 600;
-	//int background;  /* Commented out for now. Seems obsolete due to borderpane's background? */
 	List<Node> widgets;
 	List<Image> plantImages;
 	GraphicsContext gc;

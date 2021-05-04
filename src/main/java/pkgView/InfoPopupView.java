@@ -34,7 +34,7 @@ public class InfoPopupView extends BorderPane{
 	 * @param dollars The price of the plant that had its image clicked
 	 * @param description A short description of the plant that had its image clicked
 	 */
-	public InfoPopupView(View view, ImageView img, String name, String sciName, int numLeps, int dollars, String description) {
+	public InfoPopupView(ImageView img, String name, String sciName, int numLeps, int dollars, String description) {
 		BackgroundFill bFill = new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(bFill);
 		this.setBackground(background);

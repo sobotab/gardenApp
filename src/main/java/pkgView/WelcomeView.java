@@ -52,19 +52,23 @@ public class WelcomeView extends BorderPane {
 		//Controller for buttons
 		welcomeController = new WelcomeController(view);
 		backgroundImage = new Image(getClass().getResourceAsStream("/images/welcome-screen-img.jpg"));
-		bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
+		bSize = new BackgroundSize(800.0, 1000.0, false, false, false, true);
 		setBackgroundImage(backgroundImage);
 		//Create nodes
 		hBox = new HBox();
 		open = new Button("Open");
-		open.setMinWidth(100);
+		open.setMinWidth(80);
+		open.setMinHeight(40);
 		newGarden = new Button("New");
-		open.setMinWidth(50);
+		newGarden.setMinWidth(80);
+		newGarden.setMinHeight(40);
 		info = new Button("Info");
-		open.setMinWidth(50);
+		info.setMinWidth(80);
+		info.setMinHeight(40);
 		resources = new Button("Resources");
-		open.setMinWidth(50);
-		Label title = new Label("Welcome");
+		resources.setMinWidth(80);
+		resources.setMinHeight(40);
+		Label title = new Label("InstaGarden");
 		//title.setPrefWidth(50);
 		//title.setPrefHeight(50);
 		title.setTextFill(Color.WHITE);

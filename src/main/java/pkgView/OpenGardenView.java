@@ -1,11 +1,20 @@
 package pkgView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -19,11 +28,30 @@ import javafx.scene.text.Font;
 import pkgController.OpenGardenController;
 
 public class OpenGardenView extends BorderPane{
-	Set<String> gardenNames;
-	ListView<String> gardenList;
+	TableView gardenTable;
 	
 	public OpenGardenView(View view) {
-		gardenList = new ListView();
+		gardenTable = new TableView();
+		TableColumn<Map, String> nameColumn = new TableColumn<>("Name");
+		nameColumn.setCellValueFactory(new MapValueFactory<>("name"));
+		nameColumn.setPrefWidth(200);
+		
+		TableColumn<Map, String> budgetColumn = new TableColumn<>("Budget");
+		budgetColumn.setCellValueFactory(new MapValueFactory<>("budget"));
+		
+		//TableColumn<Map, String> currentBudgetColumn = new TableColumn<>("Current Budget");
+		//currentBudgetColumn.setCellValueFactory(new MapValueFactory<>("budget"));
+		
+		//TableColumn<Map, String> maxBudgetColumn = new TableColumn<>("Max Budget");
+		//maxBudgetColumn.setCellValueFactory(new MapValueFactory<>("budget"));
+		
+		TableColumn<Map, String> lepColumn = new TableColumn<>("Leps Supported");
+		lepColumn.setCellValueFactory(new MapValueFactory<>("leps"));
+		
+		//budgetColumn.getColumns().addAll(currentBudgetColumn, maxBudgetColumn);
+		
+		gardenTable.getColumns().addAll(nameColumn, budgetColumn, lepColumn);
+		
 		OpenGardenController ogc = new OpenGardenController(view, this);
 		
 		Label title = new Label("Open Garden");
@@ -37,7 +65,7 @@ public class OpenGardenView extends BorderPane{
 		open.setOnAction(ogc.getHandlerForOpen());
 		
 		
-		VBox vBox = new VBox(gardenList, open);
+		VBox vBox = new VBox(gardenTable, open);
 		
 		this.setTop(title);
 		this.setBottom(back);
@@ -55,26 +83,15 @@ public class OpenGardenView extends BorderPane{
     	
 	}
 	
-	public void prepareListView(Set<String> gardenNames) {
-		for (String gardenName : gardenNames) {
-			gardenList.getItems().add(gardenName);
-		}
+	public void prepareListView(ObservableList<HashMap<String, Object>> gardenDataContainer) {		
+		gardenTable.getItems().addAll(gardenDataContainer);
 	}
 	
 	// getters & setters
-	public ListView<String> getGardenList() {
-		return this.gardenList;
+	public TableView getGardenTable() {
+		return this.gardenTable;
 	}
-	public void setGardenList(ListView<String> list) {
-		this.gardenList = list;
-	}
-	
-	public Set<String> getGardenNames() {
-		return this.gardenNames;
-	}
-
-	public void setGardenNames(Set<String> names) {
-		this.gardenNames = names;
-		
+	public void setgardenTable(TableView table) {
+		this.gardenTable = table;
 	}
 }

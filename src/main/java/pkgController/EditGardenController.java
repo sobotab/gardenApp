@@ -292,9 +292,7 @@ public class EditGardenController {
 		double y_loc = gardenModel.getPlants().get(index).getY();
 		gardenView.setX( index, x_loc );
 		gardenView.setY( index, y_loc );
-		
-		//System.out.println("coordinates: " + x_loc + ", " + y_loc);
-		
+				
 		gardenView.drawSpread(index, x_loc, y_loc);
 				
 		for (PlantView plant : gardenView.getPlants()) {
@@ -329,13 +327,7 @@ public class EditGardenController {
 		return;
 	}
 	
-	// Used to run startFullDrag(), which can only be run inside setOnDragDetected.
-	
-	public void dragDetect(MouseEvent event, PlantView pv) {
-		//pv.startFullDrag();
-		//System.out.print("drag detected      ");
-		return;
-	}
+	// Update dollars/leps when plant dropped into garden or compost
 	
 	public void release(MouseEvent event) {
 		Node n = (Node)event.getSource();
@@ -354,8 +346,8 @@ public class EditGardenController {
 			gardenView.getGarden().getChildren().remove(trashPlant);
 			gardenView.getGarden().getChildren().remove(trashSpread);
 			gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps());
-
 		}
+		return;
 	}
 	
 
@@ -386,11 +378,6 @@ public class EditGardenController {
 	public EventHandler getHandlerForRelease() {
 		return event -> release((MouseEvent) event);
 	}
-	
-	public EventHandler getHandlerForDragDetect(PlantView pv) {
-		return event -> dragDetect((MouseEvent) event, pv);
-	}
-	
 	
 	
 }

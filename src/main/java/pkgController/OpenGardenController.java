@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Stack;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -17,6 +20,7 @@ import pkgView.EditGardenView;
 import pkgView.OpenGardenView;
 import pkgView.View;
 import pkgView.WelcomeView;
+
 
 public class OpenGardenController {
 	View view;
@@ -42,9 +46,24 @@ public class OpenGardenController {
         } catch (ClassNotFoundException e) {
         	e.printStackTrace();
         }
+				
+		ObservableList<HashMap<String, Object>> gardenDataContainer = FXCollections.<HashMap<String, Object>>observableArrayList();
+		Iterator iter = gardenData.entrySet().iterator();
+		PlantGardenModel gardenEntryModel;
 		
-		ogv.setGardenNames(gardenData.keySet());
-		ogv.prepareListView(gardenData.keySet());
+		while (iter.hasNext()) {
+			Map.Entry gardenEntry = (Map.Entry)iter.next();
+			gardenEntryModel = (PlantGardenModel) gardenEntry.getValue();
+			
+			HashMap<String, Object> gardenMap = new HashMap<String, Object>();
+			
+			gardenMap.put("name", (String)gardenEntry.getKey());
+			gardenMap.put("budget", gardenEntryModel.getBudget());
+			gardenMap.put("leps", gardenEntryModel.getNumLeps());
+
+			gardenDataContainer.add(gardenMap);
+		}
+		ogv.prepareListView(gardenDataContainer);
 		
 	}
 	
@@ -58,9 +77,10 @@ public class OpenGardenController {
 	}
 	
 	public void clickedOpen(ActionEvent event) {
-		int selectedIndex = ogv.getGardenList().getSelectionModel().getSelectedIndex();
-		String name = ogv.getGardenList().getSelectionModel().getSelectedItem();
-		
+		int selectedIndex = ogv.getGardenTable().getSelectionModel().getSelectedIndex();
+		//String name = ogv.getGardenTable().getSelectionModel().getSelectedItem();
+		HashMap<String, Object> item = (HashMap<String, Object>) ogv.getGardenTable().getSelectionModel().getSelectedItem();
+		String name = (String) item.get("name");
 		view.setCurrentScreen(new EditGardenView(view, name));
 	}
 	

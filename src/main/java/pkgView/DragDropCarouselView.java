@@ -23,7 +23,7 @@ public class DragDropCarouselView extends CarouselView {
 	List<PlantView> plants;
 	PlantView heldPlant;
 	DragDropCarouselController dcc;
-	int maxViewSize = 3;
+	int maxViewSize = 5;
 	final double DEFAULT_IMG_SIZE = 60;
 	final double SHRINK_IMG_SCALE = 0.9;
 	Button left;

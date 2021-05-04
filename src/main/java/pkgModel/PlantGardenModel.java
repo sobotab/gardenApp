@@ -127,10 +127,11 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	
 	public double computeScaleSize(PlantObjectModel plant) {
 		double default_radius = plant.getSpreadDiameter()/2;
-		if (Math.abs(this.scale - DEFAULTSCALE) < 1) {
+		if (Math.abs(DEFAULTSCALE - this.scale) < 1) {
 			return default_radius;
 		}
-		double scaled_radius = default_radius + (default_radius / (DEFAULTSCALE - this.scale) );
+		//double scaled_radius = default_radius + (default_radius / (DEFAULTSCALE - this.scale) );
+		double scaled_radius = default_radius + 30*((DEFAULTSCALE - this.scale) / default_radius);
 		System.out.println("default: " + default_radius + ", this scale: " + this.scale + ", " + "new radius: " + scaled_radius);
 		return Math.max(1.0, scaled_radius);
 	}

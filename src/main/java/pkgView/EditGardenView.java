@@ -54,10 +54,8 @@ public class EditGardenView extends BorderPane{
 	final int CANVASHEIGHT = 500;
 	final int CANVASWIDTH = 500;
 	final int DEFAULTSCALE = 25;
-	boolean clicked;
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
-	TilePane infoTab;
 	VBox budgetBox;
 	VBox lepBox;
 	int budget;
@@ -108,7 +106,7 @@ public class EditGardenView extends BorderPane{
 		
 		// Build budget/lep info tab
 		
-		infoTab = new TilePane();
+		TilePane infoTab = new TilePane();
 		infoTab.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
 				new CornerRadii(5), new Insets(0,0,0,10))));
 		infoTab.setPrefWidth(150);
@@ -165,7 +163,7 @@ public class EditGardenView extends BorderPane{
 		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost.png")), 0);
     	compost.setPreserveRatio(true);
     	compost.setFitHeight(60);
-    	
+
     	garden.getChildren().add(compost);
     	garden.setAlignment(compost, Pos.BOTTOM_LEFT);
 		
@@ -270,7 +268,6 @@ public class EditGardenView extends BorderPane{
     	pv.setFitHeight(60);
 		pv.setOnMousePressed(egc.getHandlerForPress());
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
-    	pv.setOnDragDetected(egc.getHandlerForDragDetect(pv));
     	pv.setOnMouseReleased(egc.getHandlerForRelease());
     	return pv;
     }
@@ -284,7 +281,6 @@ public class EditGardenView extends BorderPane{
     	pv.setFitHeight(60);
 		pv.setOnMousePressed(egc.getHandlerForPress());
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
-    	pv.setOnDragDetected(egc.getHandlerForDragDetect(pv));
     	pv.setOnMouseReleased(egc.getHandlerForRelease());
     	return pv;
     }
@@ -309,7 +305,6 @@ public class EditGardenView extends BorderPane{
 	        Circle spread = new Circle(
 	        		x,
 	        		y,
-	        		//plants.get(index).getSpread()/2);
 	        		computeScaleSize(plants.get(index)));
 	        plantSpreads.add(spread);
 	        garden.getChildren().add(spread);
@@ -320,6 +315,8 @@ public class EditGardenView extends BorderPane{
 		Circle spread = plantSpreads.get(index);
 		spread.setCenterX(x - spread.getRadius() + plants.get(index).getFitHeight()/2);
 		spread.setCenterY(y - spread.getRadius() + plants.get(index).getFitHeight()/2);
+		//spread.setCenterX(x);
+		//spread.setCenterY(y);
 		spread.setTranslateX(spread.getCenterX());
 		spread.setTranslateY(spread.getCenterY());
 		
@@ -328,12 +325,15 @@ public class EditGardenView extends BorderPane{
 
 	}
 	
+	// Calculate spread bubble size according to scale factor
+	
 	public double computeScaleSize(PlantView plant) {
 		double default_radius = plant.getSpread()/2;
-		if (Math.abs(this.scale - DEFAULTSCALE) < 1) {
+		if (Math.abs(DEFAULTSCALE - this.scale) < 1) {
 			return default_radius;
 		}
-		double scaled_radius = default_radius + (default_radius / (DEFAULTSCALE - this.scale) );
+		//double scaled_radius = default_radius + ( default_radius / (DEFAULTSCALE - this.scale) );
+		double scaled_radius = default_radius + 30*((DEFAULTSCALE - this.scale) / default_radius);
 		System.out.println("default: " + default_radius + ", this scale: " + this.scale + ", " + "new radius: " + scaled_radius);
 		return Math.max(1.0, scaled_radius);
 	}
@@ -344,10 +344,12 @@ public class EditGardenView extends BorderPane{
 	public void updateSpread(int index, boolean inGarden, boolean overlap) {
 		Circle spread = plantSpreads.get(index);
 		spread.setFill(Color.LIGHTBLUE);
+		
 		if (overlap)
 			spread.setFill(Color.YELLOW);
 		if (!inGarden)
 			spread.setFill(Color.RED);
+		
 	}
 	
 	
@@ -362,20 +364,9 @@ public class EditGardenView extends BorderPane{
 		plants.get(newIndex).setFitHeight(plants.get(newIndex).spread/4 + 20);
 		plants.get(newIndex).setFitWidth(plants.get(newIndex).spread/4 + 20);	
 	}
-	
-	public List<Point> movePlant() {
-		List<Point> points = null;
-		return points;
-	}
-	
-	public void updatePlant() {}
-	
+		
 	
 	// getters
-	public boolean isClicked() {
-		return this.clicked;
-	}
-	
 	public DragDropCarouselView getPlantCarousel() {
 		return this.plantCarousel;
 	}
@@ -406,10 +397,6 @@ public class EditGardenView extends BorderPane{
 	
 	
 	// setters
-	public void setClicked(boolean clicked) {
-		this.clicked = clicked;
-	}
-	
 	public void setPlantCarousel(DragDropCarouselView carousel) {
 		this.plantCarousel = carousel;
 	}

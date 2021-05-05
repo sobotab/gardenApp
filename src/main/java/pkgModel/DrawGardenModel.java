@@ -31,8 +31,6 @@ public class DrawGardenModel extends GardenModel {
 		preOutline = new ArrayList<>();
 		set = true;
 		undoStack = new Stack<>();
-		height = 500.0;
-		width = 500.0;
 		rows = 15.0;
 		columns =15.0;
 	}
@@ -127,6 +125,14 @@ public class DrawGardenModel extends GardenModel {
 		}
 	}
 	
+	public void setWidth(double width) {
+		this.width = width;
+	}
+	
+	public void setHeight(double height) {
+		this.height = height;
+	}
+	
 	public void setMoisture(Moisture moisture) {
 		this.moisture = moisture;
 	}
@@ -175,31 +181,32 @@ public class DrawGardenModel extends GardenModel {
 	}
 	
 	public void finish() {
-		double minX = 1.0;
-		double minY = 1.0;
-		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
-			for (ArrayList<Point2D.Double> plot: soil) {
-				for (Point2D.Double point: plot) {
-					if (point.getX() < minX) {
-						minX = point.getX();
-					}
-					if (point.getY() < minY) {
-						minY = point.getY();
+		if (!(plots.get(Soil.CLAY).isEmpty() && plots.get(Soil.SANDY).isEmpty() && plots.get(Soil.LOAMY).isEmpty())) {
+			double minX = 1.0;
+			double minY = 1.0;
+			for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
+				for (ArrayList<Point2D.Double> plot: soil) {
+					for (Point2D.Double point: plot) {
+						if (point.getX() < minX) {
+							minX = point.getX();
+						}
+						if (point.getY() < minY) {
+							minY = point.getY();
+						}
 					}
 				}
 			}
-		}
-		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
-			for (ArrayList<Point2D.Double> plot: soil) {
-				for (Point2D.Double point: plot) {
-					point.setLocation(point.getX()-minX+.01, point.getY()-minY+.01);
+			for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
+				for (ArrayList<Point2D.Double> plot: soil) {
+					for (Point2D.Double point: plot) {
+						point.setLocation(point.getX()-minX+.01, point.getY()-minY+.01);
+					}
 				}
 			}
+			while(scale(rows+1.0, columns+1.0)) {}
+			while(!scale(rows-1.0, columns-1.0)) {}
+			scale(rows+1.0, columns+1.0);
 		}
-		System.out.println(plots);
-		while(!scale(rows-1.0, columns-1.0)) {System.out.println("this loop does end");}
-		scale(rows+1.0, columns+1.0);
-
 	}
 
 }

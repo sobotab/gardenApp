@@ -36,34 +36,36 @@ public class Model {
 		for(String line: lines) {
 			String[] latestLine = line.split(",", 9);
 			List<String> attributes = Arrays.asList(latestLine);
-			//String name = latestLine[0];
 			String name = attributes.get(0);
-			//String sciName = latestLine[1];
 			String sciName = attributes.get(1);
-			//int spread = Integer.parseInt(latestLine[2]);
 			int spread = Integer.parseInt(attributes.get(2));
-			//String sun = latestLine[3];
 			String sun = attributes.get(3);
-			//String moisture = latestLine[4];
 			String moisture = attributes.get(4);
-			//String soil = latestLine[5];
 			String soil = attributes.get(5);
-			//int numLeps = Integer.parseInt(latestLine[6]);
 			int numLeps = Integer.parseInt(attributes.get(6));
-			//int price = Integer.parseInt(latestLine[7]);
 			int price = Integer.parseInt(attributes.get(7));
-			//String description = latestLine[8];
 			String description = attributes.get(8);
 			PlantModel plant = new PlantInfoModel(name, sciName, spread, sun, moisture, soil, numLeps, price, description);
 			plants.add(plant);
 		}
-//		sc = new Scanner(getClass().getResourceAsStream("/files/common_leps.csv"));
-//		for(String line: lines) {
-//			List<String> leps = new ArrayList<String>();
-//			String[] latestLine = line.split(",");
-//			Iterator<String> lepIterator = 
-//			
-//		}
+		sc = new Scanner(getClass().getResourceAsStream("/files/common_leps.csv"));
+		lines = new ArrayList<String>();
+		while(sc.hasNextLine()) {
+			lines.add(sc.nextLine().strip());
+		}
+		for(String line: lines) {
+			String[] latestLine = line.split(",");
+			String plant_genus = latestLine[0];
+			List<String> leps = Arrays.asList(latestLine).subList(1, latestLine.length);
+			System.out.println(leps);
+			for(PlantModel plant: plants) {
+				if(plant.getSciName().startsWith(plant_genus)) {
+					plant.setLeps(leps);
+					System.out.println(plant.getSciName());
+				}
+			}
+			
+		}
 		return plants;
 		
 	}

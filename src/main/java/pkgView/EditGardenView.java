@@ -43,8 +43,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import pkgController.EditGardenController;
@@ -56,8 +59,8 @@ public class EditGardenView extends BorderPane{
 	final int DEFAULTSCALE = 25;
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
-	VBox budgetBox;
-	VBox lepBox;
+	HBox budgetBox;
+	HBox lepBox;
 	int budget;
 	List<PlantView> plants;
 	List<Circle> plantSpreads;
@@ -86,19 +89,48 @@ public class EditGardenView extends BorderPane{
 			
 		Label title = new Label("Edit Garden   ");
 		title.setTextFill(Color.WHITE);
-		title.setFont(Font.font("Cambria", 30));
+		title.setFont(Font.font("Cambria", FontWeight.SEMI_BOLD, 40));
 		
-		Button back = new Button("Back to plant select");
+		ImageView back_img = new ImageView(new Image("/images/back-icon.png"));
+		back_img.setFitHeight(30);
+		back_img.setPreserveRatio(true);
+		back_img.setRotationAxis(Rotate.Y_AXIS);
+		back_img.setRotate(180);
+		Button back = new Button();
+		//Button back = new Button("Back");
+		//back.setFont(Font.font("Trebuchet MS", 18));
+		//back.setPrefWidth(100);
+		//back.setPrefHeight(40);
+		back.setGraphic(back_img);
+		//back.setGraphicTextGap(5);
 		back.setOnAction(egc.getHandlerForBack());
 		
-		Button save = new Button("Save");
+		ImageView save_img = new ImageView(new Image("/images/save-icon.png"));
+		save_img.setFitHeight(30);
+		save_img.setPreserveRatio(true);
+		Button save = new Button();
+		//Button save = new Button("Save");
+		//save.setFont(Font.font("Trebuchet MS", 18));
+		//save.setPrefWidth(100);
+		//save.setPrefHeight(40);
+		save.setGraphic(save_img);
+		//save.setGraphicTextGap(5);
 		save.setOnAction(egc.getHandlerForSave());
 		
-		Button exit = new Button("Exit");
+		ImageView exit_img = new ImageView(new Image("/images/exit-icon.png"));
+		exit_img.setFitHeight(30);
+		exit_img.setPreserveRatio(true);
+		Button exit = new Button();
+		//Button exit = new Button("Exit");
+		//exit.setFont(Font.font("Trebuchet MS", 18));
+		//exit.setPrefWidth(100);
+		//exit.setPrefHeight(40);
+		exit.setGraphic(exit_img);
+		//exit.setGraphicTextGap(5);
 		exit.setOnAction(egc.getHandlerForExit());
 		
-		VBox buttonBox = new VBox();
-		buttonBox.getChildren().addAll(title, back, save, exit);
+		HBox buttonBox = new HBox();
+		buttonBox.getChildren().addAll(back, save, exit);
 		buttonBox.setAlignment(Pos.CENTER);
 		buttonBox.setPadding(new Insets(10,0,0,0));
 		buttonBox.setSpacing(5);
@@ -107,28 +139,37 @@ public class EditGardenView extends BorderPane{
 		// Build budget/lep info tab
 		
 		TilePane infoTab = new TilePane();
-		infoTab.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
-				new CornerRadii(5), new Insets(0,0,0,10))));
-		infoTab.setPrefWidth(150);
+		//infoTab.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
+		//		new CornerRadii(5), new Insets(0,0,0,10))));
+		infoTab.setPrefWidth(200);
 		infoTab.setAlignment(Pos.TOP_CENTER);
+		infoTab.setVgap(10);
 		
-		budgetBox = new VBox();
-		
-		Label budgetTitle = new Label("Budget Tracker:");
-		budgetTitle.setFont(Font.font("Trebuchet MS", 15));
+		budgetBox = new HBox();
+		budgetBox.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
+				new CornerRadii(5), new Insets(0,0,0,10))));
+		budgetBox.setPrefWidth(200);
+		Label budgetTitle = new Label("$ ");
+		budgetTitle.setTextFill(Color.GREEN);
+		budgetTitle.setFont(Font.font("Trebuchet MS", FontWeight.EXTRA_BOLD, 50));
 		
 		Label budgetRatio = new Label(0 + " / " + budget);
-		budgetRatio.setFont(Font.font("Trebuchet MS", 30));
+		budgetRatio.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 40));
 		
 		budgetBox.getChildren().addAll(budgetTitle, budgetRatio);
-		budgetBox.setAlignment(Pos.TOP_CENTER);
-		budgetBox.setPadding(new Insets(10,0,0,0));
+		budgetBox.setAlignment(Pos.CENTER);
+		budgetBox.setPadding(new Insets(0,0,0,0));
 		
 		
-		lepBox = new VBox();
+		lepBox = new HBox();
+		lepBox.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
+				new CornerRadii(5), new Insets(0,0,0,10))));
+		lepBox.setPrefWidth(200);
 		
 		Label lepTitle = new Label("Leps Supported:");
-		lepTitle.setFont(Font.font("Trebuchet MS", 15));
+		lepTitle.setTextFill(Color.GREEN);
+		lepTitle.setFont(Font.font("Trebuchet MS", FontWeight.EXTRA_BOLD, 50));
+		
 		
 		Label lepDisplay = new Label("" + 0);
 		lepDisplay.setFont(Font.font("Trebuchet MS", 30));
@@ -143,7 +184,7 @@ public class EditGardenView extends BorderPane{
 		// Background
 		
 		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
-		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-blurred.jpg")),
+		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-leaves.jpg")),
 				BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT,
 				BackgroundPosition.CENTER,
@@ -184,19 +225,19 @@ public class EditGardenView extends BorderPane{
     	// Adding some listeners so plant coordinates stay within window
     	/*
     	canvas.layoutXProperty().addListener((obs, oldVal, newVal) -> {
-    		if ((double)newVal != 0.0) {
+    		if ((double)newVal != 0.0 && (double)oldVal != 0.0) {
     			egc.fitCoordinatesToWindowWidth((double)oldVal, (double)newVal);
     			System.out.println(oldVal + " " + (double)oldVal);
     		}
     	 });
+    	
     	canvas.layoutYProperty().addListener((obs, oldVal, newVal) -> {
-    		if ((double)newVal != 0.0) {
+    		if ((double)newVal != 0.0 && (double)oldVal != 0.0) {
     			egc.fitCoordinatesToWindowHeight((double)oldVal, (double)newVal);
     			System.out.println(oldVal + " " + (double)oldVal);
     		}
     	 });
     	 */
-    	
 	}
 	
 	// Draw garden on canvas according to plot data
@@ -264,6 +305,12 @@ public class EditGardenView extends BorderPane{
 	
 	public PlantView makePlantView(String sci_name, int spread) {
     	PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/images/" + sci_name + ".jpg")), spread);
+    	
+    	Rectangle img_template = new Rectangle(60,60);
+    	img_template.setArcWidth(15);
+    	img_template.setArcHeight(15);
+    	pv.setClip(img_template);
+    	
     	pv.setPreserveRatio(true);
     	pv.setFitHeight(60);
 		pv.setOnMousePressed(egc.getHandlerForPress());
@@ -277,6 +324,12 @@ public class EditGardenView extends BorderPane{
 	
 	public PlantView makePlantView(Image img, int spread) {
     	PlantView pv = new PlantView(img, spread);
+    	
+    	Rectangle img_template = new Rectangle(60,60);
+    	img_template.setArcWidth(15);
+    	img_template.setArcHeight(15);
+    	pv.setClip(img_template);
+    	
     	pv.setPreserveRatio(true);
     	pv.setFitHeight(60);
 		pv.setOnMousePressed(egc.getHandlerForPress());
@@ -363,6 +416,14 @@ public class EditGardenView extends BorderPane{
 		int newIndex = plants.indexOf(n);
 		plants.get(newIndex).setFitHeight(plants.get(newIndex).spread/4 + 20);
 		plants.get(newIndex).setFitWidth(plants.get(newIndex).spread/4 + 20);	
+		
+		Rectangle fit_template = new Rectangle(
+				plants.get(newIndex).spread/4 + 20,
+				plants.get(newIndex).spread/4 + 20);
+		fit_template.setArcHeight(15);
+		fit_template.setArcWidth(15);
+		
+		plants.get(newIndex).setClip(fit_template);
 	}
 		
 	

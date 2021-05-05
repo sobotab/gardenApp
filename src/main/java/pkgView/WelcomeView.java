@@ -4,9 +4,11 @@ package pkgView;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -16,6 +18,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import pkgController.WelcomeController;
 /**
  * 
@@ -49,30 +52,63 @@ public class WelcomeView extends BorderPane {
 	 * @param view The program's View that is only initialized once
 	 */
 	public WelcomeView(View view) {
+		
 		//Controller for buttons
+		
 		welcomeController = new WelcomeController(view);
 		backgroundImage = new Image(getClass().getResourceAsStream("/images/welcome-screen-img.jpg"));
 		bSize = new BackgroundSize(800.0, 1000.0, false, false, false, true);
 		setBackgroundImage(backgroundImage);
+		
 		//Create nodes
+		
 		hBox = new HBox();
+		
+		ImageView open_img = new ImageView(new Image("/images/open-icon.png"));
+		open_img.setFitHeight(50);
+		open_img.setPreserveRatio(true);
 		open = new Button("Open");
+		open.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 30));
 		open.setMinWidth(80);
 		open.setMinHeight(40);
+		open.setGraphic(open_img);
+		open.setGraphicTextGap(10);
+		
+		ImageView new_img = new ImageView(new Image("/images/new-icon.png"));
+		new_img.setFitHeight(50);
+		new_img.setPreserveRatio(true);
 		newGarden = new Button("New");
+		newGarden.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 30));
 		newGarden.setMinWidth(80);
 		newGarden.setMinHeight(40);
+		newGarden.setGraphic(new_img);
+		newGarden.setGraphicTextGap(10);
+		
+		ImageView info_img = new ImageView(new Image("/images/info-icon.png"));
+		info_img.setFitHeight(50);
+		info_img.setPreserveRatio(true);
 		info = new Button("Info");
+		info.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 30));
 		info.setMinWidth(80);
 		info.setMinHeight(40);
+		info.setGraphic(info_img);
+		info.setGraphicTextGap(10);
+		
+		ImageView resources_img = new ImageView(new Image("/images/resources-icon.png"));
+		resources_img.setFitHeight(50);
+		resources_img.setPreserveRatio(true);
 		resources = new Button("Resources");
+		resources.setFont(Font.font("Trebuchet MS", FontWeight.MEDIUM, 30));
 		resources.setMinWidth(80);
 		resources.setMinHeight(40);
-		Label title = new Label("InstaGarden");
+		resources.setGraphic(resources_img);
+		resources.setGraphicTextGap(10);
+		
+		Label title = new Label("Insta-Garden");
 		//title.setPrefWidth(50);
 		//title.setPrefHeight(50);
 		title.setTextFill(Color.WHITE);
-		title.setFont(Font.font("Cambria", 80));
+		title.setFont(Font.font("Roboto", FontWeight.BOLD, 80));
 		
 
 		

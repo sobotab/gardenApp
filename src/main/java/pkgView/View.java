@@ -27,6 +27,7 @@ public class View {
 	
 	public View(Stage theStage, Controller controller) {
 		this.theStage = theStage;
+		//this.theStage.setFullScreen(true);
 		this.controller = controller;
 		theStage.setTitle("Garden Software");
 		//First screen is the WelcomeView
@@ -59,20 +60,12 @@ public class View {
 		return this.theStage;
 	}
 	
-	public List<Node> getWidgets() {
-		return this.widgets;
-	}
-	
 	public List<Image> getPlantImages() {
 		return this.plantImages;
 	}
 	
 	public BorderPane getCurrentScreen() {
 		return this.currentScreen;
-	}
-	
-	void setWidgets(List<Node> widgets) {
-		this.widgets = widgets;
 	}
 	
 	public void setPlantImages(List<Image> plantImages) {

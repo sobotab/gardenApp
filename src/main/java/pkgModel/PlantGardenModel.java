@@ -28,6 +28,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	int heldPlant;
 	double canvasXOffset;
 	double canvasYOffset;
+	boolean fullscreen;
 	//int scale;
 
 	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots, int budget, int scale) {
@@ -229,6 +230,22 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 
 	public double getCanvasYOffset() {
 		return this.canvasYOffset;
+	}
+	
+	public void setCanvasXOffset(double canvas_x) {
+		this.canvasXOffset = canvas_x;
+	}
+
+	public void setCanvasYOffset(double canvas_y) {
+		this.canvasYOffset = canvas_y;
+	}
+	
+	public boolean getFullscreen() {
+		return this.fullscreen;
+	}
+	
+	public void setFullscreen(boolean fullscreen) {
+		this.fullscreen = fullscreen;
 	}
 
 }

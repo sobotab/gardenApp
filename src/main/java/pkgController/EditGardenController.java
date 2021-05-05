@@ -26,6 +26,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -88,6 +89,11 @@ public class EditGardenController {
 			gardenView.setBudget(gardenModel.getBudget());
 			gardenView.makeCanvas(gardenModel.getPlots());
 			gardenView.setScale(gardenModel.getScale());
+			/*
+			if (gardenModel.getFullscreen() && view.getTheStage().isFullscreen()) {
+				errorPopup("This garden was made in fullscreen. \n Fullscreen your window to see your garden properly.");
+			}
+			*/
 		} 
 		
 		else {
@@ -159,8 +165,22 @@ public class EditGardenController {
 		view.setCurrentScreen(new WelcomeView(view));
 	}
 	
-	// Change coordinates when window size changes
+	public void errorPopup(String error_message) {
+		Stage errorPopup = new Stage();
+		errorPopup.setTitle("Error");
+		errorPopup.setAlwaysOnTop(true);
+		errorPopup.setMinWidth(150);
+		errorPopup.setMinHeight(75);
+
+		Label errorLabel = new Label(error_message);
+		errorLabel.setAlignment(Pos.CENTER);
+		Scene scene = new Scene(errorLabel);
+		errorPopup.setScene(scene);
+		errorPopup.show();
+	}
 	
+	// Change coordinates when window size changes
+	/*
 	public void fitCoordinatesToWindowWidth(double oldWidth, double newWidth) {
 		Iterator plantViewIter = gardenView.getPlants().iterator();
 		for (PlantObjectModel plantModel : gardenModel.getPlants()) {
@@ -187,7 +207,7 @@ public class EditGardenController {
 		for (PlantObjectModel plantModel : gardenModel.getPlants()) {
 			plantModel.setYInBounds( 
 					plantModel.getY() + (newHeight - oldHeight),
-					gardenView.getGarden().getWidth() - 30);
+					gardenView.getGarden().getHeight() - 30);
 			
 			PlantView plantView = (PlantView)plantViewIter.next();
 			plantView.setTranslateY( plantModel.getY() );
@@ -202,8 +222,7 @@ public class EditGardenController {
 					gardenModel.checkSpread(index));
 		}
 	}
-	
-	
+	*/
 	// Updating view after loading a saved garden
 	
 	public void fetchGardenInfo() {
@@ -227,12 +246,20 @@ public class EditGardenController {
 					viewIndex, 
 					gardenModel.checkCanvas(viewIndex, gardenModel.getCanvasXOffset(), gardenModel.getCanvasYOffset()), 
 					gardenModel.checkSpread(viewIndex));
+			
+			//fitCoordinatesToWindowWidth(gardenModel.getCanvasXOffset(), gardenView.getCanvas().getLayoutX());
+			//fitCoordinatesToWindowHeight(gardenModel.getCanvasYOffset(), gardenView.getCanvas().getLayoutY());
+			
 		}
 	}
 	
 	// Saving garden
 	
 	public void clickedSave(ActionEvent event) {
+		
+		//gardenModel.setCanvasXOffset(gardenView.getCanvas().getLayoutX());
+		//gardenModel.setCanvasYOffset(gardenView.getCanvas().getLayoutY());
+		//gardenModel.setFullscreen(view.getTheStage().isFullScreen());
 		
 		TextInputDialog savePopup = new TextInputDialog("type name here!");
 		savePopup.setHeaderText("Enter the name of your garden:");

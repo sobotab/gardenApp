@@ -46,7 +46,9 @@ public class OpenGardenController {
         } catch (ClassNotFoundException e) {
         	e.printStackTrace();
         }
-				
+		
+		// Sort model data into hashmap objects for input into tableview
+		
 		ObservableList<HashMap<String, Object>> gardenDataContainer = FXCollections.<HashMap<String, Object>>observableArrayList();
 		Iterator iter = gardenData.entrySet().iterator();
 		PlantGardenModel gardenEntryModel;
@@ -58,13 +60,13 @@ public class OpenGardenController {
 			HashMap<String, Object> gardenMap = new HashMap<String, Object>();
 			
 			gardenMap.put("name", (String)gardenEntry.getKey());
-			gardenMap.put("budget", gardenEntryModel.getBudget());
+			gardenMap.put("current budget", gardenEntryModel.getDollars());
+			gardenMap.put("max budget", gardenEntryModel.getBudget());
 			gardenMap.put("leps", gardenEntryModel.getNumLeps());
 
 			gardenDataContainer.add(gardenMap);
 		}
-		ogv.prepareListView(gardenDataContainer);
-		
+		ogv.getGardenTable().getItems().addAll(gardenDataContainer);
 	}
 	
 	public void clickedBack(ActionEvent event) {
@@ -78,7 +80,6 @@ public class OpenGardenController {
 	
 	public void clickedOpen(ActionEvent event) {
 		int selectedIndex = ogv.getGardenTable().getSelectionModel().getSelectedIndex();
-		//String name = ogv.getGardenTable().getSelectionModel().getSelectedItem();
 		HashMap<String, Object> item = (HashMap<String, Object>) ogv.getGardenTable().getSelectionModel().getSelectedItem();
 		String name = (String) item.get("name");
 		view.setCurrentScreen(new EditGardenView(view, name));

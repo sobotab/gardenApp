@@ -16,6 +16,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -25,31 +26,42 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.transform.Rotate;
 import pkgController.OpenGardenController;
 
 public class OpenGardenView extends BorderPane{
 	TableView gardenTable;
 	
 	public OpenGardenView(View view) {
+		
 		gardenTable = new TableView();
+		//gardenTable.setPrefWidth(view.getTheStage().getWidth() - 50);
+		gardenTable.setPrefWidth(view.SCENEWIDTH - 40);
+		
 		TableColumn<Map, String> nameColumn = new TableColumn<>("Name");
 		nameColumn.setCellValueFactory(new MapValueFactory<>("name"));
-		nameColumn.setPrefWidth(200);
+		nameColumn.setPrefWidth(gardenTable.getPrefWidth() / 2);
 		
+
 		TableColumn<Map, String> budgetColumn = new TableColumn<>("Budget");
 		budgetColumn.setCellValueFactory(new MapValueFactory<>("budget"));
+		budgetColumn.setPrefWidth(gardenTable.getPrefWidth() / 4);
+
+		TableColumn<Map, String> currentBudgetColumn = new TableColumn<>("Current");
+		currentBudgetColumn.setCellValueFactory(new MapValueFactory<>("current budget"));
+		currentBudgetColumn.setPrefWidth(gardenTable.getPrefWidth() / 8);
+
+		TableColumn<Map, String> maxBudgetColumn = new TableColumn<>("Max");
+		maxBudgetColumn.setCellValueFactory(new MapValueFactory<>("max budget"));
+		maxBudgetColumn.setPrefWidth(gardenTable.getPrefWidth() / 8);
+
+		budgetColumn.getColumns().addAll(currentBudgetColumn, maxBudgetColumn);
 		
-		//TableColumn<Map, String> currentBudgetColumn = new TableColumn<>("Current Budget");
-		//currentBudgetColumn.setCellValueFactory(new MapValueFactory<>("budget"));
-		
-		//TableColumn<Map, String> maxBudgetColumn = new TableColumn<>("Max Budget");
-		//maxBudgetColumn.setCellValueFactory(new MapValueFactory<>("budget"));
 		
 		TableColumn<Map, String> lepColumn = new TableColumn<>("Leps Supported");
 		lepColumn.setCellValueFactory(new MapValueFactory<>("leps"));
-		
-		//budgetColumn.getColumns().addAll(currentBudgetColumn, maxBudgetColumn);
-		
+		lepColumn.setPrefWidth(gardenTable.getPrefWidth() / 4);
+				
 		gardenTable.getColumns().addAll(nameColumn, budgetColumn, lepColumn);
 		
 		OpenGardenController ogc = new OpenGardenController(view, this);
@@ -58,8 +70,23 @@ public class OpenGardenView extends BorderPane{
 		title.setTextFill(Color.WHITE);
 		title.setFont(Font.font("Cambria", 50));
 		
-		Button back = new Button("Back");
-		Button open = new Button("Open");
+		ImageView back_img = new ImageView(new Image("/images/back-icon.png"));
+		back_img.setFitHeight(50);
+		back_img.setPreserveRatio(true);
+		back_img.setRotationAxis(Rotate.Y_AXIS);
+		back_img.setRotate(180);
+
+		Button back = new Button();
+		back.setPrefSize(40, 40);
+		back.setGraphic(back_img);
+		
+		ImageView open_img = new ImageView(new Image("/images/open-icon.png"));
+		open_img.setFitHeight(50);
+		open_img.setPreserveRatio(true);
+		Button open = new Button();
+		open.setPrefSize(100, 50);
+		open.setGraphic(open_img);
+
 		
 		back.setOnAction(ogc.getHandlerForBack());
 		open.setOnAction(ogc.getHandlerForOpen());
@@ -80,11 +107,21 @@ public class OpenGardenView extends BorderPane{
 				BackgroundRepeat.NO_REPEAT,
 				BackgroundPosition.CENTER,
 				bSize)));
+		
+		// Resize table columns if the window is resized
+		
+		gardenTable.widthProperty().addListener((obs, oldVal, newVal) -> {
+    		if ((double)newVal != 0.0) {
+
+    			nameColumn.setPrefWidth(gardenTable.getWidth() / 2);
+    			currentBudgetColumn.setPrefWidth(gardenTable.getWidth() / 8);
+    			maxBudgetColumn.setPrefWidth(gardenTable.getWidth() / 8);
+    			lepColumn.setPrefWidth(gardenTable.getWidth() / 4);
+
+    			System.out.println(oldVal + " " + (double)oldVal);
+    		}
+    	 });
     	
-	}
-	
-	public void prepareListView(ObservableList<HashMap<String, Object>> gardenDataContainer) {		
-		gardenTable.getItems().addAll(gardenDataContainer);
 	}
 	
 	// getters & setters

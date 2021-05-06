@@ -3,6 +3,7 @@ package pkgModel;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,17 +35,34 @@ public class Model {
 		}
 		for(String line: lines) {
 			String[] latestLine = line.split(",", 9);
-			String name = latestLine[0];
-			String sciName = latestLine[1];
-			int spread = Integer.parseInt(latestLine[2]);
-			String sun = latestLine[3];
-			String moisture = latestLine[4];
-			String soil = latestLine[5];
-			int numLeps = Integer.parseInt(latestLine[6]);
-			int price = Integer.parseInt(latestLine[7]);
-			String description = latestLine[8];
+			List<String> attributes = Arrays.asList(latestLine);
+			String name = attributes.get(0);
+			String sciName = attributes.get(1);
+			int spread = Integer.parseInt(attributes.get(2));
+			String sun = attributes.get(3);
+			String moisture = attributes.get(4);
+			String soil = attributes.get(5);
+			int numLeps = Integer.parseInt(attributes.get(6));
+			int price = Integer.parseInt(attributes.get(7));
+			String description = attributes.get(8);
 			PlantModel plant = new PlantInfoModel(name, sciName, spread, sun, moisture, soil, numLeps, price, description);
 			plants.add(plant);
+		}
+		sc = new Scanner(getClass().getResourceAsStream("/files/common_leps.csv"));
+		lines = new ArrayList<String>();
+		while(sc.hasNextLine()) {
+			lines.add(sc.nextLine().strip());
+		}
+		for(String line: lines) {
+			String[] latestLine = line.split(",");
+			String plant_genus = latestLine[0];
+			List<String> leps = Arrays.asList(latestLine).subList(1, latestLine.length);
+			for(PlantModel plant: plants) {
+				if(plant.getSciName().startsWith(plant_genus)) {
+					plant.setLeps(leps);
+				}
+			}
+			
 		}
 		return plants;
 		

@@ -1,6 +1,7 @@
 package pkgModel;
 
 import java.io.Serializable;
+import java.util.List;
 
 import pkgController.Moisture;
 import pkgController.Soil;
@@ -43,6 +44,7 @@ public abstract class PlantModel implements Serializable{
 	 * The plant's ideal soil types
 	 */
 	String soil;
+	List<String> leps;
 
 	/**
 	 * Constructor sets fields to the argument values
@@ -176,6 +178,12 @@ public abstract class PlantModel implements Serializable{
 	 */
 	public void setDollars(int dollars) {
 		this.dollars = dollars;
+	}
+	public List<String> getLeps() {
+		return leps;
+	}
+	public void setLeps(List<String> leps) {
+		this.leps = leps;
 	}
 	
 	

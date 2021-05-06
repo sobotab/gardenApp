@@ -83,9 +83,16 @@ public class EditGardenController {
 			this.gardenView = gardenView;
 			
 			this.gardenModel = gardenData.get(loadName);
+			
 			for (PlantModel plant : gardenModel.getCarousel().getPlants()) {
-				gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
+				ArrayList<String> string_info = new ArrayList<String>();
+				string_info.add(plant.getSciName());
+				string_info.add(plant.getName());
+				string_info.add(plant.getSoil());
+				Pair<ArrayList<String>, Integer> plant_info = new Pair<>(string_info, plant.getSpreadDiameter());
+				gardenView.getPlantInput().add(plant_info);
 			}
+			
 			gardenView.getPlantCarousel().getController().carouselModel = gardenModel.getCarousel();
 			gardenView.setBudget(gardenModel.getBudget());
 			gardenView.makeCanvas(gardenModel.getPlots());
@@ -141,8 +148,18 @@ public class EditGardenController {
 			this.gardenView = gardenView;
 	
 			for (PlantModel plant : plants2) {
+				ArrayList<String> string_info = new ArrayList<String>();
+				string_info.add(plant.getSciName());
+				string_info.add(plant.getName());
+				string_info.add(plant.getSoil());
+				Pair<ArrayList<String>, Integer> plant_info = new Pair<>(string_info, plant.getSpreadDiameter());
+				gardenView.getPlantInput().add(plant_info);
+			}
+			/*
+			for (PlantModel plant : plants2) {
 				gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
 			}
+			*/
 			
 			// Initialize & Add plants to model
 			ObjectCarouselModel carouselModel = gardenView.getPlantCarousel().getController().carouselModel;
@@ -229,9 +246,15 @@ public class EditGardenController {
 	// Updating view after loading a saved garden
 	
 	public void fetchGardenInfo() {
-		gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps());
+		gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps(), gardenModel.trackMostPopularLeps());
 		for (PlantObjectModel plantInModel : gardenModel.getPlants()) {
-			PlantView plantInView = gardenView.makePlantView(plantInModel.getSciName(), plantInModel.getSpreadDiameter());
+			ArrayList<String> plant_info = new ArrayList<String>();
+			plant_info.add(plantInModel.getSciName());
+			plant_info.add(plantInModel.getName());
+			plant_info.add(plantInModel.getSoil());
+			PlantView plantInView = gardenView.makePlantView(
+					plant_info,
+					plantInModel.getSpreadDiameter());
 			plantInView.setFitHeight(plantInModel.getSpreadDiameter()/4 + 30);
 			plantInView.setFitWidth(plantInModel.getSpreadDiameter()/4 + 30);	
 			Rectangle plant_template = new Rectangle(plantInView.getFitWidth(), plantInView.getFitWidth());
@@ -353,7 +376,7 @@ public class EditGardenController {
 			gardenModel.getCarousel().replacePlant(indexCarousel);									// Subtract 1 from model carousel index b/c it does not contain compost
 			gardenModel.addPlantFromCarousel(indexCarousel, 0, 0);	
 			
-			gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps());
+			gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps(), gardenModel.trackMostPopularLeps());
 			gardenView.replacePlant(indexCarousel);
 			gardenView.addPlantFromCarousel(indexCarousel, n, event);
 			
@@ -368,7 +391,7 @@ public class EditGardenController {
 		int index = gardenView.getPlants().indexOf(n);
 		//System.out.println("index " + index);
 		PlantObjectModel plantModel = gardenModel.getPlants().get(index);
-		if (plantModel.getX() <= 60 && plantModel.getY() >= gardenView.getGarden().getHeight() - 60) {
+		if (plantModel.getX() <= 80 && plantModel.getY() >= gardenView.getGarden().getHeight() - 80) {
 			
 			gardenModel.setDollars(gardenModel.getDollars() - plantModel.getDollars());
 			gardenModel.setNumLeps(gardenModel.getNumLeps() - plantModel.getNumLeps());
@@ -379,9 +402,17 @@ public class EditGardenController {
 			
 			gardenView.getGarden().getChildren().remove(trashPlant);
 			gardenView.getGarden().getChildren().remove(trashSpread);
-			gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps());
+			gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps(), gardenModel.trackMostPopularLeps());
 		}
 		return;
+	}
+	
+	// Display additional info when hovering on plantView
+	
+	public void hover(MouseEvent event) {
+		Node n = (Node)event.getSource();
+		//int index = gardenView.getPlants().indexOf(n);
+		//System.out.println(gardenView.getPlants().get(index));
 	}
 	
 
@@ -411,6 +442,10 @@ public class EditGardenController {
 	
 	public EventHandler getHandlerForRelease() {
 		return event -> release((MouseEvent) event);
+	}
+	
+	public EventHandler getHandlerForHover() {
+		return event -> hover((MouseEvent) event);
 	}
 	
 	

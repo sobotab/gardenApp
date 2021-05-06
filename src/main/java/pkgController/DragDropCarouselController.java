@@ -19,7 +19,7 @@ public class DragDropCarouselController extends CarouselController {
 		dcv = (DragDropCarouselView)carouselView;
 		carouselModel = new ObjectCarouselModel();
 	}
-	/*
+		
 	public void clickedRight(ActionEvent event) {
 		dcv.rotateRight();
 		carouselModel.rotateRight();
@@ -29,7 +29,7 @@ public class DragDropCarouselController extends CarouselController {
 		dcv.rotateLeft();
 		carouselModel.rotateLeft();
 	}
-	*/
+	
 	
 	
 	public EventHandler getHandlerForClickedRight() {

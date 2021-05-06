@@ -23,6 +23,11 @@ public class PlantObjectModel extends PlantModel implements Serializable {
 		this.width = width;
 	}
 
+	@Override
+	public String toString() {
+		return (name + "\n" + "Spread: " + spreadDiameter + "\n" + "Soil type: " + soil);
+	}
+	
 	public double getX() {
 		return x;
 	}

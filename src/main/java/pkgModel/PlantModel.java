@@ -68,6 +68,7 @@ public abstract class PlantModel implements Serializable{
 		this.dollars = dollars;
 	}
 	/**
+	 * 
 	 * Getter for name field
 	 * @return name field - String representing the plant's common name
 	 */

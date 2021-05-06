@@ -9,6 +9,7 @@ import java.util.List;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -17,6 +18,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.transform.Rotate;
 import pkgController.DragDropCarouselController;
 
 public class DragDropCarouselView extends CarouselView {
@@ -43,8 +46,22 @@ public class DragDropCarouselView extends CarouselView {
     	//plants.add(compost);
     	//this.getChildren().add(compost);
     	
-    	left = new Button("<<<");
-		right = new Button(">>>");
+		ImageView turn_right_img = new ImageView(new Image("/images/carousel-turn-icon.png"));
+		turn_right_img.setFitHeight(40);
+		turn_right_img.setPreserveRatio(true);
+		right = new Button();
+		right.setPrefSize(30,  20);
+		right.setGraphic(turn_right_img);
+
+		ImageView turn_left_img = new ImageView(new Image("/images/carousel-turn-icon.png"));
+		turn_left_img.setFitHeight(40);
+		turn_left_img.setPreserveRatio(true);
+		turn_left_img.setRotationAxis(Rotate.Y_AXIS);
+		turn_left_img.setRotate(180);
+		left = new Button();
+		left.setPrefSize(30,  20);
+		left.setGraphic(turn_left_img);
+    	
 		left.setOnAction(dcc.getHandlerForClickedLeft());
 		right.setOnAction(dcc.getHandlerForClickedRight());
 		
@@ -78,33 +95,56 @@ public class DragDropCarouselView extends CarouselView {
 		this.getChildren().remove(right);
 		
 		for (PlantView plant : plants) {
+			
 			plant.setFitHeight( DEFAULT_IMG_SIZE );
+			Rectangle default_template = new Rectangle(DEFAULT_IMG_SIZE, DEFAULT_IMG_SIZE);
+			default_template.setArcHeight(15);
+			default_template.setArcWidth(15);
+			plant.setClip(default_template);
 			
-			if (plants.indexOf(plant) < maxViewSize)
+			if (plants.indexOf(plant) < maxViewSize) {
 				this.getChildren().add( plant );
-			
+			}
+			System.out.println("index: " + plants.indexOf(plant) + "total : " + plants.size());
+
 			
 			if (plants.size() >= maxViewSize) {
-				if (plants.indexOf(plant) == 0 || plants.indexOf(plant) == maxViewSize - 1)
+				if (plants.indexOf(plant) == 0 || plants.indexOf(plant) == maxViewSize - 1) {
 					plant.setFitHeight( plant.getFitHeight() * SHRINK_IMG_SCALE);
+					Rectangle img_template = new Rectangle(
+							plant.getFitHeight() * SHRINK_IMG_SCALE, 
+							plant.getFitHeight() * SHRINK_IMG_SCALE);
+					img_template.setArcHeight(15);
+					img_template.setArcWidth(15);
+					plant.setClip(img_template);
+				}
+				
 			}	
 		}		
 		this.getChildren().add(right);
 	}	
 	
-	public void initializePlant(PlantView plant) {
+	public void initializePlant(PlantView plant) {		
 		this.plants.add(plant);
 		if (plants.size() <= maxViewSize) {
 			this.getChildren().add(plant);
 		}
+		
 	}
 	
 	public void addPlantAtIndex(PlantView plant, int index) {
 		//this.plants.add(plant);
 		this.plants.add(index, plant);
 		this.getChildren().add(index+1, plant);
-		if ((index == 1 || index == maxViewSize) && maxViewSize <= plants.size()-1)
+		if ((index == 1 || index == maxViewSize) && maxViewSize <= plants.size()-1) {
 			plant.setFitHeight( plant.getFitHeight() * SHRINK_IMG_SCALE);
+			Rectangle img_template = new Rectangle(
+					plant.getFitHeight() * SHRINK_IMG_SCALE, 
+					plant.getFitHeight() * SHRINK_IMG_SCALE);
+			img_template.setArcHeight(15);
+			img_template.setArcWidth(15);
+			plant.setClip(img_template);
+		}
 	}
 	
 	public PlantView removePlant(int index) {

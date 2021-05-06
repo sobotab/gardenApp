@@ -24,6 +24,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -49,32 +50,38 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javafx.util.Pair;
 import pkgController.EditGardenController;
 import pkgController.Soil;
 
 public class EditGardenView extends BorderPane{
+	// Constants
 	public final int CANVASHEIGHT = 750;
 	public final int CANVASWIDTH = 900;
 	public final int DEFAULTSCALE = 500;			//default max x scale = 600 ft
 	
+	// Scene Objects
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
+	List<Circle> plantSpreads;
 	HBox budgetBox;
 	HBox lepBox;
 	VBox lepSpeciesBox;
-	int budget;
 	List<PlantView> plants;
-	List<Circle> plantSpreads;
-	EditGardenController egc;
-	List<Pair<String, Integer>> plantInput;
-	double scale_factor;
 	Canvas canvas;
+	
+	// Controller & data
+	EditGardenController egc;
+	List<Pair<ArrayList<String>, Integer>> plantInput;
+	double scale_factor;
+	int budget;
 	
 	public EditGardenView(View view, String loadName) {
 		
-		this.plantInput = new ArrayList<Pair<String, Integer>>();
+		this.plantInput = new ArrayList< Pair<ArrayList<String>, Integer> >();
 		this.plantCarousel = new DragDropCarouselView(view);
+		this.plantCarousel.setMaxWidth(CANVASWIDTH * 1.625);
 		this.egc = new EditGardenController(view, this, loadName);
 		this.plants = new ArrayList<PlantView>();
 		this.plantSpreads = new ArrayList<Circle>();
@@ -83,7 +90,7 @@ public class EditGardenView extends BorderPane{
 		// Initialize carousel
 		
 		for (Pair plantInfo : plantInput)
-			plantCarousel.initializePlant(makePlantView((String)plantInfo.getKey(), (int)plantInfo.getValue()));
+			plantCarousel.initializePlant(makePlantView((ArrayList<String>)plantInfo.getKey(), (int)plantInfo.getValue()));
 		plantCarousel.update();
 		
 		
@@ -208,15 +215,18 @@ public class EditGardenView extends BorderPane{
     	// Make garden as stackpane
     	
 		garden = new StackPane();
-		garden.setBackground(new Background(new BackgroundFill(Color.WHITE, 
+		garden.setBackground(new Background(new BackgroundFill(Color.LIGHTGREEN, 
 				new CornerRadii(5), Insets.EMPTY)));
 		garden.getChildren().add(canvas);
 		canvas.setViewOrder(2);
 		garden.setAlignment(canvas, Pos.CENTER);	
     	
-		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost.png")), 0);
+		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost-icon.png")), 0);
     	compost.setPreserveRatio(true);
-    	compost.setFitHeight(60);
+    	compost.setFitHeight(80);
+    	Tooltip compost_tip = new Tooltip("Drag plants here to remove them!");
+    	compost_tip.setShowDelay(Duration.seconds(0.5));
+    	Tooltip.install(compost, compost_tip);
 
     	garden.getChildren().add(compost);
     	garden.setAlignment(compost, Pos.BOTTOM_LEFT);
@@ -264,7 +274,7 @@ public class EditGardenView extends BorderPane{
 		gc.setFill(Color.LIGHTGREEN);
 		//gc.fillRect(0f, 0f, width, height);
 		gc.fillRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
-
+		
 		
 		Iterator plotIter = plots.entrySet().iterator();
 		
@@ -272,9 +282,18 @@ public class EditGardenView extends BorderPane{
 			
 			Map.Entry plotEntry = (Map.Entry)plotIter.next();
 			
-			if (plotEntry.getKey() == Soil.CLAY) { gc.setFill(Color.TOMATO); } 
-			else if (plotEntry.getKey() == Soil.LOAMY) { gc.setFill(Color.BROWN); }
-			else { gc.setFill(Color.CORNSILK); }
+			if (plotEntry.getKey() == Soil.CLAY) { 
+				gc.setStroke(Color.DARKRED);
+				gc.setFill(Color.TOMATO); 
+				} 
+			else if (plotEntry.getKey() == Soil.LOAMY) { 
+				gc.setStroke(Color.MAROON);
+				gc.setFill(Color.BROWN); 
+			}
+			else { 
+				gc.setStroke(Color.BURLYWOOD);
+				gc.setFill(Color.CORNSILK); 
+				}
 			
 			Stack<ArrayList<Point2D.Double>> plotStack = (Stack<ArrayList<Point2D.Double>>)plotEntry.getValue();
 	
@@ -293,9 +312,11 @@ public class EditGardenView extends BorderPane{
 	
 	// Update info panel as new plants are added to garden
 	
-	public void updateInfoPanel(int dollars, int leps) {
+	public void updateInfoPanel(int dollars, int leps, ArrayList<Map.Entry<String, Integer>> sortedLeps) {
+		
 		this.budgetBox.getChildren().remove(1);
 		this.lepBox.getChildren().remove(1);
+		this.lepSpeciesBox.getChildren().clear();
 		
 		Label newBudgetRatio = new Label(dollars + " / " + budget);
 		newBudgetRatio.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
@@ -309,17 +330,27 @@ public class EditGardenView extends BorderPane{
 		
 		Label newLepDisplay = new Label("" + leps);
 		newLepDisplay.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
-
+		
+	
 		this.budgetBox.getChildren().add(newBudgetRatio);
 		this.lepBox.getChildren().add(newLepDisplay);
 		
-		System.out.println(leps);
+		if (sortedLeps.size() != 0) {
+			Label newLepSpecies = new Label(sortedLeps.get(0) + "\n" + sortedLeps.get(1) + "\n" + sortedLeps.get(2));
+			this.lepSpeciesBox.getChildren().add(newLepSpecies);
+		}
+		
+		//System.out.println(leps);
 	}
 	
 	
 	// Helper function to build new plantviews
 	
-	public PlantView makePlantView(String sci_name, int spread) {
+	public PlantView makePlantView(ArrayList<String> name_soil_info, int spread) {
+		String sci_name = name_soil_info.get(0);
+		String name = name_soil_info.get(1);
+		String soil = name_soil_info.get(2);
+		
     	PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/images/" + sci_name + ".jpg")), spread);
     	
     	Rectangle img_template = new Rectangle(60,60);
@@ -332,6 +363,19 @@ public class EditGardenView extends BorderPane{
 		pv.setOnMousePressed(egc.getHandlerForPress());
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
     	pv.setOnMouseReleased(egc.getHandlerForRelease());
+    	pv.setOnMouseEntered(egc.getHandlerForHover());
+    	
+    	String size;
+    	if (spread <= 1) {
+    		size = "small";
+    	} else if (spread <= 20) {
+    		size = "medium";
+    	} else {
+    		size = "large";
+    	}
+    	Tooltip tip = new Tooltip(name + "\n" + "Size: " + size + "\n" + "Soil: " + soil);
+    	Tooltip.install(pv, tip);
+    	
     	return pv;
     }
 	
@@ -351,6 +395,7 @@ public class EditGardenView extends BorderPane{
 		pv.setOnMousePressed(egc.getHandlerForPress());
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
     	pv.setOnMouseReleased(egc.getHandlerForRelease());
+    	pv.setOnMouseEntered(egc.getHandlerForHover());
     	return pv;
     }
 	
@@ -483,7 +528,7 @@ public class EditGardenView extends BorderPane{
 		return this.plantSpreads;
 	}
 	
-	public List<Pair<String, Integer>> getPlantInput() {
+	public List<Pair<ArrayList<String>, Integer>> getPlantInput() {
 		return this.plantInput;
 	}
 	
@@ -521,7 +566,7 @@ public class EditGardenView extends BorderPane{
     	img.setTranslateY(y);
     }
 	
-	public void setPlantInput(List<Pair<String, Integer>> input) {
+	public void setPlantInput(List<Pair<ArrayList<String>, Integer>> input) {
 		this.plantInput = input;
 	}
 	

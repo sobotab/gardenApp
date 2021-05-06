@@ -5,6 +5,8 @@ import java.awt.Polygon;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -127,6 +129,32 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		return false;
 	}
 	
+	public ArrayList<Map.Entry<String, Integer>> trackMostPopularLeps() {
+		HashMap<String, Integer> lepTracker = new HashMap<String, Integer>();
+		for (PlantObjectModel plant : this.plants) {
+			if (plant.leps != null) {
+				for (String lep : plant.leps) {
+					if (lepTracker.containsKey(lep)) {
+						int count = lepTracker.get(lep) + 1;
+						lepTracker.put(lep, count);
+					}
+					else {
+						lepTracker.put(lep, 1);
+					}
+				}
+			}
+		}
+		
+		ArrayList<Map.Entry<String, Integer>> mostCommonLeps;
+		mostCommonLeps = new ArrayList<Map.Entry<String, Integer>> (lepTracker.entrySet());
+		mostCommonLeps.sort(new Comparator<Map.Entry<String, Integer>>() {
+			public int compare(Map.Entry<String, Integer> lep1, Map.Entry<String, Integer> lep2) {
+				return lep1.getValue().compareTo(lep2.getValue());
+			}
+		});
+		return mostCommonLeps;
+	}
+	
 	public double computeScaleSize(PlantObjectModel plant) {
 		double default_radius = plant.getSpreadDiameter()/2;
 		return default_radius * scale_factor;
@@ -140,6 +168,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		return Math.max(1.0, scaled_radius);
 		*/
 	}
+	
 	
 	public void addPlant(PlantObjectModel plant) {
 		this.getPlants().add(plant);

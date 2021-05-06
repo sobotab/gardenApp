@@ -35,7 +35,10 @@ public class Model {
 		}
 		for(String line: lines) {
 			String[] latestLine = line.split(",", 9);
-			List<String> attributes = Arrays.asList(latestLine);
+			List<String> attributes = new ArrayList<String>();
+			for(String attribute: latestLine) {
+				attributes.add(attribute);
+			}
 			String name = attributes.get(0);
 			String sciName = attributes.get(1);
 			int spread = Integer.parseInt(attributes.get(2));
@@ -56,7 +59,11 @@ public class Model {
 		for(String line: lines) {
 			String[] latestLine = line.split(",");
 			String plant_genus = latestLine[0];
-			List<String> leps = Arrays.asList(latestLine).subList(1, latestLine.length);
+			List<String> leps = new ArrayList<String>();
+			for(String lep: latestLine) {
+				leps.add(lep);
+			}
+			leps.remove(0);
 			for(PlantModel plant: plants) {
 				if(plant.getSciName().startsWith(plant_genus)) {
 					plant.setLeps(leps);

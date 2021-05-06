@@ -29,9 +29,9 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	double canvasXOffset;
 	double canvasYOffset;
 	boolean fullscreen;
-	//int scale;
+	double scale_factor;
 
-	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots, int budget, int scale) {
+	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots, int budget, double scale_factor) {
 		this.plots = plots;
 		this.budget = budget;
 		this.numLeps = 0;
@@ -41,6 +41,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		this.plants = new ArrayList<PlantObjectModel>();
 		//this.plants.addAll(carousel.plants);
 		//this.compost = new Set<PlantObjectModel>();
+		this.scale_factor = scale_factor;
 		
 	}
 	
@@ -128,6 +129,8 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	
 	public double computeScaleSize(PlantObjectModel plant) {
 		double default_radius = plant.getSpreadDiameter()/2;
+		return default_radius * scale_factor;
+		/*
 		if (Math.abs(DEFAULTSCALE - this.scale) < 1) {
 			return default_radius;
 		}
@@ -135,6 +138,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		double scaled_radius = default_radius + 30*((DEFAULTSCALE - this.scale) / default_radius);
 		System.out.println("default: " + default_radius + ", this scale: " + this.scale + ", " + "new radius: " + scaled_radius);
 		return Math.max(1.0, scaled_radius);
+		*/
 	}
 	
 	public void addPlant(PlantObjectModel plant) {
@@ -155,6 +159,30 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		dragPlant.setXInBounds( dragPlant.getX() + x, x_max);	
 		dragPlant.setYInBounds( dragPlant.getY() + y, y_max);
 	}
+	
+	public void adaptPlots(int canvas_width, int canvas_height) {
+		double max_x = 0;
+		double max_y = 0;
+		for (Stack<ArrayList<Point2D.Double>> soil_type : plots.values()) {
+			for (ArrayList<Point2D.Double> plot : soil_type) {
+				for (Point2D.Double point : plot) {
+					max_x = Math.max(max_x, point.x);
+					max_y = Math.max(max_y, point.y);
+				}
+			}
+		}
+		double shrink_factor_x = canvas_width / max_x;
+		double shrink_factor_y = canvas_height / max_y;
+		for (Stack<ArrayList<Point2D.Double>> soil_type : plots.values()) {
+			for (ArrayList<Point2D.Double> plot : soil_type) {
+				for (Point2D.Double point : plot) {
+					point.x = point.x * shrink_factor_x;
+					point.y = point.y * shrink_factor_y;
+				}
+			}
+		}
+	}
+	
 	
 	public void compost(PlantObjectModel plant) {
 		
@@ -224,28 +252,19 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		return this.plots;
 	}
 
+	public double getScaleFactor() {
+		return this.scale_factor;
+	}
+	
+	public void setScaleFactor(double scale_factor) {
+		this.scale_factor = scale_factor;
+	}
+	
 	public double getCanvasXOffset() {
 		return this.canvasXOffset;
 	}
-
+	
 	public double getCanvasYOffset() {
 		return this.canvasYOffset;
 	}
-	
-	public void setCanvasXOffset(double canvas_x) {
-		this.canvasXOffset = canvas_x;
-	}
-
-	public void setCanvasYOffset(double canvas_y) {
-		this.canvasYOffset = canvas_y;
-	}
-	
-	public boolean getFullscreen() {
-		return this.fullscreen;
-	}
-	
-	public void setFullscreen(boolean fullscreen) {
-		this.fullscreen = fullscreen;
-	}
-
 }

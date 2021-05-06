@@ -161,6 +161,14 @@ public class DrawGardenModel extends GardenModel {
 		this.scale = scale;
 	}
 	
+	public double getRows() {
+		return rows;
+	}
+	
+	public double getColumns() {
+		return columns;
+	}
+	
 	public boolean scale(double xScale, double yScale) {
 		boolean outOfBounds = false;
 		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {

@@ -479,7 +479,7 @@ public class DrawGardenView extends BorderPane {
 		gc.setLineWidth(1);
 		gc.strokeLine(tmpScale, tmpScale-tmpScale/3, tmpScale,  tmpScale+tmpScale/3);
 		gc.strokeLine(tmpScale*2.0, tmpScale-tmpScale/3, tmpScale*2.0,  tmpScale+tmpScale/3);
-		gc.strokeText(Integer.valueOf(3) + "ft", tmpScale, tmpScale+20.0);
+		gc.strokeText(Integer.valueOf(9) + "ft", tmpScale, tmpScale+20.0);
 	}
 	
 	/**

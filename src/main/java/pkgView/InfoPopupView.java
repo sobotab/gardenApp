@@ -1,8 +1,13 @@
 package pkgView;
 
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -10,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -34,7 +40,7 @@ public class InfoPopupView extends BorderPane{
 	 * @param dollars The price of the plant that had its image clicked
 	 * @param description A short description of the plant that had its image clicked
 	 */
-	public InfoPopupView(ImageView img, String name, String sciName, int numLeps, int dollars, String description) {
+	public InfoPopupView(ImageView img, String name, String sciName, int numLeps, int dollars, String description, List<String> leps) {
 		BackgroundFill bFill = new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(bFill);
 		this.setBackground(background);
@@ -47,17 +53,23 @@ public class InfoPopupView extends BorderPane{
 		frame.setArcWidth(20);
 		frame.setArcHeight(20);
 		img_copy.setClip(frame);
-		Label leps = new Label("Supports " + numLeps + " lep species.");
+		VBox lepBox = new VBox();
+		Label lepCount = new Label("Supports " + numLeps + " lep species.");
+		ObservableList lep_names = FXCollections.observableArrayList();
+		lep_names.addAll(leps);
+		ListView<String> lepSpecies = new ListView<String>();
+		lepSpecies.setItems(lep_names);
+		lepBox.getChildren().addAll(lepCount, lepSpecies);
 		Label price = new Label("Costs " + dollars + " dollars.");
 		Label info = new Label(description);
-		leps.setFont(Font.font("Cambria"));
+		lepCount.setFont(Font.font("Cambria"));
 		price.setFont(Font.font("Cambria"));
 		info.setFont(Font.font("Cambria"));
 		TilePane tilePane = new TilePane();
-		tilePane.getChildren().addAll(leps, img_copy, price);
+		tilePane.getChildren().addAll(lepBox, img_copy, price);
 		tilePane.setAlignment(Pos.CENTER);
 		info.setWrapText(true);
-		info.setAlignment(Pos.CENTER);
+		info.setAlignment(Pos.BASELINE_CENTER);
 		this.setCenter(tilePane);
 		this.setBottom(info);
 		this.setPadding(new Insets(10));

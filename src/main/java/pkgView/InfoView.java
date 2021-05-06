@@ -48,7 +48,7 @@ public class InfoView extends BorderPane {
 	 */
 	public InfoView(View view) {
 		infoCarousel = new InfoCarouselView(view);
-		InfoController ic = new InfoController(view	);
+		InfoController ic = new InfoController(view);
 		
 		Button back = new Button("Back");
 		back.setOnAction(ic.getHandlerForBack());

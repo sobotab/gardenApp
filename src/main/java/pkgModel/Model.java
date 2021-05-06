@@ -57,11 +57,9 @@ public class Model {
 			String[] latestLine = line.split(",");
 			String plant_genus = latestLine[0];
 			List<String> leps = Arrays.asList(latestLine).subList(1, latestLine.length);
-			System.out.println(leps);
 			for(PlantModel plant: plants) {
 				if(plant.getSciName().startsWith(plant_genus)) {
 					plant.setLeps(leps);
-					System.out.println(plant.getSciName());
 				}
 			}
 			

@@ -34,6 +34,7 @@ import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -62,7 +63,7 @@ public class EditGardenController {
 		HashMap<String, PlantGardenModel> gardenData = null;
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = null;
 		int budget = 0;
-		int scale = 25;
+		double max_dimension = 45.0;
 		
 		if (loadName != null) {
 			try {
@@ -88,7 +89,7 @@ public class EditGardenController {
 			gardenView.getPlantCarousel().getController().carouselModel = gardenModel.getCarousel();
 			gardenView.setBudget(gardenModel.getBudget());
 			gardenView.makeCanvas(gardenModel.getPlots());
-			gardenView.setScale(gardenModel.getScale());
+			gardenView.setScaleFactor(gardenModel.getScaleFactor());
 			/*
 			if (gardenModel.getFullscreen() && view.getTheStage().isFullscreen()) {
 				errorPopup("This garden was made in fullscreen. \n Fullscreen your window to see your garden properly.");
@@ -106,8 +107,8 @@ public class EditGardenController {
 		        ArrayList<Object> receiveData = (ArrayList<Object>)ois.readObject();
 		        plots = (HashMap<Soil, Stack<ArrayList<Point2D.Double>>>)receiveData.get(0);
 				budget = (int)receiveData.get(1);
-				scale = (int)receiveData.get(4);
-				System.out.println("whats in data4: " + scale);
+				max_dimension = (double)receiveData.get(5);
+				System.out.println("whats in data4: " + max_dimension);
 		        ois.close();
 			} catch (FileNotFoundException e) {
 	        	System.out.println("File not found");
@@ -132,7 +133,8 @@ public class EditGardenController {
 	        } catch (ClassNotFoundException e) {
 	        	e.printStackTrace();
 	        }
-		
+			
+			double scale_factor = gardenView.DEFAULTSCALE / max_dimension;
 		
 			// Initialize & Add plants to view
 			this.view=view;
@@ -141,14 +143,15 @@ public class EditGardenController {
 			for (PlantModel plant : plants2) {
 				gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
 			}
-			gardenView.setBudget(budget);
-			gardenView.makeCanvas(plots);
-			gardenView.setScale(scale);
 			
 			// Initialize & Add plants to model
 			ObjectCarouselModel carouselModel = gardenView.getPlantCarousel().getController().carouselModel;
-			this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots, budget, scale);		
-			gardenModel.setScale((int)scale);
+			this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots, budget, scale_factor);		
+			gardenModel.adaptPlots(gardenView.CANVASWIDTH - 10, gardenView.CANVASHEIGHT - 10);
+			
+			gardenView.setBudget(budget);
+			gardenView.makeCanvas(plots);
+			gardenView.setScaleFactor(scale_factor);
 
 		}
 	}
@@ -229,8 +232,12 @@ public class EditGardenController {
 		gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps());
 		for (PlantObjectModel plantInModel : gardenModel.getPlants()) {
 			PlantView plantInView = gardenView.makePlantView(plantInModel.getSciName(), plantInModel.getSpreadDiameter());
-			plantInView.setFitHeight(plantInModel.getSpreadDiameter()/4 + 20);
-			plantInView.setFitWidth(plantInModel.getSpreadDiameter()/4 + 20);	
+			plantInView.setFitHeight(plantInModel.getSpreadDiameter()/4 + 30);
+			plantInView.setFitWidth(plantInModel.getSpreadDiameter()/4 + 30);	
+			Rectangle plant_template = new Rectangle(plantInView.getFitWidth(), plantInView.getFitWidth());
+			plant_template.setArcWidth(15);
+			plant_template.setArcHeight(15);
+			plantInView.setClip(plant_template);
 			
 			gardenView.getPlants().add(plantInView);
 			gardenView.getGarden().getChildren().add(plantInView);

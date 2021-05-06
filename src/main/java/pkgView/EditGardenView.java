@@ -54,19 +54,21 @@ import pkgController.EditGardenController;
 import pkgController.Soil;
 
 public class EditGardenView extends BorderPane{
-	final int CANVASHEIGHT = 500;
-	final int CANVASWIDTH = 500;
-	final int DEFAULTSCALE = 25;
+	public final int CANVASHEIGHT = 750;
+	public final int CANVASWIDTH = 900;
+	public final int DEFAULTSCALE = 500;			//default max x scale = 600 ft
+	
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
 	HBox budgetBox;
 	HBox lepBox;
+	VBox lepSpeciesBox;
 	int budget;
 	List<PlantView> plants;
 	List<Circle> plantSpreads;
 	EditGardenController egc;
 	List<Pair<String, Integer>> plantInput;
-	int scale;
+	double scale_factor;
 	Canvas canvas;
 	
 	public EditGardenView(View view, String loadName) {
@@ -132,18 +134,18 @@ public class EditGardenView extends BorderPane{
 		HBox buttonBox = new HBox();
 		buttonBox.getChildren().addAll(back, save, exit);
 		buttonBox.setAlignment(Pos.CENTER);
-		buttonBox.setPadding(new Insets(10,0,0,0));
+		buttonBox.setPadding(new Insets(0,0,0,10));
 		buttonBox.setSpacing(5);
 		
 		
-		// Build budget/lep info tab
+		// Build budget/lep/buttons tab
 		
 		TilePane infoTab = new TilePane();
-		//infoTab.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
-		//		new CornerRadii(5), new Insets(0,0,0,10))));
 		infoTab.setPrefWidth(200);
 		infoTab.setAlignment(Pos.TOP_CENTER);
 		infoTab.setVgap(10);
+		
+		// Budget info display
 		
 		budgetBox = new HBox();
 		budgetBox.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
@@ -151,34 +153,46 @@ public class EditGardenView extends BorderPane{
 		budgetBox.setPrefWidth(200);
 		Label budgetTitle = new Label("$ ");
 		budgetTitle.setTextFill(Color.GREEN);
-		budgetTitle.setFont(Font.font("Trebuchet MS", FontWeight.EXTRA_BOLD, 50));
+		budgetTitle.setFont(Font.font("Roboto", FontWeight.EXTRA_BOLD, 40));
 		
 		Label budgetRatio = new Label(0 + " / " + budget);
-		budgetRatio.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 40));
+		budgetRatio.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
 		
 		budgetBox.getChildren().addAll(budgetTitle, budgetRatio);
 		budgetBox.setAlignment(Pos.CENTER);
 		budgetBox.setPadding(new Insets(0,0,0,0));
 		
+		// Lep number display
 		
 		lepBox = new HBox();
 		lepBox.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
 				new CornerRadii(5), new Insets(0,0,0,10))));
 		lepBox.setPrefWidth(200);
+		lepBox.setSpacing(10);
 		
-		Label lepTitle = new Label("Leps Supported:");
-		lepTitle.setTextFill(Color.GREEN);
-		lepTitle.setFont(Font.font("Trebuchet MS", FontWeight.EXTRA_BOLD, 50));
-		
+		ImageView lep_img = new ImageView(new Image("/images/lep-icon.png"));
+		lep_img.setFitHeight(60);
+		lep_img.setPreserveRatio(true);
 		
 		Label lepDisplay = new Label("" + 0);
-		lepDisplay.setFont(Font.font("Trebuchet MS", 30));
+		lepDisplay.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
 		
-		lepBox.getChildren().addAll(lepTitle, lepDisplay);
-		lepBox.setAlignment(Pos.TOP_CENTER);
-		lepBox.setPadding(new Insets(20,0,0,0));
+		lepBox.getChildren().addAll(lep_img, lepDisplay);
+		lepBox.setAlignment(Pos.CENTER);
 		
-		infoTab.getChildren().addAll(budgetBox, lepBox, buttonBox);
+		// Lep species info display
+		
+		lepSpeciesBox = new VBox();
+		lepSpeciesBox.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
+				new CornerRadii(5), new Insets(0,0,0,10))));
+		lepSpeciesBox.setPrefWidth(200);
+		Label lepSpeciesTitle = new Label("species here");
+		lepSpeciesTitle.setFont(Font.font("Roboto", FontWeight.SEMI_BOLD, 30));
+		
+		lepSpeciesBox.getChildren().addAll(lepSpeciesTitle);
+		lepSpeciesBox.setAlignment(Pos.CENTER);
+		
+		infoTab.getChildren().addAll(budgetBox, lepBox, lepSpeciesBox, buttonBox);
 		
 		
 		// Background
@@ -196,7 +210,6 @@ public class EditGardenView extends BorderPane{
 		garden = new StackPane();
 		garden.setBackground(new Background(new BackgroundFill(Color.WHITE, 
 				new CornerRadii(5), Insets.EMPTY)));
-
 		garden.getChildren().add(canvas);
 		canvas.setViewOrder(2);
 		garden.setAlignment(canvas, Pos.CENTER);	
@@ -207,7 +220,8 @@ public class EditGardenView extends BorderPane{
 
     	garden.getChildren().add(compost);
     	garden.setAlignment(compost, Pos.BOTTOM_LEFT);
-		
+
+    	
     	// Organize elements on screen
     	
 		this.setTop(title);
@@ -243,12 +257,14 @@ public class EditGardenView extends BorderPane{
 	// Draw garden on canvas according to plot data
 	
 	public void makeCanvas(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
-		this.canvas = new Canvas(CANVASHEIGHT, CANVASWIDTH);
+		this.canvas = new Canvas(CANVASWIDTH, CANVASHEIGHT);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setLineWidth(2.0);
 		gc.setStroke(Color.BLACK);
 		gc.setFill(Color.LIGHTGREEN);
+		//gc.fillRect(0f, 0f, width, height);
 		gc.fillRect(0f, 0f, CANVASWIDTH, CANVASHEIGHT);
+
 		
 		Iterator plotIter = plots.entrySet().iterator();
 		
@@ -256,7 +272,7 @@ public class EditGardenView extends BorderPane{
 			
 			Map.Entry plotEntry = (Map.Entry)plotIter.next();
 			
-			if (plotEntry.getKey() == Soil.CLAY) { gc.setFill(Color.RED); } 
+			if (plotEntry.getKey() == Soil.CLAY) { gc.setFill(Color.TOMATO); } 
 			else if (plotEntry.getKey() == Soil.LOAMY) { gc.setFill(Color.BROWN); }
 			else { gc.setFill(Color.CORNSILK); }
 			
@@ -282,7 +298,7 @@ public class EditGardenView extends BorderPane{
 		this.lepBox.getChildren().remove(1);
 		
 		Label newBudgetRatio = new Label(dollars + " / " + budget);
-		newBudgetRatio.setFont(Font.font("Trebuchet MS", 30));
+		newBudgetRatio.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
 		
 		if (dollars > budget*0.75) {
 			newBudgetRatio.setTextFill(Color.GOLDENROD);
@@ -292,7 +308,7 @@ public class EditGardenView extends BorderPane{
 		}
 		
 		Label newLepDisplay = new Label("" + leps);
-		newLepDisplay.setFont(Font.font("Trebuchet MS", 30));
+		newLepDisplay.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
 
 		this.budgetBox.getChildren().add(newBudgetRatio);
 		this.lepBox.getChildren().add(newLepDisplay);
@@ -348,6 +364,24 @@ public class EditGardenView extends BorderPane{
 				);
 		plantCarousel.addPlantAtIndex(duplicatePlant, index+1);
 	}
+	
+	// Helper for loading plants with correct dimensions
+	
+	public PlantView loadPlantView(String sci_name, int spread) {
+		PlantView pv = new PlantView(new Image(getClass().getResourceAsStream("/images/" + sci_name + ".jpg")), spread);
+    	
+    	Rectangle img_template = new Rectangle(60,60);
+    	img_template.setArcWidth(15);
+    	img_template.setArcHeight(15);
+    	pv.setClip(img_template);
+    	
+    	pv.setPreserveRatio(true);
+    	pv.setFitHeight(60);
+		pv.setOnMousePressed(egc.getHandlerForPress());
+    	pv.setOnMouseDragged(egc.getHandlerForDrag());
+    	pv.setOnMouseReleased(egc.getHandlerForRelease());
+    	return pv;
+	}
 
 	
 	// Draw or update spread circle location and reset color 
@@ -359,6 +393,7 @@ public class EditGardenView extends BorderPane{
 	        		x,
 	        		y,
 	        		computeScaleSize(plants.get(index)));
+	        		//Math.max(computeScaleSize(plants.get(index)), plants.get(index).getFitHeight()*0.65));
 	        plantSpreads.add(spread);
 	        garden.getChildren().add(spread);
 	        garden.setAlignment(spread, Pos.TOP_LEFT);
@@ -374,7 +409,7 @@ public class EditGardenView extends BorderPane{
 		spread.setTranslateY(spread.getCenterY());
 		
         spread.setStroke(Color.WHITE);
-		spread.setFill(Color.LIGHTBLUE);
+		spread.setFill(Color.rgb(173, 216, 230, 0.5));
 
 	}
 	
@@ -382,6 +417,8 @@ public class EditGardenView extends BorderPane{
 	
 	public double computeScaleSize(PlantView plant) {
 		double default_radius = plant.getSpread()/2;
+		return default_radius * scale_factor;
+		/*
 		if (Math.abs(DEFAULTSCALE - this.scale) < 1) {
 			return default_radius;
 		}
@@ -389,6 +426,8 @@ public class EditGardenView extends BorderPane{
 		double scaled_radius = default_radius + 30*((DEFAULTSCALE - this.scale) / default_radius);
 		System.out.println("default: " + default_radius + ", this scale: " + this.scale + ", " + "new radius: " + scaled_radius);
 		return Math.max(1.0, scaled_radius);
+		*/
+		
 	}
 	
 	
@@ -396,12 +435,12 @@ public class EditGardenView extends BorderPane{
 	
 	public void updateSpread(int index, boolean inGarden, boolean overlap) {
 		Circle spread = plantSpreads.get(index);
-		spread.setFill(Color.LIGHTBLUE);
+		spread.setFill(Color.rgb(173, 216, 230, 0.5));
 		
 		if (overlap)
-			spread.setFill(Color.YELLOW);
+			spread.setFill(Color.rgb(255,  255,  0, 0.5));
 		if (!inGarden)
-			spread.setFill(Color.RED);
+			spread.setFill(Color.rgb(255, 0, 0, 0.5));
 		
 	}
 	
@@ -414,12 +453,12 @@ public class EditGardenView extends BorderPane{
 		garden.setAlignment(n, Pos.TOP_LEFT);
 		
 		int newIndex = plants.indexOf(n);
-		plants.get(newIndex).setFitHeight(plants.get(newIndex).spread/4 + 20);
-		plants.get(newIndex).setFitWidth(plants.get(newIndex).spread/4 + 20);	
+		plants.get(newIndex).setFitHeight(plants.get(newIndex).spread/4 + 30);
+		plants.get(newIndex).setFitWidth(plants.get(newIndex).spread/4 + 30);	
 		
 		Rectangle fit_template = new Rectangle(
-				plants.get(newIndex).spread/4 + 20,
-				plants.get(newIndex).spread/4 + 20);
+				plants.get(newIndex).spread/4 + 30,
+				plants.get(newIndex).spread/4 + 30);
 		fit_template.setArcHeight(15);
 		fit_template.setArcWidth(15);
 		
@@ -490,8 +529,8 @@ public class EditGardenView extends BorderPane{
 		this.budget = budget;
 	}
 
-	public void setScale(int scale) {
-		this.scale = scale;
+	public void setScaleFactor(double scale_factor) {
+		this.scale_factor = scale_factor;
 		
 	}
 	

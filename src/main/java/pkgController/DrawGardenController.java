@@ -37,7 +37,7 @@ public class DrawGardenController {
 	public void clickedNext(ActionEvent event) {
 		
 		// Send plots info
-		dgm.finish();
+		//dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
 		if(dgv.getBudget() >= 0) {
@@ -53,6 +53,8 @@ public class DrawGardenController {
 		sendData.add(dgm.getMoisture());
 		sendData.add(dgm.getSun());
 		sendData.add((int)dgv.getScale());
+		sendData.add(dgm.getRows() * 9);
+
 		try {
 			FileOutputStream fos = new FileOutputStream("gardenData.ser");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);

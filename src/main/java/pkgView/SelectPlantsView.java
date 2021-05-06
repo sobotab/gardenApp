@@ -11,7 +11,13 @@ import javafx.geometry.Orientation;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
@@ -64,6 +70,13 @@ public class SelectPlantsView extends BorderPane {
 		for(VBox image: selectionCarousel.getFilteredImages()) {
 			image.setOnMousePressed(spc.getHandlerForPlantSelected());
 		}
+		
+		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
+		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-leaves.jpg")),
+				BackgroundRepeat.NO_REPEAT,
+				BackgroundRepeat.NO_REPEAT,
+				BackgroundPosition.CENTER,
+				bSize)));
 		
 		Label title = new Label("Select Plants");
 		Button back = new Button("Back to drawing garden.");

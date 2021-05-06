@@ -91,6 +91,7 @@ public class SelectPlantsController {
         	System.out.println("File not found");
         } catch (IOException e) {
         	System.out.println("Error initializing stream");
+        	e.printStackTrace();
         } 
 		view.setCurrentScreen(new EditGardenView(view, null));
 	}

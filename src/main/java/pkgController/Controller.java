@@ -74,7 +74,7 @@ public class Controller extends Application {
 			frame.setArcWidth(20);
 			frame.setArcHeight(20);
 			img.setClip(frame);
-			Text label = new Text(infoPlant.getName());
+			Text label = new Text(infoPlant.getName() + "\n" + infoPlant.getSciName());
 			Text leps = new Text("Leps supported: " + infoPlant.getNumLeps());
 			Text price = new Text("Price: $" + infoPlant.getDollars());
 			VBox box = new VBox();

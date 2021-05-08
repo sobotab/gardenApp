@@ -46,7 +46,7 @@ public class SelectPlantsController {
 	/**
 	 * double representing the scaling of the image that is in the carousel's focus
 	 */
-	private final double CENTER_IMAGE_SCALING = 1.3;
+	private final double CENTER_IMAGE_SCALING = 2.0;
 	
 	/**
 	 * Constructor simply initializes fields with the corresponding arguments

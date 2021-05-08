@@ -70,8 +70,11 @@ public class DragDropCarouselView extends CarouselView {
     	this.setAlignment(Pos.CENTER);
     	
 		this.setHgap(5);
-    	this.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, 
-                new CornerRadii(50), Insets.EMPTY)));
+    	//this.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, 
+        //        new CornerRadii(50), Insets.EMPTY)));
+    	this.setStyle("-fx-background-color: "
+    			+ "linear-gradient(#fcfcfc, #f3f3f3);"
+    			+ "-fx-background-radius: 25;");
 
 	}
 	
@@ -112,8 +115,8 @@ public class DragDropCarouselView extends CarouselView {
 				if (plants.indexOf(plant) == 0 || plants.indexOf(plant) == maxViewSize - 1) {
 					plant.setFitHeight( plant.getFitHeight() * SHRINK_IMG_SCALE);
 					Rectangle img_template = new Rectangle(
-							plant.getFitHeight() * SHRINK_IMG_SCALE, 
-							plant.getFitHeight() * SHRINK_IMG_SCALE);
+							plant.getFitHeight(), 
+							plant.getFitHeight());
 					img_template.setArcHeight(15);
 					img_template.setArcWidth(15);
 					plant.setClip(img_template);
@@ -137,10 +140,11 @@ public class DragDropCarouselView extends CarouselView {
 		this.plants.add(index, plant);
 		this.getChildren().add(index+1, plant);
 		if ((index == 1 || index == maxViewSize) && maxViewSize <= plants.size()-1) {
+			
 			plant.setFitHeight( plant.getFitHeight() * SHRINK_IMG_SCALE);
 			Rectangle img_template = new Rectangle(
-					plant.getFitHeight() * SHRINK_IMG_SCALE, 
-					plant.getFitHeight() * SHRINK_IMG_SCALE);
+					plant.getFitHeight(), 
+					plant.getFitHeight());
 			img_template.setArcHeight(15);
 			img_template.setArcWidth(15);
 			plant.setClip(img_template);

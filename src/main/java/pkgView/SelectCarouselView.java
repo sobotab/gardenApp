@@ -15,7 +15,6 @@ import pkgController.SelectCarouselController;
  * The images in this carousel can be clicked to be added to a collection of selected plants that will be remembered for the edit garden screen.
  */
 public class SelectCarouselView extends CarouselView{	
-	// I don't see what this carousel does that isn't inherited from CarouselView.
 	/**
 	 * The controller for the select carousel
 	 */

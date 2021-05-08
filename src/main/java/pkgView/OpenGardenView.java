@@ -37,6 +37,7 @@ public class OpenGardenView extends BorderPane{
 		gardenTable = new TableView();
 		//gardenTable.setPrefWidth(view.getTheStage().getWidth() - 50);
 		gardenTable.setPrefWidth(view.SCENEWIDTH - 40);
+		gardenTable.setStyle("-fx-font-size:16px;");
 		
 		TableColumn<Map, String> nameColumn = new TableColumn<>("Name");
 		nameColumn.setCellValueFactory(new MapValueFactory<>("name"));

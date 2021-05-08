@@ -5,6 +5,9 @@ import java.awt.Polygon;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -20,6 +23,10 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.Stack;
 
+import javax.imageio.ImageIO;
+
+import javafx.embed.swing.*;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
@@ -30,11 +37,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -185,18 +194,8 @@ public class EditGardenController {
 		view.setCurrentScreen(new WelcomeView(view));
 	}
 	
-	public void errorPopup(String error_message) {
-		Stage errorPopup = new Stage();
-		errorPopup.setTitle("Error");
-		errorPopup.setAlwaysOnTop(true);
-		errorPopup.setMinWidth(150);
-		errorPopup.setMinHeight(75);
-
-		Label errorLabel = new Label(error_message);
-		errorLabel.setAlignment(Pos.CENTER);
-		Scene scene = new Scene(errorLabel);
-		errorPopup.setScene(scene);
-		errorPopup.show();
+	public void clickedMoreLeps(ActionEvent event) {
+		gardenView.openLepPopup(gardenModel.trackMostPopularLeps());
 	}
 	
 	// Change coordinates when window size changes
@@ -333,6 +332,27 @@ public class EditGardenController {
         }
 		
 	}
+	
+	// Saving canvas img for printing
+	
+	public void clickedPrint(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("PNG", "*.png");
+		fileChooser.getExtensionFilters().add(extensionFilter);
+		File imgFile = fileChooser.showSaveDialog(view.getTheStage());
+		if (imgFile != null) {
+			try {
+				WritableImage canvasImg = new WritableImage((int)(gardenView.CANVASWIDTH * 1.6), gardenView.CANVASHEIGHT);
+				gardenView.getGarden().snapshot(null, canvasImg);
+				BufferedImage bufferedImage = SwingFXUtils.fromFXImage(canvasImg, null);
+				ImageIO.write(bufferedImage, "png", imgFile);
+			}
+			catch (IOException e) {
+				System.out.println("Error initializing stream");
+			}
+		}
+	}
+	
 		
 	// Handle drag
 	
@@ -431,6 +451,13 @@ public class EditGardenController {
 		return event -> clickExit((ActionEvent) event);
 	}
 	
+	public EventHandler getHandlerForPrint() {
+		return event -> clickedPrint((ActionEvent) event);
+	}
+	
+	public EventHandler getHandlerForMoreLeps() {
+		return event -> clickedMoreLeps((ActionEvent) event);
+	}
 	
 	public EventHandler getHandlerForDrag() {
 		return event -> drag((MouseEvent) event);

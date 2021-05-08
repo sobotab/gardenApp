@@ -19,6 +19,7 @@ import java.util.Stack;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -49,6 +50,7 @@ import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.transform.Rotate;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.util.Pair;
@@ -59,7 +61,7 @@ public class EditGardenView extends BorderPane{
 	// Constants
 	public final int CANVASHEIGHT = 750;
 	public final int CANVASWIDTH = 900;
-	public final int DEFAULTSCALE = 500;			//default max x scale = 600 ft
+	public final int DEFAULTSCALE = 500;			//default max scale = 500 ft (compared to num rows to get scale factor)
 	
 	// Scene Objects
 	DragDropCarouselView plantCarousel;
@@ -138,25 +140,32 @@ public class EditGardenView extends BorderPane{
 		//exit.setGraphicTextGap(5);
 		exit.setOnAction(egc.getHandlerForExit());
 		
+		ImageView print_img = new ImageView(new Image("/images/print-icon.png"));
+		print_img.setFitHeight(30);
+		print_img.setPreserveRatio(true);
+		Button print = new Button();
+		print.setGraphic(print_img);
+		print.setOnAction(egc.getHandlerForPrint());
+		
 		HBox buttonBox = new HBox();
-		buttonBox.getChildren().addAll(back, save, exit);
+		buttonBox.getChildren().addAll(back, save, print, exit);
 		buttonBox.setAlignment(Pos.CENTER);
-		buttonBox.setPadding(new Insets(0,0,0,10));
 		buttonBox.setSpacing(5);
 		
 		
 		// Build budget/lep/buttons tab
 		
-		TilePane infoTab = new TilePane();
+		FlowPane infoTab = new FlowPane();
 		infoTab.setPrefWidth(200);
 		infoTab.setAlignment(Pos.TOP_CENTER);
 		infoTab.setVgap(10);
+		//infoTab.set
 		
 		// Budget info display
 		
 		budgetBox = new HBox();
 		budgetBox.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
-				new CornerRadii(5), new Insets(0,0,0,10))));
+				new CornerRadii(5), new Insets(0,0,0,0))));
 		budgetBox.setPrefWidth(200);
 		Label budgetTitle = new Label("$ ");
 		budgetTitle.setTextFill(Color.GREEN);
@@ -173,7 +182,7 @@ public class EditGardenView extends BorderPane{
 		
 		lepBox = new HBox();
 		lepBox.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
-				new CornerRadii(5), new Insets(0,0,0,10))));
+				new CornerRadii(5), new Insets(0,0,0,0))));
 		lepBox.setPrefWidth(200);
 		lepBox.setSpacing(10);
 		
@@ -190,15 +199,17 @@ public class EditGardenView extends BorderPane{
 		// Lep species info display
 		
 		lepSpeciesBox = new VBox();
+		//lepSpeciesBox.setStyle("-fx-background-color: linear-gradient(#ffffff, #e7e7e7);"
+		//		+ "-fx-background-radius: 5 5 5 5;");
+		
 		lepSpeciesBox.setBackground(new Background(new BackgroundFill(Color.GHOSTWHITE,
-				new CornerRadii(5), new Insets(0,0,0,10))));
+				new CornerRadii(5), new Insets(0,0,0,0))));
 		lepSpeciesBox.setPrefWidth(200);
-		Label lepSpeciesTitle = new Label("species here");
-		lepSpeciesTitle.setFont(Font.font("Roboto", FontWeight.SEMI_BOLD, 30));
-		
-		lepSpeciesBox.getChildren().addAll(lepSpeciesTitle);
 		lepSpeciesBox.setAlignment(Pos.CENTER);
+		lepSpeciesBox.setPadding(new Insets(10, 0, 10, 0));
+		lepSpeciesBox.setSpacing(10);
 		
+		infoTab.setPadding(new Insets(0, 0, 0, 10));
 		infoTab.getChildren().addAll(budgetBox, lepBox, lepSpeciesBox, buttonBox);
 		
 		
@@ -336,11 +347,55 @@ public class EditGardenView extends BorderPane{
 		this.lepBox.getChildren().add(newLepDisplay);
 		
 		if (sortedLeps.size() != 0) {
-			Label newLepSpecies = new Label(sortedLeps.get(0) + "\n" + sortedLeps.get(1) + "\n" + sortedLeps.get(2));
-			this.lepSpeciesBox.getChildren().add(newLepSpecies);
+			/*
+			Label newLepSpecies1 = new Label(sortedLeps.get(0).getKey());
+			Label newLepSpecies2 = new Label(sortedLeps.get(1).getKey());
+			Label newLepSpecies3 = new Label(sortedLeps.get(2).getKey());
+			newLepSpecies1.setFont(Font.font("Roboto", FontWeight.MEDIUM, 18));
+			newLepSpecies2.setFont(Font.font("Roboto", FontWeight.MEDIUM, 18));
+			newLepSpecies3.setFont(Font.font("Roboto", FontWeight.MEDIUM, 18));
+			*/
+			int lepDisplayCount = 0;
+			for (Map.Entry<String, Integer> lepEntry : sortedLeps) {
+				lepDisplayCount++;
+				if (lepDisplayCount > 10) {
+					break;
+				}
+				HBox species_info_box = new HBox();
+
+				Label lepSpeciesVal = new Label(lepEntry.getValue() + "  ");
+				lepSpeciesVal.setFont(Font.font("Roboto", FontWeight.BOLD, 15));
+				
+				Label lepSpecies = new Label(lepEntry.getKey());
+				lepSpecies.setFont(Font.font("Roboto", FontWeight.MEDIUM, 15));
+				
+				species_info_box.getChildren().addAll(lepSpeciesVal, lepSpecies);
+				species_info_box.setPadding(new Insets(0, 0, 0, 15));
+				
+				this.lepSpeciesBox.getChildren().add(species_info_box);
+			}
+			Button more = new Button("See more");
+			more.setOnAction(egc.getHandlerForMoreLeps());
+			more.setFont(Font.font("Roboto", FontWeight.SEMI_BOLD, 15));
+			more.setStyle("-fx-background-color: #3c7777, linear-gradient(#fafefe, #f0f5fc);");
+			this.lepSpeciesBox.getChildren().add(more);
+
+			//this.lepSpeciesBox.getChildren().addAll(newLepSpecies1, newLepSpecies2, newLepSpecies3);
+			//this.lepSpeciesBox.getChildren().add(newLepSpecies);
+			this.lepSpeciesBox.setAlignment(Pos.CENTER);
 		}
 		
 		//System.out.println(leps);
+	}
+	
+	// Build full lep info popup
+	
+	public void openLepPopup(ArrayList<Map.Entry<String, Integer>> sortedLeps) {
+		Stage popupWindow = new Stage();
+		popupWindow.initModality(Modality.NONE);
+		popupWindow.setScene(new Scene(new LepPopupView(sortedLeps),800,500));
+		popupWindow.setAlwaysOnTop(true);
+		popupWindow.show(); 
 	}
 	
 	

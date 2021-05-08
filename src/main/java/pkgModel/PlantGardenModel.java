@@ -32,6 +32,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	double canvasYOffset;
 	boolean fullscreen;
 	double scale_factor;
+	//HashMap<String, Integer> lepTracker = new HashMap<String, Integer>();
 
 	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots, int budget, double scale_factor) {
 		this.plots = plots;
@@ -149,7 +150,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		mostCommonLeps = new ArrayList<Map.Entry<String, Integer>> (lepTracker.entrySet());
 		mostCommonLeps.sort(new Comparator<Map.Entry<String, Integer>>() {
 			public int compare(Map.Entry<String, Integer> lep1, Map.Entry<String, Integer> lep2) {
-				return lep1.getValue().compareTo(lep2.getValue());
+				return lep2.getValue().compareTo(lep1.getValue());
 			}
 		});
 		return mostCommonLeps;

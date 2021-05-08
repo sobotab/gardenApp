@@ -59,8 +59,8 @@ import pkgController.Soil;
 
 public class EditGardenView extends BorderPane{
 	// Constants
-	public final int CANVASHEIGHT = 750;
-	public final int CANVASWIDTH = 900;
+	public final int CANVASHEIGHT = 700;
+	public final int CANVASWIDTH = 800;
 	public final int DEFAULTSCALE = 500;			//default max scale = 500 ft (compared to num rows to get scale factor)
 	
 	// Scene Objects
@@ -83,7 +83,7 @@ public class EditGardenView extends BorderPane{
 		
 		this.plantInput = new ArrayList< Pair<ArrayList<String>, Integer> >();
 		this.plantCarousel = new DragDropCarouselView(view);
-		this.plantCarousel.setMaxWidth(CANVASWIDTH * 1.625);
+		//this.plantCarousel.setMaxWidth(CANVASWIDTH * 1.75);
 		this.egc = new EditGardenController(view, this, loadName);
 		this.plants = new ArrayList<PlantView>();
 		this.plantSpreads = new ArrayList<Circle>();
@@ -231,7 +231,7 @@ public class EditGardenView extends BorderPane{
 		garden.getChildren().add(canvas);
 		canvas.setViewOrder(2);
 		garden.setAlignment(canvas, Pos.CENTER);	
-    	
+		    	
 		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost-icon.png")), 0);
     	compost.setPreserveRatio(true);
     	compost.setFitHeight(80);

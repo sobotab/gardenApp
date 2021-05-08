@@ -1,6 +1,7 @@
 package pkgModel;
 
 import java.io.Serializable;
+import java.util.List;
 
 import pkgController.Moisture;
 import pkgController.Soil;
@@ -15,12 +16,14 @@ public class PlantObjectModel extends PlantModel implements Serializable {
 	//private final double Y_MAX = 400;
 	//private final double X_MAX = 700;
 	
-	public PlantObjectModel(String name, String sciName, int spreadDiameter, String sun, String moisture, String soil, int numLeps, int dollars, double x, double y, int height ,int width) {
+	public PlantObjectModel(String name, String sciName, int spreadDiameter, String sun, String moisture, String soil, 
+			int numLeps, int dollars, List<String> leps, double x, double y, int height ,int width) {
 		super(name,sciName,spreadDiameter,sun,moisture,soil,numLeps,dollars);
 		this.x = x;
 		this.y = y;
 		this.height = height;
 		this.width = width;
+		this.leps = leps;
 	}
 
 	@Override

@@ -29,7 +29,7 @@ public class ObjectCarouselModel implements Serializable {
 					plant.name, plant.sciName, 
 					plant.spreadDiameter, 
 					plant.sun, plant.moisture, plant.soil, 
-					plant.numLeps, plant.dollars,
+					plant.numLeps, plant.dollars, plant.leps,
 					0, 0, 10, 10));
 		
 		this.focusedPlant = focusedPlant;
@@ -41,7 +41,7 @@ public class ObjectCarouselModel implements Serializable {
 					plant.name, plant.sciName, 
 					plant.spreadDiameter, 
 					plant.sun, plant.moisture, plant.soil, 
-					plant.numLeps, plant.dollars,
+					plant.numLeps, plant.dollars, plant.leps,
 					0, 0, 10, 10));
 		
 		this.focusedPlant = focusedPlant;
@@ -57,6 +57,7 @@ public class ObjectCarouselModel implements Serializable {
 				plants.get(index).soil,
 				plants.get(index).numLeps,
 				plants.get(index).dollars,
+				plants.get(index).leps,
 				plants.get(index).x,
 				plants.get(index).y,
 				plants.get(index).height,

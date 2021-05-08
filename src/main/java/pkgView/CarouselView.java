@@ -43,7 +43,6 @@ public abstract class CarouselView extends FlowPane {
 	 * Image scaling for the image on the sides of the carousel's focus.
 	 */
 	private final double SIDE_IMAGE_SCALING = .75;
-	
 	/**
 	 * CarouselView is abstract and each child has different implementations so the constructor initializes nothing.
 	 */

@@ -3,10 +3,12 @@ package pkgView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.transform.Rotate;
 import pkgController.SelectCarouselController;
@@ -56,10 +58,24 @@ public class SelectCarouselView extends CarouselView{
 		left.setOnAction(scc.getHandlerForClickedLeft());
 		right.setOnAction(scc.getHandlerForClickedRight());
 		
+
+		
 		this.getChildren().add(left);
 		this.getChildren().add(right);
 		this.filter(sun, moisture, soil);
 		this.setAlignment(Pos.CENTER);
+//		
+//		String hover_border_style = "-fx-border-color: #ffff00;"
+//				+ "-fx-border-width: 100;";
+//		
+//		for(VBox image: filteredImages) {
+//			ImageView imv = (ImageView)image.getChildren().get(1);
+//			imv.setOnMouseEntered(new EventHandler<MouseEvent>() {
+//				public void handle(MouseEvent e) {
+//					imv.setStyle(hover_border_style);
+//				}
+//			});
+//		}
 		
 	}
 	

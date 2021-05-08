@@ -27,9 +27,13 @@ public class View {
 	
 	public View(Stage theStage, Controller controller) {
 		this.theStage = theStage;
+		
 		//this.theStage.setFullScreen(true);
+		this.theStage.setMaximized(true);
+		
 		this.controller = controller;
 		theStage.setTitle("Garden Software");
+		
 		//First screen is the WelcomeView
 		theStage.setScene(new Scene(new WelcomeView(this), SCENEWIDTH, SCENEHEIGHT));
         theStage.show();

@@ -38,11 +38,11 @@ public abstract class CarouselView extends FlowPane {
 	/**
 	 * Image scaling for the image in the center of the carousel's focus
 	 */
-	private final double CENTER_IMAGE_SCALING = 1.3;
+	private final double CENTER_IMAGE_SCALING = 2.0;
 	/**
 	 * Image scaling for the image on the sides of the carousel's focus.
 	 */
-	private final double SIDE_IMAGE_SCALING = .75;
+	private final double SIDE_IMAGE_SCALING = 1.3;
 	/**
 	 * CarouselView is abstract and each child has different implementations so the constructor initializes nothing.
 	 */
@@ -93,11 +93,11 @@ public abstract class CarouselView extends FlowPane {
 				rightMostNode = 0;
 			}
 			sublist = makeFullCarousel(leftMostNode, rightMostNode);
-			this.setHgap(10.0);
+			this.setHgap(120.0);
 		}
 		else if (filteredImages.size() >= 1) {
 			sublist = makeSmallCarousel();
-			this.setHgap(50.0);
+			this.setHgap(90.0);
 		}
     
     

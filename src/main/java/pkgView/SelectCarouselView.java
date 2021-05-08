@@ -5,8 +5,10 @@ import java.util.List;
 
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.transform.Rotate;
 import pkgController.SelectCarouselController;
 /**
  * 
@@ -35,8 +37,22 @@ public class SelectCarouselView extends CarouselView{
 		
 		images = scc.getImagesFromController();
 		
-		Button left = new Button("<<<");
-		Button right = new Button(">>>");
+		ImageView turn_left_img = new ImageView(new Image("/images/carousel-turn-icon.png"));
+		turn_left_img.setFitHeight(80);
+		turn_left_img.setPreserveRatio(true);
+		turn_left_img.setRotationAxis(Rotate.Y_AXIS);
+		turn_left_img.setRotate(180);
+		Button left = new Button();
+		left.setPrefSize(80,  60);
+		left.setGraphic(turn_left_img);
+		
+		ImageView turn_right_img = new ImageView(new Image("/images/carousel-turn-icon.png"));
+		turn_right_img.setFitHeight(80);
+		turn_right_img.setPreserveRatio(true);
+		Button right = new Button();
+		right.setPrefSize(80,  60);
+		right.setGraphic(turn_right_img);
+		
 		left.setOnAction(scc.getHandlerForClickedLeft());
 		right.setOnAction(scc.getHandlerForClickedRight());
 		

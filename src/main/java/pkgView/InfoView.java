@@ -13,6 +13,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -23,6 +24,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
@@ -40,7 +43,7 @@ public class InfoView extends BorderPane {
 	/**
 	 * The preferred width of the comboBoxes that are used for filtering the carousel images
 	 */
-	private final double FILTER_WIDTH = 125.0;
+	private final double FILTER_WIDTH = 150.0;
 	
 	/**
 	 * Constructor that initializes an infoCarousel and all necessary buttons and comboBoxes for filtering, and displays everything on the screen.
@@ -50,7 +53,16 @@ public class InfoView extends BorderPane {
 		infoCarousel = new InfoCarouselView(view);
 		InfoController ic = new InfoController(view);
 		
-		Button back = new Button("Back");
+		
+		ImageView back_img = new ImageView(new Image("/images/back-icon.png"));
+		back_img.setFitHeight(50);
+		back_img.setPreserveRatio(true);
+		back_img.setRotationAxis(Rotate.Y_AXIS);
+		back_img.setRotate(180);
+
+		Button back = new Button();
+		back.setPrefSize(40, 40);
+		back.setGraphic(back_img);
 		back.setOnAction(ic.getHandlerForBack());
 		
 		Label title = new Label("Glossary   ");
@@ -81,7 +93,10 @@ public class InfoView extends BorderPane {
 		soil.setPrefWidth(FILTER_WIDTH);
 		
 		
-		Button filter = new Button("Filter");
+		Button filter = new Button("FILTER");
+		filter.setPrefSize(FILTER_WIDTH, 50);
+		filter.setFont(Font.font("Helvetica", FontWeight.BOLD, 24));
+		filter.setStyle("-fx-background-color: linear-gradient(#fafafa , #afd9f5 );");
 		filter.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event) {
 				String sunLevel = sun.getValue();

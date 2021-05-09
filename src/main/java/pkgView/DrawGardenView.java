@@ -344,6 +344,10 @@ public class DrawGardenView extends BorderPane {
 	 * @param plots
 	 */
 	public void undo(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+		canvasHeight = canvas.getHeight();
+		canvasWidth = canvas.getWidth();
+		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
+		canvas.resize(scale, scale);
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();

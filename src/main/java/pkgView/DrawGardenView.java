@@ -123,8 +123,6 @@ public class DrawGardenView extends BorderPane {
 		canvas = new ResizableCanvas();
 		canvas.heightProperty().addListener(event -> resize());
 		gc = canvas.getGraphicsContext2D();
-		rows=15.0;
-		columns=15.0;
 		
 		buildGrid();
 		buildScaleText();
@@ -344,10 +342,7 @@ public class DrawGardenView extends BorderPane {
 	 * @param plots
 	 */
 	public void undo(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
-		canvasHeight = canvas.getHeight();
-		canvasWidth = canvas.getWidth();
-		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
-		canvas.resize(scale, scale);
+		resizeCanvas();
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();
@@ -547,10 +542,7 @@ public class DrawGardenView extends BorderPane {
 	 * @param change value to increase, decrease, or maintain the scale
 	 */
 	public void scale(double change) {
-		canvasHeight = canvas.getHeight();
-		canvasWidth = canvas.getWidth();
-		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
-		canvas.resize(scale, scale);
+		resizeCanvas();
 		rows-=change;
 		columns-=change;
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(columns, rows);
@@ -564,10 +556,7 @@ public class DrawGardenView extends BorderPane {
 	 * changed
 	 */
 	public void resize() {
-		canvasHeight = canvas.getHeight();
-		canvasWidth = canvas.getWidth();
-		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
-		canvas.resize(scale, scale);
+		resizeCanvas();
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(columns, rows);
 		buildGrid();
 		buildPlots(plots);
@@ -593,5 +582,29 @@ public class DrawGardenView extends BorderPane {
 	 */
 	public double getCanvasWidth() {
 		return this.canvasWidth;
+	}
+	
+	public void resizeCanvas() {
+		canvasHeight = canvas.getHeight();
+		canvasWidth = canvas.getWidth();
+		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
+		if (canvasHeight < canvasWidth) {
+			yScale = canvasHeight / rows;
+			columns = canvasWidth % yScale;
+			canvasWidth = yScale * columns;
+		} else {
+			xScale = canvasWidth / columns;
+			rows = canvasHeight % xScale;
+			canvasHeight = xScale * rows;
+		}
+		canvas.resize(canvasWidth, canvasHeight);
+	}
+	
+	public double getRows() {
+		return rows;
+	}
+	
+	public double getColumns() {
+		return columns;
 	}
 }

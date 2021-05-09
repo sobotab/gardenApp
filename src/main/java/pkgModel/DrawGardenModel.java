@@ -31,8 +31,6 @@ public class DrawGardenModel extends GardenModel {
 		preOutline = new ArrayList<>();
 		set = true;
 		undoStack = new Stack<>();
-		rows = 15.0;
-		columns =15.0;
 	}
 
 
@@ -167,6 +165,14 @@ public class DrawGardenModel extends GardenModel {
 	
 	public double getColumns() {
 		return columns;
+	}
+	
+	public void setRows(double rows) {
+		this.rows = rows;
+	}
+	
+	public void setColumns(double columns) {
+		this.columns = columns;
 	}
 	
 	public boolean scale(double xScale, double yScale) {

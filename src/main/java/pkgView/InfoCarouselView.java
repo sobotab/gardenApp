@@ -49,7 +49,7 @@ public class InfoCarouselView extends CarouselView{
 			image.setOnMousePressed(icc.getHandlerForPopup());
 		}
 
-		center = 2;
+		center = 1;
 		
 		ImageView turn_left_img = new ImageView(new Image("/images/carousel-turn-icon.png"));
 		turn_left_img.setFitHeight(80);

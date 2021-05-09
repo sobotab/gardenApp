@@ -56,7 +56,7 @@ public class SelectPlantsView extends BorderPane {
 	/**
 	 * Scaling of a plant's size that should be used when the plant is selected
 	 */
-	ListView plantsSelected;
+	ListView<VBox> plantsSelected;
 	private final double SELECTED_PLANT_SCALING = 0.75;
 	
 	/**
@@ -75,7 +75,7 @@ public class SelectPlantsView extends BorderPane {
 		}
 		
 		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
-		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-leaves.jpg")),
+		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-blurred.jpg")),
 				BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT,
 				BackgroundPosition.CENTER,
@@ -88,10 +88,15 @@ public class SelectPlantsView extends BorderPane {
 		finish.setOnAction(spc.getHandlerForNext());
 		Label flowLabel = new Label("Plants you have selected");
 		
+		Label selectedPlantsTitle = new Label("Selected Plants");
+		
+
+		
 		plantsSelected = new ListView(FXCollections.observableArrayList());
-//		plants = new FlowPane(Orientation.VERTICAL);
-//		plants.setColumnHalignment(HPos.CENTER);
-//		plants.getChildren().add(flowLabel);
+		plantsSelected.setPrefHeight(view.getTheStage().getHeight());
+		
+		VBox plantsSelectedBox = new VBox();
+		plantsSelectedBox.getChildren().addAll(selectedPlantsTitle, plantsSelected);
 		
 		HBox box = new HBox();
 		box.getChildren().add(back);
@@ -99,7 +104,7 @@ public class SelectPlantsView extends BorderPane {
 		
 		this.setBottom(box);
 		this.setTop(title);
-		this.setRight(plantsSelected);
+		this.setRight(plantsSelectedBox);
 		this.setCenter(selectionCarousel);
 	}
 	

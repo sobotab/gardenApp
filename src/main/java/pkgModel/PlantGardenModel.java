@@ -20,6 +20,7 @@ import pkgView.PlantView;
 
 public class PlantGardenModel extends GardenModel implements Serializable {
 	final int DEFAULTSCALE = 25;
+	//final int MIN_SPREAD = 20;
 	List<PlantObjectModel> plants;
 	List<PlantObjectModel> compost;
 	ObjectCarouselModel carousel;
@@ -87,24 +88,26 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		}
 		PlantObjectModel plantCheck = plants.get(index);
 		//Added this bit to account for planCheck's soil type now being string
-		Soil soil = null;
+		ArrayList<Soil> soil = new ArrayList<Soil>();
 		if(plantCheck.getSoil().contains("clay")) {
-			soil = Soil.CLAY;
+			soil.add(Soil.CLAY);
 		}
-		else if(plantCheck.getSoil().contains("sandy")) {
-			soil = Soil.SANDY;
+		if(plantCheck.getSoil().contains("sandy")) {
+			soil.add(Soil.SANDY);
 		}
-		else {
-			soil = Soil.LOAMY;
+		if(plantCheck.getSoil().contains("loamy")) {
+			soil.add(Soil.LOAMY);
 		}
 		//Added bit ends
-		Iterator validPlotsIter = plots.get( soil ).iterator();
-		
-		while (validPlotsIter.hasNext()) {		
-			Point2D.Double testPoint = new Point2D.Double(plantCheck.x - canvas_x, plantCheck.y - canvas_y);
+		for (Soil soil_type : soil) {
+			Iterator validPlotsIter = plots.get( soil_type ).iterator();
 			
-			if (inPolygon(testPoint, (ArrayList<Point2D.Double>)validPlotsIter.next())) {
-				return true;
+			while (validPlotsIter.hasNext()) {		
+				Point2D.Double testPoint = new Point2D.Double(plantCheck.x - canvas_x, plantCheck.y - canvas_y);
+				
+				if (inPolygon(testPoint, (ArrayList<Point2D.Double>)validPlotsIter.next())) {
+					return true;
+				}
 			}
 		}
 		return false;
@@ -158,6 +161,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	
 	public double computeScaleSize(PlantObjectModel plant) {
 		double default_radius = plant.getSpreadDiameter()/2;
+		//return Math.max((default_radius * scale_factor), MIN_SPREAD);
 		return default_radius * scale_factor;
 		/*
 		if (Math.abs(DEFAULTSCALE - this.scale) < 1) {

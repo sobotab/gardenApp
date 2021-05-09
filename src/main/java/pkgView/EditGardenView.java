@@ -26,6 +26,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
+import javafx.scene.effect.BlendMode;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -59,14 +61,14 @@ import pkgController.Soil;
 
 public class EditGardenView extends BorderPane{
 	// Constants
-	public final int CANVASHEIGHT = 700;
-	public final int CANVASWIDTH = 800;
+	public int CANVASHEIGHT = 700;
+	public int CANVASWIDTH = 800;
 	public final int DEFAULTSCALE = 500;			//default max scale = 500 ft (compared to num rows to get scale factor)
 	
 	// Scene Objects
 	DragDropCarouselView plantCarousel;
 	StackPane garden;
-	List<Circle> plantSpreads;
+	List<Shape> plantSpreads;
 	HBox budgetBox;
 	HBox lepBox;
 	VBox lepSpeciesBox;
@@ -79,6 +81,7 @@ public class EditGardenView extends BorderPane{
 	double scale_factor;
 	int budget;
 	
+	
 	public EditGardenView(View view, String loadName) {
 		
 		this.plantInput = new ArrayList< Pair<ArrayList<String>, Integer> >();
@@ -86,7 +89,7 @@ public class EditGardenView extends BorderPane{
 		//this.plantCarousel.setMaxWidth(CANVASWIDTH * 1.75);
 		this.egc = new EditGardenController(view, this, loadName);
 		this.plants = new ArrayList<PlantView>();
-		this.plantSpreads = new ArrayList<Circle>();
+		this.plantSpreads = new ArrayList<Shape>();
 		
 		
 		// Initialize carousel
@@ -358,7 +361,7 @@ public class EditGardenView extends BorderPane{
 			int lepDisplayCount = 0;
 			for (Map.Entry<String, Integer> lepEntry : sortedLeps) {
 				lepDisplayCount++;
-				if (lepDisplayCount > 10) {
+				if (lepDisplayCount > 12) {
 					break;
 				}
 				HBox species_info_box = new HBox();
@@ -430,6 +433,7 @@ public class EditGardenView extends BorderPane{
     	}
     	Tooltip tip = new Tooltip(name + "\n" + "Size: " + size + "\n" + "Soil: " + soil);
     	Tooltip.install(pv, tip);
+    	pv.getProperties().put("tip", tip);
     	
     	return pv;
     }
@@ -437,7 +441,7 @@ public class EditGardenView extends BorderPane{
 	
 	// Same as above but builds from existing image
 	
-	public PlantView makePlantView(Image img, int spread) {
+	public PlantView makePlantView(Tooltip tip, Image img, int spread) {
     	PlantView pv = new PlantView(img, spread);
     	
     	Rectangle img_template = new Rectangle(60,60);
@@ -451,6 +455,10 @@ public class EditGardenView extends BorderPane{
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
     	pv.setOnMouseReleased(egc.getHandlerForRelease());
     	pv.setOnMouseEntered(egc.getHandlerForHover());
+
+    	Tooltip.install(pv, tip);
+    	pv.getProperties().put("tip", tip);
+    	
     	return pv;
     }
 	
@@ -458,9 +466,12 @@ public class EditGardenView extends BorderPane{
 	// Helper function for replacing plants dragged from carousel
 	
 	public void replacePlant(int index) {
+		PlantView plantToDuplicate = plantCarousel.getPlants().get(index);
+		
 		PlantView duplicatePlant = makePlantView(
-				plantCarousel.getPlants().get(index).getImage(),
-				plantCarousel.getPlants().get(index).getSpread()
+				(Tooltip)plantToDuplicate.getProperties().get("tip"),
+				plantToDuplicate.getImage(),
+				plantToDuplicate.getSpread()
 				);
 		plantCarousel.addPlantAtIndex(duplicatePlant, index+1);
 	}
@@ -487,30 +498,54 @@ public class EditGardenView extends BorderPane{
 	// Draw or update spread circle location and reset color 
 	
 	public void drawSpread(int index, double x, double y) {
-		
+		PlantView plant = plants.get(index);
 		if (plantSpreads.size() == index) {
-	        Circle spread = new Circle(
+			if (computeScaleSize(plant) <= 10) {
+				Rectangle spread = new Rectangle(
+						plant.getFitHeight(), 
+						plant.getFitHeight());
+				spread.setArcHeight(15);
+				spread.setArcWidth(15);
+				spread.setViewOrder(0);
+				plantSpreads.add(spread);
+		        garden.getChildren().add(spread);
+		        garden.setAlignment(spread, Pos.TOP_LEFT);
+		        spread.setMouseTransparent(true);
+			} 
+			else {
+				Circle spread = new Circle(
 	        		x,
 	        		y,
-	        		computeScaleSize(plants.get(index)));
+	        		computeScaleSize(plant));
 	        		//Math.max(computeScaleSize(plants.get(index)), plants.get(index).getFitHeight()*0.65));
-	        plantSpreads.add(spread);
-	        garden.getChildren().add(spread);
-	        garden.setAlignment(spread, Pos.TOP_LEFT);
-	        plantSpreads.get(index).setViewOrder(1);
+		        spread.setViewOrder(1);
+		        plantSpreads.add(spread);
+		        garden.getChildren().add(spread);
+		        garden.setAlignment(spread, Pos.TOP_LEFT);
+			}    
 		}
-		
-		Circle spread = plantSpreads.get(index);
-		spread.setCenterX(x - spread.getRadius() + plants.get(index).getFitHeight()/2);
-		spread.setCenterY(y - spread.getRadius() + plants.get(index).getFitHeight()/2);
-		//spread.setCenterX(x);
-		//spread.setCenterY(y);
-		spread.setTranslateX(spread.getCenterX());
-		spread.setTranslateY(spread.getCenterY());
-		
-        spread.setStroke(Color.WHITE);
-		spread.setFill(Color.rgb(173, 216, 230, 0.5));
-
+		if (computeScaleSize(plant) <= 10) {
+			Rectangle spread = (Rectangle)plantSpreads.get(index);
+			spread.setX(x);
+			spread.setY(y);
+			spread.setTranslateX(x);
+			spread.setTranslateY(y);
+			spread.setStroke(null);
+			spread.setFill(Color.rgb(173, 216, 230, 0.5));
+			
+		}
+		else {
+			Circle spread = (Circle)plantSpreads.get(index);
+			spread.setCenterX(x - spread.getRadius() + plant.getFitHeight()/2);
+			spread.setCenterY(y - spread.getRadius() + plant.getFitHeight()/2);
+			//spread.setCenterX(x);
+			//spread.setCenterY(y);
+			spread.setTranslateX(spread.getCenterX());
+			spread.setTranslateY(spread.getCenterY());
+			
+	        spread.setStroke(Color.WHITE);
+			spread.setFill(Color.rgb(173, 216, 230, 0.5));
+		}
 	}
 	
 	// Calculate spread bubble size according to scale factor
@@ -534,14 +569,16 @@ public class EditGardenView extends BorderPane{
 	// Update spread circle color according to whether it is inside garden or overlaps other spreads
 	
 	public void updateSpread(int index, boolean inGarden, boolean overlap) {
-		Circle spread = plantSpreads.get(index);
+		Shape spread = plantSpreads.get(index);
+
 		spread.setFill(Color.rgb(173, 216, 230, 0.5));
 		
-		if (overlap)
+		if (overlap) {
 			spread.setFill(Color.rgb(255,  255,  0, 0.5));
-		if (!inGarden)
+		}
+		if (!inGarden) {
 			spread.setFill(Color.rgb(255, 0, 0, 0.5));
-		
+		}
 	}
 	
 	
@@ -579,7 +616,7 @@ public class EditGardenView extends BorderPane{
 		return this.plants;
 	}
 	
-	public List<Circle> getSpreads() {
+	public List<Shape> getSpreads() {
 		return this.plantSpreads;
 	}
 	

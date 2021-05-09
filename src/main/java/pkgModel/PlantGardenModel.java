@@ -20,6 +20,7 @@ import pkgView.PlantView;
 
 public class PlantGardenModel extends GardenModel implements Serializable {
 	final int DEFAULTSCALE = 25;
+	//final int MIN_SPREAD = 20;
 	List<PlantObjectModel> plants;
 	List<PlantObjectModel> compost;
 	ObjectCarouselModel carousel;
@@ -158,6 +159,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	
 	public double computeScaleSize(PlantObjectModel plant) {
 		double default_radius = plant.getSpreadDiameter()/2;
+		//return Math.max((default_radius * scale_factor), MIN_SPREAD);
 		return default_radius * scale_factor;
 		/*
 		if (Math.abs(DEFAULTSCALE - this.scale) < 1) {

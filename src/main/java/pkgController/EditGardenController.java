@@ -43,6 +43,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -342,7 +343,7 @@ public class EditGardenController {
 		File imgFile = fileChooser.showSaveDialog(view.getTheStage());
 		if (imgFile != null) {
 			try {
-				WritableImage canvasImg = new WritableImage((int)(gardenView.CANVASWIDTH * 1.6), gardenView.CANVASHEIGHT);
+				WritableImage canvasImg = new WritableImage((int)(gardenView.CANVASWIDTH * 1.6), (int)(gardenView.CANVASHEIGHT * 1.05));
 				gardenView.getGarden().snapshot(null, canvasImg);
 				BufferedImage bufferedImage = SwingFXUtils.fromFXImage(canvasImg, null);
 				ImageIO.write(bufferedImage, "png", imgFile);
@@ -360,6 +361,7 @@ public class EditGardenController {
 		Node n = (Node)event.getSource();
 		
 		int index = gardenView.getPlants().indexOf(n);
+
 		System.out.println("plant in model: " + gardenModel.getPlants().get(index).getName());
 		gardenModel.dragPlant(index, event.getX(), event.getY(),
 				gardenView.getGarden().getWidth() - gardenView.getPlants().get(index).getFitHeight(), 
@@ -409,6 +411,7 @@ public class EditGardenController {
 	public void release(MouseEvent event) {
 		Node n = (Node)event.getSource();
 		int index = gardenView.getPlants().indexOf(n);
+
 		//System.out.println("index " + index);
 		PlantObjectModel plantModel = gardenModel.getPlants().get(index);
 		if (plantModel.getX() <= 80 && plantModel.getY() >= gardenView.getGarden().getHeight() - 80) {
@@ -418,7 +421,7 @@ public class EditGardenController {
 			gardenModel.getPlants().remove(plantModel);
 			
 			PlantView trashPlant = gardenView.getPlants().remove(index);
-			Circle trashSpread = gardenView.getSpreads().remove(index);
+			Shape trashSpread = gardenView.getSpreads().remove(index);
 			
 			gardenView.getGarden().getChildren().remove(trashPlant);
 			gardenView.getGarden().getChildren().remove(trashSpread);

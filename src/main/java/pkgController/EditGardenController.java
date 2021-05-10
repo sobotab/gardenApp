@@ -1,12 +1,7 @@
 package pkgController;
 
-import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -16,11 +11,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.Stack;
 
 import javax.imageio.ImageIO;
@@ -31,23 +22,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
-import javafx.scene.input.DragEvent;
-import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.util.Pair;
 import pkgModel.DrawGardenModel;
 import pkgModel.Model;
@@ -57,23 +37,44 @@ import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
 import pkgModel.PlantObjectModel;
 import pkgView.EditGardenView;
-import pkgView.InfoPopupView;
 import pkgView.PlantView;
 import pkgView.SelectPlantsView;
 import pkgView.View;
 import pkgView.WelcomeView;
-
+/**
+ * 
+ * @author Ryan Dean
+ * Controller for Edit Garden screen. Holds handlers and facilitates communication between EditGardenView and EditGardenModel.
+ */
 public class EditGardenController {
+	/**
+	 * The program's view. Initialized only once.
+	 */
 	View view;
+	/**
+	 * View class for this screen. Holds all nodes necessary for the screen.
+	 */
 	EditGardenView gardenView;
+	/**
+	 * Model class for this screen. Holds all plant and garden data, and has methods for calculating plant interactions.
+	 */
 	PlantGardenModel gardenModel;
 	
+	/**
+	 * Constructor loads a serialized gardenModel and disperses that data to model and view if loadName present. If not, 
+	 * reads serialized information from Select Plants and Draw Garden screens, and disperses that data to model and view instead.
+	 * @param view 			EditGardenView that is the view class for this screen. Information necessary for display is sent there.
+	 * @param gardenView 	EditGardenModel, the model class for this screen. All garden and plant information is sent there.
+	 * @param loadName 		String representing user-input name for the garden to load. Null if not loading a garden.
+	 */
 	public EditGardenController(View view, EditGardenView gardenView, String loadName) {	
 		
 		HashMap<String, PlantGardenModel> gardenData = null;
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = null;
 		int budget = 0;
-		double max_dimension = 45.0;
+		double max_dimension = 45.0;	// default in case scale cannot be read
+		
+		// Loading a serialized gardenModel
 		
 		if (loadName != null) {
 			try {
@@ -107,12 +108,9 @@ public class EditGardenController {
 			gardenView.setBudget(gardenModel.getBudget());
 			gardenView.makeCanvas(gardenModel.getPlots());
 			gardenView.setScaleFactor(gardenModel.getScaleFactor());
-			/*
-			if (gardenModel.getFullscreen() && view.getTheStage().isFullscreen()) {
-				errorPopup("This garden was made in fullscreen. \n Fullscreen your window to see your garden properly.");
-			}
-			*/
 		} 
+		
+		// Making a new garden, instead read data from previous screens.
 		
 		else {
 			
@@ -125,7 +123,6 @@ public class EditGardenController {
 		        plots = (HashMap<Soil, Stack<ArrayList<Point2D.Double>>>)receiveData.get(0);
 				budget = (int)receiveData.get(1);
 				max_dimension = (double)receiveData.get(5);
-				System.out.println("whats in data4: " + max_dimension);
 		        ois.close();
 			} catch (FileNotFoundException e) {
 	        	System.out.println("File not found");
@@ -165,11 +162,6 @@ public class EditGardenController {
 				Pair<ArrayList<String>, Integer> plant_info = new Pair<>(string_info, plant.getSpreadDiameter());
 				gardenView.getPlantInput().add(plant_info);
 			}
-			/*
-			for (PlantModel plant : plants2) {
-				gardenView.getPlantInput().add(new Pair<>(plant.getSciName(), plant.getSpreadDiameter()));
-			}
-			*/
 			
 			// Initialize & Add plants to model
 			ObjectCarouselModel carouselModel = gardenView.getPlantCarousel().getController().carouselModel;
@@ -179,118 +171,41 @@ public class EditGardenController {
 			gardenView.setBudget(budget);
 			gardenView.makeCanvas(plots);
 			gardenView.setScaleFactor(scale_factor);
-
 		}
 	}
 	
+	
 	// Screen control
 	
+	/**
+	 * Handler for clicking back button. Returns user to previous screen: Select Plants.
+	 * @param event 	The ActionEvent caused by clicking the back button.
+	 */
 	public void clickedBack(ActionEvent event) {
 		view.setCurrentScreen(new SelectPlantsView(view));	
 	}
 	
-	public void clickNext(ActionEvent event) {}
-	
-	public void clickExit(ActionEvent event) {
+	/**
+	 * Handler for clicking exit button. Returns user to Welcome screen.	
+	 * @param event 	The ActionEvent caused by clicking the exit button.
+	 */
+	public void clickedExit(ActionEvent event) {
 		view.setCurrentScreen(new WelcomeView(view));
 	}
 	
+	/**
+	 * Handler for clicking the "See more" button. Opens pop-up showing all supported lep species.
+	 * @param event 	The ActionEvent caused by clicking the "See more" button.
+	 */
 	public void clickedMoreLeps(ActionEvent event) {
 		gardenView.openLepPopup(gardenModel.trackMostPopularLeps());
 	}
 	
-	// Change coordinates when window size changes
-	/*
-	public void fitCoordinatesToWindowWidth(double oldWidth, double newWidth) {
-		Iterator plantViewIter = gardenView.getPlants().iterator();
-		for (PlantObjectModel plantModel : gardenModel.getPlants()) {
-			plantModel.setXInBounds( 
-					plantModel.getX() + (newWidth - oldWidth),  
-					gardenView.getGarden().getWidth() - 30);
-			
-			PlantView plantView = (PlantView)plantViewIter.next();
-			plantView.setTranslateX( plantModel.getX() );
-			int index = gardenView.getPlants().indexOf(plantView);
-			gardenView.drawSpread(
-					index, 
-					plantModel.getX(), 
-					plantModel.getY());
-			gardenView.updateSpread(
-					index, 
-					gardenModel.checkCanvas(index, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutY()),					
-					gardenModel.checkSpread(index));
-		}
-	}
-	
-	public void fitCoordinatesToWindowHeight(double oldHeight, double newHeight) {
-		Iterator plantViewIter = gardenView.getPlants().iterator();
-		for (PlantObjectModel plantModel : gardenModel.getPlants()) {
-			plantModel.setYInBounds( 
-					plantModel.getY() + (newHeight - oldHeight),
-					gardenView.getGarden().getHeight() - 30);
-			
-			PlantView plantView = (PlantView)plantViewIter.next();
-			plantView.setTranslateY( plantModel.getY() );
-			int index = gardenView.getPlants().indexOf(plantView);
-			gardenView.drawSpread(
-					index, 
-					plantModel.getX(), 
-					plantModel.getY());
-			gardenView.updateSpread(
-					index, 
-					gardenModel.checkCanvas(index, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutY()),
-					gardenModel.checkSpread(index));
-		}
-	}
-	*/
-	// Updating view after loading a saved garden
-	
-	public void fetchGardenInfo() {
-		gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps(), gardenModel.trackMostPopularLeps());
-		for (PlantObjectModel plantInModel : gardenModel.getPlants()) {
-			ArrayList<String> plant_info = new ArrayList<String>();
-			plant_info.add(plantInModel.getSciName());
-			plant_info.add(plantInModel.getName());
-			plant_info.add(plantInModel.getSoil());
-			PlantView plantInView = gardenView.makePlantView(
-					plant_info,
-					plantInModel.getSpreadDiameter());
-			plantInView.setFitHeight(plantInModel.getSpreadDiameter()/4 + 30);
-			plantInView.setFitWidth(plantInModel.getSpreadDiameter()/4 + 30);	
-			Rectangle plant_template = new Rectangle(plantInView.getFitWidth(), plantInView.getFitWidth());
-			plant_template.setArcWidth(15);
-			plant_template.setArcHeight(15);
-			plantInView.setClip(plant_template);
-			
-			gardenView.getPlants().add(plantInView);
-			gardenView.getGarden().getChildren().add(plantInView);
-			gardenView.getGarden().setAlignment(plantInView, Pos.TOP_LEFT);
-			plantInView.updateLocation(plantInModel.getX(), plantInModel.getY());
-			
-			int viewIndex = gardenView.getPlants().size()-1;
-			gardenView.drawSpread(
-					viewIndex, 
-					plantInModel.getX(), 
-					plantInModel.getY());
-			gardenView.updateSpread(
-					viewIndex, 
-					gardenModel.checkCanvas(viewIndex, gardenModel.getCanvasXOffset(), gardenModel.getCanvasYOffset()), 
-					gardenModel.checkSpread(viewIndex));
-			
-			//fitCoordinatesToWindowWidth(gardenModel.getCanvasXOffset(), gardenView.getCanvas().getLayoutX());
-			//fitCoordinatesToWindowHeight(gardenModel.getCanvasYOffset(), gardenView.getCanvas().getLayoutY());
-			
-		}
-	}
-	
-	// Saving garden
-	
-	public void clickedSave(ActionEvent event) {
-		
-		//gardenModel.setCanvasXOffset(gardenView.getCanvas().getLayoutX());
-		//gardenModel.setCanvasYOffset(gardenView.getCanvas().getLayoutY());
-		//gardenModel.setFullscreen(view.getTheStage().isFullScreen());
-		
+	/**
+	 * Handler for clicking the save button. Opens prompt for garden name, then serializes gardenModel.
+	 * @param event 	The ActionEvent caused by clicking the save button.
+	 */
+	public void clickedSave(ActionEvent event) {		
 		TextInputDialog savePopup = new TextInputDialog("type name here!");
 		savePopup.setHeaderText("Enter the name of your garden:");
 		Optional<String> inputName = savePopup.showAndWait(); 
@@ -334,8 +249,10 @@ public class EditGardenController {
 		
 	}
 	
-	// Saving canvas img for printing
-	
+	/**
+	 * Handler for clicking print button. Saves a snapshot of the garden stackpane in EditGardenView.
+	 * @param event 	The ActionEvent caused by clicking the print button.
+	 */
 	public void clickedPrint(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("PNG", "*.png");
@@ -354,9 +271,49 @@ public class EditGardenController {
 		}
 	}
 	
-		
-	// Handle drag
 	
+	/**
+	 * Helper method used when loading a saved garden. Updates view according to all data stored in the loaded gardenModel.
+	 */
+	public void fetchGardenInfo() {
+		gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps(), gardenModel.trackMostPopularLeps());
+		for (PlantObjectModel plantInModel : gardenModel.getPlants()) {
+			ArrayList<String> plant_info = new ArrayList<String>();
+			plant_info.add(plantInModel.getSciName());
+			plant_info.add(plantInModel.getName());
+			plant_info.add(plantInModel.getSoil());
+			PlantView plantInView = gardenView.makePlantView(
+					plant_info,
+					plantInModel.getSpreadDiameter());
+			plantInView.setFitHeight(plantInModel.getSpreadDiameter()/4 + 30);
+			plantInView.setFitWidth(plantInModel.getSpreadDiameter()/4 + 30);	
+			Rectangle plant_template = new Rectangle(plantInView.getFitWidth(), plantInView.getFitWidth());
+			plant_template.setArcWidth(15);
+			plant_template.setArcHeight(15);
+			plantInView.setClip(plant_template);
+			
+			gardenView.getPlants().add(plantInView);
+			gardenView.getGarden().getChildren().add(plantInView);
+			gardenView.getGarden().setAlignment(plantInView, Pos.TOP_LEFT);
+			plantInView.updateLocation(plantInModel.getX(), plantInModel.getY());
+			
+			int viewIndex = gardenView.getPlants().size()-1;
+			gardenView.drawSpread(
+					viewIndex, 
+					plantInModel.getX(), 
+					plantInModel.getY());
+			gardenView.updateSpread(
+					viewIndex, 
+					gardenModel.checkCanvas(viewIndex, gardenModel.getCanvasXOffset(), gardenModel.getCanvasYOffset()), 
+					gardenModel.checkSpread(viewIndex));			
+		}
+	}
+	
+		
+	/**
+	 * Handler for dragging a PlantView node. Updates position in model, then updates view accordingly. Runs checks for outside bounds/overlapping spreads.
+	 * @param event 	The MouseEvent caused by dragging a PlantView node.
+	 */
 	public void drag(MouseEvent event) {
 		Node n = (Node)event.getSource();
 		
@@ -385,8 +342,10 @@ public class EditGardenController {
 		return;
 	}
 	
-	// Handle press, extract from carousel if necessary
-	
+	/**
+	 * Handler for clicking a PlantView node in the view's DragDropCarousel. Prompts model and view to transport plant from carousel to garden.
+	 * @param event 	MouseEvent caused by clicking on a PlantView node.
+	 */
 	public void press(MouseEvent event) {
 		
 		Node n = (Node)event.getSource();
@@ -395,19 +354,21 @@ public class EditGardenController {
 			
 			int indexCarousel = gardenView.getPlantCarousel().getPlants().indexOf(n);
 			
-			gardenModel.getCarousel().replacePlant(indexCarousel);									// Subtract 1 from model carousel index b/c it does not contain compost
+			gardenModel.getCarousel().replacePlant(indexCarousel);
 			gardenModel.addPlantFromCarousel(indexCarousel, 0, 0);	
 			
 			gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps(), gardenModel.trackMostPopularLeps());
 			gardenView.replacePlant(indexCarousel);
-			gardenView.addPlantFromCarousel(indexCarousel, n, event);
+			gardenView.addPlantFromCarousel(indexCarousel, n);
 			
 		}
 		return;
 	}
 	
-	// Update dollars/leps when plant dropped into garden or compost
-	
+	/**
+	 * Handler for releasing mouse button after dragging a PlantView node. Prompts model to update budget/lep info and send that to view.
+	 * @param event 	MouseEvent caused by releasing mouse button on PlantView node.
+	 */
 	public void release(MouseEvent event) {
 		Node n = (Node)event.getSource();
 		int index = gardenView.getPlants().indexOf(n);
@@ -430,53 +391,70 @@ public class EditGardenController {
 		return;
 	}
 	
-	// Display additional info when hovering on plantView
-	
-	public void hover(MouseEvent event) {
-		Node n = (Node)event.getSource();
-		//int index = gardenView.getPlants().indexOf(n);
-		//System.out.println(gardenView.getPlants().get(index));
-	}
-	
-
-	
-	//Make more methods for organizing the gardens
-	
+	/**
+	 * Getter for the clickedBack handler.
+	 * @return 		EventHandler for the clickedBack method.
+	 */
 	public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);
 	}
 	
+	/**
+	 * Getter for the clickedSave handler.
+	 * @return 		EventHandler for the clickedSave method.
+	 */
 	public EventHandler getHandlerForSave() {
 		return event -> clickedSave((ActionEvent) event);
 	}
 	
+	/**
+	 * Getter for the clickedExit handler.
+	 * @return 		EventHandler for the clickedExit method.
+	 */
 	public EventHandler getHandlerForExit() {
-		return event -> clickExit((ActionEvent) event);
+		return event -> clickedExit((ActionEvent) event);
 	}
 	
+	/**
+	 * Getter for the clickedPrint handler.
+	 * @return 		EventHandler for the clickedPrint method.
+	 */
 	public EventHandler getHandlerForPrint() {
 		return event -> clickedPrint((ActionEvent) event);
 	}
 	
+	/**
+	 * Getter for the clickedMoreLeps handler.
+	 * @return 		EventHandler for the clickedMoreLeps method.
+	 */
 	public EventHandler getHandlerForMoreLeps() {
 		return event -> clickedMoreLeps((ActionEvent) event);
 	}
 	
+	/**
+	 * Getter for the drag handler.
+	 * @return 		EventHandler for the drag method.
+	 */
 	public EventHandler getHandlerForDrag() {
 		return event -> drag((MouseEvent) event);
 	}
 	
+	/**
+	 * Getter for the press handler.
+	 * @return 		EventHandler for the press method.
+	 */
 	public EventHandler getHandlerForPress() {
 		return event -> press((MouseEvent) event);
 	}
 	
+	/**
+	 * Getter for the release handler.
+	 * @return 		EventHandler for the release method.
+	 */
 	public EventHandler getHandlerForRelease() {
 		return event -> release((MouseEvent) event);
 	}
-	
-	public EventHandler getHandlerForHover() {
-		return event -> hover((MouseEvent) event);
-	}
+
 	
 	
 }

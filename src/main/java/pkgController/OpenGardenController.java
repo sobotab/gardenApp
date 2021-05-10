@@ -1,6 +1,5 @@
 package pkgController;
 
-import java.awt.geom.Point2D;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,12 +20,30 @@ import pkgView.OpenGardenView;
 import pkgView.View;
 import pkgView.WelcomeView;
 
-
+/**
+ * 
+ * @author Ryan Dean
+ * Controller class for the Open Garden screen. Reads in serialized garden models if any exist.
+ */
 public class OpenGardenController {
+	/**
+	 * View class for the program. Initialized once.
+	 */
 	View view;
+	/**
+	 * View class for the Open Garden screen. Contains TableView used to present saved garden info.
+	 */
 	OpenGardenView ogv;
+	/**
+	 * Hashmap holding data on saved gardens, key = garden name, value = garden model.
+	 */
 	HashMap<String, PlantGardenModel> gardenData;
 	
+	/**
+	 * Constructor reads in serialized garden models if any exist, sends data to OpenGardenView.
+	 * @param view 		View class for the program.
+	 * @param ogv 		View class for this screen.
+	 */
 	public OpenGardenController(View view, OpenGardenView ogv) {
 		this.view = view;
 		this.ogv = ogv;
@@ -69,32 +86,39 @@ public class OpenGardenController {
 		ogv.getGardenTable().getItems().addAll(gardenDataContainer);
 	}
 	
+	/**
+	 * Handler for clickedBack. Returns to welcome screen.
+	 * @param event 	ActionEvent caused by clicking back button.
+	 */
 	public void clickedBack(ActionEvent event) {
 		view.setCurrentScreen(new WelcomeView(view));
 		
 	}
 	
-	public void clickNext(ActionEvent event) {
-		view.setCurrentScreen(new EditGardenView(view, null));
-	}
-	
+	/**
+	 * Handler for clickedOpen. Opens Edit Garden screen with the currently selected garden in the tableview.
+	 * @param event 	ActionEvent caused by clicked open button.
+	 */	
 	public void clickedOpen(ActionEvent event) {
 		int selectedIndex = ogv.getGardenTable().getSelectionModel().getSelectedIndex();
 		HashMap<String, Object> item = (HashMap<String, Object>) ogv.getGardenTable().getSelectionModel().getSelectedItem();
 		String name = (String) item.get("name");
-		view.setCurrentScreen(new EditGardenView(view, name));
+		if (name != null)
+			view.setCurrentScreen(new EditGardenView(view, name));
 	}
 	
-	//Make more methods for organizing the gardens
-	
+	/**
+	 * Getter for the clickedBack method.
+	 * @return 		EventHandler for clickedBack.
+	 */
 	public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);
 	}
 	
-	public EventHandler getHandlerForNext() {
-		return event -> clickNext((ActionEvent) event);
-	}
-	
+	/**
+	 * Getter for the clickedOpen method.
+	 * @return 		EventHandler for clickedOpen.
+	 */
 	public EventHandler getHandlerForOpen() {
 		return event -> clickedOpen((ActionEvent) event);
 	}

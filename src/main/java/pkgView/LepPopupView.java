@@ -3,43 +3,41 @@ package pkgView;
 import java.util.ArrayList;
 import java.util.Map;
 
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
-import javafx.scene.layout.BackgroundSize;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 
+/**
+ * 
+ * @author Ryan Dean
+ * View class for pop-up in Edit Garden screen displaying full list of lep species supported by the garden.
+ */
 public class LepPopupView extends ListView {
-	
+	/**
+	 * Constructor for this class takes in list of lep species and builds listView of them sorted by number
+	 * of plants supporting them.
+	 * @param sortedLeps 	List of Map.Entry containing name of lep species (key) and number of plants supporting them (value).
+	 */
 	public LepPopupView(ArrayList<Map.Entry<String, Integer>> sortedLeps) {
-		/*
-		Image background_image = new Image(getClass().getResourceAsStream("/images/background-flowers.jpg"));
-		BackgroundSize bSize = new BackgroundSize(800.0, 500.0, false, false, false, true);
-		this.setBackground(new Background(new BackgroundImage(background_image,
-				BackgroundRepeat.NO_REPEAT,
-				BackgroundRepeat.NO_REPEAT,
-				BackgroundPosition.CENTER,
-				bSize)));
-		*/
 		for (Map.Entry<String, Integer> lepEntry : sortedLeps) {
 			//this.getChildren().add(buildLepDisplay(lepEntry));
 			this.getItems().add(buildLepDisplay(lepEntry));
 		}
 	}
 	
-	TilePane buildLepDisplay(Map.Entry<String, Integer> lepEntry) {
+	/**
+	 * Method used by constructor to build a tilepane for each lep species. Each tilepane includes image of lep,
+	 * scientific name, and number of plants supporting it.
+	 * @param lepEntry 		Key-Value pair of lep species name and number of plants supporting it.
+	 * @return 				TilePane with information for an individual lep species.
+	 */
+	public TilePane buildLepDisplay(Map.Entry<String, Integer> lepEntry) {
 		ImageView lep_img = new ImageView(new Image("/images/background-flowers.jpg"));
 		lep_img.setFitHeight(100);
 		lep_img.setFitWidth(100);

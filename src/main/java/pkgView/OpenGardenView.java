@@ -29,9 +29,21 @@ import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import pkgController.OpenGardenController;
 
+/**
+ * 
+ * @author Ryan Dean
+ * The view class for the Open Garden screen. Consists of listView containing saved gardens.
+ */
 public class OpenGardenView extends BorderPane{
+	/**
+	 * TableView used to hold  the names/budget/leps of saved gardens.
+	 */
 	TableView gardenTable;
 	
+	/**
+	 * Constructor creates TableView to hold information on all saved gardens, prepares for data entry from controller.
+	 * @param view 		View class of the program. Initialized once.
+	 */
 	public OpenGardenView(View view) {
 		
 		gardenTable = new TableView();
@@ -125,7 +137,8 @@ public class OpenGardenView extends BorderPane{
     	
 	}
 	
-	// getters & setters
+	// Getters & Setters
+	
 	public TableView getGardenTable() {
 		return this.gardenTable;
 	}

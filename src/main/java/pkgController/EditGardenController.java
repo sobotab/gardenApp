@@ -139,6 +139,7 @@ public class EditGardenController {
 				FileInputStream fis = new FileInputStream("plantData.ser");
 		        ObjectInputStream ois = new ObjectInputStream(fis);
 		        plants2 = (ArrayList<PlantInfoModel>)ois.readObject();
+		        System.out.println("size: " + plants2.size());
 		        ois.close();
 			} catch (FileNotFoundException e) {
 	        	System.out.println("File not found");
@@ -154,7 +155,7 @@ public class EditGardenController {
 			this.view=view;
 			this.gardenView = gardenView;
 	
-			for (PlantModel plant : plants2) {
+			for (PlantInfoModel plant : plants2) {
 				ArrayList<String> string_info = new ArrayList<String>();
 				string_info.add(plant.getSciName());
 				string_info.add(plant.getName());
@@ -174,9 +175,7 @@ public class EditGardenController {
 		}
 	}
 	
-	
-	// Screen control
-	
+		
 	/**
 	 * Handler for clicking back button. Returns user to previous screen: Select Plants.
 	 * @param event 	The ActionEvent caused by clicking the back button.

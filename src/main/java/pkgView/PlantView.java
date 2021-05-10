@@ -25,7 +25,7 @@ public class PlantView extends ImageView{
 	 */
 	public PlantView(Image plantImage, int spread) {
 		this.plantImage = plantImage;
-		//this.setImage(plantImage);
+		this.setImage(plantImage);
 		this.spread = spread;
 	}
 	

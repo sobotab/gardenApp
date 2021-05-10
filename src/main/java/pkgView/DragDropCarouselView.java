@@ -130,8 +130,6 @@ public class DragDropCarouselView extends CarouselView {
 			if (plants.indexOf(plant) < maxViewSize) {
 				this.getChildren().add( plant );
 			}
-			System.out.println("index: " + plants.indexOf(plant) + "total : " + plants.size());
-
 			
 			if (plants.size() >= maxViewSize) {
 				if (plants.indexOf(plant) == 0 || plants.indexOf(plant) == maxViewSize - 1) {
@@ -147,6 +145,8 @@ public class DragDropCarouselView extends CarouselView {
 			}	
 		}		
 		this.getChildren().add(right);
+		System.out.println(this.getChildren().size());
+		System.out.println(this.plants.size());
 	}	
 	
 	/**

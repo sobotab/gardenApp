@@ -74,6 +74,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		this.numLeps = 0;
 		this.carousel = carouselModel;
 		carousel.fillCarousel(plantInput);
+		System.out.println("carousel size post filling: " + carousel.getPlants().size());
 		this.plants = new ArrayList<PlantObjectModel>();
 		this.scale_factor = scale_factor;
 	}

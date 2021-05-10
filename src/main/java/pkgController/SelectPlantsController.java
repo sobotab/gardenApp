@@ -153,10 +153,25 @@ public class SelectPlantsController {
 		VBox img = (VBox)event.getSource();
 		spv.deSelectPlant(img);
 		Text text = (Text)img.getChildren().get(0);
-		String name = text.getText();
-		PlantInfoModel plant = (PlantInfoModel)carouselModel.getSelectedPlants().remove(name);
-		carouselModel.getFilteredPlants().add(plant);
-		carouselView.getFilteredImages().add(img);
+		String[] plantNames = text.getText().split("\n");
+		String name = plantNames[0];
+		PlantInfoModel plant = (PlantInfoModel)carouselModel.getSelectedPlants().get(name);
+		carouselModel.getSelectedPlants().remove(name);
+		ArrayList<PlantModel> filteredPlants = (ArrayList<PlantModel>)carouselModel.getFilteredPlants();
+		Iterator<PlantModel> it = filteredPlants.iterator();
+		int index = 0;
+		boolean found = false;
+		while(it.hasNext() && !found) {
+			PlantModel currentPlant = it.next();
+			if(plant.getNumLeps() < currentPlant.getNumLeps()) {
+				index++;
+			}
+			else {
+				found = true;
+			}
+		}
+		carouselModel.getFilteredPlants().add(index, plant);
+		carouselView.getFilteredImages().add(index, img);
 		carouselView.update();
 	}
 	

@@ -29,19 +29,19 @@ public class PlantGardenModelTest {
 	
 	@Test
 	public void testAddPlant() {
-		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "", 15, 20, 150, 200, 100, 200);
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "", 15, 20, null, 150, 200, 100, 200);
 		plantGarden.addPlant(plant);
 		assertEquals(true, plantGarden.plants.contains(plant));
 	}
 	
 	@Test
 	public void testCheckSpread() {
-		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, 150, 200, 100, 200);
+		PlantObjectModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, null, 150, 200, 100, 200);
 		plantGarden.addPlant(plant);
-		PlantObjectModel plant2 = new PlantObjectModel("","",15,"full sun", "wet", "clay", 15, 20, 150, 200, 100, 200);
+		PlantObjectModel plant2 = new PlantObjectModel("","",15,"full sun", "wet", "clay", 15, 20, null, 150, 200, 100, 200);
 		plantGarden.addPlant(plant2);
 		assertFalse(plantGarden.checkSpread(0));
-		PlantObjectModel plant3 = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, 150, 200, 100, 200);
+		PlantObjectModel plant3 = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, null, 150, 200, 100, 200);
 		plantGarden.addPlant(plant3);
 		assertTrue(plantGarden.checkSpread(2));
 	}
@@ -54,7 +54,7 @@ public class PlantGardenModelTest {
 	
 	@Test
 	public void testCompost() {
-		PlantObjectModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, 150, 200, 100, 200);
+		PlantObjectModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, null, 150, 200, 100, 200);
 		plantGarden.compost(plant);
 		assertEquals(true,plantGarden.compost.contains(plant));
 	}
@@ -72,7 +72,7 @@ public class PlantGardenModelTest {
 	@Test
 	public void testSetPlants() {
 		List<PlantObjectModel> plants = new ArrayList<>();
-		PlantObjectModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, 150, 200, 100, 200);
+		PlantObjectModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, null, 150, 200, 100, 200);
 		plants.add(plant);
 		plantGarden.setPlants(plants);
 		assertEquals(true, plantGarden.plants.contains(plant));
@@ -86,7 +86,7 @@ public class PlantGardenModelTest {
 	@Test
 	public void testSetCompost() {
 		List<PlantObjectModel> compost = new ArrayList<>();
-		PlantObjectModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, 150, 200, 100, 200);
+		PlantObjectModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, null, 150, 200, 100, 200);
 		compost.add(plant);
 		plantGarden.setCompost(compost);
 		assertEquals(true, plantGarden.compost.contains(plant));
@@ -127,7 +127,7 @@ public class PlantGardenModelTest {
 	
 	@Test
 	public void testSetPlantLocation() {
-		PlantObjectModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, 150, 200, 100, 200);
+		PlantObjectModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, null, 150, 200, 100, 200);
 		plantGarden.addPlant(plant);
 		int initialX = (int)plantGarden.plants.get(0).x;
 		plantGarden.setPlantLocation(0, 20, 25);
@@ -137,7 +137,7 @@ public class PlantGardenModelTest {
 	
 	@Test
 	public void testDragPlant() {
-		PlantObjectModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, 150, 200, 100, 200);
+		PlantObjectModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, null, 150, 200, 100, 200);
 		plantGarden.addPlant(plant);
 		int initialX = (int)plantGarden.plants.get(0).x;
 		plantGarden.dragPlant(0, 10, 10, 500, 500);
@@ -162,7 +162,7 @@ public class PlantGardenModelTest {
 	@Test
 	public void testAddPlantFromCarousel() {
 		int initialSize = plantGarden.getPlants().size();
-		PlantModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, 150, 200, 100, 200);
+		PlantModel plant = new PlantObjectModel("","",15,"full sun", "wet", "clay", 150, 200, null, 150, 200, 100, 200);
 		List<PlantModel> plants = new ArrayList<PlantModel>();
 		plants.add(plant);
 		plantGarden.setCarousel(new ObjectCarouselModel(plants, 0));
@@ -217,9 +217,9 @@ public class PlantGardenModelTest {
 		plantGarden.plots.put(Soil.SANDY, stack2);
 		plantGarden.plots.put(Soil.LOAMY, stack3);
 		
-		PlantObjectModel plant = new PlantObjectModel("","",0,"","","clay",3,3,3,3,3,3);
-		PlantObjectModel plant2 = new PlantObjectModel("","",0,"","","sandy",0,0,0,0,0,0);
-		PlantObjectModel plant3 = new PlantObjectModel("","",0,"","","loamy",0,0,0,0,0,0);
+		PlantObjectModel plant = new PlantObjectModel("","",0,"","","clay",3,3,null, 3,3,3,3);
+		PlantObjectModel plant2 = new PlantObjectModel("","",0,"","","sandy",0,0,null, 0,0,0,0);
+		PlantObjectModel plant3 = new PlantObjectModel("","",0,"","","loamy",0,0,null, 0,0,0,0);
 		plantGarden.plants.add(plant);
 		plantGarden.plants.add(plant2);
 		plantGarden.plants.add(plant3);

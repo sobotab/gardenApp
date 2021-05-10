@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -17,14 +15,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import pkgController.DrawGardenController;
@@ -90,6 +85,9 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * Current fill color based on the soil
 	 */
+	Label sunLabel, moistureLabel, budgetLabel;
+	HBox budgetBox, scaleButtonBox;
+	VBox sideTool;
 	Color color;
 	/**
 	 * line width in pixels for drawing on the screen
@@ -122,10 +120,7 @@ public class DrawGardenView extends BorderPane {
 		
 		//Garden Drawing Tool
 		canvas = new ResizableCanvas();
-		Canvas deleteCanvas = new Canvas();
-		deleteCanvas.widthProperty().addListener(event -> resize());
 		canvas.heightProperty().addListener(event -> resize());
-		//canvas.widthProperty().addListener(event->resize());
 		gc = canvas.getGraphicsContext2D();
 		rows = 15;
 		columns = 15;
@@ -139,19 +134,14 @@ public class DrawGardenView extends BorderPane {
 		canvas.setOnMouseDragged(event -> mouseDragged((MouseEvent) event));
 		canvas.setOnMouseReleased(event -> mouseReleased((MouseEvent) event));
 		
-		//Making sidetool		
-		drawButton = new ToggleButton("Draw");
-		//polyButton = new ToggleButton("Polygon");
-		ToggleGroup tg = new ToggleGroup();
-		tg.getToggles().addAll(drawButton);//, polyButton);
-		
+		//Making sidetool
 		soilComboBox= new ComboBox<>();
 		soilComboBox.setPromptText("Choose Soil");
 		soilComboBox.getItems().add(Soil.CLAY);
 		soilComboBox.getItems().add(Soil.SANDY);
 		soilComboBox.getItems().add(Soil.LOAMY);
 		
-		Label sunLabel = new Label("Sun");
+		sunLabel = new Label("Sun");
 		
 		sun = new Slider();
 		sun.setMin(0);
@@ -186,7 +176,7 @@ public class DrawGardenView extends BorderPane {
             }
         });
 		
-		Label moistureLabel = new Label("Moisture");
+		moistureLabel = new Label("Moisture");
 		
 		moisture = new Slider();
 		moisture.setMin(0);
@@ -224,10 +214,10 @@ public class DrawGardenView extends BorderPane {
             }
         });
 		
-		Label budgetLabel = new Label("$");
+		budgetLabel = new Label("$");
 		budget = new TextField();
 		budget.setPromptText("Budget");
-		HBox budgetBox = new HBox();
+		budgetBox = new HBox();
 		budgetBox.getChildren().addAll(budgetLabel, budget);
 		
 		undoButton = new Button("Undo");
@@ -237,15 +227,12 @@ public class DrawGardenView extends BorderPane {
 		incButton.setOnAction(event -> incButtonPressed(event));
 		decButton = new Button("-");
 		decButton.setOnAction(event -> decButtonPressed(event));
-		HBox scaleButtonBox = new HBox();
+		scaleButtonBox = new HBox();
 		scaleButtonBox.getChildren().addAll(incButton, decButton);
 		
 		//Adding to borderpane 
-		HBox toolBox = new HBox();
-		toolBox.getChildren().addAll(drawButton);//, polyButton);
-		
-		VBox sideTool = new VBox();
-		sideTool.getChildren().addAll(toolBox, soilComboBox, sunLabel, sun,
+		sideTool = new VBox();
+		sideTool.getChildren().addAll(soilComboBox, sunLabel, sun,
 				moistureLabel, moisture, budgetBox, undoButton, scaleButtonBox);
 		
 		this.setTop(title);
@@ -261,7 +248,7 @@ public class DrawGardenView extends BorderPane {
 	public void mousePressed(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
 		gc.setLineWidth(2d);
-		if (drawButton.isSelected()) {
+		if (soilComboBox.getValue() != null) {
 			setColor();
 			drawing = true;
 			dgc.draw();
@@ -270,7 +257,7 @@ public class DrawGardenView extends BorderPane {
 			gc.beginPath();
 			gc.moveTo(e.getX(),e.getY());
 		} else {
-			errorPopup("Choose a drawing tool");
+			errorPopup("Choose a soil before drawing");
 		}
 	}
 	
@@ -281,7 +268,7 @@ public class DrawGardenView extends BorderPane {
 	 */
 	public void mouseDragged(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
-		if(drawButton.isSelected() && drawing) {
+		if(drawing) {
 			dgc.draw();
 			gc.lineTo(e.getX(),e.getY());
 			gc.stroke();
@@ -294,7 +281,7 @@ public class DrawGardenView extends BorderPane {
 	 * @param e
 	 */
 	public void mouseReleased(MouseEvent e) {
-		if (drawButton.isSelected() && drawing) {
+		if (drawing) {
 			drawing = false;
 			Point2D.Double point = dgc.draw();
 			gc.lineTo(point.getX(), point.getY());
@@ -324,19 +311,15 @@ public class DrawGardenView extends BorderPane {
 	 * Error handling for if there is no soil chosen.
 	 */
 	public void setColor() {
-		try {
-			switch (soilComboBox.getValue()) {
-				case CLAY:
-					color = Color.RED; break;
-				case SANDY:
-					color = Color.CORNSILK; break;
-				case LOAMY:
-					color = Color.BROWN; break;
-				default:
-					color = Color.BLACK; break;
-			}
-		} catch (NullPointerException e) {
-			errorPopup("Choose a soil before drawing!");
+		switch (soilComboBox.getValue()) {
+			case CLAY:
+				color = Color.RED; break;
+			case SANDY:
+				color = Color.CORNSILK; break;
+			case LOAMY:
+				color = Color.BROWN; break;
+			default:
+				color = Color.BLACK; break;
 		}
 	}
 	
@@ -624,5 +607,10 @@ public class DrawGardenView extends BorderPane {
 	
 	public double getMinLength() {
 		return this.minLength;
+	}
+	
+	public void makePretty() {
+		Insets inset = new Insets(10, 10, 10, 10);
+		sideTool.setPadding(inset);
 	}
 }

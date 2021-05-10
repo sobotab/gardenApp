@@ -17,7 +17,7 @@ public class DrawGardenModel extends GardenModel {
 	Moisture moisture;
 	Sun sun;
 	int budget;
-	double height, width, rows, columns;
+	double canvasLength, gridSize, canvasHeight, canvasWidth, rows, columns;
 	
 	Point2D.Double endPoint;
 	boolean set;
@@ -31,8 +31,6 @@ public class DrawGardenModel extends GardenModel {
 		preOutline = new ArrayList<>();
 		set = true;
 		undoStack = new Stack<>();
-		rows = 15.0;
-		columns =15.0;
 	}
 
 
@@ -50,13 +48,13 @@ public class DrawGardenModel extends GardenModel {
 	
 	public Point2D.Double scalePoint(Point2D.Double point) {
 		Point2D.Double scaledPoint = new Point2D.Double();
-		scaledPoint.setLocation(point.getX()/width, point.getY()/height);
+		scaledPoint.setLocation(point.getX()/canvasLength, point.getY()/canvasLength);
 		return scaledPoint;
 	}
 	
 	public void unScalePoint(Point2D.Double point) {
 		Point2D.Double scaledPoint = new Point2D.Double();
-		scaledPoint.setLocation(point.getX()*width, point.getY()*height);
+		scaledPoint.setLocation(point.getX()*canvasLength, point.getY()*canvasLength);
 		point.setLocation(scaledPoint.getX(), scaledPoint.getY());
 	}
 	
@@ -125,12 +123,8 @@ public class DrawGardenModel extends GardenModel {
 		}
 	}
 	
-	public void setWidth(double width) {
-		this.width = width;
-	}
-	
-	public void setHeight(double height) {
-		this.height = height;
+	public void setCanvasLength(double length) {
+		this.canvasLength = length;
 	}
 	
 	public void setMoisture(Moisture moisture) {
@@ -161,21 +155,57 @@ public class DrawGardenModel extends GardenModel {
 		this.scale = scale;
 	}
 	
+	public void setGridSize(double grid) {
+		this.gridSize = grid;
+	}
+	
+	public double getGridSize() {
+		return gridSize;
+	}
+	
+	public double getCanvasHeight() {
+		return canvasHeight;
+	}
+
+	public void setCanvasHeight(double canvasHeight) {
+		this.canvasHeight = canvasHeight;
+	}
+
+	public double getCanvasWidth() {
+		return canvasWidth;
+	}
+
+	public void setCanvasWidth(double canvasWidth) {
+		this.canvasWidth = canvasWidth;
+	}
+
 	public double getRows() {
 		return rows;
 	}
-	
+
+	public void setRows(double rows) {
+		this.rows = rows;
+	}
+
 	public double getColumns() {
 		return columns;
 	}
-	
-	public boolean scale(double xScale, double yScale) {
+
+	public void setColumns(double columns) {
+		this.columns = columns;
+	}
+
+	public double getCanvasLength() {
+		return canvasLength;
+	}
+
+	public boolean scale(double minGrid) {
 		boolean outOfBounds = false;
 		for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
 			for (ArrayList<Point2D.Double> plot: soil) {
 				for (Point2D.Double point: plot) {
-					double x = point.getX()/(xScale/this.rows);
-					double y = point.getY()/(yScale/this.columns);
+					double x = point.getX()/(minGrid/gridSize);
+					double y = point.getY()/(minGrid/gridSize);
 					point.setLocation(x, y);
 					if (x > 1.0 || y > 1.0) {
 						outOfBounds = true;
@@ -183,8 +213,7 @@ public class DrawGardenModel extends GardenModel {
 				}
 			}
 		}
-		this.rows=xScale;
-		this.columns=yScale;
+		gridSize = minGrid;
 		return outOfBounds;
 	}
 	
@@ -211,9 +240,9 @@ public class DrawGardenModel extends GardenModel {
 					}
 				}
 			}
-			while(scale(rows+1.0, columns+1.0)) {}
-			while(!scale(rows-1.0, columns-1.0)) {}
-			scale(rows+1.0, columns+1.0);
+			while(scale(gridSize+1.0)) {}
+			while(!scale(gridSize-1.0)) {}
+			scale(gridSize+1.0);
 		}
 	}
 

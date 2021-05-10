@@ -5,9 +5,13 @@
  * @author - Rakesh Gadde
  */
 package pkgController;
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
@@ -40,8 +44,9 @@ public class Controller extends Application {
 	
 	Model model;
 	View view;
-	List<VBox> images;
+	List<VBox> plantImages;
 	List<PlantModel> plants;
+	HashMap<String,ImageView> lepImages;
 	
 	public Controller() {
 		//May or may not make view first and use it here. 
@@ -56,7 +61,8 @@ public class Controller extends Application {
         view = new View(theStage, this);
 		model = new Model();
 		makePlantsFromData();
-		images = loadImagesFromList();
+		plantImages = loadPlantImagesFromList();
+		lepImages = loadLepImages();
         new AnimationTimer() {
             public void handle(long currentNanoTime)
             {
@@ -74,7 +80,7 @@ public class Controller extends Application {
 		plants = model.makePlants();
 	}
 	
-	public List<VBox> loadImagesFromList(){
+	public List<VBox> loadPlantImagesFromList(){
 		List<PlantModel> plants = this.plants;
 		List<VBox> images = new ArrayList<>();
 		for(PlantModel plant: plants) {
@@ -82,20 +88,52 @@ public class Controller extends Application {
 			String sciName = infoPlant.getSciName();
 			Image image = new Image(getClass().getResourceAsStream("/images/" + sciName + ".jpg"));
 			ImageView img = new ImageView(image);
-			Circle frame = new Circle(75.0,75.0,75.0);
+			double circleX = 75.0,circleY = 75.0,circleRadius = 75.0;
+			Circle frame = new Circle(circleX,circleY,circleRadius);
 			img.setClip(frame);
 			Text label = new Text(infoPlant.getName() + "\n" + infoPlant.getSciName());
 			label.setTextAlignment(TextAlignment.CENTER);
 			Text leps = new Text("Leps supported: " + infoPlant.getNumLeps());
-			Text price = new Text("Price: $" + infoPlant.getDollars());
+			int dollars = infoPlant.getDollars();
+			Text price = new Text("Price: $" + dollars);
+			Text type = new Text();
+			if(dollars == 6) {
+				type.setText("Type: Herbaceous");
+			}
+			else {
+				type.setText("Type: Woody");
+			}
 			VBox box = new VBox();
 			box.setAlignment(Pos.CENTER);
-			box.getChildren().addAll(label, img, leps, price);
+			box.getChildren().addAll(label, img, leps, price, type);
 			images.add(box);
 			view.setHoverHandlers(box);
 		}
 		return images;
 	}
+	
+	public HashMap<String, ImageView> loadLepImages(){
+		HashMap<String, ImageView> leps = new HashMap<String, ImageView>();
+		for(PlantModel plant: plants) {
+			List<String> lepNames = plant.getLeps();
+			if(plant.getSciName().startsWith("Quercus") || plant.getSciName().startsWith("Agalinis")) {
+				for(String sciName: lepNames) {
+					if(!leps.containsKey(sciName)) {
+						String fileName = "/images/" + sciName + ".jpg";
+						Image image = new Image(getClass().getResourceAsStream(fileName));
+						ImageView imv = new ImageView(image);
+						double circleX = 240.0,circleY = 240.0,circleRadius = 240.0;
+						Circle frame = new Circle(circleX,circleY,circleRadius);
+						imv.setClip(frame);
+						leps.put(sciName, imv);
+					}
+				}
+			}
+		}
+		return leps;
+	}
+	
+	
 
 
 	
@@ -119,12 +157,12 @@ public class Controller extends Application {
 	
 	void update() {}
 
-	public List<VBox> getImages() {
-		return images;
+	public List<VBox> getPlantImages() {
+		return plantImages;
 	}
 
-	public void setImages(List<VBox> images) {
-		this.images = images;
+	public void setPlantImages(List<VBox> images) {
+		this.plantImages = images;
 	}
 
 	public List<PlantModel> getPlants() {

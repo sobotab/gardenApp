@@ -259,6 +259,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	 * @param canvas_height 	Integer representing the view's canvas's height.
 	 */
 	public void adaptPlots(int canvas_width, int canvas_height) {
+		
 		double max_x = 0;
 		double max_y = 0;
 		for (Stack<ArrayList<Point2D.Double>> soil_type : plots.values()) {
@@ -269,16 +270,29 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 				}
 			}
 		}
-		double shrink_factor_x = canvas_width / max_x;
-		double shrink_factor_y = canvas_height / max_y;
+		double shrink_factor = 1.0;
+		if ((max_x - canvas_width) > (max_y - canvas_height)) {
+			shrink_factor = canvas_width / max_x;
+		}
+		else {
+			shrink_factor = canvas_height / max_y;
+		}
 		for (Stack<ArrayList<Point2D.Double>> soil_type : plots.values()) {
 			for (ArrayList<Point2D.Double> plot : soil_type) {
 				for (Point2D.Double point : plot) {
-					point.x = point.x * shrink_factor_x;
-					point.y = point.y * shrink_factor_y;
+					point.x = point.x * shrink_factor;
+					point.y = point.y * shrink_factor;
 				}
 			}
 		}
+		System.out.println("maxx" + max_x);
+		System.out.println("maxy" + max_y);
+		System.out.println("canvasx" + canvas_width);
+		System.out.println("canvasy" + canvas_height);
+
+		System.out.println("shrink" + shrink_factor);
+		this.setScaleFactor(shrink_factor * scale_factor);
+		
 	}
 	
 	

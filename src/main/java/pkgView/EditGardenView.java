@@ -63,7 +63,7 @@ public class EditGardenView extends BorderPane{
 	/**
 	 * Constant for width of canvas that holds drawn garden.
 	 */
-	public final int CANVASWIDTH = 800;
+	public final int CANVASWIDTH = 1000;
 	/**
 	 * Constant representing the "default scale," or how big the garden is 
 	 * assumed to be (500 ft across) if no scaling changes were made in Draw Garden.
@@ -262,6 +262,8 @@ public class EditGardenView extends BorderPane{
 		garden.getChildren().add(canvas);
 		canvas.setViewOrder(2);
 		garden.setAlignment(canvas, Pos.CENTER);	
+		//garden.setMaxSize(CANVASWIDTH + 350, CANVASHEIGHT + 10);
+		//garden.setClip(new Rectangle(CANVASWIDTH + 350, CANVASHEIGHT + 10));
 		    	
 		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost-icon.png")), 0);
     	compost.setPreserveRatio(true);
@@ -479,7 +481,7 @@ public class EditGardenView extends BorderPane{
 	public void drawSpread(int index, double x, double y) {
 		PlantView plant = plants.get(index);
 		if (plantSpreads.size() == index) {
-			if (computeScaleSize(plant) <= 10) {
+			if (computeScaleSize(plant) <= 20) {
 				Rectangle spread = new Rectangle(
 						plant.getFitHeight(), 
 						plant.getFitHeight());
@@ -502,7 +504,7 @@ public class EditGardenView extends BorderPane{
 		        garden.setAlignment(spread, Pos.TOP_LEFT);
 			}    
 		}
-		if (computeScaleSize(plant) <= 10) {
+		if (computeScaleSize(plant) <= 20) {
 			Rectangle spread = (Rectangle)plantSpreads.get(index);
 			spread.setX(x);
 			spread.setY(y);

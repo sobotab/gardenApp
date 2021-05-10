@@ -38,7 +38,7 @@ public class DrawGardenController {
 		
 		// Send plots info
 		finish();
-		dgm.finish();
+		//dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
 		if(dgv.getBudget() >= 0) {

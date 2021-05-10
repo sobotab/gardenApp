@@ -22,12 +22,17 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import javafx.util.Pair;
 import pkgModel.DrawGardenModel;
 import pkgModel.Model;
@@ -148,9 +153,8 @@ public class EditGardenController {
 	        } catch (ClassNotFoundException e) {
 	        	e.printStackTrace();
 	        }
-			
 			double scale_factor = gardenView.DEFAULTSCALE / max_dimension;
-		
+					
 			// Initialize & Add plants to view
 			this.view=view;
 			this.gardenView = gardenView;
@@ -169,9 +173,11 @@ public class EditGardenController {
 			this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots, budget, scale_factor);		
 			gardenModel.adaptPlots(gardenView.CANVASWIDTH - 10, gardenView.CANVASHEIGHT - 10);
 			
+			System.out.println(scale_factor);
+			System.out.println(gardenModel.getScaleFactor());
 			gardenView.setBudget(budget);
 			gardenView.makeCanvas(plots);
-			gardenView.setScaleFactor(scale_factor);
+			gardenView.setScaleFactor(gardenModel.getScaleFactor());
 		}
 	}
 	
@@ -317,26 +323,26 @@ public class EditGardenController {
 		Node n = (Node)event.getSource();
 		
 		int index = gardenView.getPlants().indexOf(n);
-
-		System.out.println("plant in model: " + gardenModel.getPlants().get(index).getName());
-		gardenModel.dragPlant(index, event.getX(), event.getY(),
-				gardenView.getGarden().getWidth() - gardenView.getPlants().get(index).getFitHeight(), 
-				gardenView.getGarden().getHeight() - gardenView.getPlants().get(index).getFitHeight());
-		
-		double x_loc = gardenModel.getPlants().get(index).getX();
-		double y_loc = gardenModel.getPlants().get(index).getY();
-		gardenView.setX( index, x_loc );
-		gardenView.setY( index, y_loc );
-				
-		gardenView.drawSpread(index, x_loc, y_loc);
-				
-		for (PlantView plant : gardenView.getPlants()) {
-			int spreadIndex = gardenView.getPlants().indexOf(plant);
-			gardenView.updateSpread(
-					spreadIndex, 
-					gardenModel.checkCanvas(spreadIndex, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutY()),
-					gardenModel.checkSpread(spreadIndex)
-					);
+		if (index > -1) {
+			gardenModel.dragPlant(index, event.getX(), event.getY(),
+					gardenView.getGarden().getWidth() - gardenView.getPlants().get(index).getFitHeight(), 
+					gardenView.getGarden().getHeight() - gardenView.getPlants().get(index).getFitHeight());
+			
+			double x_loc = gardenModel.getPlants().get(index).getX();
+			double y_loc = gardenModel.getPlants().get(index).getY();
+			gardenView.setX( index, x_loc );
+			gardenView.setY( index, y_loc );
+					
+			gardenView.drawSpread(index, x_loc, y_loc);
+					
+			for (PlantView plant : gardenView.getPlants()) {
+				int spreadIndex = gardenView.getPlants().indexOf(plant);
+				gardenView.updateSpread(
+						spreadIndex, 
+						gardenModel.checkCanvas(spreadIndex, gardenView.getCanvas().getLayoutX(), gardenView.getCanvas().getLayoutY()),
+						gardenModel.checkSpread(spreadIndex)
+						);
+			}
 		}
 		return;
 	}
@@ -352,6 +358,19 @@ public class EditGardenController {
 		if (gardenView.getPlantCarousel().getChildren().contains(n)) {
 			
 			int indexCarousel = gardenView.getPlantCarousel().getPlants().indexOf(n);
+			
+			PlantView testPlant = gardenView.getPlantCarousel().getPlants().get(indexCarousel);
+			if (gardenView.computeScaleSize(testPlant) >= gardenView.CANVASHEIGHT/2) {
+				Stage errorPopup = new Stage();
+				errorPopup.setTitle("Oops!");
+				Label errorLabel = new Label("This plant is too big for your garden.\n"
+						+ "Try returning to Draw Garden and changing your scale!");
+				errorLabel.setFont(Font.font("Roboto", FontWeight.BOLD, 20));
+				Scene scene = new Scene(errorLabel);
+				errorPopup.setScene(scene);
+				errorPopup.show();
+				return;
+			}
 			
 			gardenModel.getCarousel().replacePlant(indexCarousel);
 			gardenModel.addPlantFromCarousel(indexCarousel, 0, 0);	

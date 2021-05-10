@@ -83,9 +83,6 @@ public class Controller extends Application {
 			Image image = new Image(getClass().getResourceAsStream("/images/" + sciName + ".jpg"));
 			ImageView img = new ImageView(image);
 			Circle frame = new Circle(75.0,75.0,75.0);
-			//Rectangle frame = new Rectangle(150, 150);
-			//frame.setArcWidth(20);
-			//frame.setArcHeight(20);
 			img.setClip(frame);
 			Text label = new Text(infoPlant.getName() + "\n" + infoPlant.getSciName());
 			label.setTextAlignment(TextAlignment.CENTER);

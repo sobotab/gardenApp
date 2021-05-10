@@ -3,11 +3,23 @@ package pkgView;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.transform.Rotate;
 import pkgController.SelectCarouselController;
 /**
@@ -56,10 +68,14 @@ public class SelectCarouselView extends CarouselView{
 		left.setOnAction(scc.getHandlerForClickedLeft());
 		right.setOnAction(scc.getHandlerForClickedRight());
 		
+
+		
 		this.getChildren().add(left);
 		this.getChildren().add(right);
 		this.filter(sun, moisture, soil);
 		this.setAlignment(Pos.CENTER);
+		
+
 		
 	}
 	

@@ -57,7 +57,7 @@ public abstract class CarouselController {
 		this.view = view;
 		this.carouselView = carouselView;
 		model = new Model();
-		carouselModel = new CarouselModel(view.getController().getPlants(), 2);
+		carouselModel = new CarouselModel(view.getController().getPlants(), 1);
 	}
 	
 	/**

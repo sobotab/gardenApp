@@ -25,6 +25,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.stage.Modality;
 import javafx.stage.Popup;
@@ -92,6 +93,9 @@ public class InfoView extends BorderPane {
 		soil.setItems(FXCollections.observableArrayList("","clay","sandy","loamy"));
 		soil.setPrefWidth(FILTER_WIDTH);
 		
+		Text num_plants = new Text("Plants shown: 80");
+		num_plants.setFont(Font.font("cambria"));
+		
 		
 		Button filter = new Button("FILTER");
 		filter.setPrefSize(FILTER_WIDTH, 50);
@@ -104,12 +108,12 @@ public class InfoView extends BorderPane {
 				String soilType = soil.getValue();
 				String plantType = type.getValue();
 				infoCarousel.filter(sunLevel, moistureLevel, soilType, plantType);
-				
+				num_plants.setText("Plants shown: " + infoCarousel.getFilteredImages().size());
 			}
 		});
 		
 		VBox vbox = new VBox();
-		vbox.getChildren().addAll(type, moisture, soil, sun, filter);
+		vbox.getChildren().addAll(type, moisture, soil, sun, filter, num_plants);
      	
 		
 		this.setRight(vbox);

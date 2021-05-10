@@ -32,7 +32,7 @@ public class InfoCarouselController extends CarouselController {
 		/**
 		 * The scaling for the image that is focused on by the carousel
 		 */
-		private final double CENTER_IMAGE_SCALING = 1.3;
+		private final double CENTER_IMAGE_SCALING = 2.0;
 
 		/**
 		 * Constructor just initializes the view and carouselView fields

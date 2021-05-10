@@ -2,12 +2,24 @@ package pkgView;
 
 import java.util.List;
 
+import javafx.event.EventHandler;
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import pkgController.Controller;
@@ -89,6 +101,28 @@ public class View {
 
 	public void setController(Controller controller) {
 		this.controller = controller;
+	}
+	
+	public void setHoverHandlers(VBox box) {
+		BorderWidths bw = new BorderWidths(3,3,3,3);
+		BorderStroke bs = new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, new CornerRadii(10), bw, Insets.EMPTY);
+		Border border = new Border(bs);
+		
+		BackgroundFill bf = new BackgroundFill(Color.YELLOW, new CornerRadii(10), Insets.EMPTY);
+		Background imageBackground = new Background(bf);
+		box.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent e) {
+				box.setBorder(border);
+				box.setBackground(imageBackground);
+			}
+		});
+		
+		box.setOnMouseExited(new EventHandler<MouseEvent>() {
+			public void handle(MouseEvent e) {
+				box.setBorder(Border.EMPTY);
+				box.setBackground(Background.EMPTY);
+			}
+		});
 	}
 	
 }

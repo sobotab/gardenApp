@@ -12,12 +12,24 @@ import java.util.Set;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import pkgModel.Model;
 import pkgModel.PlantInfoModel;
@@ -70,19 +82,22 @@ public class Controller extends Application {
 			String sciName = infoPlant.getSciName();
 			Image image = new Image(getClass().getResourceAsStream("/images/" + sciName + ".jpg"));
 			ImageView img = new ImageView(image);
-			Rectangle frame = new Rectangle(150, 150);
-			frame.setArcWidth(20);
-			frame.setArcHeight(20);
+			Circle frame = new Circle(75.0,75.0,75.0);
 			img.setClip(frame);
-			Text label = new Text(infoPlant.getName());
+			Text label = new Text(infoPlant.getName() + "\n" + infoPlant.getSciName());
+			label.setTextAlignment(TextAlignment.CENTER);
 			Text leps = new Text("Leps supported: " + infoPlant.getNumLeps());
 			Text price = new Text("Price: $" + infoPlant.getDollars());
 			VBox box = new VBox();
+			box.setAlignment(Pos.CENTER);
 			box.getChildren().addAll(label, img, leps, price);
 			images.add(box);
+			view.setHoverHandlers(box);
 		}
 		return images;
 	}
+
+
 	
 	public EventHandler getHandlerForDrag() {
 		return event -> drag((MouseEvent) event);

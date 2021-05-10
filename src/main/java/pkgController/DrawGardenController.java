@@ -37,6 +37,7 @@ public class DrawGardenController {
 	public void clickedNext(ActionEvent event) {
 		
 		// Send plots info
+		finish();
 		dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
@@ -79,8 +80,8 @@ public class DrawGardenController {
 	}
 	
 	public Point2D.Double draw() {
-		dgm.setHeight(dgv.getCanvasHeight());
-		dgm.setWidth(dgv.getCanvasWidth());
+		dgm.setGridSize(dgv.getMinGrid());
+		dgm.setCanvasLength(dgv.getMinLength());
 		dgm.addPreOutline(dgv.getCurrent());
 		dgm.addPlot(dgv.getDrawing(), dgv.getSoil());
 		return dgm.getEndPoint();
@@ -90,10 +91,16 @@ public class DrawGardenController {
 		return dgm.undo();
 	}
 	
-	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double xScale, double yScale) {
-		dgm.setHeight(dgv.getCanvasHeight());
-		dgm.setWidth(dgv.getCanvasWidth());
-		dgm.scale(xScale, yScale);
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double minGrid) {
+		dgm.setCanvasLength(dgv.getMinLength());
+		dgm.scale(dgv.getMinGrid());
 		return dgm.getPlots();
+	}
+	
+	public void finish() {
+		dgm.setCanvasHeight(dgv.getCanvasHeight());
+		dgm.setCanvasWidth(dgv.getCanvasWidth());
+		dgm.setRows(dgv.getRows());
+		dgm.setColumns(dgv.getColumns());
 	}
 }

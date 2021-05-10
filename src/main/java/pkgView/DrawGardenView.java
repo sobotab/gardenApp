@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -54,8 +56,7 @@ public class DrawGardenView extends BorderPane {
 	 * canvasWidth: width of the canvas
 	 * canvasHeight: height of the canvas
 	 */
-	double xScale, yScale, scale, rows, columns,
-		canvasWidth, canvasHeight;
+	double minLength, minGrid, rows, columns, canvasWidth, canvasHeight;
 	/**
 	 * Canvas that is resizable by changing the size of its parent
 	 */
@@ -121,10 +122,13 @@ public class DrawGardenView extends BorderPane {
 		
 		//Garden Drawing Tool
 		canvas = new ResizableCanvas();
+		Canvas deleteCanvas = new Canvas();
+		deleteCanvas.widthProperty().addListener(event -> resize());
 		canvas.heightProperty().addListener(event -> resize());
+		//canvas.widthProperty().addListener(event->resize());
 		gc = canvas.getGraphicsContext2D();
-		rows=15.0;
-		columns=15.0;
+		rows = 15;
+		columns = 15;
 		
 		buildGrid();
 		buildScaleText();
@@ -248,8 +252,6 @@ public class DrawGardenView extends BorderPane {
 		this.setLeft(sideTool);
 		this.setCenter(canvas);
 		this.setBottom(bottomHBox);
-		
-		resize();
 	}
 	
 	/**
@@ -344,6 +346,7 @@ public class DrawGardenView extends BorderPane {
 	 * @param plots
 	 */
 	public void undo(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+		resizeCanvas();
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();
@@ -459,12 +462,12 @@ public class DrawGardenView extends BorderPane {
 		gc.setStroke(Color.YELLOW);
 		gc.setFill(Color.LIGHTBLUE);
 		gc.fillRect(0f, 0f, canvasWidth, canvasHeight);
-		double tmpScale = scale / rows;
+		double tmpScale = (canvasHeight < canvasWidth) ? minLength/rows : minLength/columns;
 		for (double i=0.0; i<rows; i++) {
-			gc.strokeLine(0.0,i*tmpScale,canvasHeight,i*tmpScale);
+			gc.strokeLine(0.0,i*tmpScale,canvasWidth,i*tmpScale);
 		}
 		for (double i=0.0; i<columns; i++) {
-			gc.strokeLine(i*tmpScale,0.0,i*tmpScale,canvasWidth);
+			gc.strokeLine(i*tmpScale,0.0,i*tmpScale,canvasHeight);
 		}
 	}
 	
@@ -472,7 +475,7 @@ public class DrawGardenView extends BorderPane {
 	 * Builds the scale and its text in the appropriate spot on the canvas
 	 */
 	private void buildScaleText() {
-		double tmpScale = scale / rows;
+		double tmpScale = minLength / rows;
 		gc.setLineWidth(4);
 		gc.setStroke(color.BLACK);
 		gc.strokeLine(tmpScale, tmpScale, tmpScale*2.0, tmpScale);
@@ -543,13 +546,10 @@ public class DrawGardenView extends BorderPane {
 	 * @param change value to increase, decrease, or maintain the scale
 	 */
 	public void scale(double change) {
-		canvasHeight = canvas.getHeight();
-		canvasWidth = canvas.getWidth();
-		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
-		canvas.resize(scale, scale);
 		rows-=change;
 		columns-=change;
-		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(columns, rows);
+		resizeCanvas();
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(getMinGrid());
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();
@@ -560,21 +560,20 @@ public class DrawGardenView extends BorderPane {
 	 * changed
 	 */
 	public void resize() {
-		canvasHeight = canvas.getHeight();
-		canvasWidth = canvas.getWidth();
-		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
-		canvas.resize(scale, scale);
-		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(columns, rows);
+		resizeCanvas();
+		setMinGrid();
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(getMinGrid());
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();
+		System.out.println(plots);
 	}
 	
 	/**
 	 * @return the minimum of the canvasHeight and the canvasWidth
 	 */
 	public double getScale() {
-		return scale;
+		return minLength;
 	}
 	
 	/**
@@ -589,5 +588,41 @@ public class DrawGardenView extends BorderPane {
 	 */
 	public double getCanvasWidth() {
 		return this.canvasWidth;
+	}
+	
+	public void resizeCanvas() {
+		if (canvas.getHeight() < canvas.getWidth()) {
+			columns = (int)((rows/canvas.getHeight())*canvas.getWidth());
+			canvasWidth = (canvas.getHeight()/rows)*columns;
+			canvasHeight = canvas.getHeight();
+		} else {
+			rows = (int)((columns/canvas.getWidth())*canvas.getHeight());
+			canvasHeight = (canvas.getWidth()/columns)*rows;
+			canvasWidth = canvas.getWidth();
+		}
+		if (canvasHeight > 0 && canvasWidth > 0) {
+			canvas.resize(canvasWidth, canvasHeight);
+		}
+		minLength = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
+	}
+	
+	public double getRows() {
+		return rows;
+	}
+	
+	public double getColumns() {
+		return columns;
+	}
+	
+	public double getMinGrid() {
+		return rows < columns ? rows : columns;
+	}
+	
+	public void setMinGrid() {
+		minGrid = rows < columns ? rows : columns;
+	}
+	
+	public double getMinLength() {
+		return this.minLength;
 	}
 }

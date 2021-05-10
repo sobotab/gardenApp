@@ -56,8 +56,7 @@ public class DrawGardenView extends BorderPane {
 	 * canvasWidth: width of the canvas
 	 * canvasHeight: height of the canvas
 	 */
-	double xScale, yScale, scale, rows, columns,
-		canvasWidth, canvasHeight;
+	double minLength, minGrid, rows, columns, canvasWidth, canvasHeight;
 	/**
 	 * Canvas that is resizable by changing the size of its parent
 	 */
@@ -123,7 +122,10 @@ public class DrawGardenView extends BorderPane {
 		
 		//Garden Drawing Tool
 		canvas = new ResizableCanvas();
+		Canvas deleteCanvas = new Canvas();
+		deleteCanvas.widthProperty().addListener(event -> resize());
 		canvas.heightProperty().addListener(event -> resize());
+		//canvas.widthProperty().addListener(event->resize());
 		gc = canvas.getGraphicsContext2D();
 		rows = 15;
 		columns = 15;
@@ -460,7 +462,7 @@ public class DrawGardenView extends BorderPane {
 		gc.setStroke(Color.YELLOW);
 		gc.setFill(Color.LIGHTBLUE);
 		gc.fillRect(0f, 0f, canvasWidth, canvasHeight);
-		double tmpScale = (canvasHeight < canvasWidth) ? scale/rows : scale/columns;
+		double tmpScale = (canvasHeight < canvasWidth) ? minLength/rows : minLength/columns;
 		for (double i=0.0; i<rows; i++) {
 			gc.strokeLine(0.0,i*tmpScale,canvasWidth,i*tmpScale);
 		}
@@ -473,7 +475,7 @@ public class DrawGardenView extends BorderPane {
 	 * Builds the scale and its text in the appropriate spot on the canvas
 	 */
 	private void buildScaleText() {
-		double tmpScale = scale / rows;
+		double tmpScale = minLength / rows;
 		gc.setLineWidth(4);
 		gc.setStroke(color.BLACK);
 		gc.strokeLine(tmpScale, tmpScale, tmpScale*2.0, tmpScale);
@@ -547,7 +549,7 @@ public class DrawGardenView extends BorderPane {
 		rows-=change;
 		columns-=change;
 		resizeCanvas();
-		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(columns, rows);
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(getMinGrid());
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();
@@ -559,7 +561,8 @@ public class DrawGardenView extends BorderPane {
 	 */
 	public void resize() {
 		resizeCanvas();
-		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(columns, rows);
+		setMinGrid();
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(getMinGrid());
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();
@@ -570,7 +573,7 @@ public class DrawGardenView extends BorderPane {
 	 * @return the minimum of the canvasHeight and the canvasWidth
 	 */
 	public double getScale() {
-		return scale;
+		return minLength;
 	}
 	
 	/**
@@ -600,7 +603,7 @@ public class DrawGardenView extends BorderPane {
 		if (canvasHeight > 0 && canvasWidth > 0) {
 			canvas.resize(canvasWidth, canvasHeight);
 		}
-		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
+		minLength = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
 	}
 	
 	public double getRows() {
@@ -609,5 +612,17 @@ public class DrawGardenView extends BorderPane {
 	
 	public double getColumns() {
 		return columns;
+	}
+	
+	public double getMinGrid() {
+		return rows < columns ? rows : columns;
+	}
+	
+	public void setMinGrid() {
+		minGrid = rows < columns ? rows : columns;
+	}
+	
+	public double getMinLength() {
+		return this.minLength;
 	}
 }

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -123,6 +125,8 @@ public class DrawGardenView extends BorderPane {
 		canvas = new ResizableCanvas();
 		canvas.heightProperty().addListener(event -> resize());
 		gc = canvas.getGraphicsContext2D();
+		rows = 15;
+		columns = 15;
 		
 		buildGrid();
 		buildScaleText();
@@ -246,8 +250,6 @@ public class DrawGardenView extends BorderPane {
 		this.setLeft(sideTool);
 		this.setCenter(canvas);
 		this.setBottom(bottomHBox);
-		
-		resize();
 	}
 	
 	/**
@@ -458,12 +460,12 @@ public class DrawGardenView extends BorderPane {
 		gc.setStroke(Color.YELLOW);
 		gc.setFill(Color.LIGHTBLUE);
 		gc.fillRect(0f, 0f, canvasWidth, canvasHeight);
-		double tmpScale = scale / rows;
+		double tmpScale = (canvasHeight < canvasWidth) ? scale/rows : scale/columns;
 		for (double i=0.0; i<rows; i++) {
-			gc.strokeLine(0.0,i*tmpScale,canvasHeight,i*tmpScale);
+			gc.strokeLine(0.0,i*tmpScale,canvasWidth,i*tmpScale);
 		}
 		for (double i=0.0; i<columns; i++) {
-			gc.strokeLine(i*tmpScale,0.0,i*tmpScale,canvasWidth);
+			gc.strokeLine(i*tmpScale,0.0,i*tmpScale,canvasHeight);
 		}
 	}
 	
@@ -561,6 +563,7 @@ public class DrawGardenView extends BorderPane {
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();
+		System.out.println(plots);
 	}
 	
 	/**
@@ -585,20 +588,19 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public void resizeCanvas() {
-		System.out.println("CanvasHeight: " + Double.valueOf(canvasHeight).toString() + ", CanvasWidth: "+ Double.valueOf(canvasWidth).toString());
-		canvasHeight = canvas.getHeight();
-		canvasWidth = canvas.getWidth();
-		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
-		if (canvasHeight < canvasWidth) {
-			yScale = canvasHeight / rows;
-			columns = canvasWidth % yScale;
-			canvasWidth = yScale * columns;
+		if (canvas.getHeight() < canvas.getWidth()) {
+			columns = (int)((rows/canvas.getHeight())*canvas.getWidth());
+			canvasWidth = (canvas.getHeight()/rows)*columns;
+			canvasHeight = canvas.getHeight();
 		} else {
-			xScale = canvasWidth / columns;
-			rows = canvasHeight % xScale;
-			canvasHeight = xScale * rows;
+			rows = (int)((columns/canvas.getWidth())*canvas.getHeight());
+			canvasHeight = (canvas.getWidth()/columns)*rows;
+			canvasWidth = canvas.getWidth();
 		}
-		canvas.resize(canvasWidth, canvasHeight);
+		if (canvasHeight > 0 && canvasWidth > 0) {
+			canvas.resize(canvasWidth, canvasHeight);
+		}
+		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
 	}
 	
 	public double getRows() {

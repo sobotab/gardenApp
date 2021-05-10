@@ -262,14 +262,35 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		
 		double max_x = 0;
 		double max_y = 0;
+		double min_x = 3000;
+		double min_y = 3000;
+		
+		// calculate min and max values of plot points
 		for (Stack<ArrayList<Point2D.Double>> soil_type : plots.values()) {
 			for (ArrayList<Point2D.Double> plot : soil_type) {
 				for (Point2D.Double point : plot) {
+					min_x = Math.min(min_x, point.x);
+					min_y = Math.min(min_y, point.y);
 					max_x = Math.max(max_x, point.x);
 					max_y = Math.max(max_y, point.y);
 				}
 			}
 		}
+		
+		// shift plots towards top-left if empty space exists
+		for (Stack<ArrayList<Point2D.Double>> soil_type : plots.values()) {
+			for (ArrayList<Point2D.Double> plot : soil_type) {
+				for (Point2D.Double point : plot) {
+					point.x -= (min_x - 10);
+					point.y -= (min_y - 10);
+				}
+			}
+		}
+		
+		// update max values accordingly
+		max_x -= (min_x - 10);
+		max_y -= (min_y - 10);
+		
 		double shrink_factor = 1.0;
 		if ((max_x - canvas_width) > (max_y - canvas_height)) {
 			shrink_factor = canvas_width / max_x;

@@ -390,21 +390,21 @@ public class EditGardenController {
 	public void release(MouseEvent event) {
 		Node n = (Node)event.getSource();
 		int index = gardenView.getPlants().indexOf(n);
-
-		//System.out.println("index " + index);
-		PlantObjectModel plantModel = gardenModel.getPlants().get(index);
-		if (plantModel.getX() <= 80 && plantModel.getY() >= gardenView.getGarden().getHeight() - 80) {
-			
-			gardenModel.setDollars(gardenModel.getDollars() - plantModel.getDollars());
-			gardenModel.setNumLeps(gardenModel.getNumLeps() - plantModel.getNumLeps());
-			gardenModel.getPlants().remove(plantModel);
-			
-			PlantView trashPlant = gardenView.getPlants().remove(index);
-			Shape trashSpread = gardenView.getSpreads().remove(index);
-			
-			gardenView.getGarden().getChildren().remove(trashPlant);
-			gardenView.getGarden().getChildren().remove(trashSpread);
-			gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps(), gardenModel.trackMostPopularLeps());
+		if (index != -1) {
+			PlantObjectModel plantModel = gardenModel.getPlants().get(index);
+			if (plantModel.getX() <= 80 && plantModel.getY() >= gardenView.getGarden().getHeight() - 80) {
+				
+				gardenModel.setDollars(gardenModel.getDollars() - plantModel.getDollars());
+				gardenModel.setNumLeps(gardenModel.getNumLeps() - plantModel.getNumLeps());
+				gardenModel.getPlants().remove(plantModel);
+				
+				PlantView trashPlant = gardenView.getPlants().remove(index);
+				Shape trashSpread = gardenView.getSpreads().remove(index);
+				
+				gardenView.getGarden().getChildren().remove(trashPlant);
+				gardenView.getGarden().getChildren().remove(trashSpread);
+				gardenView.updateInfoPanel(gardenModel.getDollars(), gardenModel.getNumLeps(), gardenModel.trackMostPopularLeps());
+			}
 		}
 		return;
 	}

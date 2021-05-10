@@ -48,13 +48,13 @@ public class DrawGardenModel extends GardenModel {
 	
 	public Point2D.Double scalePoint(Point2D.Double point) {
 		Point2D.Double scaledPoint = new Point2D.Double();
-		scaledPoint.setLocation(point.getX()/width, point.getY()/height);
+		scaledPoint.setLocation(point.getX()/(width/columns), point.getY()/(height/rows));
 		return scaledPoint;
 	}
 	
 	public void unScalePoint(Point2D.Double point) {
 		Point2D.Double scaledPoint = new Point2D.Double();
-		scaledPoint.setLocation(point.getX()*width, point.getY()*height);
+		scaledPoint.setLocation(point.getX()*(width/columns), point.getY()*(height/rows));
 		point.setLocation(scaledPoint.getX(), scaledPoint.getY());
 	}
 	

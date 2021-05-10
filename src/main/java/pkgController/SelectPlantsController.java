@@ -155,8 +155,6 @@ public class SelectPlantsController {
 		Text text = (Text)img.getChildren().get(0);
 		String[] plantNames = text.getText().split("\n");
 		String name = plantNames[0];
-		System.out.println(plantNames);
-		System.out.println(name);
 		PlantInfoModel plant = (PlantInfoModel)carouselModel.getSelectedPlants().get(name);
 		carouselModel.getSelectedPlants().remove(name);
 		ArrayList<PlantModel> filteredPlants = (ArrayList<PlantModel>)carouselModel.getFilteredPlants();

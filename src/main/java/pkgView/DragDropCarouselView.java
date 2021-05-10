@@ -22,29 +22,48 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import pkgController.DragDropCarouselController;
 
+/**
+ * 
+ * @author Ryan Dean
+ * View class for the carousel in the Edit Garden screen.
+ */
 public class DragDropCarouselView extends CarouselView {
+	/**
+	 * List of plantView objects in this carousel.
+	 */
 	List<PlantView> plants;
-	PlantView heldPlant;
+	/**
+	 * The controller for this class, helps communicate with carousel model.
+	 */
 	DragDropCarouselController dcc;
+	/**
+	 * Integer representing max number of plantView objects to show at one time in carousel.
+	 */
 	int maxViewSize = 5;
+	/**
+	 * Constant double for fit height/width to set every plantView in carousel to.
+	 */
 	final double DEFAULT_IMG_SIZE = 60;
+	/**
+	 * Constant double for how much to shrink plantViews on the sides of the carousels.
+	 */
 	final double SHRINK_IMG_SCALE = 0.9;
+	/**
+	 * Button for "spinning" the carousel to the left.
+	 */
 	Button left;
+	/**
+	 * Button for "spinning" the carousel to the right.
+	 */
 	Button right;
 	
+	/**
+	 * Constructor for this carousel view. Makes left/right buttons and prepares for plants to be added.
+	 * @param view 		The view class for this program, initialized only once.
+	 */
 	public DragDropCarouselView(View view) {
 		dcc = new DragDropCarouselController(view, this);
 		plants = new ArrayList<PlantView>();
-		heldPlant = null;
-		
-		/*
-		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost.png")), 0);
-    	compost.setPreserveRatio(true);
-    	compost.setFitHeight(80);
-    	*/
-		
-    	//plants.add(compost);
-    	//this.getChildren().add(compost);
     	
 		ImageView turn_right_img = new ImageView(new Image("/images/carousel-turn-icon.png"));
 		turn_right_img.setFitHeight(40);
@@ -66,7 +85,6 @@ public class DragDropCarouselView extends CarouselView {
 		right.setOnAction(dcc.getHandlerForClickedRight());
 		
 		this.getChildren().add(left);
-		//this.getChildren().add(right);
     	this.setAlignment(Pos.CENTER);
     	
 		this.setHgap(5);
@@ -78,21 +96,25 @@ public class DragDropCarouselView extends CarouselView {
 
 	}
 	
+	/**
+	 * Increments the index of all plants in this class's plants list by -1.
+	 */
 	public void rotateLeft() {
 		Collections.rotate(plants, -1);
 		update();
 	}
 	
+	/**
+	 * Increments the index of all plants in this class's plants list by 1.
+	 */
 	public void rotateRight() {
 		Collections.rotate(plants, 1);
 		update();
 	}
 	
-	List<Point> movePlant() {
-		List<Point> points = null;
-		return points;
-	}
-	
+	/**
+	 * Method to re-fill the carousel with plantViews after spinning, sets sizes as well.
+	 */
 	public void update() {
 		this.getChildren().removeAll(plants);
 		this.getChildren().remove(right);
@@ -127,6 +149,10 @@ public class DragDropCarouselView extends CarouselView {
 		this.getChildren().add(right);
 	}	
 	
+	/**
+	 * Method to add a plant to the carousel for the first time, added to plants list and carousel child nodes.
+	 * @param plant 	The plantView to be added to the carousel.
+	 */
 	public void initializePlant(PlantView plant) {		
 		this.plants.add(plant);
 		if (plants.size() <= maxViewSize) {
@@ -135,8 +161,12 @@ public class DragDropCarouselView extends CarouselView {
 		
 	}
 	
+	/**
+	 * Method to add a plant at a specific index in the carousel's plants list.
+	 * @param plant 	PlantView to be added to carousel.
+	 * @param index 	Index to place that plantView at.
+	 */
 	public void addPlantAtIndex(PlantView plant, int index) {
-		//this.plants.add(plant);
 		this.plants.add(index, plant);
 		this.getChildren().add(index+1, plant);
 		if ((index == 1 || index == maxViewSize) && maxViewSize <= plants.size()-1) {
@@ -151,43 +181,31 @@ public class DragDropCarouselView extends CarouselView {
 		}
 	}
 	
+	/**
+	 * Method to remove a plant at a particular index from the carousel's plants list.
+	 * @param index 	Index of the plantView to be removed.
+	 * @return 			The plantView object removed.
+	 */
 	public PlantView removePlant(int index) {
 		return this.plants.remove(index);
 	}
+
+
 	
-	/*
-	public void replacePlant(int index) {
-		PlantView duplicatePlant = new PlantView(
-				plants.get(index).plantImage
-				);
-		this.plants.add(duplicatePlant);
-		this.getChildren().add(duplicatePlant);
-	}
-	*/
+	// Getters & Setters
 	
-	public void updatePlant() {}
-	
-	// getters
 	public List<PlantView> getPlants() {
 		return this.plants;
-	}
-	
-	public PlantView getHeldPlant() {
-		return this.heldPlant;
 	}
 	
 	public DragDropCarouselController getController() {
 		return this.dcc;
 	}
 	
-	// setters
 	public void setPlants(List<PlantView> plants) {
 		this.plants = plants;
 	}
 	
-	public void setHeldPlant(PlantView heldPlant) {
-		this.heldPlant = heldPlant;
-	}
 	
 	public void setController(DragDropCarouselController dcc) {
 		this.dcc = dcc;

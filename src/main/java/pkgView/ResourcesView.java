@@ -1,35 +1,27 @@
 package pkgView;
 
-import java.io.File;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javafx.animation.FadeTransition;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundImage;
-import javafx.scene.layout.BackgroundPosition;
-import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
-import javafx.scene.text.Text;
-import javafx.util.Duration;
-import pkgController.ResourcesController;
 
+import pkgController.ResourcesController;
+/**
+ * 
+ * @author Ryan Dean
+ * View class for Resources screen.
+ */
 public class ResourcesView extends BorderPane{
-	
+	/**
+	 * Constructor populates scene with text describing leps/native plants and provides links.
+	 * @param view		View class for the program.
+	 */
 	public ResourcesView(View view) {
 		ResourcesController rc = new ResourcesController(view);
 		

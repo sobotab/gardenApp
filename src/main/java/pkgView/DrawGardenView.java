@@ -542,9 +542,9 @@ public class DrawGardenView extends BorderPane {
 	 * @param change value to increase, decrease, or maintain the scale
 	 */
 	public void scale(double change) {
-		resizeCanvas();
 		rows-=change;
 		columns-=change;
+		resizeCanvas();
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = dgc.scale(columns, rows);
 		buildGrid();
 		buildPlots(plots);
@@ -585,6 +585,7 @@ public class DrawGardenView extends BorderPane {
 	}
 	
 	public void resizeCanvas() {
+		System.out.println("CanvasHeight: " + Double.valueOf(canvasHeight).toString() + ", CanvasWidth: "+ Double.valueOf(canvasWidth).toString());
 		canvasHeight = canvas.getHeight();
 		canvasWidth = canvas.getWidth();
 		scale = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);

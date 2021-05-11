@@ -7,10 +7,14 @@ import java.util.List;
 import java.util.Stack;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -24,6 +28,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import pkgController.SelectPlantsController;
 import pkgController.Soil;
 
@@ -57,7 +64,9 @@ public class SelectPlantsView extends BorderPane {
 	 * Scaling of a plant's size that should be used when the plant is selected
 	 */
 	ListView<VBox> plantsSelected;
+	Text numPlants;
 	private final double SELECTED_PLANT_SCALING = 0.75;
+	private final double FILTER_WIDTH = 150.0;
 	
 	/**
 	 * Constructor for SelectPlantsView that initializes the SelectPlantsCarousel and all other necessary buttons and images for the select plants screen.
@@ -68,10 +77,20 @@ public class SelectPlantsView extends BorderPane {
 		selectionCarousel = new SelectCarouselView(view);
 		selectedPlants = new ArrayList<ImageView>();
 		spc = new SelectPlantsController(view, this, selectionCarousel.getScc());
+		numPlants = new Text("");
+		numPlants.setFont(Font.font("cambria"));
+		updateNumPlants();
 		
+
 		
 		for(VBox image: selectionCarousel.getFilteredImages()) {
-			image.setOnMousePressed(spc.getHandlerForPlantSelected());
+			if(image.getChildren().size() == 6) {
+				image.getChildren().remove(5);
+			}
+			Button add = new Button("Add");
+			add.setOnMouseClicked(spc.getHandlerForPlantSelected());
+			image.getChildren().add(add);
+			image.setOnMousePressed(selectionCarousel.getScc().getHandlerForPopup());
 		}
 		
 		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
@@ -81,7 +100,48 @@ public class SelectPlantsView extends BorderPane {
 				BackgroundPosition.CENTER,
 				bSize)));
 		
+		List<String> soils = selectionCarousel.getScc().getSoil();
+		ComboBox<String> soil = new ComboBox();
+		soil.setPromptText("Soil Type");
+		ObservableList<String> options = FXCollections.observableArrayList("");
+		options.addAll(soils);
+		soil.setItems(options);
+		soil.setPrefWidth(FILTER_WIDTH);
+		
+		ComboBox<String> type = new ComboBox();
+		type.setPromptText("Plant Type");
+		type.setItems(FXCollections.observableArrayList("","woody","herbaceous"));
+		type.setPrefWidth(FILTER_WIDTH);
+		
+		String sun = selectionCarousel.getScc().getSun();
+		String moisture = selectionCarousel.getScc().getMoisture();
+		
+		Button filter = new Button("FILTER");
+		filter.setPrefSize(FILTER_WIDTH, 50);
+		filter.setFont(Font.font("Helvetica", FontWeight.BOLD, 24));
+		filter.setStyle("-fx-background-color: linear-gradient(#fafafa , #afd9f5 );");
+		filter.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event) {
+				String soilType = "";
+				if(soils.size() > 1) {
+					soilType = soil.getValue();
+				}
+				String plantType = type.getValue();
+				selectionCarousel.filter(plantType, soilType, sun, moisture, soils);
+				updateNumPlants();
+			}
+		});
+		
+
+		
 		Label title = new Label("Select Plants");
+		VBox filterBox = new VBox();
+		if(soils.size() > 1) {
+			filterBox.getChildren().addAll(title,type,soil,filter, numPlants);
+		}
+		else {
+			filterBox.getChildren().addAll(title,type,filter, numPlants);
+		}
 		Button back = new Button("Back to drawing garden.");
 		back.setOnAction(spc.getHandlerForBack());
 		Button finish = new Button("Finish");
@@ -103,7 +163,7 @@ public class SelectPlantsView extends BorderPane {
 		box.getChildren().add(finish);
 		
 		this.setBottom(box);
-		this.setTop(title);
+		this.setTop(filterBox);
 		this.setRight(plantsSelectedBox);
 		this.setCenter(selectionCarousel);
 	}
@@ -141,7 +201,10 @@ public class SelectPlantsView extends BorderPane {
 		box.setScaleY(SELECTED_PLANT_SCALING);
 		selectedPlants.add(imv);
 		plantsSelected.getItems().add(box);
-		box.setOnMousePressed(spc.getHandlerForPlantDeSelected());
+		box.getChildren().remove(5);
+		Button remove = new Button("Remove");
+		remove.setOnMouseClicked(spc.getHandlerForPlantDeSelected());
+		box.getChildren().add(remove);
 	}
 	
 	/**
@@ -153,7 +216,15 @@ public class SelectPlantsView extends BorderPane {
 		ImageView imv = (ImageView)box.getChildren().get(1);
 		selectedPlants.remove(imv);
 		plantsSelected.getItems().remove(box);
-		box.setOnMousePressed(spc.getHandlerForPlantSelected());
+		box.getChildren().remove(5);
+		Button add = new Button("Add");
+		add.setOnMouseClicked(spc.getHandlerForPlantSelected());
+		box.getChildren().add(add);
+		
+	}
+	
+	public void updateNumPlants() {
+		numPlants.setText("Plants shown: " + selectionCarousel.getFilteredImages().size());
 	}
 	
 	

@@ -98,7 +98,7 @@ public class SelectCarouselController extends CarouselController {
 	 * @param moisture String representing the user's choice of moisture level
 	 * @param soil List of Strings representing all soils chosen by the user
 	 */
-	public void filterCarousel(String sun, String moisture, List<String> soil) {
+	public void filterCarousel(String sun, String moisture, List<String> soils) {
 		List<PlantModel> plants = carouselModel.getPlants();
 		List<VBox> images = scv.getImages();
 		List<PlantModel> filteredPlants = new ArrayList<>();
@@ -108,16 +108,7 @@ public class SelectCarouselController extends CarouselController {
 		while(plantIter.hasNext() && imageIter.hasNext()) {
 			PlantInfoModel plant = (PlantInfoModel)plantIter.next();
 			VBox imageBox = imageIter.next();
-			String sunLevel = plant.getSun();
-			String moistureLevel = plant.getMoisture();
-			String soilType = plant.getSoil();
-			boolean correctSoil = false;
-			for(String type: soil) {
-				if(soilType.contains(type)) {
-					correctSoil = true;
-				}
-			}
-			if(sunLevel.contains(sun) && moistureLevel.contains(moisture) && correctSoil) {
+			if(checkPlantConditions(plant, sun, moisture, soils)) {
 				filteredPlants.add(plant);
 				filteredImages.add(imageBox);
 			}
@@ -128,6 +119,70 @@ public class SelectCarouselController extends CarouselController {
 		carouselModel.setFilteredPlants(filteredPlants);
 		carouselModel.setHeldPlant(0);
 		scv.update();
+	}
+	
+	public boolean checkPlantConditions(PlantModel plant, String sun, String moisture, List<String> soils) {
+		String sunLevel = plant.getSun();
+		String moistureLevel = plant.getMoisture();
+		String soilType = plant.getSoil();
+		boolean correctSoil = false;
+		for(String type: soils) {
+			if(soilType.contains(type)) {
+				correctSoil = true;
+			}
+		}
+		return (sunLevel.contains(sun) && moistureLevel.contains(moisture) && correctSoil);
+	}
+	
+	public void filterCarousel(String type, String soil, String sun, String moisture, List<String> soils) {
+		List<PlantModel> plants = carouselModel.getPlants();
+		List<VBox> images = scv.getImages();
+		List<PlantModel> filteredPlants = new ArrayList<>();
+		List<VBox> filteredImages = new ArrayList<VBox>();
+		Iterator<PlantModel> plantIter = plants.iterator();
+		Iterator<VBox> imageIter = images.iterator();
+		while(plantIter.hasNext() && imageIter.hasNext()) {
+			PlantInfoModel plant = (PlantInfoModel)plantIter.next();
+			VBox imageBox = imageIter.next();
+			//Only add to carousel if plant wasn't already selected previously
+			if(!carouselModel.getSelectedPlants().containsKey(plant.getName())) {
+				if(checkPlantConditions(plant, type, soil, sun, moisture, soils)) {
+					filteredPlants.add(plant);
+					filteredImages.add(imageBox);
+				}
+			}
+		}
+		scv.setFilteredImages(filteredImages);
+		scv.setCenter(0);
+		carouselModel.setFilteredPlants(filteredPlants);
+		carouselModel.setHeldPlant(0);
+		scv.update();
+	}
+	
+	public boolean checkPlantConditions(PlantModel plant, String type, String soil, String sun, String moisture, List<String> soils) {
+		String soilType = plant.getSoil();
+		String sunLevel = plant.getSun();
+		String moistureLevel = plant.getMoisture();
+		int dollars = plant.getDollars();
+		String plantType = "";
+		if(dollars == 6) {
+			plantType = "herbaceous";
+		}
+		else {
+			plantType = "woody";
+		}
+		boolean correctSoil = false;
+		if(soil == "") {
+			for(String gardenSoil: soils) {
+				if(soilType.contains(gardenSoil)) {
+					correctSoil = true;
+				}
+			}
+		}
+		else {
+			correctSoil = true;
+		}
+		return (soilType.contains(soil) && plantType.contains(type) && sunLevel.contains(sun) && moistureLevel.contains(moisture) && correctSoil);
 	}
 	
 	/**

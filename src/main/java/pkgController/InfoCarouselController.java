@@ -22,10 +22,6 @@ import pkgView.View;
  */
 public class InfoCarouselController extends CarouselController {
 		/**
-		 * The program's view that is only initialized once
-		 */
-		View view;
-		/**
 		 * An InfoCarouselView that has the images for the carousel
 		 */
 		InfoCarouselView icv;
@@ -44,44 +40,6 @@ public class InfoCarouselController extends CarouselController {
 			icv = (InfoCarouselView)carouselView;
 		}
 		
-		/**
-		 * Handler that is used for when an image is clicked in the info carousel. It opens a popup with information about the plant that
-		 * matches the clicked image.
-		 * @param event A MouseEvent that is the mouse being pressed
-		 */
-		public void clickedPopup(MouseEvent event) {
-			VBox box = (VBox)event.getSource();
-			ImageView img = (ImageView)box.getChildren().get(1);
-			int centerIndex = carouselModel.getHeldPlant();
-			VBox centerImage = icv.getFilteredImages().get(centerIndex);
-			double centerX = centerImage.getLayoutX();
-			int index = 0;
-			if(box.getScaleX() == CENTER_IMAGE_SCALING) {
-				index = centerIndex;
-			}
-			else if(event.getSceneX() < centerX) {
-				index = centerIndex - 1;
-				if(index < 0) {
-					index = carouselModel.getFilteredPlants().size() - 1;
-				}
-			}
-			else {
-				index = centerIndex + 1;
-				if(index >= carouselModel.getFilteredPlants().size()) {
-					index = 0;
-				}
-			}
-			PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByIndex(index);
-			icv.openInfoPopUp(img, plant.getName(), plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription(), plant.getLeps());
-		}
-		
-		/**
-		 * Getter for the clickedPopup handler
-		 * @return EventHandler for the clickedPopup method
-		 */
-		public EventHandler getHandlerForPopup() {
-			return event -> clickedPopup((MouseEvent) event);
-		}
 		
 		/**
 		 * Filters the images that are shown in the carousel and the corresponding plants by the sun, moisture, soil, and plant type chosen by the user.
@@ -100,19 +58,7 @@ public class InfoCarouselController extends CarouselController {
 			while(plantIter.hasNext() && imageIter.hasNext()) {
 				PlantInfoModel plant = (PlantInfoModel)plantIter.next();
 				VBox imageBox = imageIter.next();
-				String sunLevel = plant.getSun();
-				String moistureLevel = plant.getMoisture();
-				String soilType = plant.getSoil();
-				int price = plant.getDollars();
-				String plantType;
-				if(price == 6) {
-					plantType = "herbaceous";
-				}
-				else {
-					plantType = "woody";
-				}
-				//use contains instead of equals so the empty string will reset the carousel, also one plant can have multiple soil or moisture levels
-				if(sunLevel.contains(sun) && moistureLevel.contains(moisture) && soilType.contains(soil) && plantType.contains(type)) {
+				if(checkPlantConditions(plant, sun, moisture, soil, type)) {
 					filteredImages.add(imageBox);
 					filteredPlants.add(plant);
 				}
@@ -120,6 +66,22 @@ public class InfoCarouselController extends CarouselController {
 			icv.setFilteredImages(filteredImages);
 			carouselModel.setFilteredPlants(filteredPlants);
 			icv.update();
+		}
+		
+		public boolean checkPlantConditions(PlantModel plant, String sun, String moisture, String soil, String type) {
+			String sunLevel = plant.getSun();
+			String moistureLevel = plant.getMoisture();
+			String soilType = plant.getSoil();
+			int price = plant.getDollars();
+			String plantType;
+			if(price == 6) {
+				plantType = "herbaceous";
+			}
+			else {
+				plantType = "woody";
+			}
+			//use contains instead of equals so the empty string will reset the carousel, also one plant can have multiple soil or moisture levels
+			return (sunLevel.contains(sun) && moistureLevel.contains(moisture) && soilType.contains(soil) && plantType.contains(type));
 		}
 		
 }

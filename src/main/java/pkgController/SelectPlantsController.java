@@ -7,12 +7,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -20,6 +22,7 @@ import javafx.scene.text.Text;
 import pkgModel.CarouselModel;
 import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
+import pkgView.CarouselView;
 import pkgView.DrawGardenView;
 import pkgView.EditGardenView;
 import pkgView.SelectCarouselView;
@@ -104,7 +107,9 @@ public class SelectPlantsController {
 	public void plantSelected(MouseEvent event) {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
-		VBox img = (VBox)event.getSource();
+		Button button = (Button)event.getSource();
+		VBox img = (VBox)button.getParent();
+		img.setOnMousePressed(getHandlerForSelectedPlantPopup());
 		int centerIndex = carouselModel.getHeldPlant();
 		VBox centerImage = carouselView.getFilteredImages().get(centerIndex);
 		double centerX = centerImage.getLayoutX();
@@ -132,6 +137,7 @@ public class SelectPlantsController {
 		carouselView.update();
 		spv.selectPlant(img);
 		carouselModel.selectPlant(plant);
+		spv.updateNumPlants();
 	}
 	
 	/**
@@ -150,29 +156,80 @@ public class SelectPlantsController {
 	public void plantDeselected(MouseEvent event) {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
-		VBox img = (VBox)event.getSource();
+		Button button = (Button)event.getSource();
+		VBox img = (VBox)button.getParent();
+		img.setOnMousePressed(scc.getHandlerForPopup());
 		spv.deSelectPlant(img);
 		Text text = (Text)img.getChildren().get(0);
 		String[] plantNames = text.getText().split("\n");
 		String name = plantNames[0];
 		PlantInfoModel plant = (PlantInfoModel)carouselModel.getSelectedPlants().get(name);
 		carouselModel.getSelectedPlants().remove(name);
-		ArrayList<PlantModel> filteredPlants = (ArrayList<PlantModel>)carouselModel.getFilteredPlants();
-		Iterator<PlantModel> it = filteredPlants.iterator();
-		int index = 0;
-		boolean found = false;
-		while(it.hasNext() && !found) {
-			PlantModel currentPlant = it.next();
-			if(plant.getNumLeps() < currentPlant.getNumLeps()) {
-				index++;
+		String sun = scc.getSun();
+		String moisture = scc.getMoisture();
+		List<String> soils = scc.getSoil();
+		String type = carouselView.getType();
+		String soil = carouselView.getSoil();
+		//Only add the plant back to the carousel immediately if the current filter types match
+		if(checkPlantConditions(plant,type,soil,sun,moisture,soils)) {
+			ArrayList<PlantModel> filteredPlants = (ArrayList<PlantModel>)carouselModel.getFilteredPlants();
+			Iterator<PlantModel> it = filteredPlants.iterator();
+			int index = 0;
+			boolean found = false;
+			while(it.hasNext() && !found) {
+				PlantModel currentPlant = it.next();
+				if(plant.getNumLeps() < currentPlant.getNumLeps()) {
+					index++;
+				}
+				else {
+					found = true;
+				}
 			}
-			else {
-				found = true;
+			carouselModel.getFilteredPlants().add(index, plant);
+			carouselView.getFilteredImages().add(index, img);
+		}
+		carouselView.update();
+		spv.updateNumPlants();
+	}
+	
+	public boolean checkPlantConditions(PlantInfoModel plant, String type, String soil, String sun, String moisture, List<String> soils) {
+		boolean correctSoil = false;
+		if(soil == "") {
+			for(String soilType: soils) {
+				if(plant.getSoil().contains(soilType)) {
+					correctSoil = true;
+				}
 			}
 		}
-		carouselModel.getFilteredPlants().add(index, plant);
-		carouselView.getFilteredImages().add(index, img);
-		carouselView.update();
+		else {
+			correctSoil = true;
+		}
+		String plantType = "";
+		if(plant.getDollars() == 6) {
+			plantType = "herbaceous";
+		}
+		else {
+			plantType = "woody";
+		}
+		String plantSoil = plant.getSoil();
+		String plantSun = plant.getSun();
+		String plantMoisture = plant.getMoisture();
+		return(plantSoil.contains(soil) && plantSun.contains(sun) && plantMoisture.contains(moisture) && plantType.contains(type) && correctSoil);
+	}
+	
+	public void selectedPlantPopup(MouseEvent event) {
+		VBox box = (VBox)event.getSource();
+		ImageView imv = (ImageView)box.getChildren().get(1);
+		Text nameText = (Text)box.getChildren().get(0);
+		String commonName = nameText.getText().split("\n")[0];
+		HashMap<String, PlantModel> selectedPlants = scc.getCarouselModel().getSelectedPlants();
+		PlantInfoModel plant = (PlantInfoModel)selectedPlants.get(commonName);
+		CarouselView carouselView = spv.getSelectionCarousel();
+		carouselView.openInfoPopUp(view, imv, commonName, plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription(), plant.getLeps());
+	}
+	
+	public EventHandler getHandlerForSelectedPlantPopup() {
+		return event -> selectedPlantPopup((MouseEvent) event);
 	}
 	
 	/**

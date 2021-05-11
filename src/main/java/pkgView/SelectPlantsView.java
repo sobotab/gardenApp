@@ -69,9 +69,13 @@ public class SelectPlantsView extends BorderPane {
 		selectedPlants = new ArrayList<ImageView>();
 		spc = new SelectPlantsController(view, this, selectionCarousel.getScc());
 		
+
 		
 		for(VBox image: selectionCarousel.getFilteredImages()) {
-			image.setOnMousePressed(spc.getHandlerForPlantSelected());
+			//image.setOnMousePressed(spc.getHandlerForPlantSelected());
+			Button add = new Button("Add");
+			add.setOnMouseClicked(spc.getHandlerForPlantSelected());
+			image.getChildren().add(add);
 		}
 		
 		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);

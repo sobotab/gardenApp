@@ -13,6 +13,7 @@ import java.util.Map;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
@@ -104,7 +105,9 @@ public class SelectPlantsController {
 	public void plantSelected(MouseEvent event) {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
-		VBox img = (VBox)event.getSource();
+		//VBox img = (VBox)event.getSource();
+		Button button = (Button)event.getSource();
+		VBox img = (VBox)button.getParent();
 		int centerIndex = carouselModel.getHeldPlant();
 		VBox centerImage = carouselView.getFilteredImages().get(centerIndex);
 		double centerX = centerImage.getLayoutX();
@@ -150,7 +153,9 @@ public class SelectPlantsController {
 	public void plantDeselected(MouseEvent event) {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
-		VBox img = (VBox)event.getSource();
+		//VBox img = (VBox)event.getSource();
+		Button button = (Button)event.getSource();
+		VBox img = (VBox)button.getParent();		
 		spv.deSelectPlant(img);
 		Text text = (Text)img.getChildren().get(0);
 		String[] plantNames = text.getText().split("\n");

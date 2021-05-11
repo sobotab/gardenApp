@@ -140,31 +140,34 @@ public class SelectCarouselController extends CarouselController {
 		while(plantIter.hasNext() && imageIter.hasNext()) {
 			PlantInfoModel plant = (PlantInfoModel)plantIter.next();
 			VBox imageBox = imageIter.next();
-			String soilType = plant.getSoil();
-			String sunLevel = plant.getSun();
-			String moistureLevel = plant.getMoisture();
-			int dollars = plant.getDollars();
-			String plantType = "";
-			if(dollars == 6) {
-				plantType = "herbaceous";
-			}
-			else {
-				plantType = "woody";
-			}
-			boolean correctSoil = false;
-			if(soil == "") {
-				for(String gardenSoil: soils) {
-					if(soilType.contains(gardenSoil)) {
-						correctSoil = true;
+			//Only add to carousel if plant wasn't already selected previously
+			if(!carouselModel.getSelectedPlants().containsKey(plant.getName())) {
+				String soilType = plant.getSoil();
+				String sunLevel = plant.getSun();
+				String moistureLevel = plant.getMoisture();
+				int dollars = plant.getDollars();
+				String plantType = "";
+				if(dollars == 6) {
+					plantType = "herbaceous";
+				}
+				else {
+					plantType = "woody";
+				}
+				boolean correctSoil = false;
+				if(soil == "") {
+					for(String gardenSoil: soils) {
+						if(soilType.contains(gardenSoil)) {
+							correctSoil = true;
+						}
 					}
 				}
-			}
-			else {
-				correctSoil = true;
-			}
-			if(soilType.contains(soil) && plantType.contains(type) && sunLevel.contains(sun) && moistureLevel.contains(moisture) && correctSoil) {
-				filteredPlants.add(plant);
-				filteredImages.add(imageBox);
+				else {
+					correctSoil = true;
+				}
+				if(soilType.contains(soil) && plantType.contains(type) && sunLevel.contains(sun) && moistureLevel.contains(moisture) && correctSoil) {
+					filteredPlants.add(plant);
+					filteredImages.add(imageBox);
+				}
 			}
 		}
 		scv.setFilteredImages(filteredImages);

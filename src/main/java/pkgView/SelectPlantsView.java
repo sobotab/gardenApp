@@ -114,7 +114,10 @@ public class SelectPlantsView extends BorderPane {
 		filter.setStyle("-fx-background-color: linear-gradient(#fafafa , #afd9f5 );");
 		filter.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event) {
-				String soilType = soil.getValue();
+				String soilType = "";
+				if(soils.size() > 1) {
+					soilType = soil.getValue();
+				}
 				String plantType = type.getValue();
 				selectionCarousel.filter(plantType, soilType, sun, moisture, soils);
 				//num_plants.setText("Plants shown: " + selectionCarousel.getFilteredImages().size());
@@ -125,7 +128,12 @@ public class SelectPlantsView extends BorderPane {
 		
 		Label title = new Label("Select Plants");
 		VBox filterBox = new VBox();
-		filterBox.getChildren().addAll(title,type,soil,filter);
+		if(soils.size() > 1) {
+			filterBox.getChildren().addAll(title,type,soil,filter);
+		}
+		else {
+			filterBox.getChildren().addAll(title,type,filter);
+		}
 		Button back = new Button("Back to drawing garden.");
 		back.setOnAction(spc.getHandlerForBack());
 		Button finish = new Button("Finish");

@@ -33,6 +33,7 @@ import javafx.stage.Popup;
  */
 public class InfoPopupView extends BorderPane{
 	
+	private final double LEP_SCALING = 0.5;
 	/**
 	 * Constructor which displays all the data that is passed into the InfoPopupView
 	 * @param view The program's View which is initialized once
@@ -64,8 +65,8 @@ public class InfoPopupView extends BorderPane{
 			ImageView lepImage = null;
 			if(lepImages.containsKey(lep)) {
 				lepImage = lepImages.get(lep);
-				lepImage.setScaleX(.5);
-				lepImage.setScaleY(.5);
+				lepImage.setScaleX(LEP_SCALING);
+				lepImage.setScaleY(LEP_SCALING);
 			}
 			Text lepName = new Text(lep);
 			lepName.setFont(Font.font("cambria"));

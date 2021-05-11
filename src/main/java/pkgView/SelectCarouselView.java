@@ -33,7 +33,13 @@ public class SelectCarouselView extends CarouselView{
 	 * The controller for the select carousel
 	 */
 	SelectCarouselController scc;
+	/**
+	 * String representing the type of plant selected for filtering by the user (woody or herbaceous)
+	 */
 	String type;
+	/**
+	 * A specific soil type selected by the uesr for filtering
+	 */
 	String soil;
 	
 	/**
@@ -92,12 +98,16 @@ public class SelectCarouselView extends CarouselView{
 	public void filter(String sun, String moisture, List<String> soils) {
 		scc.filterCarousel(sun, moisture, soils);
 	}
+
+	
 	/**
-	 * Getter for the scc field
-	 * @return scc field - A SelectCarouselController that has handlers for clicking images in this carousel
+	 * method that prepares the user chosen values to be Strings that can be used for filtering, and calls the filterCarousel method 
+	 * @param type Plant type selected by the user (woody or herbaceous)
+	 * @param soil Specific soil type selected by the user
+	 * @param sun Sun level selected by the user
+	 * @param moisture Moisture level selected by the user
+	 * @param soils List of all soil types used by the user to draw the garden
 	 */
-	
-	
 	public void filter(String type, String soil, String sun, String moisture, List<String> soils) {
 		if(soil == null) {
 			soil = "";
@@ -116,6 +126,10 @@ public class SelectCarouselView extends CarouselView{
 		scc.filterCarousel(type, soil, sun, moisture, soils);
 	}
 	
+	/**
+	 * Getter for the scc field
+	 * @return scc field - A SelectCarouselController that has handlers for clicking images in this carousel
+	 */
 	public SelectCarouselController getScc() {
 		return scc;
 	}
@@ -137,19 +151,31 @@ public class SelectCarouselView extends CarouselView{
 			center++;
 		}
 	}
-
+	/**
+	 * Getter for type field
+	 * @return String representing a plant type
+	 */
 	public String getType() {
 		return type;
 	}
-
+	/**
+	 * Setter for type field
+	 * @param type String representing a plant type
+	 */
 	public void setType(String type) {
 		this.type = type;
 	}
-
+	/**
+	 * Getter for soil field
+	 * @return String representing a soil type
+	 */
 	public String getSoil() {
 		return soil;
 	}
-
+	/**
+	 * Setter for soil field
+	 * @param soil String representing a soil type
+	 */
 	public void setSoil(String soil) {
 		this.soil = soil;
 	}

@@ -44,6 +44,9 @@ public abstract class PlantModel implements Serializable{
 	 * The plant's ideal soil types
 	 */
 	String soil;
+	/**
+	 * List of the names of the lep species the plant supports
+	 */
 	List<String> leps;
 
 	/**
@@ -180,9 +183,17 @@ public abstract class PlantModel implements Serializable{
 	public void setDollars(int dollars) {
 		this.dollars = dollars;
 	}
+	/**
+	 * Getter for the leps field
+	 * @return List of scientific names of supported leps for this hostplant
+	 */
 	public List<String> getLeps() {
 		return leps;
 	}
+	/**
+	 * Setter for the leps field
+	 * @param leps List of Strings representing lep names
+	 */
 	public void setLeps(List<String> leps) {
 		this.leps = leps;
 	}

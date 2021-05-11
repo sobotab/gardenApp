@@ -108,12 +108,16 @@ public class SelectPlantsController {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
 		Button button = (Button)event.getSource();
+		//Get the VBox that is the parent of the clicked button
 		VBox img = (VBox)button.getParent();
+		//Make sure the correct popup Handler is set once the plant moves to selectedPlants area
 		img.setOnMousePressed(getHandlerForSelectedPlantPopup());
+		//Keep track of attributes of the plant in the middle of the carousel
 		int centerIndex = carouselModel.getHeldPlant();
 		VBox centerImage = carouselView.getFilteredImages().get(centerIndex);
 		double centerX = centerImage.getLayoutX();
 		int index = 0;
+		//Determine if the plant is the left, middle, or right from the carousel
 		if(img.getScaleX() == CENTER_IMAGE_SCALING) {
 			index = centerIndex;
 		}
@@ -131,10 +135,13 @@ public class SelectPlantsController {
 		}
 		PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByIndex(index);
 		carouselModel.getFilteredPlants().remove(index);
+		//Decrement indexes in case the removed plant was the last to avoid indexOutOfBoundsException
 		carouselModel.decrementHeldPlant();
+		//Decrement indexes in case the removed plant was the last to avoid indexOutOfBoundsException
 		carouselView.getFilteredImages().remove(index);
 		carouselView.decrementCenter();
 		carouselView.update();
+		//Make sure both the plant and image list are updated
 		spv.selectPlant(img);
 		carouselModel.selectPlant(plant);
 		spv.updateNumPlants();
@@ -157,14 +164,18 @@ public class SelectPlantsController {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
 		Button button = (Button)event.getSource();
+		//VBox that is the parent of the clicked button
 		VBox img = (VBox)button.getParent();
+		//When the VBox goes back to the carousel, the popup handler returns to the carousel one
 		img.setOnMousePressed(scc.getHandlerForPopup());
 		spv.deSelectPlant(img);
+		//Get the common name of the plant from the VBox text
 		Text text = (Text)img.getChildren().get(0);
 		String[] plantNames = text.getText().split("\n");
 		String name = plantNames[0];
 		PlantInfoModel plant = (PlantInfoModel)carouselModel.getSelectedPlants().get(name);
 		carouselModel.getSelectedPlants().remove(name);
+		//Get user selected attributes to check if the plant should go back in the carousel
 		String sun = scc.getSun();
 		String moisture = scc.getMoisture();
 		List<String> soils = scc.getSoil();
@@ -176,6 +187,7 @@ public class SelectPlantsController {
 			Iterator<PlantModel> it = filteredPlants.iterator();
 			int index = 0;
 			boolean found = false;
+			//Find the correct spot to place the plant so that the sorting by lep count is maintained
 			while(it.hasNext() && !found) {
 				PlantModel currentPlant = it.next();
 				if(plant.getNumLeps() < currentPlant.getNumLeps()) {
@@ -185,15 +197,27 @@ public class SelectPlantsController {
 					found = true;
 				}
 			}
+			//Add to both the image and plantModel lists
 			carouselModel.getFilteredPlants().add(index, plant);
 			carouselView.getFilteredImages().add(index, img);
 		}
 		carouselView.update();
 		spv.updateNumPlants();
 	}
-	
+	/**
+	 * Helper method that checks if a plant matches current user selected conditions on the selectPlants screen
+	 * @param plant The plantModel that is currently being considered
+	 * @param type The plant type chosen by the user
+	 * @param soil A specific soil type chosen by the user
+	 * @param sun  The sun level chosen by the user
+	 * @param moisture The moisture level chosen by the user
+	 * @param soils A list of all soils that were placed on the drawGarden screen
+	 * @return boolean representing whether or not the plant fits the current conditions
+	 */
 	public boolean checkPlantConditions(PlantInfoModel plant, String type, String soil, String sun, String moisture, List<String> soils) {
 		boolean correctSoil = false;
+		//If there is a specific soil type chosen, do not check the list of all soils in the garden
+		//Otherwise, see if the plant belongs in any soil type the garden has
 		if(soil == "") {
 			for(String soilType: soils) {
 				if(plant.getSoil().contains(soilType)) {
@@ -204,6 +228,7 @@ public class SelectPlantsController {
 		else {
 			correctSoil = true;
 		}
+		//Determine if the plant is woody or herbaceous based on the price
 		String plantType = "";
 		if(plant.getDollars() == 6) {
 			plantType = "herbaceous";
@@ -211,23 +236,35 @@ public class SelectPlantsController {
 		else {
 			plantType = "woody";
 		}
+		//Get the plants attributes
 		String plantSoil = plant.getSoil();
 		String plantSun = plant.getSun();
 		String plantMoisture = plant.getMoisture();
+		//Check the conditions
 		return(plantSoil.contains(soil) && plantSun.contains(sun) && plantMoisture.contains(moisture) && plantType.contains(type) && correctSoil);
 	}
 	
+	/**
+	 * Handler for infoPopups when plant VBoxes are clicked in the selectedPlants listView
+	 * @param event A MouseEvent representing a click
+	 */
 	public void selectedPlantPopup(MouseEvent event) {
 		VBox box = (VBox)event.getSource();
 		ImageView imv = (ImageView)box.getChildren().get(1);
+		//Get the plant's common name from the VBox text
 		Text nameText = (Text)box.getChildren().get(0);
 		String commonName = nameText.getText().split("\n")[0];
 		HashMap<String, PlantModel> selectedPlants = scc.getCarouselModel().getSelectedPlants();
+		//Determine the plant that was clicked using the HashMap of names to plantModels
 		PlantInfoModel plant = (PlantInfoModel)selectedPlants.get(commonName);
 		CarouselView carouselView = spv.getSelectionCarousel();
 		carouselView.openInfoPopUp(view, imv, commonName, plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription(), plant.getLeps());
 	}
 	
+	/**
+	 * Getter for the selectedPlantPopup handler
+	 * @return An EventHandler for selectedPlantPopup
+	 */
 	public EventHandler getHandlerForSelectedPlantPopup() {
 		return event -> selectedPlantPopup((MouseEvent) event);
 	}

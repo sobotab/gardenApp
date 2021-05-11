@@ -88,13 +88,13 @@ public class InfoCarouselView extends CarouselView{
 	 * @param dollars The price of the plant that had its image clicked
 	 * @param description A short description of the plant that had its image clicked
 	 */
-	public void openInfoPopUp(ImageView img, String name, String sciName, int numLeps, int dollars, String description, List<String> leps) {
-		Stage popupWindow = new Stage();
-		popupWindow.initModality(Modality.NONE);
-		popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description, leps),800,500));
-		popupWindow.setAlwaysOnTop(true);
-		popupWindow.show(); 
-		}
+//	public void openInfoPopUp(ImageView img, String name, String sciName, int numLeps, int dollars, String description, List<String> leps) {
+//		Stage popupWindow = new Stage();
+//		popupWindow.initModality(Modality.NONE);
+//		popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description, leps),800,500));
+//		popupWindow.setAlwaysOnTop(true);
+//		popupWindow.show(); 
+//		}
 	  
 	/**
 	 * A method that is part of the process of filtering the plants in the carousel. This part sets the values from the drop downs for 

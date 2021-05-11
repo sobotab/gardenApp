@@ -42,6 +42,10 @@ public abstract class CarouselController {
 	 * The view for the carousels' images and Nodes
 	 */
 	CarouselView carouselView;
+	/**
+	 * The scaling for the image that is focused on by the carousel
+	 */
+	private final double CENTER_IMAGE_SCALING = 2.0;
 	
 //	public CarouselController() {
 //		model = new Model();
@@ -114,6 +118,45 @@ public abstract class CarouselController {
 	 */
 	public void setCarouselModel(CarouselModel carouselModel) {
 		this.carouselModel = carouselModel;
+	}
+	
+	/**
+	 * Handler that is used for when an image is clicked in the info carousel. It opens a popup with information about the plant that
+	 * matches the clicked image.
+	 * @param event A MouseEvent that is the mouse being pressed
+	 */
+	public void clickedPopup(MouseEvent event) {
+		VBox box = (VBox)event.getSource();
+		ImageView img = (ImageView)box.getChildren().get(1);
+		int centerIndex = carouselModel.getHeldPlant();
+		VBox centerImage = carouselView.getFilteredImages().get(centerIndex);
+		double centerX = centerImage.getLayoutX();
+		int index = 0;
+		if(box.getScaleX() == CENTER_IMAGE_SCALING) {
+			index = centerIndex;
+		}
+		else if(event.getSceneX() < centerX) {
+			index = centerIndex - 1;
+			if(index < 0) {
+				index = carouselModel.getFilteredPlants().size() - 1;
+			}
+		}
+		else {
+			index = centerIndex + 1;
+			if(index >= carouselModel.getFilteredPlants().size()) {
+				index = 0;
+			}
+		}
+		PlantInfoModel plant = (PlantInfoModel)carouselModel.getPlantByIndex(index);
+		carouselView.openInfoPopUp(this.view, img, plant.getName(), plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription(), plant.getLeps());
+	}
+	
+	/**
+	 * Getter for the clickedPopup handler
+	 * @return EventHandler for the clickedPopup method
+	 */
+	public EventHandler getHandlerForPopup() {
+		return event -> clickedPopup((MouseEvent) event);
 	}
 	
 }

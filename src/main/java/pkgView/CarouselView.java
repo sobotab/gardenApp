@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import pkgController.CarouselController;
 
 /**
@@ -73,6 +76,24 @@ public abstract class CarouselView extends FlowPane {
 		}
 		update();
 	}
+	
+	/**
+	 * Part of the handler for opening a popup screen when an image is clicked. It has plant data passed into it from the controller to be displayed.
+	 * @param view The program's view that is only initialized once
+	 * @param img The same image that was clicked
+	 * @param name The common name of the plant that had its image clicked
+	 * @param sciName The scientific name of the plant that had its image clicked
+	 * @param numLeps The number of lep species supported by the plant that had its image clicked
+	 * @param dollars The price of the plant that had its image clicked
+	 * @param description A short description of the plant that had its image clicked
+	 */
+	public void openInfoPopUp(View view, ImageView img, String name, String sciName, int numLeps, int dollars, String description, List<String> leps) {
+		Stage popupWindow = new Stage();
+		popupWindow.initModality(Modality.NONE);
+		popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description, leps),800,500));
+		popupWindow.setAlwaysOnTop(true);
+		popupWindow.show(); 
+		}
 	
 	/**
 	 * The update method properly displays the VBox's that are held in the carouselView.

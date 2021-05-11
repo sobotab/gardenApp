@@ -81,23 +81,7 @@ public class InfoCarouselView extends CarouselView{
 		this.setAlignment(Pos.CENTER);
 		
 	}
-	/**
-	 * Part of the handler for opening a popup screen when an image is clicked. It has plant data passed into it from the controller to be displayed.
-	 * @param view The program's view that is only initialized once
-	 * @param img The same image that was clicked
-	 * @param name The common name of the plant that had its image clicked
-	 * @param sciName The scientific name of the plant that had its image clicked
-	 * @param numLeps The number of lep species supported by the plant that had its image clicked
-	 * @param dollars The price of the plant that had its image clicked
-	 * @param description A short description of the plant that had its image clicked
-	 */
-//	public void openInfoPopUp(ImageView img, String name, String sciName, int numLeps, int dollars, String description, List<String> leps) {
-//		Stage popupWindow = new Stage();
-//		popupWindow.initModality(Modality.NONE);
-//		popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description, leps),800,500));
-//		popupWindow.setAlwaysOnTop(true);
-//		popupWindow.show(); 
-//		}
+
 	  
 	/**
 	 * A method that is part of the process of filtering the plants in the carousel. This part sets the values from the drop downs for 

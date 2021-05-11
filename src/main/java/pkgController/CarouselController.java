@@ -47,11 +47,6 @@ public abstract class CarouselController {
 	 */
 	private final double CENTER_IMAGE_SCALING = 2.0;
 	
-//	public CarouselController() {
-//		model = new Model();
-//		carouselModel = new CarouselModel(model.getPotentialPlants(), 2);
-//	}
-//	
 	/**
 	 * Constructor initializes all this class' fields
 	 * @param view The program's View that is only initialized once

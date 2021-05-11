@@ -87,7 +87,7 @@ public class DragDropCarouselView extends CarouselView {
 		this.getChildren().add(left);
     	this.setAlignment(Pos.CENTER);
     	
-		this.setHgap(5);
+		this.setHgap(10);
     	//this.setBackground(new Background(new BackgroundFill(Color.LIGHTGREY, 
         //        new CornerRadii(50), Insets.EMPTY)));
     	this.setStyle("-fx-background-color: "

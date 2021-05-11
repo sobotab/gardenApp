@@ -173,7 +173,8 @@ public class EditGardenController {
 			this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots, budget, scale_factor);		
 			gardenModel.adaptPlots(gardenView.CANVASWIDTH - 10, gardenView.CANVASHEIGHT - 10);
 			
-
+			System.out.println("pre scaling: " + scale_factor);
+			System.out.println("post scaling: " + gardenModel.getScaleFactor());
 			gardenView.setBudget(budget);
 			gardenView.makeCanvas(plots);
 			gardenView.setScaleFactor(gardenModel.getScaleFactor());

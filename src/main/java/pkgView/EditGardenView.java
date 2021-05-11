@@ -19,6 +19,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.OverrunStyle;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -237,10 +238,10 @@ public class EditGardenView extends BorderPane{
 				new CornerRadii(5), new Insets(0,0,0,0))));
 		lepSpeciesBox.setPrefWidth(200);
 		lepSpeciesBox.setAlignment(Pos.CENTER);
-		lepSpeciesBox.setPadding(new Insets(10, 0, 10, 0));
+		lepSpeciesBox.setPadding(new Insets(10, 5, 10, 0));
 		lepSpeciesBox.setSpacing(10);
 		
-		infoTab.setPadding(new Insets(0, 0, 0, 10));
+		infoTab.setPadding(new Insets(10, 10, 0, 0));
 		infoTab.getChildren().addAll(budgetBox, lepBox, lepSpeciesBox, buttonBox);
 		
 		
@@ -262,8 +263,9 @@ public class EditGardenView extends BorderPane{
 		garden.getChildren().add(canvas);
 		canvas.setViewOrder(2);
 		garden.setAlignment(canvas, Pos.CENTER);	
-		//garden.setMaxSize(CANVASWIDTH + 350, CANVASHEIGHT + 10);
-		//garden.setClip(new Rectangle(CANVASWIDTH + 350, CANVASHEIGHT + 10));
+		garden.setMaxSize(CANVASWIDTH + 350, CANVASHEIGHT + 10);
+		garden.setClip(new Rectangle(CANVASWIDTH + 400, CANVASHEIGHT + 20));
+		plantCarousel.setMaxWidth(CANVASWIDTH + 450);
 		    	
 		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost-icon.png")), 0);
     	compost.setPreserveRatio(true);
@@ -392,7 +394,12 @@ public class EditGardenView extends BorderPane{
 				species_info_box.getChildren().addAll(lepSpeciesVal, lepSpecies);
 				species_info_box.setPadding(new Insets(0, 0, 0, 15));
 				
+				lepSpecies.setTextOverrun(OverrunStyle.ELLIPSIS);
+				lepSpecies.setMaxWidth(160);
+				
 				this.lepSpeciesBox.getChildren().add(species_info_box);
+				lepSpeciesBox.setAlignment(Pos.BASELINE_LEFT);
+				
 			}
 			Button more = new Button("See more");
 			more.setOnAction(egc.getHandlerForMoreLeps());

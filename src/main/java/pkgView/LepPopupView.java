@@ -3,10 +3,12 @@ package pkgView;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
@@ -37,7 +39,7 @@ public class LepPopupView extends ListView {
 	 * @param lepEntry 		Key-Value pair of lep species name and number of plants supporting it.
 	 * @return 				TilePane with information for an individual lep species.
 	 */
-	public TilePane buildLepDisplay(Map.Entry<String, Integer> lepEntry) {
+	public FlowPane buildLepDisplay(Map.Entry<String, Integer> lepEntry) {
 		ImageView lep_img = new ImageView(new Image("/images/background-flowers.jpg"));
 		lep_img.setFitHeight(100);
 		lep_img.setFitWidth(100);
@@ -54,9 +56,10 @@ public class LepPopupView extends ListView {
 		lep_text_box.getChildren().addAll(lep_name, lep_details);
 		
 		//HBox lepBox = new HBox();
-		TilePane lepBox = new TilePane();
+		FlowPane lepBox = new FlowPane();
 		lepBox.getChildren().addAll(lep_img, lep_text_box);
-		//lepBox.setAlignment(Pos.CENTER_LEFT);
+		lepBox.setAlignment(Pos.BASELINE_LEFT);
+		lepBox.setHgap(10);
 		
 		return lepBox;
 	}

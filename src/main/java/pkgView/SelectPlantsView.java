@@ -79,6 +79,9 @@ public class SelectPlantsView extends BorderPane {
 
 		
 		for(VBox image: selectionCarousel.getFilteredImages()) {
+			if(image.getChildren().size() == 6) {
+				image.getChildren().remove(5);
+			}
 			Button add = new Button("Add");
 			add.setOnMouseClicked(spc.getHandlerForPlantSelected());
 			image.getChildren().add(add);

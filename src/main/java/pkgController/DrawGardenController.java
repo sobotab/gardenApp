@@ -1,9 +1,11 @@
 package pkgController;
 
 import java.awt.geom.Point2D;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,11 +24,31 @@ public class DrawGardenController {
 	DrawGardenModel dgm;
 	DrawGardenView dgv;
 	
-	public DrawGardenController(View view, DrawGardenView dgv) {
+	public DrawGardenController(View view, DrawGardenView dgv, boolean createOnBack) {
 
 		this.view=view;
-		dgm = new DrawGardenModel();
 		this.dgv = dgv;
+		boolean set = false;
+		
+		try {
+			FileInputStream fis = new FileInputStream("drawGarden.ser");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			if (createOnBack) {
+				dgm = (DrawGardenModel)ois.readObject();
+				set = true;
+			}
+			ois.close();
+		} catch(FileNotFoundException e) {
+			System.out.println("File not found");
+		} catch(IOException e) {
+			System.out.println("Error initializing stream");
+		} catch (ClassNotFoundException e) {
+			System.out.println("Class not found exception");
+		}
+		
+		if(!set) {
+			dgm = new DrawGardenModel();
+		}
 	}
 	
 	public void clickedBack(ActionEvent event) {
@@ -67,6 +89,16 @@ public class DrawGardenController {
         	System.out.println("Error initializing stream");
         } 
 		
+		try {
+			FileOutputStream fos = new FileOutputStream("drawGarden.ser");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+        	oos.writeObject(dgm);
+            oos.close();
+        } catch (FileNotFoundException e) {
+        	System.out.println("File not found");
+        } catch (IOException e) {
+        	System.out.println("Error initializing stream");
+        }
 		
 		view.setCurrentScreen(new SelectPlantsView(view));
 	}

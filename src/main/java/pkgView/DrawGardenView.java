@@ -110,8 +110,8 @@ public class DrawGardenView extends BorderPane {
 	 * Initializes javafx components, sets handlers, and adds nodes to the BorderPane
 	 * @param passes in View to communicate with global variables
 	 */
-	public DrawGardenView(View view) {
-		dgc = new DrawGardenController(view, this);
+	public DrawGardenView(View view, boolean createOnBack) {
+		dgc = new DrawGardenController(view, this, createOnBack);
 		title = new Label("Draw an outline for your garden!");
 
 		back = new Button("<<<");
@@ -147,7 +147,6 @@ public class DrawGardenView extends BorderPane {
 		
 		sunLabel = new ImageView(new Image("/images/sun-icon.png"));
 		
-		sun = new Slider();
 		sun.setMin(0);
 		sun.setMax(2);
 		sun.setMinorTickCount(0);
@@ -709,4 +708,22 @@ public class DrawGardenView extends BorderPane {
 		return this.minLength;
 	}
 	
+	public void setSun(Sun sunValue) {
+		if (sunValue.equals(Sun.SHADE)) {
+			sun.setValue(0d);
+		} else if (sunValue.equals(Sun.PARTSUN)) {
+			sun.setValue(1d);
+		} else if (sunValue.equals(Sun.FULLSUN)) {
+			sun.setValue(2d);
+		}
+		sun.setValue(0d);
+	}
+	
+	public void setMoisture(Moisture moisture) {
+		
+	}
+	
+	public void setBudget(int budget) {
+		
+	}
 }

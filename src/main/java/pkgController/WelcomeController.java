@@ -37,7 +37,7 @@ public class WelcomeController {
 	 * @param event An ActionEvent that is a mouse being clicked
 	 */
 	public void clickedNew(ActionEvent event) {
-		view.setCurrentScreen(new DrawGardenView(view));
+		view.setCurrentScreen(new DrawGardenView(view, false));
 	}
 	
 	/**

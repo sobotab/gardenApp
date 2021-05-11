@@ -41,7 +41,7 @@ public class DrawGardenController {
 		//dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
-		if(dgv.getBudget() >= 0) {
+		if(dgv.getBudget() > 0) {
 			dgm.setBudget(dgv.getBudget());
 		} else {
 			dgv.errorPopup("Set a budget before continuing!");

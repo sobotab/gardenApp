@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -17,14 +15,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import pkgController.DrawGardenController;
@@ -90,6 +87,10 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * Current fill color based on the soil
 	 */
+	ImageView sunLabel, moistureLabel;
+	Label title, budgetLabel;
+	HBox budgetBox, scaleButtonBox;
+	VBox sideTool, sunBox, moistureBox;
 	Color color;
 	/**
 	 * line width in pixels for drawing on the screen
@@ -103,7 +104,7 @@ public class DrawGardenView extends BorderPane {
 	 * drawing: boolean to set the start point in the model
 	 * shapeDon: boolean to add the outline to plots in the model
 	 */
-	boolean drawing, shapeDone;
+	boolean drawing, shapeDone, resizeCanvas;
 	
 	/**
 	 * Initializes javafx components, sets handlers, and adds nodes to the BorderPane
@@ -111,7 +112,7 @@ public class DrawGardenView extends BorderPane {
 	 */
 	public DrawGardenView(View view) {
 		dgc = new DrawGardenController(view, this);
-		Label title = new Label("Draw Garden");
+		title = new Label("Draw an outline for your garden!");
 
 		Button back = new Button("Back");
 		Button finish = new Button("Finish");
@@ -122,10 +123,7 @@ public class DrawGardenView extends BorderPane {
 		
 		//Garden Drawing Tool
 		canvas = new ResizableCanvas();
-		Canvas deleteCanvas = new Canvas();
-		deleteCanvas.widthProperty().addListener(event -> resize());
 		canvas.heightProperty().addListener(event -> resize());
-		//canvas.widthProperty().addListener(event->resize());
 		gc = canvas.getGraphicsContext2D();
 		rows = 15;
 		columns = 15;
@@ -134,24 +132,20 @@ public class DrawGardenView extends BorderPane {
 		buildScaleText();
 		
 		drawing = false;
+		resizeCanvas = true;
 		
 		canvas.setOnMousePressed(event -> mousePressed((MouseEvent) event));
 		canvas.setOnMouseDragged(event -> mouseDragged((MouseEvent) event));
 		canvas.setOnMouseReleased(event -> mouseReleased((MouseEvent) event));
 		
-		//Making sidetool		
-		drawButton = new ToggleButton("Draw");
-		//polyButton = new ToggleButton("Polygon");
-		ToggleGroup tg = new ToggleGroup();
-		tg.getToggles().addAll(drawButton);//, polyButton);
-		
+		//Making sidetool
 		soilComboBox= new ComboBox<>();
 		soilComboBox.setPromptText("Choose Soil");
 		soilComboBox.getItems().add(Soil.CLAY);
 		soilComboBox.getItems().add(Soil.SANDY);
 		soilComboBox.getItems().add(Soil.LOAMY);
 		
-		Label sunLabel = new Label("Sun");
+		sunLabel = new ImageView(new Image("/images/sun-icon.png"));
 		
 		sun = new Slider();
 		sun.setMin(0);
@@ -186,7 +180,10 @@ public class DrawGardenView extends BorderPane {
             }
         });
 		
-		Label moistureLabel = new Label("Moisture");
+		sunBox = new VBox();
+		sunBox.getChildren().addAll(sunLabel, sun);
+		
+		moistureLabel = new ImageView(new Image("/images/water-drop-icon.png"));
 		
 		moisture = new Slider();
 		moisture.setMin(0);
@@ -224,10 +221,13 @@ public class DrawGardenView extends BorderPane {
             }
         });
 		
-		Label budgetLabel = new Label("$");
+		moistureBox = new VBox();
+		moistureBox.getChildren().addAll(moistureLabel, moisture);
+		
+		budgetLabel = new Label("$");
 		budget = new TextField();
 		budget.setPromptText("Budget");
-		HBox budgetBox = new HBox();
+		budgetBox = new HBox();
 		budgetBox.getChildren().addAll(budgetLabel, budget);
 		
 		undoButton = new Button("Undo");
@@ -237,21 +237,84 @@ public class DrawGardenView extends BorderPane {
 		incButton.setOnAction(event -> incButtonPressed(event));
 		decButton = new Button("-");
 		decButton.setOnAction(event -> decButtonPressed(event));
-		HBox scaleButtonBox = new HBox();
+		scaleButtonBox = new HBox();
 		scaleButtonBox.getChildren().addAll(incButton, decButton);
 		
 		//Adding to borderpane 
-		HBox toolBox = new HBox();
-		toolBox.getChildren().addAll(drawButton);//, polyButton);
-		
-		VBox sideTool = new VBox();
-		sideTool.getChildren().addAll(toolBox, soilComboBox, sunLabel, sun,
-				moistureLabel, moisture, budgetBox, undoButton, scaleButtonBox);
+		sideTool = new VBox();
+		sideTool.getChildren().addAll(soilComboBox, sunBox,	moistureBox, budgetBox, undoButton, scaleButtonBox);
 		
 		this.setTop(title);
 		this.setLeft(sideTool);
 		this.setCenter(canvas);
 		this.setBottom(bottomHBox);
+		
+		makePretty();
+	}
+	
+	public void makePretty() {
+		this.setStyle("-fx-background-color: #E7E492;");
+		
+		title.setPrefHeight(50);
+		title.setStyle("-fx-font-size: 40;"
+				+ "-fx-font-weight: bold;");
+		
+		double currentHeight = this.getHeight();
+		double currentWidth = this.getWidth();
+		double prefWidth = (currentWidth/10)*1.3;
+		double prefHeight = (canvas.getHeight()/3*2);
+		String font = "-fx-font-size:";
+		String background = "-fx-background-color:";
+		
+		title.setPadding(new Insets(5, 0, 5, prefWidth));
+		
+		Insets inset = new Insets(5, 20, 5, 20);
+		
+		sideTool.setPadding(inset);
+		sideTool.setSpacing(10);
+		sideTool.setPrefWidth(prefWidth);
+		sideTool.setMaxHeight(prefHeight);
+		
+		soilComboBox.setPrefWidth(prefWidth);
+		soilComboBox.setMinHeight(prefHeight/9);
+		soilComboBox.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ " -fx-background-color: #E8A171");
+		
+		sunLabel.setFitHeight(100.0);
+		sunLabel.setFitWidth(100.0);
+		sunLabel.setPreserveRatio(true);
+		sun.setStyle(font + Double.valueOf(prefWidth/15).toString());
+		
+		moistureLabel.setFitHeight(100.0);
+		moistureLabel.setFitWidth(100.0);
+		moisture.setStyle(font + Double.valueOf(prefWidth/15).toString());
+		
+		budgetLabel.setStyle(font + Double.valueOf(prefWidth/3).toString());
+		budget.setPrefWidth(prefWidth);
+		budget.setPrefHeight(prefHeight);
+		budget.setMaxHeight(prefHeight/6);
+		
+		undoButton.setPrefHeight(prefHeight);
+		undoButton.setPrefWidth(prefWidth);
+		undoButton.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ " -fx-background-color: #9DD6DE;"
+				+ " -fx-border-color: #000000;");
+		
+		scaleButtonBox.setSpacing(4);
+		incButton.setPrefWidth(prefWidth);
+		incButton.setPrefHeight(prefHeight);
+		incButton.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ " -fx-background-color: #9DD6DE;"
+				+ " -fx-border-color: #000000;");
+		decButton.setPrefWidth(prefWidth);
+		decButton.setPrefHeight(prefHeight);
+		decButton.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ " -fx-background-color: #9DD6DE;"
+				+ " -fx-border-color: #000000;");
 	}
 	
 	/**
@@ -261,7 +324,7 @@ public class DrawGardenView extends BorderPane {
 	public void mousePressed(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
 		gc.setLineWidth(2d);
-		if (drawButton.isSelected()) {
+		if (soilComboBox.getValue() != null) {
 			setColor();
 			drawing = true;
 			dgc.draw();
@@ -270,7 +333,7 @@ public class DrawGardenView extends BorderPane {
 			gc.beginPath();
 			gc.moveTo(e.getX(),e.getY());
 		} else {
-			errorPopup("Choose a drawing tool");
+			errorPopup("Choose a soil before drawing");
 		}
 	}
 	
@@ -281,7 +344,7 @@ public class DrawGardenView extends BorderPane {
 	 */
 	public void mouseDragged(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
-		if(drawButton.isSelected() && drawing) {
+		if(drawing) {
 			dgc.draw();
 			gc.lineTo(e.getX(),e.getY());
 			gc.stroke();
@@ -294,7 +357,7 @@ public class DrawGardenView extends BorderPane {
 	 * @param e
 	 */
 	public void mouseReleased(MouseEvent e) {
-		if (drawButton.isSelected() && drawing) {
+		if (drawing) {
 			drawing = false;
 			Point2D.Double point = dgc.draw();
 			gc.lineTo(point.getX(), point.getY());
@@ -324,19 +387,15 @@ public class DrawGardenView extends BorderPane {
 	 * Error handling for if there is no soil chosen.
 	 */
 	public void setColor() {
-		try {
-			switch (soilComboBox.getValue()) {
-				case CLAY:
-					color = Color.RED; break;
-				case SANDY:
-					color = Color.CORNSILK; break;
-				case LOAMY:
-					color = Color.BROWN; break;
-				default:
-					color = Color.BLACK; break;
-			}
-		} catch (NullPointerException e) {
-			errorPopup("Choose a soil before drawing!");
+		switch (soilComboBox.getValue()) {
+			case CLAY:
+				color = Color.rgb(216, 106, 43); break;
+			case SANDY:
+				color = Color.CORNSILK; break;
+			case LOAMY:
+				color = Color.rgb(94, 64, 44); break;
+			default:
+				color = Color.BLACK; break;
 		}
 	}
 	
@@ -469,6 +528,11 @@ public class DrawGardenView extends BorderPane {
 		for (double i=0.0; i<columns; i++) {
 			gc.strokeLine(i*tmpScale,0.0,i*tmpScale,canvasHeight);
 		}
+		gc.setStroke(Color.BLACK);
+		gc.strokeLine(0, 0, canvasWidth, 0);
+		gc.strokeLine(canvasWidth, 0, canvasWidth, canvasHeight);
+		gc.strokeLine(canvasWidth, canvasHeight, 0, canvasHeight);
+		gc.strokeLine(0, canvasHeight, 0, 0);
 	}
 	
 	/**
@@ -482,7 +546,7 @@ public class DrawGardenView extends BorderPane {
 		gc.setLineWidth(1);
 		gc.strokeLine(tmpScale, tmpScale-tmpScale/3, tmpScale,  tmpScale+tmpScale/3);
 		gc.strokeLine(tmpScale*2.0, tmpScale-tmpScale/3, tmpScale*2.0,  tmpScale+tmpScale/3);
-		gc.strokeText(Integer.valueOf(9) + "ft", tmpScale, tmpScale+20.0);
+		gc.strokeText(Integer.valueOf(9) + "ft", tmpScale+(tmpScale/4), tmpScale+20.0);
 	}
 	
 	/**
@@ -566,7 +630,7 @@ public class DrawGardenView extends BorderPane {
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();
-		System.out.println(plots);
+		makePretty();
 	}
 	
 	/**
@@ -625,4 +689,5 @@ public class DrawGardenView extends BorderPane {
 	public double getMinLength() {
 		return this.minLength;
 	}
+	
 }

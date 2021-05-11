@@ -58,19 +58,7 @@ public class InfoCarouselController extends CarouselController {
 			while(plantIter.hasNext() && imageIter.hasNext()) {
 				PlantInfoModel plant = (PlantInfoModel)plantIter.next();
 				VBox imageBox = imageIter.next();
-				String sunLevel = plant.getSun();
-				String moistureLevel = plant.getMoisture();
-				String soilType = plant.getSoil();
-				int price = plant.getDollars();
-				String plantType;
-				if(price == 6) {
-					plantType = "herbaceous";
-				}
-				else {
-					plantType = "woody";
-				}
-				//use contains instead of equals so the empty string will reset the carousel, also one plant can have multiple soil or moisture levels
-				if(sunLevel.contains(sun) && moistureLevel.contains(moisture) && soilType.contains(soil) && plantType.contains(type)) {
+				if(checkPlantConditions(plant, sun, moisture, soil, type)) {
 					filteredImages.add(imageBox);
 					filteredPlants.add(plant);
 				}
@@ -78,6 +66,22 @@ public class InfoCarouselController extends CarouselController {
 			icv.setFilteredImages(filteredImages);
 			carouselModel.setFilteredPlants(filteredPlants);
 			icv.update();
+		}
+		
+		public boolean checkPlantConditions(PlantModel plant, String sun, String moisture, String soil, String type) {
+			String sunLevel = plant.getSun();
+			String moistureLevel = plant.getMoisture();
+			String soilType = plant.getSoil();
+			int price = plant.getDollars();
+			String plantType;
+			if(price == 6) {
+				plantType = "herbaceous";
+			}
+			else {
+				plantType = "woody";
+			}
+			//use contains instead of equals so the empty string will reset the carousel, also one plant can have multiple soil or moisture levels
+			return (sunLevel.contains(sun) && moistureLevel.contains(moisture) && soilType.contains(soil) && plantType.contains(type));
 		}
 		
 }

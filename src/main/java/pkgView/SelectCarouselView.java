@@ -94,7 +94,7 @@ public class SelectCarouselView extends CarouselView{
 	 */
 	
 	
-	public void filter(String type, String soil, String sun, String moisture) {
+	public void filter(String type, String soil, String sun, String moisture, List<String> soils) {
 		if(soil == null) {
 			soil = "";
 		}
@@ -107,7 +107,7 @@ public class SelectCarouselView extends CarouselView{
 		if(sun == null) {
 			sun = "";
 		}
-		scc.filterCarousel(type, soil, sun, moisture);
+		scc.filterCarousel(type, soil, sun, moisture, soils);
 	}
 	
 	public SelectCarouselController getScc() {

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Stack;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
@@ -91,9 +92,12 @@ public class SelectPlantsView extends BorderPane {
 				BackgroundPosition.CENTER,
 				bSize)));
 		
+		List<String> soils = selectionCarousel.getScc().getSoil();
 		ComboBox<String> soil = new ComboBox();
 		soil.setPromptText("Soil Type");
-		soil.setItems(FXCollections.observableArrayList("","clay","sandy","loamy"));
+		ObservableList<String> options = FXCollections.observableArrayList("");
+		options.addAll(soils);
+		soil.setItems(options);
 		soil.setPrefWidth(FILTER_WIDTH);
 		
 		ComboBox<String> type = new ComboBox();
@@ -112,7 +116,7 @@ public class SelectPlantsView extends BorderPane {
 			public void handle(ActionEvent event) {
 				String soilType = soil.getValue();
 				String plantType = type.getValue();
-				selectionCarousel.filter(plantType, soilType, sun, moisture);
+				selectionCarousel.filter(plantType, soilType, sun, moisture, soils);
 				//num_plants.setText("Plants shown: " + selectionCarousel.getFilteredImages().size());
 			}
 		});

@@ -130,7 +130,7 @@ public class SelectCarouselController extends CarouselController {
 		scv.update();
 	}
 	
-	public void filterCarousel(String type, String soil, String sun, String moisture) {
+	public void filterCarousel(String type, String soil, String sun, String moisture, List<String> soils) {
 		List<PlantModel> plants = carouselModel.getPlants();
 		List<VBox> images = scv.getImages();
 		List<PlantModel> filteredPlants = new ArrayList<>();
@@ -151,7 +151,18 @@ public class SelectCarouselController extends CarouselController {
 			else {
 				plantType = "woody";
 			}
-			if(soilType.contains(soil) && plantType.contains(type) && sunLevel.contains(sun) && moistureLevel.contains(moisture)) {
+			boolean correctSoil = false;
+			if(soil == "") {
+				for(String gardenSoil: soils) {
+					if(soilType.contains(gardenSoil)) {
+						correctSoil = true;
+					}
+				}
+			}
+			else {
+				correctSoil = true;
+			}
+			if(soilType.contains(soil) && plantType.contains(type) && sunLevel.contains(sun) && moistureLevel.contains(moisture) && correctSoil) {
 				filteredPlants.add(plant);
 				filteredImages.add(imageBox);
 			}

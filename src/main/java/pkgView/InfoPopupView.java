@@ -1,5 +1,7 @@
 package pkgView;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javafx.collections.FXCollections;
@@ -21,6 +23,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Popup;
 
 /**
@@ -40,7 +43,7 @@ public class InfoPopupView extends BorderPane{
 	 * @param dollars The price of the plant that had its image clicked
 	 * @param description A short description of the plant that had its image clicked
 	 */
-	public InfoPopupView(ImageView img, String name, String sciName, int numLeps, int dollars, String description, List<String> leps) {
+	public InfoPopupView(View view, ImageView img, String name, String sciName, int numLeps, int dollars, String description, List<String> leps) {
 		BackgroundFill bFill = new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(bFill);
 		this.setBackground(background);
@@ -55,10 +58,30 @@ public class InfoPopupView extends BorderPane{
 		img_copy.setClip(frame);
 		VBox lepBox = new VBox();
 		Label lepCount = new Label("Supports " + numLeps + " lep species.");
-		ObservableList lep_names = FXCollections.observableArrayList();
-		lep_names.addAll(leps);
-		ListView<String> lepSpecies = new ListView<String>();
-		lepSpecies.setItems(lep_names);
+		ObservableList<VBox> lepNames = FXCollections.observableArrayList();
+		HashMap<String, ImageView> lepImages = view.getController().getLepImages();
+		for(String lep: leps) {
+			ImageView lepImage = null;
+			if(lepImages.containsKey(lep)) {
+				lepImage = lepImages.get(lep);
+				lepImage.setScaleX(.5);
+				lepImage.setScaleY(.5);
+			}
+			Text lepName = new Text(lep);
+			lepName.setFont(Font.font("cambria"));
+			lepName.setTextAlignment(TextAlignment.CENTER);
+			VBox box = new VBox();
+			if(lepImage != null) {
+				box.getChildren().addAll(lepName, lepImage);
+			}
+			else {
+				box.getChildren().add(lepName);
+			}
+			box.setAlignment(Pos.CENTER);
+			lepNames.add(box);
+		}
+		ListView<VBox> lepSpecies = new ListView<VBox>();
+		lepSpecies.setItems(lepNames);
 		lepBox.getChildren().addAll(lepCount, lepSpecies);
 		Label price = new Label("Costs " + dollars + " dollars.");
 		Label info = new Label(description);

@@ -67,7 +67,7 @@ public class SelectPlantsController {
 	 * @param event An ActionEvent that is a mouse click
 	 */ 
 	public void clickedBack(ActionEvent event) {
-		view.setCurrentScreen(new DrawGardenView(view));
+		view.setCurrentScreen(new DrawGardenView(view, true));
 	}
 	
 	/**

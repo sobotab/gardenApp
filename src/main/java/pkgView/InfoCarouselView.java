@@ -49,6 +49,9 @@ public class InfoCarouselView extends CarouselView{
 		for(VBox image: images) {
 			filteredImages.add(image);
 			image.setOnMousePressed(icc.getHandlerForPopup());
+			if(image.getChildren().size() == 6) {
+				image.getChildren().remove(5);
+			}
 		}
 
 		center = 1;

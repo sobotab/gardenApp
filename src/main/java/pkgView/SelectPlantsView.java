@@ -75,6 +75,7 @@ public class SelectPlantsView extends BorderPane {
 			Button add = new Button("Add");
 			add.setOnMouseClicked(spc.getHandlerForPlantSelected());
 			image.getChildren().add(add);
+			image.setOnMousePressed(selectionCarousel.getScc().getHandlerForPopup());
 		}
 		
 		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);

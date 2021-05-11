@@ -137,6 +137,7 @@ public class SelectPlantsController {
 		carouselView.update();
 		spv.selectPlant(img);
 		carouselModel.selectPlant(plant);
+		spv.updateNumPlants();
 	}
 	
 	/**
@@ -188,6 +189,7 @@ public class SelectPlantsController {
 			carouselView.getFilteredImages().add(index, img);
 		}
 		carouselView.update();
+		spv.updateNumPlants();
 	}
 	
 	public boolean checkPlantConditions(PlantInfoModel plant, String type, String soil, String sun, String moisture, List<String> soils) {

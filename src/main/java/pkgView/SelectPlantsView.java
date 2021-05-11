@@ -30,6 +30,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import pkgController.SelectPlantsController;
 import pkgController.Soil;
 
@@ -63,6 +64,7 @@ public class SelectPlantsView extends BorderPane {
 	 * Scaling of a plant's size that should be used when the plant is selected
 	 */
 	ListView<VBox> plantsSelected;
+	Text numPlants;
 	private final double SELECTED_PLANT_SCALING = 0.75;
 	private final double FILTER_WIDTH = 150.0;
 	
@@ -75,6 +77,9 @@ public class SelectPlantsView extends BorderPane {
 		selectionCarousel = new SelectCarouselView(view);
 		selectedPlants = new ArrayList<ImageView>();
 		spc = new SelectPlantsController(view, this, selectionCarousel.getScc());
+		numPlants = new Text("");
+		numPlants.setFont(Font.font("cambria"));
+		updateNumPlants();
 		
 
 		
@@ -123,7 +128,7 @@ public class SelectPlantsView extends BorderPane {
 				}
 				String plantType = type.getValue();
 				selectionCarousel.filter(plantType, soilType, sun, moisture, soils);
-				//num_plants.setText("Plants shown: " + selectionCarousel.getFilteredImages().size());
+				updateNumPlants();
 			}
 		});
 		
@@ -132,10 +137,10 @@ public class SelectPlantsView extends BorderPane {
 		Label title = new Label("Select Plants");
 		VBox filterBox = new VBox();
 		if(soils.size() > 1) {
-			filterBox.getChildren().addAll(title,type,soil,filter);
+			filterBox.getChildren().addAll(title,type,soil,filter, numPlants);
 		}
 		else {
-			filterBox.getChildren().addAll(title,type,filter);
+			filterBox.getChildren().addAll(title,type,filter, numPlants);
 		}
 		Button back = new Button("Back to drawing garden.");
 		back.setOnAction(spc.getHandlerForBack());
@@ -216,6 +221,10 @@ public class SelectPlantsView extends BorderPane {
 		add.setOnMouseClicked(spc.getHandlerForPlantSelected());
 		box.getChildren().add(add);
 		
+	}
+	
+	public void updateNumPlants() {
+		numPlants.setText("Plants shown: " + selectionCarousel.getFilteredImages().size());
 	}
 	
 	

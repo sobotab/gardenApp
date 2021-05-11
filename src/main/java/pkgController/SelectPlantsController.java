@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import javafx.scene.text.Text;
 import pkgModel.CarouselModel;
 import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
+import pkgView.CarouselView;
 import pkgView.DrawGardenView;
 import pkgView.EditGardenView;
 import pkgView.SelectCarouselView;
@@ -107,6 +109,7 @@ public class SelectPlantsController {
 		CarouselModel carouselModel = scc.getCarouselModel();
 		Button button = (Button)event.getSource();
 		VBox img = (VBox)button.getParent();
+		img.setOnMousePressed(getHandlerForSelectedPlantPopup());
 		int centerIndex = carouselModel.getHeldPlant();
 		VBox centerImage = carouselView.getFilteredImages().get(centerIndex);
 		double centerX = centerImage.getLayoutX();
@@ -153,7 +156,8 @@ public class SelectPlantsController {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
 		Button button = (Button)event.getSource();
-		VBox img = (VBox)button.getParent();		
+		VBox img = (VBox)button.getParent();
+		img.setOnMousePressed(scc.getHandlerForPopup());
 		spv.deSelectPlant(img);
 		Text text = (Text)img.getChildren().get(0);
 		String[] plantNames = text.getText().split("\n");
@@ -209,6 +213,21 @@ public class SelectPlantsController {
 		String plantSun = plant.getSun();
 		String plantMoisture = plant.getMoisture();
 		return(plantSoil.contains(soil) && plantSun.contains(sun) && plantMoisture.contains(moisture) && plantType.contains(type) && correctSoil);
+	}
+	
+	public void selectedPlantPopup(MouseEvent event) {
+		VBox box = (VBox)event.getSource();
+		ImageView imv = (ImageView)box.getChildren().get(1);
+		Text nameText = (Text)box.getChildren().get(0);
+		String commonName = nameText.getText().split("\n")[0];
+		HashMap<String, PlantModel> selectedPlants = scc.getCarouselModel().getSelectedPlants();
+		PlantInfoModel plant = (PlantInfoModel)selectedPlants.get(commonName);
+		CarouselView carouselView = spv.getSelectionCarousel();
+		carouselView.openInfoPopUp(view, imv, commonName, plant.getSciName(), plant.getNumLeps(), plant.getDollars(), plant.getDescription(), plant.getLeps());
+	}
+	
+	public EventHandler getHandlerForSelectedPlantPopup() {
+		return event -> selectedPlantPopup((MouseEvent) event);
 	}
 	
 	/**

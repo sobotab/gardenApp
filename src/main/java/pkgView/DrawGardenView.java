@@ -15,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -85,9 +87,10 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * Current fill color based on the soil
 	 */
-	Label sunLabel, moistureLabel, budgetLabel;
+	ImageView sunLabel, moistureLabel;
+	Label title, budgetLabel;
 	HBox budgetBox, scaleButtonBox;
-	VBox sideTool;
+	VBox sideTool, sunBox, moistureBox;
 	Color color;
 	/**
 	 * line width in pixels for drawing on the screen
@@ -101,7 +104,7 @@ public class DrawGardenView extends BorderPane {
 	 * drawing: boolean to set the start point in the model
 	 * shapeDon: boolean to add the outline to plots in the model
 	 */
-	boolean drawing, shapeDone;
+	boolean drawing, shapeDone, resizeCanvas;
 	
 	/**
 	 * Initializes javafx components, sets handlers, and adds nodes to the BorderPane
@@ -109,7 +112,7 @@ public class DrawGardenView extends BorderPane {
 	 */
 	public DrawGardenView(View view) {
 		dgc = new DrawGardenController(view, this);
-		Label title = new Label("Draw Garden");
+		title = new Label("Draw an outline for your garden!");
 
 		Button back = new Button("Back");
 		Button finish = new Button("Finish");
@@ -129,6 +132,7 @@ public class DrawGardenView extends BorderPane {
 		buildScaleText();
 		
 		drawing = false;
+		resizeCanvas = true;
 		
 		canvas.setOnMousePressed(event -> mousePressed((MouseEvent) event));
 		canvas.setOnMouseDragged(event -> mouseDragged((MouseEvent) event));
@@ -141,7 +145,7 @@ public class DrawGardenView extends BorderPane {
 		soilComboBox.getItems().add(Soil.SANDY);
 		soilComboBox.getItems().add(Soil.LOAMY);
 		
-		sunLabel = new Label("Sun");
+		sunLabel = new ImageView(new Image("/images/sun-icon.png"));
 		
 		sun = new Slider();
 		sun.setMin(0);
@@ -176,7 +180,10 @@ public class DrawGardenView extends BorderPane {
             }
         });
 		
-		moistureLabel = new Label("Moisture");
+		sunBox = new VBox();
+		sunBox.getChildren().addAll(sunLabel, sun);
+		
+		moistureLabel = new ImageView(new Image("/images/water-drop-icon.png"));
 		
 		moisture = new Slider();
 		moisture.setMin(0);
@@ -214,6 +221,9 @@ public class DrawGardenView extends BorderPane {
             }
         });
 		
+		moistureBox = new VBox();
+		moistureBox.getChildren().addAll(moistureLabel, moisture);
+		
 		budgetLabel = new Label("$");
 		budget = new TextField();
 		budget.setPromptText("Budget");
@@ -232,13 +242,79 @@ public class DrawGardenView extends BorderPane {
 		
 		//Adding to borderpane 
 		sideTool = new VBox();
-		sideTool.getChildren().addAll(soilComboBox, sunLabel, sun,
-				moistureLabel, moisture, budgetBox, undoButton, scaleButtonBox);
+		sideTool.getChildren().addAll(soilComboBox, sunBox,	moistureBox, budgetBox, undoButton, scaleButtonBox);
 		
 		this.setTop(title);
 		this.setLeft(sideTool);
 		this.setCenter(canvas);
 		this.setBottom(bottomHBox);
+		
+		makePretty();
+	}
+	
+	public void makePretty() {
+		this.setStyle("-fx-background-color: #E7E492;");
+		
+		title.setPrefHeight(50);
+		title.setStyle("-fx-font-size: 40;"
+				+ "-fx-font-weight: bold;");
+		
+		double currentHeight = this.getHeight();
+		double currentWidth = this.getWidth();
+		double prefWidth = (currentWidth/10)*1.3;
+		double prefHeight = (canvas.getHeight()/3*2);
+		String font = "-fx-font-size:";
+		String background = "-fx-background-color:";
+		
+		title.setPadding(new Insets(5, 0, 5, prefWidth));
+		
+		Insets inset = new Insets(5, 20, 5, 20);
+		
+		sideTool.setPadding(inset);
+		sideTool.setSpacing(10);
+		sideTool.setPrefWidth(prefWidth);
+		sideTool.setMaxHeight(prefHeight);
+		
+		soilComboBox.setPrefWidth(prefWidth);
+		soilComboBox.setMinHeight(prefHeight/9);
+		soilComboBox.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ " -fx-background-color: #E8A171");
+		
+		sunLabel.setFitHeight(100.0);
+		sunLabel.setFitWidth(100.0);
+		sunLabel.setPreserveRatio(true);
+		sun.setStyle(font + Double.valueOf(prefWidth/15).toString());
+		
+		moistureLabel.setFitHeight(100.0);
+		moistureLabel.setFitWidth(100.0);
+		moisture.setStyle(font + Double.valueOf(prefWidth/15).toString());
+		
+		budgetLabel.setStyle(font + Double.valueOf(prefWidth/3).toString());
+		budget.setPrefWidth(prefWidth);
+		budget.setPrefHeight(prefHeight);
+		budget.setMaxHeight(prefHeight/6);
+		
+		undoButton.setPrefHeight(prefHeight);
+		undoButton.setPrefWidth(prefWidth);
+		undoButton.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ " -fx-background-color: #9DD6DE;"
+				+ " -fx-border-color: #000000;");
+		
+		scaleButtonBox.setSpacing(4);
+		incButton.setPrefWidth(prefWidth);
+		incButton.setPrefHeight(prefHeight);
+		incButton.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ " -fx-background-color: #9DD6DE;"
+				+ " -fx-border-color: #000000;");
+		decButton.setPrefWidth(prefWidth);
+		decButton.setPrefHeight(prefHeight);
+		decButton.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ " -fx-background-color: #9DD6DE;"
+				+ " -fx-border-color: #000000;");
 	}
 	
 	/**
@@ -313,11 +389,11 @@ public class DrawGardenView extends BorderPane {
 	public void setColor() {
 		switch (soilComboBox.getValue()) {
 			case CLAY:
-				color = Color.RED; break;
+				color = Color.rgb(216, 106, 43); break;
 			case SANDY:
 				color = Color.CORNSILK; break;
 			case LOAMY:
-				color = Color.BROWN; break;
+				color = Color.rgb(94, 64, 44); break;
 			default:
 				color = Color.BLACK; break;
 		}
@@ -452,6 +528,11 @@ public class DrawGardenView extends BorderPane {
 		for (double i=0.0; i<columns; i++) {
 			gc.strokeLine(i*tmpScale,0.0,i*tmpScale,canvasHeight);
 		}
+		gc.setStroke(Color.BLACK);
+		gc.strokeLine(0, 0, canvasWidth, 0);
+		gc.strokeLine(canvasWidth, 0, canvasWidth, canvasHeight);
+		gc.strokeLine(canvasWidth, canvasHeight, 0, canvasHeight);
+		gc.strokeLine(0, canvasHeight, 0, 0);
 	}
 	
 	/**
@@ -465,7 +546,7 @@ public class DrawGardenView extends BorderPane {
 		gc.setLineWidth(1);
 		gc.strokeLine(tmpScale, tmpScale-tmpScale/3, tmpScale,  tmpScale+tmpScale/3);
 		gc.strokeLine(tmpScale*2.0, tmpScale-tmpScale/3, tmpScale*2.0,  tmpScale+tmpScale/3);
-		gc.strokeText(Integer.valueOf(9) + "ft", tmpScale, tmpScale+20.0);
+		gc.strokeText(Integer.valueOf(9) + "ft", tmpScale+(tmpScale/4), tmpScale+20.0);
 	}
 	
 	/**
@@ -549,7 +630,7 @@ public class DrawGardenView extends BorderPane {
 		buildGrid();
 		buildPlots(plots);
 		buildScaleText();
-		System.out.println(plots);
+		makePretty();
 	}
 	
 	/**
@@ -609,8 +690,4 @@ public class DrawGardenView extends BorderPane {
 		return this.minLength;
 	}
 	
-	public void makePretty() {
-		Insets inset = new Insets(10, 10, 10, 10);
-		sideTool.setPadding(inset);
-	}
 }

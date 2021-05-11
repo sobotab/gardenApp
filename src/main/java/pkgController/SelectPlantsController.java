@@ -160,22 +160,55 @@ public class SelectPlantsController {
 		String name = plantNames[0];
 		PlantInfoModel plant = (PlantInfoModel)carouselModel.getSelectedPlants().get(name);
 		carouselModel.getSelectedPlants().remove(name);
-		ArrayList<PlantModel> filteredPlants = (ArrayList<PlantModel>)carouselModel.getFilteredPlants();
-		Iterator<PlantModel> it = filteredPlants.iterator();
-		int index = 0;
-		boolean found = false;
-		while(it.hasNext() && !found) {
-			PlantModel currentPlant = it.next();
-			if(plant.getNumLeps() < currentPlant.getNumLeps()) {
-				index++;
+		String sun = scc.getSun();
+		String moisture = scc.getMoisture();
+		List<String> soils = scc.getSoil();
+		String type = carouselView.getType();
+		String soil = carouselView.getSoil();
+		//Only add the plant back to the carousel immediately if the current filter types match
+		if(checkPlantConditions(plant,type,soil,sun,moisture,soils)) {
+			ArrayList<PlantModel> filteredPlants = (ArrayList<PlantModel>)carouselModel.getFilteredPlants();
+			Iterator<PlantModel> it = filteredPlants.iterator();
+			int index = 0;
+			boolean found = false;
+			while(it.hasNext() && !found) {
+				PlantModel currentPlant = it.next();
+				if(plant.getNumLeps() < currentPlant.getNumLeps()) {
+					index++;
+				}
+				else {
+					found = true;
+				}
 			}
-			else {
-				found = true;
+			carouselModel.getFilteredPlants().add(index, plant);
+			carouselView.getFilteredImages().add(index, img);
+		}
+		carouselView.update();
+	}
+	
+	public boolean checkPlantConditions(PlantInfoModel plant, String type, String soil, String sun, String moisture, List<String> soils) {
+		boolean correctSoil = false;
+		if(soil == "") {
+			for(String soilType: soils) {
+				if(plant.getSoil().contains(soilType)) {
+					correctSoil = true;
+				}
 			}
 		}
-		carouselModel.getFilteredPlants().add(index, plant);
-		carouselView.getFilteredImages().add(index, img);
-		carouselView.update();
+		else {
+			correctSoil = true;
+		}
+		String plantType = "";
+		if(plant.getDollars() == 6) {
+			plantType = "herbaceous";
+		}
+		else {
+			plantType = "woody";
+		}
+		String plantSoil = plant.getSoil();
+		String plantSun = plant.getSun();
+		String plantMoisture = plant.getMoisture();
+		return(plantSoil.contains(soil) && plantSun.contains(sun) && plantMoisture.contains(moisture) && plantType.contains(type) && correctSoil);
 	}
 	
 	/**

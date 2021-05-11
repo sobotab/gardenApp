@@ -33,6 +33,8 @@ public class SelectCarouselView extends CarouselView{
 	 * The controller for the select carousel
 	 */
 	SelectCarouselController scc;
+	String type;
+	String soil;
 	
 	/**
 	 * Constructor for the SelectCarouselView which automatically filters the shown plants based on selections from the draw garden screen and 
@@ -45,7 +47,9 @@ public class SelectCarouselView extends CarouselView{
 		this.setHgap(10);
 		String sun = scc.getSun();
 		String moisture = scc.getMoisture();
-		List<String> soil = scc.getSoil();
+		List<String> soils = scc.getSoil();
+		this.type = "";
+		this.soil = "";
 		
 		images = scc.getImagesFromController();
 		
@@ -72,7 +76,7 @@ public class SelectCarouselView extends CarouselView{
 		
 		this.getChildren().add(left);
 		this.getChildren().add(right);
-		this.filter(sun, moisture, soil);
+		this.filter(sun, moisture, soils);
 		this.setAlignment(Pos.CENTER);
 		
 
@@ -85,8 +89,8 @@ public class SelectCarouselView extends CarouselView{
 	 * @param moisture The moisture level selected by the user on the draw garden screen
 	 * @param soil The soil type selected by the user on the draw garden screen
 	 */
-	public void filter(String sun, String moisture, List<String> soil) {
-		scc.filterCarousel(sun, moisture, soil);
+	public void filter(String sun, String moisture, List<String> soils) {
+		scc.filterCarousel(sun, moisture, soils);
 	}
 	/**
 	 * Getter for the scc field
@@ -107,6 +111,8 @@ public class SelectCarouselView extends CarouselView{
 		if(sun == null) {
 			sun = "";
 		}
+		this.type = type;
+		this.soil = soil;
 		scc.filterCarousel(type, soil, sun, moisture, soils);
 	}
 	
@@ -130,6 +136,22 @@ public class SelectCarouselView extends CarouselView{
 		if(center < 0) {
 			center++;
 		}
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public String getSoil() {
+		return soil;
+	}
+
+	public void setSoil(String soil) {
+		this.soil = soil;
 	}
 	
 	

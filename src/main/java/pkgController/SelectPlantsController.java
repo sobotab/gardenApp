@@ -105,7 +105,6 @@ public class SelectPlantsController {
 	public void plantSelected(MouseEvent event) {
 		SelectCarouselView carouselView = scc.getScv();
 		CarouselModel carouselModel = scc.getCarouselModel();
-		//VBox img = (VBox)event.getSource();
 		Button button = (Button)event.getSource();
 		VBox img = (VBox)button.getParent();
 		int centerIndex = carouselModel.getHeldPlant();

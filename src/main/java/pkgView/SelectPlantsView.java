@@ -72,7 +72,6 @@ public class SelectPlantsView extends BorderPane {
 
 		
 		for(VBox image: selectionCarousel.getFilteredImages()) {
-			//image.setOnMousePressed(spc.getHandlerForPlantSelected());
 			Button add = new Button("Add");
 			add.setOnMouseClicked(spc.getHandlerForPlantSelected());
 			image.getChildren().add(add);
@@ -145,7 +144,10 @@ public class SelectPlantsView extends BorderPane {
 		box.setScaleY(SELECTED_PLANT_SCALING);
 		selectedPlants.add(imv);
 		plantsSelected.getItems().add(box);
-		box.setOnMousePressed(spc.getHandlerForPlantDeSelected());
+		box.getChildren().remove(5);
+		Button remove = new Button("Remove");
+		remove.setOnMouseClicked(spc.getHandlerForPlantDeSelected());
+		box.getChildren().add(remove);
 	}
 	
 	/**
@@ -157,7 +159,11 @@ public class SelectPlantsView extends BorderPane {
 		ImageView imv = (ImageView)box.getChildren().get(1);
 		selectedPlants.remove(imv);
 		plantsSelected.getItems().remove(box);
-		box.setOnMousePressed(spc.getHandlerForPlantSelected());
+		box.getChildren().remove(5);
+		Button add = new Button("Add");
+		add.setOnMouseClicked(spc.getHandlerForPlantSelected());
+		box.getChildren().add(add);
+		
 	}
 	
 	

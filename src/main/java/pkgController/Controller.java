@@ -172,4 +172,12 @@ public class Controller extends Application {
 	public void setPlants(List<PlantModel> plants) {
 		this.plants = plants;
 	}
+
+	public HashMap<String, ImageView> getLepImages() {
+		return lepImages;
+	}
+
+	public void setLepImages(HashMap<String, ImageView> lepImages) {
+		this.lepImages = lepImages;
+	}
 }

@@ -27,6 +27,7 @@ import pkgController.InfoController;
  */
 public class InfoCarouselView extends CarouselView{
 	
+	View view;
 	/**
 	 * The controller for the info carousel
 	 */
@@ -39,6 +40,7 @@ public class InfoCarouselView extends CarouselView{
 	 */
 	public InfoCarouselView(View view) {
 
+		this.view = view;
 		icc = new InfoCarouselController(view, this);
 		this.setHgap(10);
 
@@ -89,7 +91,7 @@ public class InfoCarouselView extends CarouselView{
 	public void openInfoPopUp(ImageView img, String name, String sciName, int numLeps, int dollars, String description, List<String> leps) {
 		Stage popupWindow = new Stage();
 		popupWindow.initModality(Modality.NONE);
-		popupWindow.setScene(new Scene(new InfoPopupView(img, name, sciName, numLeps, dollars, description, leps),800,500));
+		popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description, leps),800,500));
 		popupWindow.setAlwaysOnTop(true);
 		popupWindow.show(); 
 		}

@@ -27,6 +27,9 @@ import pkgController.InfoController;
  */
 public class InfoCarouselView extends CarouselView{
 	
+	/**
+	 * The program's view that is only initialized once
+	 */
 	View view;
 	/**
 	 * The controller for the info carousel

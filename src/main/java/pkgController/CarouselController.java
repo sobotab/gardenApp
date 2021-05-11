@@ -127,15 +127,18 @@ public abstract class CarouselController {
 		VBox centerImage = carouselView.getFilteredImages().get(centerIndex);
 		double centerX = centerImage.getLayoutX();
 		int index = 0;
+		//Check if the center image was clicked
 		if(box.getScaleX() == CENTER_IMAGE_SCALING) {
 			index = centerIndex;
 		}
+		//Otherwise use the x position to determine whether the image is to the left of center..
 		else if(event.getSceneX() < centerX) {
 			index = centerIndex - 1;
 			if(index < 0) {
 				index = carouselModel.getFilteredPlants().size() - 1;
 			}
 		}
+		//Or right of center
 		else {
 			index = centerIndex + 1;
 			if(index >= carouselModel.getFilteredPlants().size()) {

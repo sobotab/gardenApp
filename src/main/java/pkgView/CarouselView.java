@@ -46,6 +46,7 @@ public abstract class CarouselView extends FlowPane {
 	 * Image scaling for the image on the sides of the carousel's focus.
 	 */
 	private final double SIDE_IMAGE_SCALING = 1.3;
+	
 	/**
 	 * CarouselView is abstract and each child has different implementations so the constructor initializes nothing.
 	 */
@@ -86,6 +87,7 @@ public abstract class CarouselView extends FlowPane {
 	 * @param numLeps The number of lep species supported by the plant that had its image clicked
 	 * @param dollars The price of the plant that had its image clicked
 	 * @param description A short description of the plant that had its image clicked
+	 * @param leps A list of scientific names of the leps supported by a host plant
 	 */
 	public void openInfoPopUp(View view, ImageView img, String name, String sciName, int numLeps, int dollars, String description, List<String> leps) {
 		Stage popupWindow = new Stage();

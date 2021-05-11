@@ -63,10 +63,19 @@ public class SelectPlantsView extends BorderPane {
 	/**
 	 * Scaling of a plant's size that should be used when the plant is selected
 	 */
-	ListView<VBox> plantsSelected;
-	Text numPlants;
 	private final double SELECTED_PLANT_SCALING = 0.75;
+	/**
+	 * Preferred width of the ComboBoxes used for filtering
+	 */
 	private final double FILTER_WIDTH = 150.0;
+	/**
+	 * Listview of VBoxes that displays the plants that have been selected
+	 */
+	ListView<VBox> plantsSelected;
+	/**
+	 * Text that displays the number of plants currently shown in the filtered carousel
+	 */
+	Text numPlants;
 	
 	/**
 	 * Constructor for SelectPlantsView that initializes the SelectPlantsCarousel and all other necessary buttons and images for the select plants screen.
@@ -168,10 +177,45 @@ public class SelectPlantsView extends BorderPane {
 		this.setCenter(selectionCarousel);
 	}
 	
-	void updateLeps(int numLeps) {}
+	/**
+	 * Method that moves a plant's image from the carousel to the plants flowPane when the add button is clicked. This also creates a remove button
+	 * with an OnMouseClicked handler to be ready for deselection if clicked again.
+	 * @param box A VBox that was clicked in order to be selected from the carousel
+	 */
+	public void selectPlant(VBox box) {
+		ImageView imv = (ImageView)box.getChildren().get(1);
+		box.setScaleX(SELECTED_PLANT_SCALING);
+		box.setScaleY(SELECTED_PLANT_SCALING);
+		selectedPlants.add(imv);
+		plantsSelected.getItems().add(box);
+		box.getChildren().remove(5);
+		Button remove = new Button("Remove");
+		remove.setOnMouseClicked(spc.getHandlerForPlantDeSelected());
+		box.getChildren().add(remove);
+	}
 	
-	void updateDollars(int dollars) {}
+	/**
+	 * Method that moves a plant's image from the plants flowPane to the selectionCarousel when its remove button is clicked. This also creates an add button
+	 * with an OnMouseClicked handler to be ready for selection if clicked again.
+	 * @param box A VBox that was clicked in order to be deselected from the plants flowPane
+	 */
+	public void deSelectPlant(VBox box) {
+		ImageView imv = (ImageView)box.getChildren().get(1);
+		selectedPlants.remove(imv);
+		plantsSelected.getItems().remove(box);
+		box.getChildren().remove(5);
+		Button add = new Button("Add");
+		add.setOnMouseClicked(spc.getHandlerForPlantSelected());
+		box.getChildren().add(add);
+		
+	}
 	
+	/**
+	 * Updates the text displaying the number of plants shown based on the current number of plants after filtering
+	 */
+	public void updateNumPlants() {
+		numPlants.setText("Plants shown: " + selectionCarousel.getFilteredImages().size());
+	}
 	
 	// getters & setters
 	/**
@@ -189,43 +233,5 @@ public class SelectPlantsView extends BorderPane {
 	public void setSelectionCarousel(SelectCarouselView carousel) {
 		this.selectionCarousel = carousel;
 	}
-	
-	/**
-	 * Method that moves a plant's image from the carousel to the plants flowPane when it is clicked. This also sets that images
-	 * OnMousePressed handler to be ready for deselection if clicked again.
-	 * @param box A VBox that was clicked in order to be selected from the carousel
-	 */
-	public void selectPlant(VBox box) {
-		ImageView imv = (ImageView)box.getChildren().get(1);
-		box.setScaleX(SELECTED_PLANT_SCALING);
-		box.setScaleY(SELECTED_PLANT_SCALING);
-		selectedPlants.add(imv);
-		plantsSelected.getItems().add(box);
-		box.getChildren().remove(5);
-		Button remove = new Button("Remove");
-		remove.setOnMouseClicked(spc.getHandlerForPlantDeSelected());
-		box.getChildren().add(remove);
-	}
-	
-	/**
-	 * Method that moves a plant's image from the plants flowPane to the selectionCarousel when it is clicked. THis also sets that images
-	 * OnMousePressed handler to be ready for selection if clicked again.
-	 * @param box A VBox that was clicked in order to be deselected from the plants flowPane
-	 */
-	public void deSelectPlant(VBox box) {
-		ImageView imv = (ImageView)box.getChildren().get(1);
-		selectedPlants.remove(imv);
-		plantsSelected.getItems().remove(box);
-		box.getChildren().remove(5);
-		Button add = new Button("Add");
-		add.setOnMouseClicked(spc.getHandlerForPlantSelected());
-		box.getChildren().add(add);
-		
-	}
-	
-	public void updateNumPlants() {
-		numPlants.setText("Plants shown: " + selectionCarousel.getFilteredImages().size());
-	}
-	
 	
 }

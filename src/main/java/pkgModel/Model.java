@@ -22,8 +22,6 @@ public class Model {
 	int y;
 	
 	public Model() {
-		//potentialPlants = makePlants();
-		
 	}
 	
 	public List<PlantModel> makePlants() {
@@ -74,22 +72,10 @@ public class Model {
 		return plants;
 		
 	}
-	
-//	public void update() {
-//		
-//	}
 
 	public Set<PlantModel> getPlants() {
 		return plants;
 	}
-	
-//	public HashMap<String, PlantModel> mapNameToPlants(){
-//		HashMap<String, PlantModel> map = new HashMap<>();
-//		for(PlantModel plant: potentialPlants) {
-//			map.put(plant.sciName, plant);
-//		}
-//		return map;
-//	}
 
 	public void setPlants(Set<PlantModel> plants) {
 		this.plants = plants;

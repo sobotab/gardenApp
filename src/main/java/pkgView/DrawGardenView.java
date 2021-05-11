@@ -83,13 +83,13 @@ public class DrawGardenView extends BorderPane {
 	 * incButton: button to allow the user to zoom in
 	 * decButton: button to allow the user to zoom out
 	 */
-	Button undoButton, incButton, decButton;
+	Button undoButton, incButton, decButton, back, finish;
 	/**
 	 * Current fill color based on the soil
 	 */
 	ImageView sunLabel, moistureLabel;
 	Label title, budgetLabel;
-	HBox budgetBox, scaleButtonBox;
+	HBox budgetBox, scaleButtonBox, bottomHBox;
 	VBox sideTool, sunBox, moistureBox;
 	Color color;
 	/**
@@ -114,11 +114,11 @@ public class DrawGardenView extends BorderPane {
 		dgc = new DrawGardenController(view, this);
 		title = new Label("Draw an outline for your garden!");
 
-		Button back = new Button("Back");
-		Button finish = new Button("Finish");
+		back = new Button("<<<");
+		finish = new Button(">>>");
 		back.setOnAction(dgc.getHandlerForBack());
 		finish.setOnAction(dgc.getHandlerForNext());
-		HBox bottomHBox = new HBox();
+		bottomHBox = new HBox();
 		bottomHBox.getChildren().addAll(back, finish);
 		
 		//Garden Drawing Tool
@@ -257,7 +257,8 @@ public class DrawGardenView extends BorderPane {
 		
 		title.setPrefHeight(50);
 		title.setStyle("-fx-font-size: 40;"
-				+ "-fx-font-weight: bold;");
+				+ "-fx-font-weight: bold;"
+				+ "-fx-text-fill: #9DD6DE;");
 		
 		double currentHeight = this.getHeight();
 		double currentWidth = this.getWidth();
@@ -294,6 +295,7 @@ public class DrawGardenView extends BorderPane {
 		budget.setPrefWidth(prefWidth);
 		budget.setPrefHeight(prefHeight);
 		budget.setMaxHeight(prefHeight/6);
+		budget.setStyle(font + Double.valueOf(prefWidth/7).toString());
 		
 		undoButton.setPrefHeight(prefHeight);
 		undoButton.setPrefWidth(prefWidth);
@@ -312,6 +314,23 @@ public class DrawGardenView extends BorderPane {
 		decButton.setPrefWidth(prefWidth);
 		decButton.setPrefHeight(prefHeight);
 		decButton.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ " -fx-background-color: #9DD6DE;"
+				+ " -fx-border-color: #000000;");
+		
+		bottomHBox.setPrefWidth(this.getWidth());
+		bottomHBox.setPrefWidth(this.getHeight()/14);
+		bottomHBox.setPadding(new Insets(10,5,10,5));
+		bottomHBox.setSpacing(this.getWidth()/4*3);
+		back.setPrefWidth(this.getWidth());
+		back.setPrefHeight(this.getHeight()/14);
+		back.setStyle(font + Double.valueOf(prefWidth/8).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ " -fx-background-color: #9DD6DE;"
+				+ " -fx-border-color: #000000;");
+		finish.setPrefWidth(this.getWidth());
+		finish.setPrefHeight(this.getHeight()/14);
+		finish.setStyle(font + Double.valueOf(prefWidth/8).toString() +";"
 				+ " -fx-font-weight: bold;"
 				+ " -fx-background-color: #9DD6DE;"
 				+ " -fx-border-color: #000000;");

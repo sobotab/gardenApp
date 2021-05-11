@@ -173,8 +173,7 @@ public class EditGardenController {
 			this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots, budget, scale_factor);		
 			gardenModel.adaptPlots(gardenView.CANVASWIDTH - 10, gardenView.CANVASHEIGHT - 10);
 			
-			System.out.println(scale_factor);
-			System.out.println(gardenModel.getScaleFactor());
+
 			gardenView.setBudget(budget);
 			gardenView.makeCanvas(plots);
 			gardenView.setScaleFactor(gardenModel.getScaleFactor());
@@ -265,7 +264,7 @@ public class EditGardenController {
 		File imgFile = fileChooser.showSaveDialog(view.getTheStage());
 		if (imgFile != null) {
 			try {
-				WritableImage canvasImg = new WritableImage((int)(gardenView.CANVASWIDTH * 1.6), (int)(gardenView.CANVASHEIGHT * 1.05));
+				WritableImage canvasImg = new WritableImage((int)(gardenView.CANVASWIDTH * 1.4), (int)(gardenView.CANVASHEIGHT * 1.05));
 				gardenView.getGarden().snapshot(null, canvasImg);
 				BufferedImage bufferedImage = SwingFXUtils.fromFXImage(canvasImg, null);
 				ImageIO.write(bufferedImage, "png", imgFile);

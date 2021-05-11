@@ -130,6 +130,39 @@ public class SelectCarouselController extends CarouselController {
 		scv.update();
 	}
 	
+	public void filterCarousel(String type, String soil, String sun, String moisture) {
+		List<PlantModel> plants = carouselModel.getPlants();
+		List<VBox> images = scv.getImages();
+		List<PlantModel> filteredPlants = new ArrayList<>();
+		List<VBox> filteredImages = new ArrayList<VBox>();
+		Iterator<PlantModel> plantIter = plants.iterator();
+		Iterator<VBox> imageIter = images.iterator();
+		while(plantIter.hasNext() && imageIter.hasNext()) {
+			PlantInfoModel plant = (PlantInfoModel)plantIter.next();
+			VBox imageBox = imageIter.next();
+			String soilType = plant.getSoil();
+			String sunLevel = plant.getSun();
+			String moistureLevel = plant.getMoisture();
+			int dollars = plant.getDollars();
+			String plantType = "";
+			if(dollars == 6) {
+				plantType = "herbaceous";
+			}
+			else {
+				plantType = "woody";
+			}
+			if(soilType.contains(soil) && plantType.contains(type) && sunLevel.contains(sun) && moistureLevel.contains(moisture)) {
+				filteredPlants.add(plant);
+				filteredImages.add(imageBox);
+			}
+		}
+		scv.setFilteredImages(filteredImages);
+		scv.setCenter(0);
+		carouselModel.setFilteredPlants(filteredPlants);
+		carouselModel.setHeldPlant(0);
+		scv.update();
+	}
+	
 	/**
 	 * Getter for scv field
 	 * @return scv field - A SelectCarouselView with the images for the carousel

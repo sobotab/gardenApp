@@ -7,10 +7,13 @@ import java.util.List;
 import java.util.Stack;
 
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
@@ -24,6 +27,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import pkgController.SelectPlantsController;
 import pkgController.Soil;
 
@@ -58,6 +63,7 @@ public class SelectPlantsView extends BorderPane {
 	 */
 	ListView<VBox> plantsSelected;
 	private final double SELECTED_PLANT_SCALING = 0.75;
+	private final double FILTER_WIDTH = 150.0;
 	
 	/**
 	 * Constructor for SelectPlantsView that initializes the SelectPlantsCarousel and all other necessary buttons and images for the select plants screen.
@@ -85,7 +91,37 @@ public class SelectPlantsView extends BorderPane {
 				BackgroundPosition.CENTER,
 				bSize)));
 		
+		ComboBox<String> soil = new ComboBox();
+		soil.setPromptText("Soil Type");
+		soil.setItems(FXCollections.observableArrayList("","clay","sandy","loamy"));
+		soil.setPrefWidth(FILTER_WIDTH);
+		
+		ComboBox<String> type = new ComboBox();
+		type.setPromptText("Plant Type");
+		type.setItems(FXCollections.observableArrayList("","woody","herbaceous"));
+		type.setPrefWidth(FILTER_WIDTH);
+		
+		String sun = selectionCarousel.getScc().getSun();
+		String moisture = selectionCarousel.getScc().getMoisture();
+		
+		Button filter = new Button("FILTER");
+		filter.setPrefSize(FILTER_WIDTH, 50);
+		filter.setFont(Font.font("Helvetica", FontWeight.BOLD, 24));
+		filter.setStyle("-fx-background-color: linear-gradient(#fafafa , #afd9f5 );");
+		filter.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event) {
+				String soilType = soil.getValue();
+				String plantType = type.getValue();
+				selectionCarousel.filter(plantType, soilType, sun, moisture);
+				//num_plants.setText("Plants shown: " + selectionCarousel.getFilteredImages().size());
+			}
+		});
+		
+
+		
 		Label title = new Label("Select Plants");
+		VBox filterBox = new VBox();
+		filterBox.getChildren().addAll(title,type,soil,filter);
 		Button back = new Button("Back to drawing garden.");
 		back.setOnAction(spc.getHandlerForBack());
 		Button finish = new Button("Finish");
@@ -107,7 +143,7 @@ public class SelectPlantsView extends BorderPane {
 		box.getChildren().add(finish);
 		
 		this.setBottom(box);
-		this.setTop(title);
+		this.setTop(filterBox);
 		this.setRight(plantsSelectedBox);
 		this.setCenter(selectionCarousel);
 	}

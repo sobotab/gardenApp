@@ -92,6 +92,24 @@ public class SelectCarouselView extends CarouselView{
 	 * Getter for the scc field
 	 * @return scc field - A SelectCarouselController that has handlers for clicking images in this carousel
 	 */
+	
+	
+	public void filter(String type, String soil, String sun, String moisture) {
+		if(soil == null) {
+			soil = "";
+		}
+		if(moisture == null) {
+			moisture = "";
+		}
+		if(type == null) {
+			type = "";
+		}
+		if(sun == null) {
+			sun = "";
+		}
+		scc.filterCarousel(type, soil, sun, moisture);
+	}
+	
 	public SelectCarouselController getScc() {
 		return scc;
 	}

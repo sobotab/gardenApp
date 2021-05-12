@@ -23,13 +23,18 @@ import javafx.scene.text.FontWeight;
  */
 public class LepPopupView extends ListView {
 	/**
+	 * View class for the entire program.
+	 */
+	View view;
+	/**
 	 * Constructor for this class takes in list of lep species and builds listView of them sorted by number
 	 * of plants supporting them.
-	 * 
+	 * @param view			View class for the program.
 	 * @param sortedLeps 	List of Map.Entry containing name of lep species (key) and number of plants supporting them (value).
 	 */
 	public LepPopupView(View view, ArrayList<Map.Entry<String, Integer>> sortedLeps) {
 		for (Map.Entry<String, Integer> lepEntry : sortedLeps) {
+			this.view = view;
 			//this.getChildren().add(buildLepDisplay(lepEntry));
 			HashMap<String, ImageView> lepImages = view.getController().getLepImages();
 			this.getItems().add(buildLepDisplay(lepEntry, lepImages));
@@ -43,9 +48,15 @@ public class LepPopupView extends ListView {
 	 * @param lepEntry 		Key-Value pair of lep species name and number of plants supporting it.
 	 * @return 				TilePane with information for an individual lep species.
 	 */
-	public FlowPane buildLepDisplay(Map.Entry<String, Integer> lepEntry, HashMap<String, ImageView> lepImages) {
-		String lepName = lepEntry.getKey();
-		ImageView lep_img = lepImages.get(lepName);
+	public FlowPane buildLepDisplay(Map.Entry<String, Integer> lepEntry) {
+		HashMap<String, ImageView> lepImages = view.getController().getLepImages();
+		ImageView lep_img;
+		if (lepImages.containsKey(lepEntry.getKey())) {
+			lep_img = lepImages.get(lepEntry.getKey());
+		}
+		else {
+			lep_img = new ImageView(new Image("/images/background-flowers.jpg"));
+		}
 		lep_img.setFitHeight(100);
 		lep_img.setFitWidth(100);
 		Rectangle img_template = new Rectangle(lep_img.getFitWidth(), lep_img.getFitHeight());

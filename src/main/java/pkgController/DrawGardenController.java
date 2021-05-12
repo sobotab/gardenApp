@@ -34,12 +34,12 @@ public class DrawGardenController {
 	DrawGardenView dgv;
 	
 	/**
+	 * Initializes all of the important values and imports the drawGardenModel if the
+	 * back button was pressed
+	 * 
 	 * @param view the top view
 	 * @param dgv the view which initializes the controller
 	 * @param createOnBack boolean for whether the view was made after pressing the back button
-	 * 
-	 * Initializes all of the important values and imports the drawGardenModel if the
-	 * back button was pressed
 	 */
 	public DrawGardenController(View view, DrawGardenView dgv, boolean createOnBack) {
 
@@ -69,8 +69,9 @@ public class DrawGardenController {
 	}
 	
 	/**
+	 * Initializes the welcome screen
+	 * 
 	 * @param event javafx event clicked
-	 * initializes the welcome screen
 	 */
 	public void clickedBack(ActionEvent event) {
 		view.setCurrentScreen(new WelcomeView(view));
@@ -78,8 +79,9 @@ public class DrawGardenController {
 	}
 	
 	/**
-	 * @param event javafx event clicked
 	 * Saves drawGarden data and initializes selectPlants
+	 * 
+	 * @param event javafx event clicked
 	 */
 	public void clickedNext(ActionEvent event) {
 		
@@ -142,8 +144,9 @@ public class DrawGardenController {
 	}
 	
 	/**
-	 * @return the first point the user clicked
 	 * Adds a plot drawn to plots in the model
+	 * 
+	 * @return the first point the user clicked
 	 */
 	public Point2D.Double draw() {
 		dgm.setGridSize(dgv.getMinGrid());
@@ -154,17 +157,19 @@ public class DrawGardenController {
 	}
 	
 	/**
-	 * @return plots with one fewer plot than before it was called
 	 * Pops the last plot drawn from plots before redrawing
+	 * 
+	 * @return plots with one fewer plot than before it was called
 	 */
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> undo() {
 		return dgm.undo();
 	}
 	
 	/**
+	 * Scales and redraws the plots
+	 * 
 	 * @param minGrid the minimum of rows or columns
 	 * @return the plots scaled
-	 * Scales and redraws the plots
 	 */
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double minGrid) {
 		dgm.setCanvasLength(dgv.getMinLength());

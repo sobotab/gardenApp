@@ -177,7 +177,6 @@ public class Controller extends Application {
 			List<String> lepNames = plant.getLeps();
 			for(String sciName: lepNames) {
 				if(!leps.containsKey(sciName)) {
-					System.out.println(sciName);
 					String fileName = "/images/" + sciName + ".jpg";
 					Image image = new Image(getClass().getResourceAsStream(fileName));
 					ImageView imv = new ImageView(image);

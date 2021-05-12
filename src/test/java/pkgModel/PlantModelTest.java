@@ -10,16 +10,17 @@ import pkgController.Sun;
 
 public class PlantModelTest {
 	
-	PlantModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, null, 150, 200, 100, 200);
+	PlantModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, null, 150, 200);
 	
 	@Test
 	public void testPlantModel() {
-		assertEquals("example_name", plant.name);
+		assertEquals("name", plant.name);
 	}
 
 	@Test
 	public void testGetName() {
-		assertEquals("example_name",plant.getName());
+		plant.name = "name1";
+		assertEquals("name1",plant.getName());
 	}
 
 	@Test
@@ -30,7 +31,7 @@ public class PlantModelTest {
 
 	@Test
 	public void testGetSciName() {
-		assertEquals("example_name", plant.getSciName());
+		assertEquals("sciName", plant.getSciName());
 	}
 
 	@Test
@@ -41,7 +42,8 @@ public class PlantModelTest {
 
 	@Test
 	public void testGetSpreadDiameter() {
-		assertEquals(0,plant.getSpreadDiameter());
+		plant.spreadDiameter = 6;
+		assertEquals(6,plant.getSpreadDiameter());
 	}
 
 	@Test
@@ -52,35 +54,38 @@ public class PlantModelTest {
 
 	@Test
 	public void testGetSun() {
-		assertEquals(Sun.FULLSUN,plant.getSun());
+		plant.sun = "fullsun";
+		assertEquals("fullsun",plant.getSun());
 	}
 
 	@Test
 	public void testSetSun() {
-		plant.setSun("part sun");
-		assertEquals(Sun.PARTSUN,plant.sun);
+		plant.setSun("partsun");
+		assertEquals("partsun",plant.sun);
 	}
 
 	@Test
 	public void testGetMoisture() {
-		assertEquals(Moisture.MOIST,plant.getMoisture());
+		plant.moisture = "wet";
+		assertEquals("wet",plant.getMoisture());
 	}
 
 	@Test
 	public void testSetMoisture() {
 		plant.setMoisture("dry");
-		assertEquals(Moisture.DRY,plant.moisture);
+		assertEquals("dry",plant.moisture);
 	}
 
 	@Test
 	public void testGetSoil() {
-		assertEquals(Soil.CHALKY, plant.getSoil());
+		plant.soil = "loamy";
+		assertEquals("loamy", plant.getSoil());
 	}
 
 	@Test
 	public void testSetSoil() {
 		plant.setSoil("clay");
-		assertEquals(Soil.CLAY,plant.soil);
+		assertEquals("clay",plant.soil);
 	}
 
 }

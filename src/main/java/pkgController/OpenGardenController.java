@@ -14,7 +14,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import pkgModel.PlantGardenModel;
+import pkgModel.EditGardenModel;
 import pkgView.EditGardenView;
 import pkgView.OpenGardenView;
 import pkgView.View;
@@ -37,7 +37,7 @@ public class OpenGardenController {
 	/**
 	 * Hashmap holding data on saved gardens, key = garden name, value = garden model.
 	 */
-	HashMap<String, PlantGardenModel> gardenData;
+	HashMap<String, EditGardenModel> gardenData;
 	
 	/**
 	 * Constructor reads in serialized garden models if any exist, sends data to OpenGardenView.
@@ -54,7 +54,7 @@ public class OpenGardenController {
 		try {
 			FileInputStream fis = new FileInputStream("finalGardenData.ser");
 	        ObjectInputStream ois = new ObjectInputStream(fis);
-	        gardenData = (HashMap<String, PlantGardenModel>)ois.readObject();
+	        gardenData = (HashMap<String, EditGardenModel>)ois.readObject();
 	        ois.close();
 		} catch (FileNotFoundException e) {
         	System.out.println("File not found");
@@ -68,11 +68,11 @@ public class OpenGardenController {
 		
 		ObservableList<HashMap<String, Object>> gardenDataContainer = FXCollections.<HashMap<String, Object>>observableArrayList();
 		Iterator iter = gardenData.entrySet().iterator();
-		PlantGardenModel gardenEntryModel;
+		EditGardenModel gardenEntryModel;
 		
 		while (iter.hasNext()) {
 			Map.Entry gardenEntry = (Map.Entry)iter.next();
-			gardenEntryModel = (PlantGardenModel) gardenEntry.getValue();
+			gardenEntryModel = (EditGardenModel) gardenEntry.getValue();
 			
 			HashMap<String, Object> gardenMap = new HashMap<String, Object>();
 			

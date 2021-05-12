@@ -1,13 +1,20 @@
 package pkgModel;
 
 import static org.junit.Assert.*;
+import org.junit.Test;
+
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Double;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.Stack;
 
-import org.junit.Test;
+import pkgController.Soil;
 
 public class GardenModelTest {
 	
@@ -15,33 +22,40 @@ public class GardenModelTest {
 
 	@Test
 	public void testGardenModel() {
-		assertEquals(false, garden.outline == null);
+		assertFalse(garden.plots == null);
 		
 	}
 
 	@Test
 	public void testSetScale() {
 		garden.setScale(10);
-		assertEquals(1, garden.getScale());
+		assertEquals(10, garden.getScale(),1);
 	}
 	
 	@Test
-	public void testGetOutline() {
-		assertEquals(false, garden.getOutline() == null);
+	public void testGetPlots() {
+		assertFalse(garden.getPlots() == null);
 	}
 
 	@Test
-	public void testSetOutline() {
-		Set<Point> points = new HashSet<>();
-		Point point = new Point(0,0);
-		points.add(point);
-		garden.setOutline(points);
-		assertEquals(true, garden.outline.contains(point));
+	public void testSetPlots() {
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = new HashMap<Soil, Stack<ArrayList<Point2D.Double>>>();
+		ArrayList<Point2D.Double> single_plot = new ArrayList<Point2D.Double>();
+		single_plot.add(new Point2D.Double(0, 0));
+		Stack stack = new Stack();
+		stack.add(single_plot);
+		plots.put(Soil.CLAY, stack);
+		garden.setPlots(plots);
+		assertEquals(true, garden.plots.containsKey(Soil.CLAY));
 	}
 
 	@Test
 	public void testGetConditions() {
-		assertEquals(false, garden.getConditions() == null);
+		Set<HashMap<String,Set<Point>>> set = new HashSet<>();
+		HashMap<String,Set<Point>> map = new HashMap<>();
+		set.add(map);
+		garden.setConditions(set);
+		assertFalse(garden.getConditions() == null);
 	}
 
 	@Test
@@ -54,19 +68,8 @@ public class GardenModelTest {
 	}
 
 	@Test
-	public void testGetOrientation() {
-		assertEquals(0, garden.getOrientation());
-	}
-
-	@Test
-	public void testSetOrientation() {
-		garden.setOrientation(1);
-		assertEquals(1, garden.orientation);
-	}
-
-	@Test
 	public void testGetScale() {
-		assertEquals(0, garden.getScale());
+		assertEquals(0, garden.getScale(), 1);
 	}
 
 

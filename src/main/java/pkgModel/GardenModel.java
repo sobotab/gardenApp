@@ -1,27 +1,31 @@
 package pkgModel;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
+import java.util.Stack;
+
+import pkgController.Soil;
 
 public abstract class GardenModel implements Serializable {
 	
-	Set<Point> outline;
+	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
 	Set<HashMap<String, Set<Point>>> conditions;
-	int scale;
-	int orientation;
+	double scale;
 	
 	public GardenModel() {
 		
 	}
 
-	public Set<Point> getOutline() {
-		return outline;
+	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> getPlots() {
+		return plots;
 	}
 
-	public void setOutline(Set<Point> outline) {
-		this.outline = outline;
+	public void setPlots(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
+		this.plots = plots;
 	}
 
 	public Set<HashMap<String, Set<Point>>> getConditions() {
@@ -32,19 +36,11 @@ public abstract class GardenModel implements Serializable {
 		this.conditions = conditions;
 	}
 
-	public int getOrientation() {
-		return orientation;
-	}
-
-	public void setOrientation(int orientation) {
-		this.orientation = orientation;
-	}
-
-	public int getScale() {
+	public double getScale() {
 		return scale;
 	}
 
-	public void setScale(int scale) {
+	public void setScale(double scale) {
 		this.scale = scale;
 	}
 	

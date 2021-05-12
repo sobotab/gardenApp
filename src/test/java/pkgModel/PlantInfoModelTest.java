@@ -10,16 +10,16 @@ import pkgController.Sun;
 
 public class PlantInfoModelTest {
 	
-	PlantInfoModel plantInfo = new PlantInfoModel("name", "sciName", 100, "full sun", "dry", "clay", 15, 20, "");
+	PlantInfoModel plantInfo = new PlantInfoModel("name", "sciName", 100, "full sun", "dry", "clay", 15, 20, "description");
 
 	@Test
 	public void testPlantInfoModel() {
-		assertEquals("plant",plantInfo.description);
+		assertEquals("description",plantInfo.description);
 	}
 
 	@Test
 	public void testGetNumLeps() {
-		assertEquals(0,plantInfo.getNumLeps());
+		assertEquals(15,plantInfo.getNumLeps());
 	}
 
 	@Test
@@ -30,7 +30,7 @@ public class PlantInfoModelTest {
 
 	@Test
 	public void testGetDollars() {
-		assertEquals(0,plantInfo.getDollars());
+		assertEquals(20,plantInfo.getDollars());
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class PlantInfoModelTest {
 
 	@Test
 	public void testGetDescription() {
-		assertEquals("",plantInfo.getDescription());
+		assertEquals("description",plantInfo.getDescription());
 	}
 
 	@Test

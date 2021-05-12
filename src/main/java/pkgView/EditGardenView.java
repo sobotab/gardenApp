@@ -318,12 +318,12 @@ public class EditGardenView extends BorderPane{
 			Map.Entry plotEntry = (Map.Entry)plotIter.next();
 			
 			if (plotEntry.getKey() == Soil.CLAY) { 
-				gc.setStroke(Color.DARKRED);
-				gc.setFill(Color.TOMATO); 
+				gc.setStroke(Color.rgb(108, 53, 21));
+				gc.setFill(Color.rgb(216, 106, 43)); 
 				} 
 			else if (plotEntry.getKey() == Soil.LOAMY) { 
-				gc.setStroke(Color.MAROON);
-				gc.setFill(Color.BROWN); 
+				gc.setStroke(Color.rgb(47, 32, 22));
+				gc.setFill(Color.rgb(94, 64, 44)); 
 			}
 			else { 
 				gc.setStroke(Color.BURLYWOOD);

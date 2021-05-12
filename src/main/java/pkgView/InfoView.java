@@ -109,7 +109,8 @@ public class InfoView extends BorderPane {
 		soil.setStyle(buttonStyle);
 		
 		Text num_plants = new Text("Plants shown: 80");
-		num_plants.setFont(Font.font("cambria"));
+		num_plants.setFill(Color.WHITE);
+		num_plants.setFont(Font.font("cambria", 30));
 		
 		
 		Button filter = new Button("FILTER");
@@ -129,6 +130,7 @@ public class InfoView extends BorderPane {
 		
 		VBox vbox = new VBox();
 		vbox.getChildren().addAll(type, moisture, soil, sun, filter, num_plants);
+		vbox.setAlignment(Pos.TOP_RIGHT);
 		
 		this.setRight(vbox);
 		this.setTop(hBox);

@@ -53,7 +53,8 @@ public class DrawGardenView extends BorderPane {
 	 * canvasWidth: width of the canvas
 	 * canvasHeight: height of the canvas
 	 */
-	double minLength, minGrid, rows, columns, canvasWidth, canvasHeight;
+	double minLength, minGrid, canvasWidth, canvasHeight;
+	int rows, columns;
 	/**
 	 * Canvas that is resizable by changing the size of its parent
 	 */
@@ -738,14 +739,14 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * @return the number of rows in the canvas
 	 */
-	public double getRows() {
+	public int getRows() {
 		return rows;
 	}
 	
 	/**
 	 * @return the number of columns in the canvas
 	 */
-	public double getColumns() {
+	public int getColumns() {
 		return columns;
 	}
 	

@@ -37,7 +37,8 @@ public class DrawGardenModel extends GardenModel {
 	 * rows: the number of rows in the canvas
 	 * columns: the number of columns in the canvas
 	 */
-	double canvasLength, gridSize, canvasHeight, canvasWidth, rows, columns;
+	double canvasLength, gridSize, canvasHeight, canvasWidth;//, rows, columns;
+	int rows, columns;
 	
 	/**
 	 * The first point clicked by the user when drawing a plot
@@ -303,14 +304,14 @@ public class DrawGardenModel extends GardenModel {
 	/**
 	 * @param rows to be set to the model
 	 */
-	public void setRows(double rows) {
+	public void setRows(int rows) {
 		this.rows = rows;
 	}
 
 	/**
 	 * @param columns to be set to the model
 	 */
-	public void setColumns(double columns) {
+	public void setColumns(int columns) {
 		this.columns = columns;
 	}
 

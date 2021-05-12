@@ -49,10 +49,22 @@ public class InfoPopupView extends BorderPane{
 		BackgroundFill bFill = new BackgroundFill(Color.LIGHTCYAN, CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(bFill);
 		this.setBackground(background);
+		VBox vbox1 = new VBox();
 		Label title = new Label(sciName + ", also known as: " + name);
 		title.setFont(Font.font("Cambria"));
-		this.setTop(title);
-		this.setAlignment(getTop(), Pos.CENTER);
+	
+		Label info = new Label(description);
+		info.setFont(Font.font("Cambria"));
+		info.setWrapText(true);
+		info.setAlignment(Pos.BASELINE_CENTER);
+		
+		vbox1.getChildren().addAll(title,info);
+		vbox1.setAlignment(Pos.CENTER);
+		this.setTop(vbox1);
+		
+		
+		
+		
 		ImageView img_copy = new ImageView(img.getImage());
 		Rectangle frame = new Rectangle(150, 150);
 		frame.setArcWidth(20);
@@ -86,17 +98,16 @@ public class InfoPopupView extends BorderPane{
 		lepSpecies.setItems(lepNames);
 		lepBox.getChildren().addAll(lepCount, lepSpecies);
 		Label price = new Label("Costs " + dollars + " dollars.");
-		Label info = new Label(description);
 		lepCount.setFont(Font.font("Cambria"));
 		price.setFont(Font.font("Cambria"));
-		info.setFont(Font.font("Cambria"));
-		TilePane tilePane = new TilePane();
-		tilePane.getChildren().addAll(lepBox, img_copy, price);
-		tilePane.setAlignment(Pos.CENTER);
-		info.setWrapText(true);
-		info.setAlignment(Pos.BASELINE_CENTER);
-		this.setCenter(tilePane);
-		this.setBottom(info);
+		
+
+		VBox vbox2 = new VBox();
+		vbox2.getChildren().addAll(img_copy, price,lepBox);
+		vbox2.setAlignment(Pos.CENTER);
+		this.setCenter(vbox2);
+
+		
 		this.setPadding(new Insets(10));
 		}
 	

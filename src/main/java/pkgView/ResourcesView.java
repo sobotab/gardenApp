@@ -1,34 +1,43 @@
 package pkgView;
 
 import javafx.scene.control.Button;
+
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-
+import javafx.scene.text.Text;
 import pkgController.ResourcesController;
-/**
- * 
- * @author Ryan Dean
- * View class for Resources screen.
- */
+import pkgController.WelcomeController;
+
+
+
 public class ResourcesView extends BorderPane{
-	/**
-	 * Constructor populates scene with text describing leps/native plants and provides links.
-	 * 
-	 * @param view		View class for the program.
-	 */
+	WelcomeController welcomeController;
+	ResourcesController resourcesController;
+	Button video;
 	public ResourcesView(View view) {
-		ResourcesController rc = new ResourcesController(view);
+		//Controller for button
+		resourcesController=new ResourcesController(view);
+	
 		
 		Label title = new Label("Resources");
-		title.setTextFill(Color.BLACK);
+		title.setTextFill(Color.WHITE);
 		title.setFont(Font.font("Cambria", 80));
+		
+		Button back = new Button("Back");
+		back.setOnAction(resourcesController.getHandlerForBack());
+		Button open; 
 		
 		VBox text_box = new VBox();
 		Label paragraph_headline = new Label("Have you ever stopped to wonder how insects are valuable to the environment?");
@@ -43,37 +52,55 @@ public class ResourcesView extends BorderPane{
 		Label links = new Label("https://mtcubacenter.org/native-plant-finder"
 				+ "\n https://bhwp.org/grow/garden-with-natives/native-plant-plant-profiles-a-to-z/"
 				+ "\n http://www.nativeplantcenter.net/plants/");
+		Label video_headline = new Label("Click button below to learn how to use the application:");
 		paragraph_headline.setTextFill(Color.BLACK);
-		paragraph_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
+		paragraph_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 10));
 		paragraph.setTextFill(Color.BLACK);
-		paragraph.setFont(Font.font("Roboto", 26));
+		paragraph.setFont(Font.font("Roboto", 10));
 		links_headline.setTextFill(Color.BLACK);
-		links_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
+		links_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 10));
 		links.setTextFill(Color.BLACK);
-		links.setFont(Font.font("Roboto", 26));
+		links.setFont(Font.font("Roboto", 10));
+		links_headline.setTextFill(Color.BLACK);
+		video_headline.setTextFill(Color.BLACK);
+		video_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 10));
 		
-		text_box.getChildren().addAll(paragraph_headline, paragraph, links_headline, links);
+		
+		
+		text_box.getChildren().addAll(paragraph_headline, paragraph, links_headline, links, video_headline);
 		text_box.setSpacing(10);
 		ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/images/background-lep.jpg")));
 		img.setFitHeight(250);
 		img.setPreserveRatio(true);
+	
+	      
+
+		VBox vbox = new VBox();
+
+
 		
-		Button back = new Button("Back");
-		back.setOnAction(rc.getHandlerForBack());
+		open = new Button("View Instructional Video");
+		open.setMinWidth(100);
 		
-		this.setLeft(text_box);
+		//Set handlers to buttons
+		open.setOnAction(resourcesController.getHandlerForOpen());
+
+	
+		this.setCenter(vbox);
+		
+    
+		
 		this.setBottom(back);
 		this.setTop(title);
-		this.setRight(img);
+		vbox.getChildren().addAll(text_box,open);
+	
 		
 		BackgroundSize bSize = new BackgroundSize(600.0, 800.0, false, false, false, true);
-		/*
-		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-lep.jpg")),
+		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-blurred.jpg")),
 				BackgroundRepeat.NO_REPEAT,
 				BackgroundRepeat.NO_REPEAT,
 				BackgroundPosition.CENTER,
 				bSize)));
-		*/
-
 	}
+	
 }

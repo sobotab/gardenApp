@@ -1,11 +1,15 @@
 package pkgController;
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import pkgView.ResourcesView;
 import pkgView.View;
 import pkgView.WelcomeView;
-
 /**
  * 
  * @author Ryan Dean
@@ -23,25 +27,50 @@ public class ResourcesController {
 	 * 
 	 * @param view		View class for the program.
 	 */
-	public ResourcesController(View view) {
-		this.view = view;
-	}
+public ResourcesController(View view) {
 	
-	/**
-	 * Handler for the clickedBack method. Sets view's stage to Welcome screen.
-	 * 
-	 * @param event		ActionEvent caused by clicked the back button.
-	 */
-	public void clickedBack(ActionEvent event) {
-		view.setCurrentScreen(new WelcomeView(view));
+	this.view = view;
 	}
-	
+/**
+ * Handler for the clickedBack method. Sets view's stage to Welcome screen.
+ * 
+ * @param event		ActionEvent caused by clicked the back button.
+ */
+public void clickedBack(ActionEvent event) {
 	/**
 	 * Getter for clickedBack handler.
 	 * 
 	 * @return			EventHandler for clickedBack.
 	 */
-	public EventHandler getHandlerForBack() {
+	view.setCurrentScreen(new WelcomeView(view));
+	}
+
+
+public void clickedOpen(ActionEvent event) {
+		if(Desktop.isDesktopSupported())
+	    {
+	        try {
+	            Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=k85mRPqvMbE&ab_channel=CrazyFrog"));
+	        } catch (IOException e1) {
+	            e1.printStackTrace();
+	        } catch (URISyntaxException e1) {
+	            e1.printStackTrace();
+	        }
+	    }
+	}
+	
+
+	
+/**
+ * Getter for clickedBack handler.
+ * 
+ * @return			EventHandler for clickedBack.
+ */
+public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);
+	}
+	
+public EventHandler getHandlerForOpen() {
+		return event -> clickedOpen((ActionEvent) event);
 	}
 }

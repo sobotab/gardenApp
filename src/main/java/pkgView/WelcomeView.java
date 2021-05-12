@@ -144,7 +144,7 @@ public class WelcomeView extends BorderPane {
 		hBox.setAlignment(Pos.CENTER);
 		hBox.setSpacing(60.0);
 		hBox.setMaxSize(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
-		hBox.getChildren().addAll(open, newGarden, info);
+		hBox.getChildren().addAll(open, newGarden, info, resources);
 	}
 	/**
 	 * Getter for the backgroundImage field

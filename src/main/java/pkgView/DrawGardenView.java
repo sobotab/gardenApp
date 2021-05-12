@@ -276,12 +276,14 @@ public class DrawGardenView extends BorderPane {
 	 * Method to add styling to nodes.
 	 */
 	public void makePretty() {
-		this.setStyle("-fx-background-color: #E7E492;");
+		this.setStyle("-fx-background-color: #E7E492;"
+				+ "-fx-font-family: 'Roboto';");
 		
 		title.setPrefHeight(50);
 		title.setStyle("-fx-font-size: 40;"
 				+ "-fx-font-weight: bold;"
-				+ "-fx-text-fill: #9DD6DE;");
+				+ "-fx-text-fill: #9DD6DE;"
+				+ "-fx-font-family: 'Roboto';");
 		
 		double currentHeight = this.getHeight();
 		double currentWidth = this.getWidth();
@@ -303,7 +305,8 @@ public class DrawGardenView extends BorderPane {
 		soilComboBox.setMinHeight(prefHeight/9);
 		soilComboBox.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
 				+ " -fx-font-weight: bold;"
-				+ " -fx-background-color: #E8A171");
+				+ " -fx-background-color: #E8A171"
+				+ "-fx-font-family: 'Roboto';");
 		
 		sunLabel.setFitHeight(100.0);
 		sunLabel.setFitWidth(100.0);
@@ -325,7 +328,8 @@ public class DrawGardenView extends BorderPane {
 		undoButton.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
 				+ " -fx-font-weight: bold;"
 				+ " -fx-background-color: #9DD6DE;"
-				+ " -fx-border-color: #000000;");
+				+ " -fx-border-color: #000000;"
+				+ "-fx-font-family: 'Roboto';");
 		
 		scaleButtonBox.setSpacing(4);
 		incButton.setPrefWidth(prefWidth);
@@ -333,13 +337,15 @@ public class DrawGardenView extends BorderPane {
 		incButton.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
 				+ " -fx-font-weight: bold;"
 				+ " -fx-background-color: #9DD6DE;"
-				+ " -fx-border-color: #000000;");
+				+ " -fx-border-color: #000000;"
+				+ "-fx-font-family: 'Robot';");
 		decButton.setPrefWidth(prefWidth);
 		decButton.setPrefHeight(prefHeight);
 		decButton.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
 				+ " -fx-font-weight: bold;"
 				+ " -fx-background-color: #9DD6DE;"
-				+ " -fx-border-color: #000000;");
+				+ " -fx-border-color: #000000;"
+				+ "-fx-font-family: 'Roboto';");
 		
 		bottomHBox.setPrefWidth(this.getWidth());
 		bottomHBox.setPrefWidth(this.getHeight()/14);
@@ -350,13 +356,15 @@ public class DrawGardenView extends BorderPane {
 		back.setStyle(font + Double.valueOf(prefWidth/8).toString() +";"
 				+ " -fx-font-weight: bold;"
 				+ " -fx-background-color: #9DD6DE;"
-				+ " -fx-border-color: #000000;");
+				+ " -fx-border-color: #000000;"
+				+ "-fx-font-family: 'Roboto';");
 		finish.setPrefWidth(this.getWidth());
 		finish.setPrefHeight(this.getHeight()/14);
 		finish.setStyle(font + Double.valueOf(prefWidth/8).toString() +";"
 				+ " -fx-font-weight: bold;"
 				+ " -fx-background-color: #9DD6DE;"
-				+ " -fx-border-color: #000000;");
+				+ " -fx-border-color: #000000;"
+				+ "-fx-font-family: 'Roboto';");
 	}
 	
 	/**

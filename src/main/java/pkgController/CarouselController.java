@@ -24,6 +24,7 @@ import pkgView.View;
  * 
  * @author Zane Greenholt
  * Abstract class that contains the basic functionality for a controller for a carousel. These functions include handlers for clicking the left and right buttons.
+ * 
  */
 public abstract class CarouselController {
 	/**
@@ -49,6 +50,7 @@ public abstract class CarouselController {
 	
 	/**
 	 * Constructor initializes all this class' fields
+	 * 
 	 * @param view The program's View that is only initialized once
 	 * @param carouselView A CarouselView object 
 	 */
@@ -61,6 +63,7 @@ public abstract class CarouselController {
 	
 	/**
 	 * Handler that calls the rotateRight methods for both the model and view
+	 * 
 	 * @param event An ActionEvent of the mouse being clicked
 	 */
 	public void clickedRight(ActionEvent event) {
@@ -69,6 +72,7 @@ public abstract class CarouselController {
 	}
 	/**
 	 * Handler that calls the rotateLeft methods for both the model and view
+	 * 
 	 * @param event An ActionEvent of the mouse being clicked
 	 */
 	public void clickedLeft(ActionEvent event) {
@@ -78,6 +82,7 @@ public abstract class CarouselController {
 	
 	/**
 	 * Getter for the clickedRight handler
+	 * 
 	 * @return EventHandler for clickedRight method
 	 */
 	public EventHandler getHandlerForClickedRight() {
@@ -86,6 +91,7 @@ public abstract class CarouselController {
 	
 	/**
 	 * Getter for the clickedLeft handler
+	 * 
 	 * @return EventHandler for clickedLeft method
 	 */
 	public EventHandler getHandlerForClickedLeft() {
@@ -94,6 +100,7 @@ public abstract class CarouselController {
 	
 	/**
 	 * Getter for the images that are only loaded once in the program.
+	 * 
 	 * @return List<VBox>, which includes images loaded in the program's controller
 	 */
 	public List<VBox> getImagesFromController(){
@@ -102,6 +109,7 @@ public abstract class CarouselController {
 	
 	/**
 	 * Getter for the carouselModel field
+	 * 
 	 * @return carouselModel field - a CarouselModel object
 	 */
 	public CarouselModel getCarouselModel() {
@@ -109,6 +117,7 @@ public abstract class CarouselController {
 	}
 	/**
 	 * Setter for the carouselModel field
+	 * 
 	 * @param carouselModel A CarouselModel object that will replace the current carouselModel field
 	 */
 	public void setCarouselModel(CarouselModel carouselModel) {
@@ -118,6 +127,7 @@ public abstract class CarouselController {
 	/**
 	 * Handler that is used for when an image is clicked in the info carousel. It opens a popup with information about the plant that
 	 * matches the clicked image.
+	 * 
 	 * @param event A MouseEvent that is the mouse being pressed
 	 */
 	public void clickedPopup(MouseEvent event) {
@@ -151,6 +161,7 @@ public abstract class CarouselController {
 	
 	/**
 	 * Getter for the clickedPopup handler
+	 * 
 	 * @return EventHandler for the clickedPopup method
 	 */
 	public EventHandler getHandlerForPopup() {

@@ -50,6 +50,7 @@ public class WelcomeView extends BorderPane {
 	
 	/**
 	 * Constructor for WelcomeView initializes all buttons and displays all necessary nodes, images, and text on the screen.
+	 * 
 	 * @param view The program's View that is only initialized once
 	 */
 	public WelcomeView(View view) {
@@ -135,6 +136,7 @@ public class WelcomeView extends BorderPane {
 	}
 	/**
 	 * Getter for the backgroundImage field
+	 * 
 	 * @return backgroundImage field - An image that is the background image for this screen
 	 */
 	public Image getBackgroundImage() {
@@ -142,6 +144,7 @@ public class WelcomeView extends BorderPane {
 	}
 	/**
 	 * Setter for the backgroundImage field
+	 * 
 	 * @param image An image that will replace the current background image for the welcome screen
 	 */
 	public void setBackgroundImage(Image image) {

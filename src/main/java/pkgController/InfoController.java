@@ -26,6 +26,7 @@ public class InfoController {
 	View view;
 	/**
 	 * Constructor initializes the view
+	 * 
 	 * @param view The program's view that is only initialized once
 	 */
 	public InfoController(View view) {
@@ -34,6 +35,7 @@ public class InfoController {
 	
 	/**
 	 * Handler for clicking the back button. It sets the screen to the welcome screen.
+	 * 
 	 * @param event An ActionEvent that is the mouse being clicked
 	 */
 	public void clickedBack(ActionEvent event) {
@@ -42,6 +44,7 @@ public class InfoController {
 	
 	/**
 	 * Getter for the clickedBack handler
+	 * 
 	 * @return EventHandler for the clickedBack method
 	 */
 	public EventHandler getHandlerForBack() {

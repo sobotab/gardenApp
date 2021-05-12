@@ -24,6 +24,7 @@ public class LepPopupView extends ListView {
 	/**
 	 * Constructor for this class takes in list of lep species and builds listView of them sorted by number
 	 * of plants supporting them.
+	 * 
 	 * @param sortedLeps 	List of Map.Entry containing name of lep species (key) and number of plants supporting them (value).
 	 */
 	public LepPopupView(ArrayList<Map.Entry<String, Integer>> sortedLeps) {
@@ -36,6 +37,7 @@ public class LepPopupView extends ListView {
 	/**
 	 * Method used by constructor to build a tilepane for each lep species. Each tilepane includes image of lep,
 	 * scientific name, and number of plants supporting it.
+	 * 
 	 * @param lepEntry 		Key-Value pair of lep species name and number of plants supporting it.
 	 * @return 				TilePane with information for an individual lep species.
 	 */

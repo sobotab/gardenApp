@@ -39,6 +39,7 @@ public class InfoCarouselView extends CarouselView{
 	/**
 	 * Constructor for the InfoCarouselView.
 	 * This constructor created the necessary buttons for using a carousel and puts them on the screen.
+	 * 
 	 * @param view The View of the program that is only created once
 	 */
 	public InfoCarouselView(View view) {
@@ -89,6 +90,7 @@ public class InfoCarouselView extends CarouselView{
 	/**
 	 * A method that is part of the process of filtering the plants in the carousel. This part sets the values from the drop downs for 
 	 * filtering to the empty string if the user did not select a specific value.
+	 * 
 	 * @param sun The chosen value from the sun comboBox on the info screen
 	 * @param moisture The chosen value from the moisture comboBox on the info screen
 	 * @param soil The chosen value from the soil comboBox on the info screen

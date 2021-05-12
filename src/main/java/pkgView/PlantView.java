@@ -20,6 +20,7 @@ public class PlantView extends ImageView{
 	
 	/**
 	 * Constructor sets all fields.
+	 * 
 	 * @param plantImage		Image of plant this plantView represents.
 	 * @param spread			Integer spread of the plant this plantView represents.
 	 */
@@ -31,6 +32,7 @@ public class PlantView extends ImageView{
 	
 	/**
 	 * Method to change xy coordinates of plantView.
+	 * 
 	 * @param x		Double new x location.
 	 * @param y		Double new y location.
 	 */

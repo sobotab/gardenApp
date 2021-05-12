@@ -53,6 +53,7 @@ public class SelectPlantsController {
 	
 	/**
 	 * Constructor simply initializes fields with the corresponding arguments
+	 * 
 	 * @param view The program's View that is only initialized once
 	 * @param spv SelectPlantsView that holds all the Nodes for the select plants screen
 	 * @param scc SelectCarouselController that holds handlers for the select plants screen's carousel
@@ -64,6 +65,7 @@ public class SelectPlantsController {
 	}
 	/**
 	 * Handler for clicking back to the previous screen. It takes the user to the drawGarden screen.
+	 * 
 	 * @param event An ActionEvent that is a mouse click
 	 */ 
 	public void clickedBack(ActionEvent event) {
@@ -73,6 +75,7 @@ public class SelectPlantsController {
 	/**
 	 * Handler for clicking to the next screen. It takes the user to the editGarden screen after serializing the plants that were selected 
 	 * so they can be correctly added to the garden.
+	 * 
 	 * @param event an ActionEvent that is a mouse click
 	 */
 	public void clickNext(ActionEvent event) {
@@ -102,6 +105,7 @@ public class SelectPlantsController {
 	/**
 	 * Handler for when a plant in the carousel is clicked. It removes the plant from the carousel and adds it to the lists of selectedPlants/images
 	 * in the corresponding model and view
+	 * 
 	 * @param event A MouseEvent that is the mouse being clicked
 	 */
 	public void plantSelected(MouseEvent event) {
@@ -149,6 +153,7 @@ public class SelectPlantsController {
 	
 	/**
 	 * Getter for the plantSelected handler
+	 * 
 	 * @return EventHandler for the plantSelected method
 	 */
 	public EventHandler getHandlerForPlantSelected() {
@@ -158,6 +163,7 @@ public class SelectPlantsController {
 	/**
 	 * Handler for when an image is clicked in the selected plants flowPane. When the image is clicked it is removed from selected plants
 	 * lists and added back to the carousel
+	 * 
 	 * @param event A MouseEvent that is the mouse being clicked
 	 */
 	public void plantDeselected(MouseEvent event) {
@@ -206,6 +212,7 @@ public class SelectPlantsController {
 	}
 	/**
 	 * Helper method that checks if a plant matches current user selected conditions on the selectPlants screen
+	 * 
 	 * @param plant The plantModel that is currently being considered
 	 * @param type The plant type chosen by the user
 	 * @param soil A specific soil type chosen by the user
@@ -246,6 +253,7 @@ public class SelectPlantsController {
 	
 	/**
 	 * Handler for infoPopups when plant VBoxes are clicked in the selectedPlants listView
+	 * 
 	 * @param event A MouseEvent representing a click
 	 */
 	public void selectedPlantPopup(MouseEvent event) {
@@ -263,6 +271,7 @@ public class SelectPlantsController {
 	
 	/**
 	 * Getter for the selectedPlantPopup handler
+	 * 
 	 * @return An EventHandler for selectedPlantPopup
 	 */
 	public EventHandler getHandlerForSelectedPlantPopup() {
@@ -271,6 +280,7 @@ public class SelectPlantsController {
 	
 	/**
 	 * Getter for the plantDeselected handler
+	 * 
 	 * @return EventHandler for the plantDeselected method
 	 */
 	public EventHandler getHandlerForPlantDeSelected() {
@@ -279,6 +289,7 @@ public class SelectPlantsController {
 	
 	/**
 	 * Getter for the clickedBack handler
+	 * 
 	 * @return EventHandler for the clickedBack method
 	 */
 	public EventHandler getHandlerForBack() {
@@ -287,6 +298,7 @@ public class SelectPlantsController {
 	
 	/**
 	 * Getter for the clickedNext handler
+	 * 
 	 * @return EventHandler for the clickedNext method
 	 */
 	public EventHandler getHandlerForNext() {

@@ -42,6 +42,7 @@ public class OpenGardenView extends BorderPane{
 	
 	/**
 	 * Constructor creates TableView to hold information on all saved gardens, prepares for data entry from controller.
+	 * 
 	 * @param view 		View class of the program. Initialized once.
 	 */
 	public OpenGardenView(View view) {

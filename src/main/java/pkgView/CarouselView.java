@@ -80,6 +80,7 @@ public abstract class CarouselView extends FlowPane {
 	
 	/**
 	 * Part of the handler for opening a popup screen when an image is clicked. It has plant data passed into it from the controller to be displayed.
+	 * 
 	 * @param view The program's view that is only initialized once
 	 * @param img The same image that was clicked
 	 * @param name The common name of the plant that had its image clicked
@@ -131,6 +132,7 @@ public abstract class CarouselView extends FlowPane {
 	/**
 	 * A helper method for the update method. This method places nodes correctly in the carousel when the size of the carousel is 
 	 * at least three nodes.
+	 * 
 	 * @param leftMostNode An int that represents the index of the node to the left of the node in the center of the carousel's focus.
 	 * @param rightMostNode An int that represents the index of the node to the right of the ndoe in the center of the carousel's focus.
 	 * @return A list of VBox's that contains a subset of the nodes in CarouselView's filteredImages. This subset of size 3 will be displayed.
@@ -158,6 +160,7 @@ public abstract class CarouselView extends FlowPane {
 	}
 	/**
 	 * A helper method for the update method. This method places nodes correctly in the carousel when the size of the carousel is less than three nodes.
+	 * 
 	 * @return A List of VBox's that contains a subset of the nodes in CarouselView's filteredImages. This subset of size 1 will be displayed.
 	 */
 	private List<VBox> makeSmallCarousel(){
@@ -174,6 +177,7 @@ public abstract class CarouselView extends FlowPane {
 	// getters
 	/**
 	 * Getter for images field
+	 * 
 	 * @return images field - a List of VBox's
 	 */
 	public List<VBox> getImages() {
@@ -182,6 +186,7 @@ public abstract class CarouselView extends FlowPane {
 
 	/**
 	 * Setter for images field
+	 * 
 	 * @param images A list of VBox's that will replace the current images field
 	 */
 	public void setImages(List<VBox> images) {
@@ -190,6 +195,7 @@ public abstract class CarouselView extends FlowPane {
 	
 	/**
 	 * Getter for filteredImages field
+	 * 
 	 * @return filteredImages field - A List of VBox's filtered by the users choices for soil, sun, moisture, and plant type
 	 */
 	public List<VBox> getFilteredImages(){
@@ -198,6 +204,7 @@ public abstract class CarouselView extends FlowPane {
 	
 	/**
 	 * Setter for filteredImages field. This also updated the center if the size of filteredImages is zero
+	 * 
 	 * @param filteredImages A List of VBox's that will replace the current filteredImages field
 	 */
 	public void setFilteredImages(List<VBox> filteredImages) {
@@ -212,6 +219,7 @@ public abstract class CarouselView extends FlowPane {
 	}
 	/**
 	 * Getter for center field
+	 * 
 	 * @return center field - int representing index of image focused on by the carousel
 	 */
 	public int getCenter() {
@@ -220,6 +228,7 @@ public abstract class CarouselView extends FlowPane {
 	
 	/**
 	 * Setter for center field
+	 * 
 	 * @param center An int that will replace the current center index
 	 */
 	public void setCenter(int center) {

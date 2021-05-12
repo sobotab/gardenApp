@@ -126,6 +126,7 @@ public class EditGardenView extends BorderPane{
 	/**
 	 * Constructor initializes this view class. Takes in plant and plot data from the controller to build garden
 	 * shown in the scene. Instantiates and fills the DragDropCarouselView with plant objects.
+	 * 
 	 * @param view 		The program's View that is only initialized once.
 	 * @param loadName 	The user-input name of the garden being loaded. Null if a new garden is being made.
 	 */
@@ -299,6 +300,7 @@ public class EditGardenView extends BorderPane{
 	
 	/**
 	 * Method for re-drawing the garden plots input in Draw Garden onto this class's canvas.
+	 * 
 	 * @param plots 	A hashmap holding the list of points of each plot drawn in Draw Garden, organized by soil type.
 	 */
 	public void makeCanvas(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
@@ -349,6 +351,7 @@ public class EditGardenView extends BorderPane{
 	 * Method for updating the values in the budget, lep number, and lep species display. Called whenever 
 	 * a plan object is added or removed from the garden. Also makes a button that opens a pop-up window 
 	 * containing a full list of lep species supported.
+	 * 
 	 * @param dollars 		Current total cost of all plants in garden
 	 * @param leps 			Current number of leps supported by plants in garden
 	 * @param sortedLeps 	List of the lep species supported by the plants in the garden & number of plants that support them
@@ -413,6 +416,7 @@ public class EditGardenView extends BorderPane{
 	
 	/**
 	 * Method called by the "See more" button in the lep species display. Opens a pop-up listing all lep species supported.
+	 * 
 	 * @param sortedLeps 	List of all lep species supported by plants in garden, sorted by number of plants supporting them
 	 */
 	public void openLepPopup(ArrayList<Map.Entry<String, Integer>> sortedLeps) {
@@ -426,6 +430,7 @@ public class EditGardenView extends BorderPane{
 	
 	/**
 	 * Method for making PlantView objects, setting appropriate handlers and tooltips. Used for plants initially added to the carousel.
+	 * 
 	 * @param name_soil_info 	List holding plant info put into tooltips
 	 * @param spread 			Integer for plant spread diameter
 	 * @return 					PlantView object ready to be placed in DragDropCarousel
@@ -466,6 +471,7 @@ public class EditGardenView extends BorderPane{
 	
 	/**
 	 * Method that duplicates plants dragged out of carousel, and puts them in place of the removed plant.
+	 * 
 	 * @param index 	Integer representing the position of the plant to duplicate in the carousel's plant list.
 	 */
 	public void replacePlant(int index) {
@@ -481,6 +487,7 @@ public class EditGardenView extends BorderPane{
 	/**
 	 * Method that draws a Circle (if spread large enough to display) or rectangle (if not), visually representing 
 	 * plant spread. These shapes are added to garden, continually updated to location of their associated plant.
+	 * 
 	 * @param index 	Index of the plant in this class's plant list that the spread object is supposed to represent.
 	 * @param x 		Double representing x-location of the plant this spread is associated with.
 	 * @param y 		Double representing y-location of the plant this spread is associated with.
@@ -535,6 +542,7 @@ public class EditGardenView extends BorderPane{
 
 	/**
 	 * Helper method used by DrawSpread to calculate the radius of the spread object according to scale factor.
+	 * 
 	 * @param plant 	Plant whose spread should be altered by scale factor.
 	 * @return 			Double representing the spread of the plant according to the scale factor of the garden.
 	 */
@@ -547,6 +555,7 @@ public class EditGardenView extends BorderPane{
 	/**
 	 * Method called whenever plant is dragged to change color of its associated spread object according to plot conditions.
 	 * Blue: accepted. Yellow: overlaps another spread. Red: outside valid soil type.
+	 * 
 	 * @param index 		Index of spread to be changed in this class's plantSpreads. 
 	 * @param inGarden 		Boolean representing whether the base of the plant is in its correct soil type, computed by model.
 	 * @param overlap 		Boolean representing whether plant's spread overlaps another's, computed by model.
@@ -565,6 +574,7 @@ public class EditGardenView extends BorderPane{
 	
 	/**
 	 * Method facilitating transport of PlantView Node from DragDropCarousel to this class's garden stackpane.
+	 * 
 	 * @param index 	Index of the plant in the carousel's plants list.
 	 * @param n 		PlantView node being dragged.
 	 */

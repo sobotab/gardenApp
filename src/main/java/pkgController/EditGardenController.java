@@ -68,6 +68,7 @@ public class EditGardenController {
 	/**
 	 * Constructor loads a serialized gardenModel and disperses that data to model and view if loadName present. If not, 
 	 * reads serialized information from Select Plants and Draw Garden screens, and disperses that data to model and view instead.
+	 * 
 	 * @param view 			EditGardenView that is the view class for this screen. Information necessary for display is sent there.
 	 * @param gardenView 	EditGardenModel, the model class for this screen. All garden and plant information is sent there.
 	 * @param loadName 		String representing user-input name for the garden to load. Null if not loading a garden.
@@ -184,6 +185,7 @@ public class EditGardenController {
 		
 	/**
 	 * Handler for clicking back button. Returns user to previous screen: Select Plants.
+	 * 
 	 * @param event 	The ActionEvent caused by clicking the back button.
 	 */
 	public void clickedBack(ActionEvent event) {
@@ -192,6 +194,7 @@ public class EditGardenController {
 	
 	/**
 	 * Handler for clicking exit button. Returns user to Welcome screen.	
+	 * 
 	 * @param event 	The ActionEvent caused by clicking the exit button.
 	 */
 	public void clickedExit(ActionEvent event) {
@@ -200,6 +203,7 @@ public class EditGardenController {
 	
 	/**
 	 * Handler for clicking the "See more" button. Opens pop-up showing all supported lep species.
+	 * 
 	 * @param event 	The ActionEvent caused by clicking the "See more" button.
 	 */
 	public void clickedMoreLeps(ActionEvent event) {
@@ -208,6 +212,7 @@ public class EditGardenController {
 	
 	/**
 	 * Handler for clicking the save button. Opens prompt for garden name, then serializes gardenModel.
+	 * 
 	 * @param event 	The ActionEvent caused by clicking the save button.
 	 */
 	public void clickedSave(ActionEvent event) {		
@@ -256,6 +261,7 @@ public class EditGardenController {
 	
 	/**
 	 * Handler for clicking print button. Saves a snapshot of the garden stackpane in EditGardenView.
+	 * 
 	 * @param event 	The ActionEvent caused by clicking the print button.
 	 */
 	public void clickedPrint(ActionEvent event) {
@@ -317,6 +323,7 @@ public class EditGardenController {
 		
 	/**
 	 * Handler for dragging a PlantView node. Updates position in model, then updates view accordingly. Runs checks for outside bounds/overlapping spreads.
+	 * 
 	 * @param event 	The MouseEvent caused by dragging a PlantView node.
 	 */
 	public void drag(MouseEvent event) {
@@ -349,6 +356,7 @@ public class EditGardenController {
 	
 	/**
 	 * Handler for clicking a PlantView node in the view's DragDropCarousel. Prompts model and view to transport plant from carousel to garden.
+	 * 
 	 * @param event 	MouseEvent caused by clicking on a PlantView node.
 	 */
 	public void press(MouseEvent event) {
@@ -385,6 +393,7 @@ public class EditGardenController {
 	
 	/**
 	 * Handler for releasing mouse button after dragging a PlantView node. Prompts model to update budget/lep info and send that to view.
+	 * 
 	 * @param event 	MouseEvent caused by releasing mouse button on PlantView node.
 	 */
 	public void release(MouseEvent event) {
@@ -411,6 +420,7 @@ public class EditGardenController {
 	
 	/**
 	 * Getter for the clickedBack handler.
+	 * 
 	 * @return 		EventHandler for the clickedBack method.
 	 */
 	public EventHandler getHandlerForBack() {
@@ -419,6 +429,7 @@ public class EditGardenController {
 	
 	/**
 	 * Getter for the clickedSave handler.
+	 * 
 	 * @return 		EventHandler for the clickedSave method.
 	 */
 	public EventHandler getHandlerForSave() {
@@ -427,6 +438,7 @@ public class EditGardenController {
 	
 	/**
 	 * Getter for the clickedExit handler.
+	 * 
 	 * @return 		EventHandler for the clickedExit method.
 	 */
 	public EventHandler getHandlerForExit() {
@@ -435,6 +447,7 @@ public class EditGardenController {
 	
 	/**
 	 * Getter for the clickedPrint handler.
+	 * 
 	 * @return 		EventHandler for the clickedPrint method.
 	 */
 	public EventHandler getHandlerForPrint() {
@@ -443,6 +456,7 @@ public class EditGardenController {
 	
 	/**
 	 * Getter for the clickedMoreLeps handler.
+	 * 
 	 * @return 		EventHandler for the clickedMoreLeps method.
 	 */
 	public EventHandler getHandlerForMoreLeps() {
@@ -451,6 +465,7 @@ public class EditGardenController {
 	
 	/**
 	 * Getter for the drag handler.
+	 * 
 	 * @return 		EventHandler for the drag method.
 	 */
 	public EventHandler getHandlerForDrag() {
@@ -459,6 +474,7 @@ public class EditGardenController {
 	
 	/**
 	 * Getter for the press handler.
+	 * 
 	 * @return 		EventHandler for the press method.
 	 */
 	public EventHandler getHandlerForPress() {
@@ -467,6 +483,7 @@ public class EditGardenController {
 	
 	/**
 	 * Getter for the release handler.
+	 * 
 	 * @return 		EventHandler for the release method.
 	 */
 	public EventHandler getHandlerForRelease() {

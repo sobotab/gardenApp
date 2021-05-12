@@ -41,6 +41,7 @@ public class OpenGardenController {
 	
 	/**
 	 * Constructor reads in serialized garden models if any exist, sends data to OpenGardenView.
+	 * 
 	 * @param view 		View class for the program.
 	 * @param ogv 		View class for this screen.
 	 */
@@ -88,6 +89,7 @@ public class OpenGardenController {
 	
 	/**
 	 * Handler for clickedBack. Returns to welcome screen.
+	 * 
 	 * @param event 	ActionEvent caused by clicking back button.
 	 */
 	public void clickedBack(ActionEvent event) {
@@ -97,6 +99,7 @@ public class OpenGardenController {
 	
 	/**
 	 * Handler for clickedOpen. Opens Edit Garden screen with the currently selected garden in the tableview.
+	 * 
 	 * @param event 	ActionEvent caused by clicked open button.
 	 */	
 	public void clickedOpen(ActionEvent event) {
@@ -109,6 +112,7 @@ public class OpenGardenController {
 	
 	/**
 	 * Getter for the clickedBack method.
+	 * 
 	 * @return 		EventHandler for clickedBack.
 	 */
 	public EventHandler getHandlerForBack() {
@@ -117,6 +121,7 @@ public class OpenGardenController {
 	
 	/**
 	 * Getter for the clickedOpen method.
+	 * 
 	 * @return 		EventHandler for clickedOpen.
 	 */
 	public EventHandler getHandlerForOpen() {

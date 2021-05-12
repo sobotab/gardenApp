@@ -51,6 +51,7 @@ public abstract class PlantModel implements Serializable{
 
 	/**
 	 * Constructor sets fields to the argument values
+	 * 
 	 * @param name The plant's common name
 	 * @param sciName The plant's scientific name
 	 * @param spreadDiameter The plant's root spread
@@ -73,6 +74,7 @@ public abstract class PlantModel implements Serializable{
 	/**
 	 * 
 	 * Getter for name field
+	 * 
 	 * @return name field - String representing the plant's common name
 	 */
 	public String getName() {
@@ -80,6 +82,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Setter for name field
+	 * 
 	 * @param name A String representing the plant's common name
 	 */
 	public void setName(String name) {
@@ -87,6 +90,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Getter for sciName field
+	 * 
 	 * @return sciName field - String representing the plant's scientific name
 	 */
 	public String getSciName() {
@@ -94,6 +98,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Setter for sciName field
+	 * 
 	 * @param sciName A String representing the plant's scientific name
 	 */
 	public void setSciName(String sciName) {
@@ -101,6 +106,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Getter for spreadDiameter field
+	 * 
 	 * @return spreadDiameter field - An int representing the plant's root spread
 	 */
 	public int getSpreadDiameter() {
@@ -108,6 +114,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Setter for spreadDiameter field
+	 * 
 	 * @param spreadDiameter An int representing the plant's root spread
 	 */
 	public void setSpreadDiameter(int spreadDiameter) {
@@ -115,6 +122,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Getter for sun field
+	 * 
 	 * @return sun field - A String representing the plant's ideal sun level
 	 */
 	public String getSun() {
@@ -122,6 +130,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Setter for sun field
+	 * 
 	 * @param sun A string representing the plant's ideal sun level
 	 */
 	public void setSun(String sun) {
@@ -129,6 +138,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Getter for moisture field
+	 * 
 	 * @return moisture field - A String representing the plant's ideal moisture levels
 	 */
 	public String getMoisture() {
@@ -136,6 +146,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Setter for moisture field
+	 * 
 	 * @param moisture A string representing the plant's ideal moisture levels
 	 */
 	public void setMoisture(String moisture) {
@@ -143,6 +154,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Getter for soil field
+	 * 
 	 * @return soil field - A string representing the plant's ideal soil types
 	 */
 	public String getSoil() {
@@ -150,6 +162,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Setter for soil field
+	 * 
 	 * @param soil A String representing the plant's ideal soil types
 	 */
 	public void setSoil(String soil) {
@@ -157,6 +170,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Getter for numLeps field
+	 * 
 	 * @return numLeps field - An int representing the number of lep species supported by the plant
 	 */
 	public int getNumLeps() {
@@ -164,6 +178,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Setter for numLeps field
+	 * 
 	 * @param numLeps An int representing the number of lep species supported by the plant
 	 */
 	public void setNumLeps(int numLeps) {
@@ -171,6 +186,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Getter for dollars field
+	 * 
 	 * @return dollars field - An int representing the price of the plant
 	 */
 	public int getDollars() {
@@ -178,6 +194,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Setter for dollars field
+	 * 
 	 * @param dollars - An int representing the price of the plant
 	 */
 	public void setDollars(int dollars) {
@@ -185,6 +202,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Getter for the leps field
+	 * 
 	 * @return List of scientific names of supported leps for this hostplant
 	 */
 	public List<String> getLeps() {
@@ -192,6 +210,7 @@ public abstract class PlantModel implements Serializable{
 	}
 	/**
 	 * Setter for the leps field
+	 * 
 	 * @param leps List of Strings representing lep names
 	 */
 	public void setLeps(List<String> leps) {

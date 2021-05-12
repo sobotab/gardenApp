@@ -36,6 +36,7 @@ public class InfoPopupView extends BorderPane{
 	private final double LEP_SCALING = 0.5;
 	/**
 	 * Constructor which displays all the data that is passed into the InfoPopupView
+	 * 
 	 * @param view The program's View which is initialized once
 	 * @param img The same image that was clicked
 	 * @param name The common name of the plant that had its image clicked

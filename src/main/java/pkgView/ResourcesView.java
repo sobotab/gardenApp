@@ -20,6 +20,7 @@ import pkgController.ResourcesController;
 public class ResourcesView extends BorderPane{
 	/**
 	 * Constructor populates scene with text describing leps/native plants and provides links.
+	 * 
 	 * @param view		View class for the program.
 	 */
 	public ResourcesView(View view) {

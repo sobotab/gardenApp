@@ -58,6 +58,10 @@ import pkgController.Soil;
  */
 public class EditGardenView extends BorderPane{
 	/**
+	 * View class for the entire program.
+	 */
+	View view;
+	/**
 	 * Constant for height of canvas that holds drawn garden.
 	 */
 	public final int CANVASHEIGHT = 700;
@@ -131,7 +135,7 @@ public class EditGardenView extends BorderPane{
 	 * @param loadName 	The user-input name of the garden being loaded. Null if a new garden is being made.
 	 */
 	public EditGardenView(View view, String loadName) {
-		
+		this.view = view;
 		this.plantInput = new ArrayList< Pair<ArrayList<String>, Integer> >();
 		this.plantCarousel = new DragDropCarouselView(view);
 		//this.plantCarousel.setMaxWidth(CANVASWIDTH * 1.75);
@@ -422,7 +426,7 @@ public class EditGardenView extends BorderPane{
 	public void openLepPopup(ArrayList<Map.Entry<String, Integer>> sortedLeps) {
 		Stage popupWindow = new Stage();
 		popupWindow.initModality(Modality.NONE);
-		popupWindow.setScene(new Scene(new LepPopupView(sortedLeps),800,500));
+		popupWindow.setScene(new Scene(new LepPopupView(view, sortedLeps),800,500));
 		popupWindow.setAlwaysOnTop(true);
 		popupWindow.show(); 
 	}

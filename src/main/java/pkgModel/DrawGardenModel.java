@@ -308,24 +308,10 @@ public class DrawGardenModel extends GardenModel {
 	}
 
 	/**
-	 * @return the number of columns
-	 */
-	public double getColumns() {
-		return columns;
-	}
-
-	/**
 	 * @param columns to be set to the model
 	 */
 	public void setColumns(double columns) {
 		this.columns = columns;
-	}
-
-	/**
-	 * @return the minimum of the canvasHeight and the canvasWidth
-	 */
-	public double getCanvasLength() {
-		return canvasLength;
 	}
 
 	/**
@@ -350,38 +336,6 @@ public class DrawGardenModel extends GardenModel {
 		}
 		gridSize = minGrid;
 		return outOfBounds;
-	}
-	
-	/**
-	 * Scales all of the points to fill the canvas
-	 */
-	public void finish() {
-		if (!(plots.get(Soil.CLAY).isEmpty() && plots.get(Soil.SANDY).isEmpty() && plots.get(Soil.LOAMY).isEmpty())) {
-			double minX = 1.0;
-			double minY = 1.0;
-			for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
-				for (ArrayList<Point2D.Double> plot: soil) {
-					for (Point2D.Double point: plot) {
-						if (point.getX() < minX) {
-							minX = point.getX();
-						}
-						if (point.getY() < minY) {
-							minY = point.getY();
-						}
-					}
-				}
-			}
-			for(Stack<ArrayList<Point2D.Double>> soil: plots.values()) {
-				for (ArrayList<Point2D.Double> plot: soil) {
-					for (Point2D.Double point: plot) {
-						point.setLocation(point.getX()-minX+.01, point.getY()-minY+.01);
-					}
-				}
-			}
-			while(scale(gridSize+1.0)) {}
-			while(!scale(gridSize-1.0)) {}
-			scale(gridSize+1.0);
-		}
 	}
 
 }

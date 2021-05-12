@@ -12,7 +12,7 @@ import pkgController.Sun;
 
 public class DrawGardenModel extends GardenModel {
 	ArrayList<Point2D.Double> preOutline;
-	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
+	//HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
 	Stack<Soil> undoStack;
 	Moisture moisture;
 	Sun sun;
@@ -149,10 +149,6 @@ public class DrawGardenModel extends GardenModel {
 	
 	public int getBudget() {
 		return budget;
-	}
-	
-	public void setScale(int scale) {
-		this.scale = scale;
 	}
 	
 	public void setGridSize(double grid) {

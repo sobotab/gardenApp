@@ -35,9 +35,9 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import pkgModel.DrawGardenModel;
+import pkgModel.EditGardenModel;
 import pkgModel.Model;
 import pkgModel.ObjectCarouselModel;
-import pkgModel.PlantGardenModel;
 import pkgModel.PlantInfoModel;
 import pkgModel.PlantModel;
 import pkgModel.PlantObjectModel;
@@ -63,7 +63,7 @@ public class EditGardenController {
 	/**
 	 * Model class for this screen. Holds all plant and garden data, and has methods for calculating plant interactions.
 	 */
-	PlantGardenModel gardenModel;
+	EditGardenModel gardenModel;
 	
 	/**
 	 * Constructor loads a serialized gardenModel and disperses that data to model and view if loadName present. If not, 
@@ -74,7 +74,7 @@ public class EditGardenController {
 	 */
 	public EditGardenController(View view, EditGardenView gardenView, String loadName) {	
 		
-		HashMap<String, PlantGardenModel> gardenData = null;
+		HashMap<String, EditGardenModel> gardenData = null;
 		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = null;
 		int budget = 0;
 		double max_dimension = 45.0;	// default in case scale cannot be read
@@ -85,7 +85,7 @@ public class EditGardenController {
 			try {
 				FileInputStream fis = new FileInputStream("finalGardenData.ser");
 		        ObjectInputStream ois = new ObjectInputStream(fis);
-		        gardenData = (HashMap<String, PlantGardenModel>)ois.readObject();
+		        gardenData = (HashMap<String, EditGardenModel>)ois.readObject();
 		        ois.close();
 			} catch (FileNotFoundException e) {
 	        	System.out.println("File not found");
@@ -112,7 +112,7 @@ public class EditGardenController {
 			gardenView.getPlantCarousel().getController().carouselModel = gardenModel.getCarousel();
 			gardenView.setBudget(gardenModel.getBudget());
 			gardenView.makeCanvas(gardenModel.getPlots());
-			gardenView.setScaleFactor(gardenModel.getScaleFactor());
+			gardenView.setScaleFactor(gardenModel.getScale());
 		} 
 		
 		// Making a new garden, instead read data from previous screens.
@@ -170,14 +170,14 @@ public class EditGardenController {
 			
 			// Initialize & Add plants to model
 			ObjectCarouselModel carouselModel = gardenView.getPlantCarousel().getController().carouselModel;
-			this.gardenModel = new PlantGardenModel(carouselModel, plants2, plots, budget, scale_factor);		
+			this.gardenModel = new EditGardenModel(carouselModel, plants2, plots, budget, scale_factor);		
 			gardenModel.adaptPlots(gardenView.CANVASWIDTH - 10, gardenView.CANVASHEIGHT - 10);
 			
 			System.out.println("pre scaling: " + scale_factor);
-			System.out.println("post scaling: " + gardenModel.getScaleFactor());
+			System.out.println("post scaling: " + gardenModel.getScale());
 			gardenView.setBudget(budget);
 			gardenView.makeCanvas(plots);
-			gardenView.setScaleFactor(gardenModel.getScaleFactor());
+			gardenView.setScaleFactor(gardenModel.getScale());
 		}
 	}
 	
@@ -222,13 +222,13 @@ public class EditGardenController {
 			inputName = Optional.ofNullable("New Garden");
 		}
 		
-		HashMap<String, PlantGardenModel> gardenData = new HashMap<String, PlantGardenModel>();
+		HashMap<String, EditGardenModel> gardenData = new HashMap<String, EditGardenModel>();
 		
 		// Load existing data
 		try {
 			FileInputStream fis = new FileInputStream("finalGardenData.ser");
 	        ObjectInputStream ois = new ObjectInputStream(fis);
-	        gardenData = (HashMap<String, PlantGardenModel>)ois.readObject();
+	        gardenData = (HashMap<String, EditGardenModel>)ois.readObject();
 	        ois.close();
 		} catch (FileNotFoundException e) {
         	System.out.println("File not found");
@@ -265,7 +265,7 @@ public class EditGardenController {
 		File imgFile = fileChooser.showSaveDialog(view.getTheStage());
 		if (imgFile != null) {
 			try {
-				WritableImage canvasImg = new WritableImage((int)(gardenView.CANVASWIDTH * 1.4), (int)(gardenView.CANVASHEIGHT * 1.05));
+				WritableImage canvasImg = new WritableImage((int)(gardenView.CANVASWIDTH * 1.3), (int)(gardenView.CANVASHEIGHT));
 				gardenView.getGarden().snapshot(null, canvasImg);
 				BufferedImage bufferedImage = SwingFXUtils.fromFXImage(canvasImg, null);
 				ImageIO.write(bufferedImage, "png", imgFile);

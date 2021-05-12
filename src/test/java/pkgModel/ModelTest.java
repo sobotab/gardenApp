@@ -24,7 +24,7 @@ public class ModelTest {
 	
 	@Test
 	public void testMakePlants() {
-		assertEquals(true, model.makePlants() == null);
+		assertFalse(model.makePlants() == null);
 	}
 	
 //	@Test
@@ -38,7 +38,9 @@ public class ModelTest {
 
 	@Test
 	public void testGetPlants() {
-		assertEquals(false, model.getPlants() == null);
+		Set<PlantModel> emptySet = new HashSet<>();
+		model.plants = emptySet;
+		assertEquals(emptySet, model.getPlants());
 	}
 
 	@Test
@@ -52,7 +54,9 @@ public class ModelTest {
 
 	@Test
 	public void testGetPotentialPlants() {
-		assertEquals(false, model.getPotentialPlants() == null);
+		List<PlantModel> emptyList = new ArrayList<PlantModel>();
+		model.potentialPlants = emptyList;
+		assertEquals(emptyList, model.getPotentialPlants());
 	}
 
 	@Test
@@ -66,7 +70,9 @@ public class ModelTest {
 
 	@Test
 	public void testGetSelectedPlants() {
-		assertEquals(false, model.getSelectedPlants() == null);
+		Set<PlantModel> emptySet = new HashSet<>();
+		model.selectedPlants = emptySet;
+		assertEquals(emptySet, model.getSelectedPlants());
 	}
 
 	@Test

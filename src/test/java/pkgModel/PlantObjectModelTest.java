@@ -10,16 +10,17 @@ import pkgController.Sun;
 
 public class PlantObjectModelTest {
 	
-	PlantObjectModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, null, 150, 200, 100, 200);
+	PlantObjectModel plant = new PlantObjectModel("name","sciName",15,"full sun", "wet", "clay", 15, 20, null, 150, 200);
 
 	@Test
 	public void testPlantObjectModel() {
-		assertEquals(1,(int)plant.x);
+		assertEquals(150,(int)plant.x);
 	}
 
 	@Test
 	public void testGetX() {
-		assertEquals(1,(int)plant.getX());
+		plant.x = 2;
+		assertEquals(2,(int)plant.getX());
 	}
 
 	@Test
@@ -30,6 +31,7 @@ public class PlantObjectModelTest {
 
 	@Test
 	public void testGetY() {
+		plant.y = 2;
 		assertEquals(2,(int)plant.getY());
 	}
 
@@ -37,28 +39,6 @@ public class PlantObjectModelTest {
 	public void testSetY() {
 		plant.setY(12);
 		assertEquals(12,(int)plant.y);
-	}
-
-	@Test
-	public void testGetHeight() {
-		assertEquals(3,plant.getHeight());
-	}
-
-	@Test
-	public void testSetHeight() {
-		plant.setHeight(13);
-		assertEquals(13,plant.height);
-	}
-
-	@Test
-	public void testGetWidth() {
-		assertEquals(13,plant.getWidth());
-	}
-
-	@Test
-	public void testSetWidth() {
-		plant.setWidth(14);
-		assertEquals(14,plant.width);
 	}
 
 }

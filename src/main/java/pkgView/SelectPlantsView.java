@@ -13,6 +13,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -172,13 +173,17 @@ public class SelectPlantsView extends BorderPane {
 		
 		VBox filterBox = new VBox();
 		if(soils.size() > 1) {
-			filterBox.getChildren().addAll(type,soil,filter, numPlants);
+			filterBox.getChildren().addAll(type,soil,filter);
 		}
 		else {
-			filterBox.getChildren().addAll(type,filter, numPlants);
+			filterBox.getChildren().addAll(type,filter);
 		}
-		HBox filterAndTitle = new HBox(title,filterBox);
+		HBox filterAndNumber = new HBox(filterBox, numPlants);
+		filterAndNumber.setPadding(new Insets(10,5,10,5));
+		
+		VBox filterAndTitle = new VBox(title, filterAndNumber);
 		filterAndTitle.setPadding(new Insets(10,5,10,5));
+		filterAndTitle.setPadding(new Insets(10,5,30,5));
 		
 		
 		Button back = new Button("<<<");
@@ -199,16 +204,26 @@ public class SelectPlantsView extends BorderPane {
 		plantsSelectedBox.getChildren().addAll(selectedPlantsTitle, plantsSelected);
 		plantsSelectedBox.setMinHeight(this.getHeight());
 		
-		HBox box = new HBox();
-		box.getChildren().add(back);
-		box.getChildren().add(finish);
-		box.setPrefWidth(this.getWidth());
-		box.setPadding(new Insets(10,5,10,5));	
+		//HBox box = new HBox();
+		BorderPane pageButtons = new BorderPane();
+		pageButtons.setLeft(back);
+		pageButtons.setRight(finish);
+		back.setPadding(new Insets(10,5,10,5));	
+		back.setPrefWidth(100.0);
+		finish.setPadding(new Insets(10,5,10,5));
+		finish.setPrefWidth(100.0);
 		
+		plantsSelectedBox.toFront();
+		this.setAlignment(plantsSelectedBox, Pos.TOP_RIGHT);
+		
+		
+		VBox layout = new VBox(filterAndTitle, selectionCarousel);
+		selectionCarousel.setPadding(new Insets(100, 0, 0, 0));
+		
+		//this.setTop(filterAndTitle);
 		this.setRight(plantsSelectedBox);
-		this.setTop(filterAndTitle);
-		this.setBottom(box);
-		this.setCenter(selectionCarousel);
+		this.setBottom(pageButtons);
+		this.setCenter(layout);
 		
 	}
 	

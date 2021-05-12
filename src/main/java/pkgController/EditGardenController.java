@@ -296,11 +296,12 @@ public class EditGardenController {
 			PlantView plantInView = gardenView.makePlantView(
 					plant_info,
 					plantInModel.getSpreadDiameter());
-			plantInView.setFitHeight(plantInModel.getSpreadDiameter()/4 + 30);
-			plantInView.setFitWidth(plantInModel.getSpreadDiameter()/4 + 30);	
+			
+			plantInView.setFitHeight(plantInModel.getSpreadDiameter()/2 + 30);
+			plantInView.setFitWidth(plantInModel.getSpreadDiameter()/2 + 30);	
 			Rectangle plant_template = new Rectangle(plantInView.getFitWidth(), plantInView.getFitWidth());
-			plant_template.setArcWidth(15);
-			plant_template.setArcHeight(15);
+			plant_template.setArcWidth(30);
+			plant_template.setArcHeight(30);
 			plantInView.setClip(plant_template);
 			
 			gardenView.getPlants().add(plantInView);

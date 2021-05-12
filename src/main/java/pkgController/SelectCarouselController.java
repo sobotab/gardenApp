@@ -270,7 +270,7 @@ public class SelectCarouselController extends CarouselController {
 	 * @return soil field - A List of Strings representing all soil types chosen by the user
 	 */
 	public List<String> getSoil() {
-		return soil;
+		return soils;
 	}
 
 	/**
@@ -278,7 +278,7 @@ public class SelectCarouselController extends CarouselController {
 	 * @param soil List of Strings representing different soil types
 	 */
 	public void setSoil(List<String> soil) {
-		this.soil = soil;
+		this.soils = soil;
 	}
 	
 	

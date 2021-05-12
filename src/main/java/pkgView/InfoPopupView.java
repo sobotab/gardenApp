@@ -120,7 +120,6 @@ public class InfoPopupView extends BorderPane{
 		lepSpecies.setItems(lepNames);
 		lepBox.getChildren().addAll(lepCount, lepSpecies);
 		Label price = new Label("Costs " + dollars + " dollars.");
-
 		Label info = new Label(description);
 		lepCount.setFont(Font.font("Cambria", FontWeight.MEDIUM, 16));
 		lepCount.setTextFill(Color.WHITE);
@@ -132,7 +131,6 @@ public class InfoPopupView extends BorderPane{
 
 		info.setPadding(new Insets(5, 0, 0, 0));
 		TilePane tilePane = new TilePane();
-		//tilePane.getChildren().addAll(lepBox, img_copy, price);
 		VBox vbox = new VBox();
 		vbox.setMaxWidth(500);
 		vbox.getChildren().add(img_copy);
@@ -142,8 +140,6 @@ public class InfoPopupView extends BorderPane{
 		tilePane.setAlignment(Pos.CENTER);
 		info.setWrapText(true);
 		info.setAlignment(Pos.BASELINE_CENTER);
-		//this.setCenter(tilePane);
-		//this.setBottom(info);
 		this.setLeft(vbox);
 		this.setPadding(new Insets(10));
 		this.setRight(lepBox);

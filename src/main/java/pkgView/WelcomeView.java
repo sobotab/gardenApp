@@ -68,7 +68,7 @@ public class WelcomeView extends BorderPane {
 		hBox = new HBox();
 		
 		ImageView open_img = new ImageView(new Image("/images/open-file-icon.png"));
-		open_img.setFitHeight(50);
+		open_img.setFitHeight(90);
 		open_img.setPreserveRatio(true);
 		open = new Button("");
 		open.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 30));
@@ -81,7 +81,7 @@ public class WelcomeView extends BorderPane {
 		Tooltip.install(open, open_tip);
 		
 		ImageView new_img = new ImageView(new Image("/images/new-icon.png"));
-		new_img.setFitHeight(50);
+		new_img.setFitHeight(90);
 		new_img.setPreserveRatio(true);
 		newGarden = new Button("");
 		newGarden.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 30));
@@ -94,7 +94,7 @@ public class WelcomeView extends BorderPane {
 		Tooltip.install(newGarden, new_tip);
 		
 		ImageView info_img = new ImageView(new Image("/images/info-icon.png"));
-		info_img.setFitHeight(50);
+		info_img.setFitHeight(90);
 		info_img.setPreserveRatio(true);
 		info = new Button("");
 		info.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 30));
@@ -107,7 +107,7 @@ public class WelcomeView extends BorderPane {
 		Tooltip.install(info, info_tip);
 		
 		ImageView resources_img = new ImageView(new Image("/images/resources-icon.png"));
-		resources_img.setFitHeight(50);
+		resources_img.setFitHeight(90);
 		resources_img.setPreserveRatio(true);
 		resources = new Button("");
 		resources.setFont(Font.font("Trebuchet MS", FontWeight.MEDIUM, 30));

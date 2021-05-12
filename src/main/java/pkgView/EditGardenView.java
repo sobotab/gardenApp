@@ -247,7 +247,7 @@ public class EditGardenView extends BorderPane{
 		lepSpeciesBox.setSpacing(10);
 		
 		infoTab.setPadding(new Insets(10, 10, 0, 0));
-		infoTab.getChildren().addAll(budgetBox, lepBox, lepSpeciesBox, buttonBox);
+		infoTab.getChildren().addAll(budgetBox, lepBox, buttonBox, lepSpeciesBox);
 		
 		
 		// Background
@@ -269,7 +269,7 @@ public class EditGardenView extends BorderPane{
 		canvas.setViewOrder(2);
 		garden.setAlignment(canvas, Pos.CENTER);	
 		garden.setMaxSize(CANVASWIDTH + 350, CANVASHEIGHT + 10);
-		garden.setClip(new Rectangle(CANVASWIDTH + 400, CANVASHEIGHT + 20));
+		garden.setClip(new Rectangle(CANVASWIDTH + 350, CANVASHEIGHT + 10));
 		plantCarousel.setMaxWidth(CANVASWIDTH + 450);
 		    	
 		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost-icon.png")), 0);

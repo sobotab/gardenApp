@@ -120,7 +120,6 @@ public class InfoPopupView extends BorderPane{
 		lepSpecies.setItems(lepNames);
 		lepBox.getChildren().addAll(lepCount, lepSpecies);
 		Label price = new Label("Costs " + dollars + " dollars.");
-		
 		Label info = new Label(description);
 		lepCount.setFont(Font.font("Cambria", FontWeight.MEDIUM, 16));
 		lepCount.setTextFill(Color.WHITE);

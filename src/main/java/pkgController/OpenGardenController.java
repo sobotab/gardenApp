@@ -66,25 +66,26 @@ public class OpenGardenController {
         }
 		
 		// Sort model data into hashmap objects for input into tableview
-		
-		ObservableList<HashMap<String, Object>> gardenDataContainer = FXCollections.<HashMap<String, Object>>observableArrayList();
-		Iterator iter = gardenData.entrySet().iterator();
-		EditGardenModel gardenEntryModel;
-		
-		while (iter.hasNext()) {
-			Map.Entry gardenEntry = (Map.Entry)iter.next();
-			gardenEntryModel = (EditGardenModel) gardenEntry.getValue();
+		if (gardenData != null) {
+			ObservableList<HashMap<String, Object>> gardenDataContainer = FXCollections.<HashMap<String, Object>>observableArrayList();
+			Iterator iter = gardenData.entrySet().iterator();
+			EditGardenModel gardenEntryModel;
 			
-			HashMap<String, Object> gardenMap = new HashMap<String, Object>();
-			
-			gardenMap.put("name", (String)gardenEntry.getKey());
-			gardenMap.put("current budget", gardenEntryModel.getDollars());
-			gardenMap.put("max budget", gardenEntryModel.getBudget());
-			gardenMap.put("leps", gardenEntryModel.getNumLeps());
-
-			gardenDataContainer.add(gardenMap);
+			while (iter.hasNext()) {
+				Map.Entry gardenEntry = (Map.Entry)iter.next();
+				gardenEntryModel = (EditGardenModel) gardenEntry.getValue();
+				
+				HashMap<String, Object> gardenMap = new HashMap<String, Object>();
+				
+				gardenMap.put("name", (String)gardenEntry.getKey());
+				gardenMap.put("current budget", gardenEntryModel.getDollars());
+				gardenMap.put("max budget", gardenEntryModel.getBudget());
+				gardenMap.put("leps", gardenEntryModel.getNumLeps());
+	
+				gardenDataContainer.add(gardenMap);
+			}
+			ogv.getGardenTable().getItems().addAll(gardenDataContainer);
 		}
-		ogv.getGardenTable().getItems().addAll(gardenDataContainer);
 	}
 	
 	/**

@@ -49,8 +49,7 @@ public class DrawGardenModel extends GardenModel {
 	boolean set;
 	
 	/**
-	 * Constructor for DrawGardenModel. Initializes all of the data structures needed.
-	 * Initializes all values needed.
+	 * Constructor for DrawGardenModel. Initializes all of the data structures needed. Initializes all values needed.
 	 */
 	public DrawGardenModel() {
 		plots = new HashMap<>();
@@ -65,8 +64,9 @@ public class DrawGardenModel extends GardenModel {
 
 
 	/**
-	 * @param point added to preOutline.
 	 * Adds a point to preOutline and sets the endPoint if its the first point in the plot
+	 * 
+	 * @param point added to preOutline.
 	 */
 	public void addPreOutline(Point2D.Double point) {
 		preOutline.add(scalePoint(point));
@@ -74,8 +74,9 @@ public class DrawGardenModel extends GardenModel {
 	}
 
 	/**
-	 * @param point to be set to endPoint
 	 * endPoint is only set if set is true, then changes set to false so endPoint is not changed.
+	 * 
+	 * @param point to be set to endPoint
 	 */
 	public void setEndPoint(Point2D.Double point) {
 		if (set) {
@@ -85,9 +86,10 @@ public class DrawGardenModel extends GardenModel {
 	}
 	
 	/**
-	 * @param point to be scaled
-	 * @return
 	 * Scales all points relative to the size of the canvas size so that they may be scaled easily.
+	 * 
+	 * @param point to be scaled
+	 * @return a scaled point
 	 */
 	public Point2D.Double scalePoint(Point2D.Double point) {
 		Point2D.Double scaledPoint = new Point2D.Double();
@@ -96,8 +98,9 @@ public class DrawGardenModel extends GardenModel {
 	}
 	
 	/**
-	 * @param point to be unscaled
 	 * Unscales a point so that it may be put back onto the canvas
+	 * 
+	 * @param point to be unscaled
 	 */
 	public void unScalePoint(Point2D.Double point) {
 		Point2D.Double scaledPoint = new Point2D.Double();
@@ -162,8 +165,9 @@ public class DrawGardenModel extends GardenModel {
 	}
 	
 	/**
-	 * @return plots with one less plot than before undo was called
 	 * This pops one plot from the data structure
+	 * 
+	 * @return plots with one less plot than before undo was called
 	 */
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> undo(){
 		if (undoStack.size() > 0) {
@@ -174,9 +178,10 @@ public class DrawGardenModel extends GardenModel {
 	}
 	
 	/**
+	 * Adds a plot to the plots data structure
+	 * 
 	 * @param drawing boolean to ensure that the user is still not currently drawing
 	 * @param soil the soil type of the plot
-	 * Adds a plot to the plots data structure
 	 */
 	public void addPlot(boolean drawing, Soil soil) {
 		if (!drawing) {
@@ -324,9 +329,10 @@ public class DrawGardenModel extends GardenModel {
 	}
 
 	/**
+	 * Scales all of the plots based off the change in grid
+	 * 
 	 * @param minGrid the size of the grid to scale to
 	 * @return true if one of the plots has gone off the canvas, false if the plots are still on the canvas.
-	 * Scales all of the plots based off the change in grid
 	 */
 	public boolean scale(double minGrid) {
 		boolean outOfBounds = false;

@@ -20,10 +20,27 @@ import pkgView.View;
 import pkgView.WelcomeView;
 
 public class DrawGardenController {
+	/**
+	 * The view
+	 */
 	View view;
+	/**
+	 * The model for drawGarden
+	 */
 	DrawGardenModel dgm;
+	/**
+	 * The view for drawGarden
+	 */
 	DrawGardenView dgv;
 	
+	/**
+	 * @param view the top view
+	 * @param dgv the view which initializes the controller
+	 * @param createOnBack boolean for whether the view was made after pressing the back button
+	 * 
+	 * Initializes all of the important values and imports the drawGardenModel if the
+	 * back button was pressed
+	 */
 	public DrawGardenController(View view, DrawGardenView dgv, boolean createOnBack) {
 
 		this.view=view;
@@ -51,16 +68,23 @@ public class DrawGardenController {
 		}
 	}
 	
+	/**
+	 * @param event javafx event clicked
+	 * initializes the welcome screen
+	 */
 	public void clickedBack(ActionEvent event) {
 		view.setCurrentScreen(new WelcomeView(view));
 		
 	}
 	
+	/**
+	 * @param event javafx event clicked
+	 * Saves drawGarden data and initializes selectPlants
+	 */
 	public void clickedNext(ActionEvent event) {
 		
 		// Send plots info
 		finish();
-		//dgm.finish();
 		dgm.setMoisture(dgv.getMoisture());
 		dgm.setSun(dgv.getSun());
 		if(dgv.getBudget() > 0) {
@@ -103,14 +127,24 @@ public class DrawGardenController {
 		view.setCurrentScreen(new SelectPlantsView(view));
 	}
 	
+	/**
+	 * @return the handler for the back button
+	 */
 	public EventHandler getHandlerForBack() {
 		return event -> clickedBack((ActionEvent) event);
 	}
 	
+	/**
+	 * @return the handler for the next button
+	 */
 	public EventHandler getHandlerForNext() {
 		return event -> clickedNext((ActionEvent) event);
 	}
 	
+	/**
+	 * @return the first point the user clicked
+	 * Adds a plot drawn to plots in the model
+	 */
 	public Point2D.Double draw() {
 		dgm.setGridSize(dgv.getMinGrid());
 		dgm.setCanvasLength(dgv.getMinLength());
@@ -119,16 +153,28 @@ public class DrawGardenController {
 		return dgm.getEndPoint();
 	}
 	
+	/**
+	 * @return plots with one fewer plot than before it was called
+	 * Pops the last plot drawn from plots before redrawing
+	 */
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> undo() {
 		return dgm.undo();
 	}
 	
+	/**
+	 * @param minGrid the minimum of rows or columns
+	 * @return the plots scaled
+	 * Scales and redraws the plots
+	 */
 	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> scale(double minGrid) {
 		dgm.setCanvasLength(dgv.getMinLength());
 		dgm.scale(dgv.getMinGrid());
 		return dgm.getPlots();
 	}
 	
+	/**
+	 * Sets important scaling factors before saving when the next button is clicked
+	 */
 	public void finish() {
 		dgm.setCanvasHeight(dgv.getCanvasHeight());
 		dgm.setCanvasWidth(dgv.getCanvasWidth());

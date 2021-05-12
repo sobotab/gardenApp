@@ -93,7 +93,7 @@ public abstract class CarouselView extends FlowPane {
 	public void openInfoPopUp(View view, ImageView img, String name, String sciName, int numLeps, int dollars, String description, List<String> leps) {
 		Stage popupWindow = new Stage();
 		popupWindow.initModality(Modality.NONE);
-		popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description, leps),800,500));
+		popupWindow.setScene(new Scene(new InfoPopupView(view, img, name, sciName, numLeps, dollars, description, leps),800,550));
 		popupWindow.setAlwaysOnTop(true);
 		popupWindow.show(); 
 		}

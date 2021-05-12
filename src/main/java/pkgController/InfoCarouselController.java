@@ -16,9 +16,9 @@ import pkgView.CarouselView;
 import pkgView.InfoCarouselView;
 import pkgView.View;
 /**
- * 
  * @author Zane Greenholt
  * InfoCarouselController extends the CarouselController class and is the class that holds the handlers for the carousel on the info page.
+ * 
  */
 public class InfoCarouselController extends CarouselController {
 		/**
@@ -32,6 +32,7 @@ public class InfoCarouselController extends CarouselController {
 
 		/**
 		 * Constructor just initializes the view and carouselView fields
+		 * 
 		 * @param view The program's view that is only initialized once
 		 * @param carouselView A carouselView that holds the images for the carousel
 		 */
@@ -43,6 +44,7 @@ public class InfoCarouselController extends CarouselController {
 		
 		/**
 		 * Filters the images that are shown in the carousel and the corresponding plants by the sun, moisture, soil, and plant type chosen by the user.
+		 * 
 		 * @param sun A String that is the sun level chosen by the user
 		 * @param moisture A String that is the moisture level chosen by the user
 		 * @param soil A String that is the soil type chosen by the user
@@ -68,6 +70,16 @@ public class InfoCarouselController extends CarouselController {
 			icv.update();
 		}
 		
+		/**
+		 * Helper method for checking that a plant's conditions match the current filters
+		 * 
+		 * @param plant The plantModel that is currently being considered
+		 * @param sun The user selected sun level
+		 * @param moisture The user selected moisture level
+		 * @param soil The user selected soil type
+		 * @param type The user selected plant type (woody or herbaceous)
+		 * @return boolean representing whether or not the plant matches the current conditions
+		 */
 		public boolean checkPlantConditions(PlantModel plant, String sun, String moisture, String soil, String type) {
 			String sunLevel = plant.getSun();
 			String moistureLevel = plant.getMoisture();

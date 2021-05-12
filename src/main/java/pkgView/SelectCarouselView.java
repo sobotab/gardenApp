@@ -91,6 +91,7 @@ public class SelectCarouselView extends CarouselView{
 	
 	/**
 	 * This method simply calls the filterCarousel method from the SelectCarouselController by passing along arguments.
+	 * 
 	 * @param sun The sun level selected by the user on the draw garden screen
 	 * @param moisture The moisture level selected by the user on the draw garden screen
 	 * @param soil The soil type selected by the user on the draw garden screen
@@ -103,6 +104,7 @@ public class SelectCarouselView extends CarouselView{
 	/**
 	 * method that prepares the user chosen values to be Strings that can be used for filtering, and calls the filterCarousel method 
 	 * @param type Plant type selected by the user (woody or herbaceous)
+	 * 
 	 * @param soil Specific soil type selected by the user
 	 * @param sun Sun level selected by the user
 	 * @param moisture Moisture level selected by the user
@@ -128,6 +130,7 @@ public class SelectCarouselView extends CarouselView{
 	
 	/**
 	 * Getter for the scc field
+	 * 
 	 * @return scc field - A SelectCarouselController that has handlers for clicking images in this carousel
 	 */
 	public SelectCarouselController getScc() {
@@ -136,6 +139,7 @@ public class SelectCarouselView extends CarouselView{
 
 	/**
 	 * Setter for the scc field
+	 * 
 	 * @param scc A SelectCarouselController that will replace the current scc field
 	 */
 	public void setScc(SelectCarouselController scc) {
@@ -153,6 +157,7 @@ public class SelectCarouselView extends CarouselView{
 	}
 	/**
 	 * Getter for type field
+	 * 
 	 * @return String representing a plant type
 	 */
 	public String getType() {
@@ -160,6 +165,7 @@ public class SelectCarouselView extends CarouselView{
 	}
 	/**
 	 * Setter for type field
+	 * 
 	 * @param type String representing a plant type
 	 */
 	public void setType(String type) {
@@ -167,6 +173,7 @@ public class SelectCarouselView extends CarouselView{
 	}
 	/**
 	 * Getter for soil field
+	 * 
 	 * @return String representing a soil type
 	 */
 	public String getSoil() {
@@ -174,6 +181,7 @@ public class SelectCarouselView extends CarouselView{
 	}
 	/**
 	 * Setter for soil field
+	 * 
 	 * @param soil String representing a soil type
 	 */
 	public void setSoil(String soil) {

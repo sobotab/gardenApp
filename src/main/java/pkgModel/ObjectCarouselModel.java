@@ -31,6 +31,7 @@ public class ObjectCarouselModel implements Serializable {
 	
 	/**
 	 * Constructor for when plant input is present. Uses fillCarousel() method to populate plants list.
+	 * 
 	 * @param plantInput 	List of plant models to be placed in carousel.
 	 */
 	public ObjectCarouselModel(List<PlantInfoModel> plantInput) {
@@ -40,6 +41,7 @@ public class ObjectCarouselModel implements Serializable {
 	
 	/**
 	 * Helper method for populating the plants list from a list of PlantInfoModels as input.
+	 * 
 	 * @param plantInput 	List of plant models to be placed in carousel.
 	 */
 	public void fillCarousel(List<PlantInfoModel> plantInput) {
@@ -55,6 +57,7 @@ public class ObjectCarouselModel implements Serializable {
 	/**
 	 * Method used when plant is dragged out of carousel and must be replaced. Makes duplicate plant and
 	 * inserts it where original plant was.
+	 * 
 	 * @param index 	Index of the plant to be replaced in this class's plants list.
 	 */
 	public void replacePlant(int index) {
@@ -76,6 +79,7 @@ public class ObjectCarouselModel implements Serializable {
 	
 	/**
 	 * Method to remove a plant from this class's plants list.
+	 * 
 	 * @param index 	Index of the plant object to be removed.
 	 * @return 			The plant model that was removed.
 	 */

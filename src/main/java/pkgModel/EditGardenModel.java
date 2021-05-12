@@ -62,6 +62,7 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	
 	/**
 	 * Constructor for this model class. Initializes the carousel model and fills it with the plants chosen in Select Plants.
+	 * 
 	 * @param carouselModel 	The model class for the carousel in this screen.
 	 * @param plantInput 		A list of plant models to be placed in the carousel.
 	 * @param plots 			Hashmap containing all plot outlines drawn in Draw Garden, organized by soil type.
@@ -81,6 +82,7 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	
 	/**
 	 * Helper method used to place a plant object in the garden from the carousel, increments budget/lep trackers.
+	 * 
 	 * @param index 	Index of plant to be added in carousel's plants list.
 	 * @param init_x 	Initial x value to set the plant model to.
 	 * @param init_y 	Initial y value to set the plant model to.
@@ -98,6 +100,7 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	/**
 	 * Method used for detecting if plant object is inside a plot. Loops through adjacent vertices in plot polygon and determines 
 	 * if plant's point is between them, and whether its y-value (horizontal line) intersects the the polygon odd/even # of times.
+	 * 
 	 * @param testPoint 	The xy coordinates of the plant object.
 	 * @param polygon 		The list of points that make up the outline of the garden plot.
 	 * @return 				Boolean representing if point is inside polygon.
@@ -126,6 +129,7 @@ public class EditGardenModel extends GardenModel implements Serializable {
 
 	/**
 	 * Method for detecting whether plant objects are in a plot of the correct soil type. Uses inPolygon().
+	 * 
 	 * @param index 		Index of the plant object to be tested.
 	 * @param canvas_x 		The x-offset of the canvas containing the plot drawings in the scene.
 	 * @param canvas_y 		The y-offset of the canvas containing the plot drawings in the scene.
@@ -165,6 +169,7 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	
 	/**
 	 * Method for checking whether two spread circles overlap one another. 
+	 * 
 	 * @param index 	Index of the plant spread to be tested against all other spreads.
 	 * @return 			Boolean representing whether the spread experiences overlap.
 	 */
@@ -188,6 +193,7 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	
 	/**
 	 * Method for tracking and organizing all plant species supported by plants in the scene.
+	 * 
 	 * @return 	List containing each plant species and an integer of the number of plants supporting it.
 	 */
 	public ArrayList<Map.Entry<String, Integer>> trackMostPopularLeps() {
@@ -218,6 +224,7 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	
 	/**
 	 * Helper method for computing a plant object' scale given the scale factor of the garden.
+	 * 
 	 * @param plant 	The plant object whose spread is to be altered.
 	 * @return 			Double representing the scaled spread.
 	 */
@@ -229,6 +236,7 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	
 	/**
 	 * Method to immediately change plant model's location, NOT drag it for incremental change.
+	 * 
 	 * @param index 	Index of the plant object to be moved in this class's plants list.
 	 * @param x 		New x-coordinate.
 	 * @param y 		New y-coordinate.
@@ -240,6 +248,7 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	
 	/**
 	 * Method called when controller detects plant dragging. Changes plant model's xy coordinates.
+	 * 
 	 * @param index 	Index of the plant object to be moved in this class's plants list.
 	 * @param x 		X-Coordinate of the drag event.
 	 * @param y 		Y-Coordinate of the drag event.
@@ -255,6 +264,7 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	/**
 	 * Method used to scale plot coordinates so that plot drawings fit on view's canvas, which is not necessarily
 	 * the same size as Draw Garden's canvas.
+	 * 
 	 * @param canvas_width 		Integer representing the view's canvas's width.
 	 * @param canvas_height 	Integer representing the view's canvas's height.
 	 */

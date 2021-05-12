@@ -30,6 +30,7 @@ public class DragDropCarouselController extends CarouselController {
 	
 	/**
 	 * Constructor for this controller class, sets model and view classes.
+	 * 
 	 * @param view 			The view class for the program.
 	 * @param carouselView 	The view class for this screen's carousel.
 	 */

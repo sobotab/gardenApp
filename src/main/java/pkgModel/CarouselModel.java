@@ -33,6 +33,7 @@ public class CarouselModel {
 	
 	/**
 	 * Constructor fills the plants and filteredPlants lists and initializes other fields
+	 * 
 	 * @param plants2 List of plants that will fill plants and filteredPlants
 	 * @param heldPlant index of the plant that should start as the carousel's focus
 	 */
@@ -48,7 +49,8 @@ public class CarouselModel {
 	
 	/**
 	 * Returns a hashmap of all the plants with their scientific names as keys
-	 * @return
+	 * 
+	 * @return HashMap of Strings mapped to PlantModels
 	 */
 	public HashMap<String, PlantModel> mapNameToPlants(){
 		HashMap<String, PlantModel> map = new HashMap<>();
@@ -81,6 +83,7 @@ public class CarouselModel {
 
 	/**
 	 * Getter for the plants field
+	 * 
 	 * @return plants field - List of PLantModels
 	 */
 	public List<PlantModel> getPlants() {
@@ -89,6 +92,7 @@ public class CarouselModel {
 	
 	/**
 	 * Setter for plants field
+	 * 
 	 * @param plants A List of plantModels that will replace the current plants field
 	 */
 	public void setPlants(List<PlantModel> plants) {
@@ -97,6 +101,7 @@ public class CarouselModel {
 
 	/**
 	 * Getter for heldPlant field
+	 * 
 	 * @return heldPlant field - int representing index of the plant in the carousel's focus
 	 */
 	public int getHeldPlant() {
@@ -104,6 +109,7 @@ public class CarouselModel {
 	}
 	/**
 	 * Setter for heldPlant field
+	 * 
 	 * @param heldPlant - An int that will replace the current heldPlant field
 	 */
 	public void setHeldPlant(int heldPlant) {
@@ -112,6 +118,7 @@ public class CarouselModel {
 	
 	/**
 	 * Returns the plantModel that is at the passed in index in the plants list
+	 * 
 	 * @param index int representing an index in the plants list
 	 * @return A PlantModel at the passed in index
 	 */
@@ -121,6 +128,7 @@ public class CarouselModel {
 	
 	/**
 	 * Getter for filteredPlants field
+	 * 
 	 * @return filteredPlants field - A List of PlantModels
 	 */
 	public List<PlantModel> getFilteredPlants() {
@@ -129,6 +137,7 @@ public class CarouselModel {
 	
 	/**
 	 * Setter for filteredPlants field, it also updates the value of heldPlant to avoid errors
+	 * 
 	 * @param filteredPlants A list of PlantModels that will replace the current filteredPlants field
 	 */
 	public void setFilteredPlants(List<PlantModel> filteredPlants) {
@@ -145,6 +154,7 @@ public class CarouselModel {
 	
 	/**
 	 * Add the passed in plant to the selectedPlants hashMap with its common name as the key
+	 * 
 	 * @param plant A PlantModel
 	 */
 	public void selectPlant(PlantModel plant) {
@@ -163,6 +173,7 @@ public class CarouselModel {
 	
 	/**
 	 * Remove the passed in plant from the selectedPlants hashMap
+	 * 
 	 * @param plant A PlantModel
 	 */
 	public void deSelectPlant(PlantModel plant) {
@@ -171,6 +182,7 @@ public class CarouselModel {
 	
 	/**
 	 * Getter for the selectedPlants field
+	 * 
 	 * @return selectedPlants field - A hashMap of plant common names mapped to PlantModels
 	 */
 	public HashMap<String, PlantModel> getSelectedPlants() {
@@ -178,6 +190,7 @@ public class CarouselModel {
 	}
 	/**
 	 * Setter for the selectedPlants field
+	 * 
 	 * @param selectedPlants A hashMap of plant common names mapped to PlantModels
 	 */
 	public void setSelectedPlants(HashMap<String, PlantModel> selectedPlants) {

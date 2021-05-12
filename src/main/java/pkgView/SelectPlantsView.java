@@ -79,6 +79,7 @@ public class SelectPlantsView extends BorderPane {
 	
 	/**
 	 * Constructor for SelectPlantsView that initializes the SelectPlantsCarousel and all other necessary buttons and images for the select plants screen.
+	 * 
 	 * @param view The program's View that is only initialized once
 	 */
 	public SelectPlantsView(View view) {
@@ -180,6 +181,7 @@ public class SelectPlantsView extends BorderPane {
 	/**
 	 * Method that moves a plant's image from the carousel to the plants flowPane when the add button is clicked. This also creates a remove button
 	 * with an OnMouseClicked handler to be ready for deselection if clicked again.
+	 * 
 	 * @param box A VBox that was clicked in order to be selected from the carousel
 	 */
 	public void selectPlant(VBox box) {
@@ -197,6 +199,7 @@ public class SelectPlantsView extends BorderPane {
 	/**
 	 * Method that moves a plant's image from the plants flowPane to the selectionCarousel when its remove button is clicked. This also creates an add button
 	 * with an OnMouseClicked handler to be ready for selection if clicked again.
+	 * 
 	 * @param box A VBox that was clicked in order to be deselected from the plants flowPane
 	 */
 	public void deSelectPlant(VBox box) {
@@ -220,6 +223,7 @@ public class SelectPlantsView extends BorderPane {
 	// getters & setters
 	/**
 	 * Getter for the selectionCarousel field
+	 * 
 	 * @return selectionCarousel field - A SelectCarouselView that displays plant images that can be clicked to be selected
 	 */
 	public SelectCarouselView getSelectionCarousel() {
@@ -228,6 +232,7 @@ public class SelectPlantsView extends BorderPane {
 	
 	/**
 	 * Setter for the selectionCarousel field
+	 * 
 	 * @param carousel A SelectCarouselView that will replace the current selectionCarousel field
 	 */
 	public void setSelectionCarousel(SelectCarouselView carousel) {

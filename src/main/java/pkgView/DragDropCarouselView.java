@@ -59,6 +59,7 @@ public class DragDropCarouselView extends CarouselView {
 	
 	/**
 	 * Constructor for this carousel view. Makes left/right buttons and prepares for plants to be added.
+	 * 
 	 * @param view 		The view class for this program, initialized only once.
 	 */
 	public DragDropCarouselView(View view) {
@@ -151,6 +152,7 @@ public class DragDropCarouselView extends CarouselView {
 	
 	/**
 	 * Method to add a plant to the carousel for the first time, added to plants list and carousel child nodes.
+	 * 
 	 * @param plant 	The plantView to be added to the carousel.
 	 */
 	public void initializePlant(PlantView plant) {		
@@ -163,6 +165,7 @@ public class DragDropCarouselView extends CarouselView {
 	
 	/**
 	 * Method to add a plant at a specific index in the carousel's plants list.
+	 * 
 	 * @param plant 	PlantView to be added to carousel.
 	 * @param index 	Index to place that plantView at.
 	 */
@@ -183,6 +186,7 @@ public class DragDropCarouselView extends CarouselView {
 	
 	/**
 	 * Method to remove a plant at a particular index from the carousel's plants list.
+	 * 
 	 * @param index 	Index of the plantView to be removed.
 	 * @return 			The plantView object removed.
 	 */

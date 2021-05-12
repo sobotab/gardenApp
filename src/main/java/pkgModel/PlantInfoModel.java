@@ -18,6 +18,7 @@ public class PlantInfoModel extends PlantModel implements Serializable{
 	
 	/**
 	 * Constructor sets the values of all fields
+	 * 
 	 * @param name The plant's common name
 	 * @param sciName The plant's scientific name
 	 * @param spreadDiameter The plant's root spread
@@ -34,6 +35,7 @@ public class PlantInfoModel extends PlantModel implements Serializable{
 	}
 	/**
 	 * Getter for description field
+	 * 
 	 * @return description field - A short String description of the plant
 	 */
 	public String getDescription() {
@@ -41,6 +43,7 @@ public class PlantInfoModel extends PlantModel implements Serializable{
 	}
 	/**
 	 * Setter for description field
+	 * 
 	 * @param description - A String that is a short description of the plant
 	 */
 	public void setDescription(String description) {

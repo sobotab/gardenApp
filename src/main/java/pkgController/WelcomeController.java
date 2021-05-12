@@ -21,6 +21,7 @@ public class WelcomeController {
 	
 	/**
 	 * Constructor initializes the class' view
+	 * 
 	 * @param view The program's View that is only initialized once
 	 */
 	public WelcomeController(View view) {
@@ -34,6 +35,7 @@ public class WelcomeController {
 	*/
 	/**
 	 * Handler for clicking the new button. It takes the user to the dragGarden screen.
+	 * 
 	 * @param event An ActionEvent that is a mouse being clicked
 	 */
 	public void clickedNew(ActionEvent event) {
@@ -42,6 +44,7 @@ public class WelcomeController {
 	
 	/**
 	 * Handler for clicking the info button. It takes the user to the glossary.
+	 * 
 	 * @param event An ActionEvent that is a mouse being clicked
 	 */
 	public void clickedInfo(ActionEvent event) {
@@ -49,6 +52,7 @@ public class WelcomeController {
 	}
 	/**
 	 * Handler for clicking the open button. It takes the user to the open garden screen.
+	 * 
 	 * @param event An ActionEvent that is a mouse being clicked
 	 */
 	public void clickedOpen(ActionEvent event) {
@@ -57,6 +61,7 @@ public class WelcomeController {
 	
 	/**
 	 * Handler for clicking the resources button. It takes the user to the resources screen.
+	 * 
 	 * @param event An ActionEvent that is a mouse being clicked
 	 */
 	public void clickedResources(ActionEvent event) {
@@ -69,6 +74,7 @@ public class WelcomeController {
 	
 	/**
 	 * Getter for the clickedNew handler
+	 * 
 	 * @return EventHandler for clickedNew method
 	 */
 	public EventHandler getHandlerForNew() {
@@ -77,6 +83,7 @@ public class WelcomeController {
 	
 	/**
 	 * Getter for the clickedInfo handler
+	 * 
 	 * @return EventHandler for clickedInfo method
 	 */
 	public EventHandler getHandlerForInfo() {
@@ -85,6 +92,7 @@ public class WelcomeController {
 	
 	/**
 	 * Getter for the clickedOpen handler
+	 * 
 	 * @return EventHandler for the clickedOpen method
 	 */ 
 	public EventHandler getHandlerForOpen() {
@@ -93,6 +101,7 @@ public class WelcomeController {
 	
 	/**
 	 * Getter for the clickedResources handler
+	 * 
 	 * @return EventHandler for the clickedResources method
 	 */
 	public EventHandler getHandlerForResources() {

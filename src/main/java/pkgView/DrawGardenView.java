@@ -126,7 +126,9 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Initializes javafx components, sets handlers, and adds nodes to the BorderPane
-	 * @param passes in View to communicate with global variables
+	 * 
+	 * @param view passes in View to communicate with global variables
+	 * @param createOnBack boolean to get the model if the back button was used to create this object
 	 */
 	public DrawGardenView(View view, boolean createOnBack) {
 		dgc = new DrawGardenController(view, this, createOnBack);
@@ -358,7 +360,8 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Sets up the drawing tool: color, fill, beginPath(), and sets the currents coords
-	 * @param event the coordinates of the mouse
+	 * 
+	 * @param e the coordinates of the mouse
 	 */
 	public void mousePressed(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
@@ -379,7 +382,8 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * Called when mouse is clicked and moving.
 	 * Sets the current, sends coords to model, draws a line
-	 * @param event mouse coordinates
+	 * 
+	 * @param e mouse coordinates
 	 */
 	public void mouseDragged(MouseEvent e) {
 		setCurrent(e.getX(), e.getY());
@@ -393,7 +397,8 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * Called when mouse released
 	 * Closes shape and fills it with appropriate color in respect to soil
-	 * @param e
+	 * 
+	 * @param e a button is clicked
 	 */
 	public void mouseReleased(MouseEvent e) {
 		if (drawing) {
@@ -409,7 +414,8 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * Handler for the undo button
 	 * Error handling for the case that nothing is drawn
-	 * @param event
+	 * 
+	 * @param event a button is clicked
 	 */
 	public void undoButtonPressed(ActionEvent event) {
 		try {
@@ -441,7 +447,8 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * Redraws the entire canvas with plots that has one fewer plot
 	 * than it did previously. Draws grid, draws plots, draws the scale
-	 * @param plots
+	 * 
+	 * @param plots a data structure of points that make up plots
 	 */
 	public void undo(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
 		resizeCanvas();
@@ -452,6 +459,7 @@ public class DrawGardenView extends BorderPane {
 
 	/**
 	 * Used for transferring user mouse data to the model
+	 * 
 	 * @return the current mouse x and y
 	 */
 	public Point2D.Double getCurrent() {
@@ -461,6 +469,7 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * Sets the current point to a Point2D.Doble to be transferred
 	 * to the model
+	 * 
 	 * @param x coordinate of the mouse
 	 * @param y coordinate of the mouse
 	 */
@@ -471,6 +480,7 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * Ensures canvas is clicked before drawing
 	 * and sending data to the model
+	 * 
 	 * @param drawing sets drawing to this
 	 */
 	public void setDrawing(boolean drawing) {
@@ -479,6 +489,7 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Returns if the user is drawing or not
+	 * 
 	 * @return current state of drawing
 	 */
 	public boolean getDrawing() {
@@ -487,6 +498,7 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Returns soil value in drop down menu
+	 * 
 	 * @return current value of drop down menu
 	 */
 	public Soil getSoil() {
@@ -495,6 +507,7 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Returns the amount of sun in the slider
+	 * 
 	 * @return the sun value in the slider
 	 */
 	public Sun getSun() {
@@ -510,6 +523,7 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Returns the amount of moisture in the slider
+	 * 
 	 * @return the moisture value in the slider
 	 */
 	public Moisture getMoisture() {
@@ -529,6 +543,7 @@ public class DrawGardenView extends BorderPane {
 	 * Returns the value in the budget entry box.
 	 * If the value is not an integer, it returns 0, 
 	 * or else it returns the integer inside the box
+	 * 
 	 * @return a 0 or integer entered in the budget entry box
 	 */
 	public int getBudget() {
@@ -540,6 +555,7 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Whenever called creates error pop up message
+	 * 
 	 * @param error text to be displayed in a popup
 	 */
 	public void errorPopup(String error) {
@@ -590,6 +606,7 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Builds the plots on coordinates
+	 * 
 	 * @param plots a data structure containing all of the plots
 	 */
 	public void buildPlots(HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots) {
@@ -612,6 +629,7 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Draws a single plot using coords from an ArrayList
+	 * 
 	 * @param points coords in the ArrayList
 	 */
 	private void drawPlot(ArrayList<Point2D.Double> points) {
@@ -629,7 +647,8 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Calls scale with a positive 1 whenver the + button is pressed
-	 * @param event the + button is pressed
+	 * 
+	 * @param e the + button is pressed
 	 */
 	public void incButtonPressed(ActionEvent e) {
 		scale(1d);
@@ -637,7 +656,8 @@ public class DrawGardenView extends BorderPane {
 	
 	/**
 	 * Calls scale with a negative 1 whenever the - button is pressed
-	 * @param event the - button is pressed
+	 * 
+	 * @param e the - button is pressed
 	 */
 	public void decButtonPressed(ActionEvent e) {
 		scale(-1d);
@@ -646,6 +666,7 @@ public class DrawGardenView extends BorderPane {
 	/**
 	 * Changes current size of the canvas if its parent has changed
 	 * Scales the points based off the model. Redraws the canvas
+	 * 
 	 * @param change value to increase, decrease, or maintain the scale
 	 */
 	public void scale(double change) {

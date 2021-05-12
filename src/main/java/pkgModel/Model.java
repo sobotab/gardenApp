@@ -13,17 +13,24 @@ import java.util.Set;
 import pkgController.Moisture;
 import pkgController.Soil;
 import pkgController.Sun;
-
+/**
+ * 
+ * @author Zane Greenholt
+ * Main Model class for the program that loads plant data.
+ */
 public class Model {
-	Set<PlantModel> plants;
-	List<PlantModel> potentialPlants;
-	Set<PlantModel> selectedPlants;
-	int x;
-	int y;
 	
+	/**
+	 * Constructor just creates a Model objects
+	 */
 	public Model() {
 	}
 	
+	/**
+	 * Reads in all plant data from a csv file and creates corresponding plant model objects
+	 * 
+	 * @return A List of plantModels that is all the plants in the program
+	 */
 	public List<PlantModel> makePlants() {
 		Scanner sc = new Scanner(getClass().getResourceAsStream("/files/plantData.csv"));
 		List<PlantModel> plants = new ArrayList<PlantModel>();
@@ -72,46 +79,5 @@ public class Model {
 		return plants;
 		
 	}
-
-	public Set<PlantModel> getPlants() {
-		return plants;
-	}
-
-	public void setPlants(Set<PlantModel> plants) {
-		this.plants = plants;
-	}
-
-	public List<PlantModel> getPotentialPlants() {
-		return potentialPlants;
-	}
-
-	public void setPotentialPlants(List<PlantModel> potentialPlants) {
-		this.potentialPlants = potentialPlants;
-	}
-
-	public Set<PlantModel> getSelectedPlants() {
-		return selectedPlants;
-	}
-
-	public void setSelectedPlants(Set<PlantModel> selectedPlants) {
-		this.selectedPlants = selectedPlants;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-	
 	
 }

@@ -26,6 +26,8 @@ import pkgView.View;
  * 
  * @author Zane Greenholt
  * SelectCarouselController extends the CarouselController class and holds the handlers for the carousel on the select plants screen.
+ * 
+ * 
  */
 public class SelectCarouselController extends CarouselController {
 	/**
@@ -52,6 +54,7 @@ public class SelectCarouselController extends CarouselController {
 	/**
 	 * Constructor initializes view and carouselView, but also reads in gardenData from a .ser file in order to capture the user's 
 	 * decisions for sun, soil, and moisture.
+	 * 
 	 * @param view The program's view that is only initialized once
 	 * @param carouselView A carouselView that holds the images for the carousel
 	 */
@@ -96,6 +99,7 @@ public class SelectCarouselController extends CarouselController {
 	/**
 	 * Filters the images in the SelectCarouselView and the corresponding carouselModel plants based on the user's soil, moisture, and sun decisions from
 	 * the drawGarden screen.
+	 * 
 	 * @param sun String representing the user's choice of sun level
 	 * @param moisture String representing the user's choice of moisture level
 	 * @param soils List of Strings representing all soils chosen by the user
@@ -127,6 +131,7 @@ public class SelectCarouselController extends CarouselController {
 	/**
 	 * Helper function for determining if a plant should be in the selectCarousel at the time when the screen is initially loaded.
 	 * This is only based on the user's decisions from the drawGarden screen
+	 * 
 	 * @param plant The current plantModel that is being considered
 	 * @param sun The user's selected sun level
 	 * @param moisture The user's selected moisture level
@@ -150,6 +155,7 @@ public class SelectCarouselController extends CarouselController {
 	/**
 	 * Filters the images in the carousel and and the plants in the carouselModel based on the filters chosen on the selectPlant screen.
 	 * @param type woody or herbaceous (selected in comboBox)
+	 * 
 	 * @param soil A specific soilTypse chosen in the comboBox
 	 * @param sun The user selected sun level from the drawGarden screen
 	 * @param moisture The user selected moisture level from the drawGarden screen
@@ -183,6 +189,7 @@ public class SelectCarouselController extends CarouselController {
 	/**
 	 * Helper function for filtering on the selectPlants screen that determines if a plant matches
 	 * the combination of requirements selected by the user
+	 * 
 	 * @param plant The plantModel that is currently being considered
 	 * @param type The type of plant selected by the user (woody or herbaceous)
 	 * @param soil The specific soil type selected in the ComboBox
@@ -219,6 +226,7 @@ public class SelectCarouselController extends CarouselController {
 	
 	/**
 	 * Getter for scv field
+	 * 
 	 * @return scv field - A SelectCarouselView with the images for the carousel
 	 */
 	public SelectCarouselView getScv() {
@@ -227,6 +235,7 @@ public class SelectCarouselController extends CarouselController {
 	
 	/**
 	 * Setter for scv field
+	 * 
 	 * @param scv A SelectCarouselView that will replace the current scv field
 	 */
 	public void setScv(SelectCarouselView scv) {
@@ -235,6 +244,7 @@ public class SelectCarouselController extends CarouselController {
 
 	/**
 	 * Getter for the moisture field
+	 * 
 	 * @return moisture field - A String representing the user's moisture level choice
 	 */
 	public String getMoisture() {
@@ -243,6 +253,7 @@ public class SelectCarouselController extends CarouselController {
 
 	/**
 	 * Setter for the moisture field
+	 * 
 	 * @param moisture A String representing a moisture level
 	 */
 	public void setMoisture(String moisture) {
@@ -251,6 +262,7 @@ public class SelectCarouselController extends CarouselController {
 
 	/**
 	 * Getter for the sun field
+	 * 
 	 * @return sun field - A String representing the user's sun level choice
 	 */
 	public String getSun() {
@@ -259,6 +271,7 @@ public class SelectCarouselController extends CarouselController {
 
 	/**
 	 * Setter for the sun field
+	 * 
 	 * @param sun String representing a sun level
 	 */
 	public void setSun(String sun) {
@@ -267,6 +280,7 @@ public class SelectCarouselController extends CarouselController {
 
 	/**
 	 * Getter for the soil field
+	 * 
 	 * @return soil field - A List of Strings representing all soil types chosen by the user
 	 */
 	public List<String> getSoil() {
@@ -275,6 +289,7 @@ public class SelectCarouselController extends CarouselController {
 
 	/**
 	 * Setter for the soil field
+	 * 
 	 * @param soil List of Strings representing different soil types
 	 */
 	public void setSoil(List<String> soil) {

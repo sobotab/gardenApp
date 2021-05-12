@@ -48,6 +48,7 @@ public class InfoView extends BorderPane {
 	
 	/**
 	 * Constructor that initializes an infoCarousel and all necessary buttons and comboBoxes for filtering, and displays everything on the screen.
+	 * 
 	 * @param view The program's View that is only initialized once
 	 */
 	public InfoView(View view) {
@@ -134,6 +135,7 @@ public class InfoView extends BorderPane {
 	// getters & setters
 	/**
 	 * Getter for the infoCarousel field
+	 * 
 	 * @return infoCarousel field - an InfoCarouselView that displays plant images
 	 */
 	public InfoCarouselView getInfoCarousel() {
@@ -142,6 +144,7 @@ public class InfoView extends BorderPane {
 	
 	/**
 	 * Setter for the infoCarousel field
+	 * 
 	 * @param carousel An InfoCarouselView that will replace the current infoCarousel field
 	 */
 	public void setInfoCarousel(InfoCarouselView carousel) {

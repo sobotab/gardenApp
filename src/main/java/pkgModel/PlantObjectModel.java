@@ -24,6 +24,7 @@ public class PlantObjectModel extends PlantModel implements Serializable {
 	
 	/**
 	 * Constructor sets all fields of plant model.
+	 * 
 	 * @param name 				The plant's common name
 	 * @param sciName 			The plant's scientific name
 	 * @param spreadDiameter 	The plant's root spread
@@ -46,6 +47,7 @@ public class PlantObjectModel extends PlantModel implements Serializable {
 	
 	/**
 	 * Sets the x value of a plantModel within certain bounds.
+	 * 
 	 * @param x 		New x location.
 	 * @param x_max 	Maximum x value.
 	 */
@@ -56,6 +58,7 @@ public class PlantObjectModel extends PlantModel implements Serializable {
 	
 	/**
 	 * Sets the y value of a plantModel within certain bounds.
+	 * 
 	 * @param y 		New y location.
 	 * @param y_max 	Maximum y value.
 	 */

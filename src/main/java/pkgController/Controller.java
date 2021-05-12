@@ -41,11 +41,11 @@ import pkgModel.PlantModel;
 import pkgView.View;
 
 /**
+ * 
+ * @author Zane Greenholt
  * Main controller class that is only instantiated one time and loads the plant and image data once
- * @author - Zane Greenholt
- * @author - Ryan Dean
- * @author - Benjamin Sobota
- * @author - Rakesh Gadde
+ * 
+ * 
  */
 public class Controller extends Application {
 	
@@ -79,6 +79,7 @@ public class Controller extends Application {
 	
 	/**
 	 * Program is launched from the controller
+	 * 
 	 * @param args any command line arguments (not used)
 	 */
 	public static void main(String[] args) {
@@ -88,6 +89,7 @@ public class Controller extends Application {
 	@Override
 	/**
 	 * Start method starts the application and is called by the launch method
+	 * 
 	 * @param theStage the main stage that the application will show on
 	 */
 	public void start(Stage theStage) {
@@ -119,6 +121,7 @@ public class Controller extends Application {
 	
 	/**
 	 * Loads all plant images in from files and creates VBoxes for each that display some of their information
+	 * 
 	 * @return List of VBoxes holding all the plants in the program
 	 */
 	public List<VBox> loadPlantImagesFromList(){
@@ -158,6 +161,7 @@ public class Controller extends Application {
 	
 	/**
 	 * Loads all lepImages into ImageViews and places them in a hashmap with the scientific name as the key
+	 * 
 	 * @return HashMap of lep names mapped to their images
 	 */
 	public HashMap<String, ImageView> loadLepImages(){
@@ -183,6 +187,7 @@ public class Controller extends Application {
 	
 	/**
 	 * Getter for plantImages field
+	 * 
 	 * @return list of VBoxes with all the program's plants
 	 */
 	public List<VBox> getPlantImages() {
@@ -191,6 +196,7 @@ public class Controller extends Application {
 	
 	/**
 	 * Setter for plantImages field
+	 * 
 	 * @param images List of VBoxes
 	 */
 	public void setPlantImages(List<VBox> images) {
@@ -199,6 +205,7 @@ public class Controller extends Application {
 
 	/**
 	 * Getter for the plants field
+	 * 
 	 * @return List of plantModels with all the program's plant data
 	 */
 	public List<PlantModel> getPlants() {
@@ -207,6 +214,7 @@ public class Controller extends Application {
 	
 	/**
 	 * Setter for the plants field
+	 * 
 	 * @param plants List of plantModels
 	 */
 	public void setPlants(List<PlantModel> plants) {
@@ -215,6 +223,7 @@ public class Controller extends Application {
 
 	/**
 	 * Getter for lepImages field
+	 * 
 	 * @return HashMap of lep names mapped to their images
 	 */
 	public HashMap<String, ImageView> getLepImages() {
@@ -223,6 +232,7 @@ public class Controller extends Application {
 	
 	/**
 	 * Setter for lepImages field
+	 * 
 	 * @param lepImages HashMap of strings mapped to imageViews
 	 */
 	public void setLepImages(HashMap<String, ImageView> lepImages) {

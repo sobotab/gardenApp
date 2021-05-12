@@ -24,19 +24,40 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import pkgController.Controller;
 
+/**
+ * 
+ * @author Zane Greenholt
+ * Main View class of the program that controls the screen that is showing and holds hover based handlers
+ */
 public class View {
+	/**
+	 * Initial Scene width before going full screen
+	 */
 	final int SCENEWIDTH = 800;
+	/**
+	 * Initial Scene height before going full screen
+	 */
 	final int SCENEHEIGHT = 600;
-	List<Node> widgets;
-	List<Image> plantImages;
-	GraphicsContext gc;
+	/**
+	 * The programs main controller object
+	 */
 	public Controller controller;
-	Window window;
+	/**
+	 * The current screen that is showing
+	 */
 	BorderPane currentScreen; // replaced screen for borderpane, effectively the same
 	//All individual screens now inherit borderpane: gives us children, height/width, background, padding, margins (everything that was in screen)
+	/**
+	 * The stage of the main screen of the program
+	 */
 	Stage theStage;
-	Scene theScene;
 	
+	/**
+	 * Constructor for the view sets the first screen and shows it
+	 * 
+	 * @param theStage The stage of the main screen of the program
+	 * @param controller The program's main controller that is only initialized once
+	 */
 	public View(Stage theStage, Controller controller) {
 		this.theStage = theStage;
 		
@@ -51,58 +72,13 @@ public class View {
         theStage.show();
 	}
 	
-	public void ImportImages() {}
-	
-	Image createImage(String image_file) {
-		Image img = null;
-		return img;
-	}
-	
-	boolean clearPane() {
-		return false;
-	}
-	
-	boolean buildPane(View view) {
-		return false;
-	}
-	
-	public void update() {
-	}
-	
-	
-	// getters
-	
-	public Stage getTheStage() {
-		return this.theStage;
-	}
-	
-	public List<Image> getPlantImages() {
-		return this.plantImages;
-	}
-	
-	public BorderPane getCurrentScreen() {
-		return this.currentScreen;
-	}
-	
-	public void setPlantImages(List<Image> plantImages) {
-		this.plantImages = plantImages;
-	}
-	
-	public void setCurrentScreen(BorderPane pane) {
-		//Changes the current pane in the scene. This method is attached
-		//to the event handlers of the previous/next buttons
-		Scene theScene = theStage.getScene();
-		theStage.setScene(new Scene(pane, theScene.getWidth(), theScene.getHeight()));
-	}
 
-	public Controller getController() {
-		return controller;
-	}
 
-	public void setController(Controller controller) {
-		this.controller = controller;
-	}
-	
+	/**
+	 * Sets the handlers for the VBox passed in that allows it to be highlighted on hovering
+	 * 
+	 * @param box A VBox that is a plant image and text about its data
+	 */
 	public void setHoverHandlers(VBox box) {
 		BorderWidths bw = new BorderWidths(3,3,3,3);
 		BorderStroke bs = new BorderStroke(Color.YELLOW, BorderStrokeStyle.SOLID, new CornerRadii(10), bw, Insets.EMPTY);
@@ -124,5 +100,45 @@ public class View {
 			}
 		});
 	}
+	
+	/**
+	 * Getter for the controller field
+	 * 
+	 * @return The program's controller
+	 */
+	public Controller getController() {
+		return controller;
+	}
+	
+	/**
+	 * Getter for theStage field
+	 * 
+	 * @return The stage of the main program screen
+	 */
+	public Stage getTheStage() {
+		return this.theStage;
+	}
+	
+	/**
+	 * Getter for the current screen's pane
+	 * 
+	 * @return A BorderPane representing the current screen showing in the program
+	 */
+	public BorderPane getCurrentScreen() {
+		return this.currentScreen;
+	}
+	
+	/**
+	 * Sets the current showing screen to a scene with the pane that is passed in
+	 * 
+	 * @param pane A BorderPane that is one screen of the program
+	 */
+	public void setCurrentScreen(BorderPane pane) {
+		//Changes the current pane in the scene. This method is attached
+		//to the event handlers of the previous/next buttons
+		Scene theScene = theStage.getScene();
+		theStage.setScene(new Scene(pane, theScene.getWidth(), theScene.getHeight()));
+	}
+	
 	
 }

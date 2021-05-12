@@ -52,22 +52,16 @@ public class ResourcesView extends BorderPane{
 		Label links = new Label("https://mtcubacenter.org/native-plant-finder"
 				+ "\n https://bhwp.org/grow/garden-with-natives/native-plant-plant-profiles-a-to-z/"
 				+ "\n http://www.nativeplantcenter.net/plants/");
-		Label video_headline = new Label("Click button below to learn how to use the application:");
 		paragraph_headline.setTextFill(Color.BLACK);
-		paragraph_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 10));
+		paragraph_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
 		paragraph.setTextFill(Color.BLACK);
-		paragraph.setFont(Font.font("Roboto", 10));
+		paragraph.setFont(Font.font("Roboto", 26));
 		links_headline.setTextFill(Color.BLACK);
-		links_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 10));
+		links_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
 		links.setTextFill(Color.BLACK);
-		links.setFont(Font.font("Roboto", 10));
-		links_headline.setTextFill(Color.BLACK);
-		video_headline.setTextFill(Color.BLACK);
-		video_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 10));
+		links.setFont(Font.font("Roboto", 26));
 		
-		
-		
-		text_box.getChildren().addAll(paragraph_headline, paragraph, links_headline, links, video_headline);
+		text_box.getChildren().addAll(paragraph_headline, paragraph, links_headline, links);
 		text_box.setSpacing(10);
 		ImageView img = new ImageView(new Image(getClass().getResourceAsStream("/images/background-lep.jpg")));
 		img.setFitHeight(250);

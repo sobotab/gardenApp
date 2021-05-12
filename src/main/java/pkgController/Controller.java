@@ -32,6 +32,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -134,11 +135,16 @@ public class Controller extends Application {
 			Circle frame = new Circle(circleX,circleY,circleRadius);
 			img.setClip(frame);
 			
+			int textSize = 16;
+			
 			Text label = new Text(infoPlant.getName() + "\n" + infoPlant.getSciName());
 			label.setTextAlignment(TextAlignment.CENTER);
+			label.setFont(Font.font("Cambria", textSize));
 			Text leps = new Text("Leps supported: " + infoPlant.getNumLeps());
+			leps.setFont(Font.font("Cambria", textSize));
 			int dollars = infoPlant.getDollars();
 			Text price = new Text("Price: $" + dollars);
+			price.setFont(Font.font("Cambria", textSize));
 			Text type = new Text();
 			if(dollars == 6) {
 				type.setText("Type: Herbaceous");
@@ -146,6 +152,7 @@ public class Controller extends Application {
 			else {
 				type.setText("Type: Woody");
 			}
+			type.setFont(Font.font("Cambria", textSize));
 			VBox box = new VBox();
 			box.setAlignment(Pos.CENTER);
 			box.getChildren().addAll(label, img, leps, price, type);

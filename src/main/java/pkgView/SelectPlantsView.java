@@ -11,6 +11,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.HPos;
+import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Button;
@@ -28,6 +29,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -92,6 +94,8 @@ public class SelectPlantsView extends BorderPane {
 		spc = new SelectPlantsController(view, this, selectionCarousel.getScc());
 		numPlants = new Text("");
 		numPlants.setFont(Font.font("cambria"));
+		numPlants.setFill(Color.WHITE);
+		numPlants.setFont(Font.font("Cambria", 40));
 		updateNumPlants();
 		
 		String buttonStyle = "-fx-font-size:" + Double.valueOf(18).toString() +";"
@@ -160,38 +164,51 @@ public class SelectPlantsView extends BorderPane {
 		
 
 		
-		Label title = new Label("Select Plants");
+		Label title = new Label("Plant Select");
+		title.setTextFill(Color.WHITE);
+		title.setFont(Font.font("Cambria", 80));
+		title.setPadding(new Insets(10,5,10,5));
+		
 		VBox filterBox = new VBox();
 		if(soils.size() > 1) {
-			filterBox.getChildren().addAll(title,type,soil,filter, numPlants);
+			filterBox.getChildren().addAll(type,soil,filter, numPlants);
 		}
 		else {
-			filterBox.getChildren().addAll(title,type,filter, numPlants);
+			filterBox.getChildren().addAll(type,filter, numPlants);
 		}
-		Button back = new Button("Back to drawing garden.");
+		HBox filterAndTitle = new HBox(title,filterBox);
+		filterAndTitle.setPadding(new Insets(10,5,10,5));
+		
+		
+		Button back = new Button("<<<");
 		back.setOnAction(spc.getHandlerForBack());
-		Button finish = new Button("Finish");
+		back.setStyle(buttonStyle);
+		Button finish = new Button(">>>");
 		finish.setOnAction(spc.getHandlerForNext());
-		Label flowLabel = new Label("Plants you have selected");
+		finish.setStyle(buttonStyle);
 		
 		Label selectedPlantsTitle = new Label("Selected Plants");
-		
-
+		selectedPlantsTitle.setTextFill(Color.WHITE);
+		selectedPlantsTitle.setFont(Font.font("Cambria", 30));
 		
 		plantsSelected = new ListView(FXCollections.observableArrayList());
 		plantsSelected.setPrefHeight(view.getTheStage().getHeight());
 		
 		VBox plantsSelectedBox = new VBox();
 		plantsSelectedBox.getChildren().addAll(selectedPlantsTitle, plantsSelected);
+		plantsSelectedBox.setMinHeight(this.getHeight());
 		
 		HBox box = new HBox();
 		box.getChildren().add(back);
 		box.getChildren().add(finish);
+		box.setPrefWidth(this.getWidth());
+		box.setPadding(new Insets(10,5,10,5));	
 		
-		this.setBottom(box);
-		this.setTop(filterBox);
 		this.setRight(plantsSelectedBox);
+		this.setTop(filterAndTitle);
+		this.setBottom(box);
 		this.setCenter(selectionCarousel);
+		
 	}
 	
 	/**

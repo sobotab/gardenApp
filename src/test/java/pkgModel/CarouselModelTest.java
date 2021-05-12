@@ -44,15 +44,11 @@ public class CarouselModelTest {
 		PlantModel plant2 = new PlantInfoModel("","",0,"full sun","moist", "sandy",0,0,"");
 		carousel2.filteredPlants.add(plant1);
 		carousel2.filteredPlants.add(plant2);
+		carousel2.heldPlant = 1;
 		carousel2.rotateRight();
-		assertEquals(1,carousel2.heldPlant);
+		assertEquals(0,carousel2.heldPlant);
 	}
 	
-//	@Test
-//	public void testPlantSelected() {
-//		carousel1.plants.add(new PlantInfoModel("Name", "Plantius-leafius",1, Sun.FULLSUN, Moisture.DRY,  Soil.CLAY, 15, 6, ""));
-//		assertEquals(11,carousel1.plantSelected(0, 0));
-//	}
 	@Test
 	public void testMapNameToPlants() {
 		PlantModel plant = new PlantInfoModel("","",10,"full sun", "dry", "sandy", 0,0,"");
@@ -96,7 +92,7 @@ public class CarouselModelTest {
 	
 	@Test
 	public void testDecrementHeldPlant() {
-		carousel2.heldPlant = 1;
+		carousel2.heldPlant = 0;
 		carousel2.decrementHeldPlant();
 		assertEquals(0, carousel2.heldPlant);
 	}

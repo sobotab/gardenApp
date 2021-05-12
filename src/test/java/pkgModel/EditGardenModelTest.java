@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
@@ -153,29 +154,31 @@ public class EditGardenModelTest {
 		Point2D.Double point2 = new Point2D.Double(10, 1);
 		Point2D.Double point3 = new Point2D.Double(5, 10);
 		ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>(); 
-		//ArrayList<Point2D.Double> points2 = new ArrayList<Point2D.Double>(); 
-		//ArrayList<Point2D.Double> points3 = new ArrayList<Point2D.Double>(); 
+		ArrayList<Point2D.Double> points2 = new ArrayList<Point2D.Double>(); 
+		ArrayList<Point2D.Double> points3 = new ArrayList<Point2D.Double>(); 
 		points.add(point);
 		points.add(point2);
 		points.add(point3);
 		Stack<ArrayList<Point2D.Double>> stack = new Stack<ArrayList<Point2D.Double>>();
-		//Stack<ArrayList<Point2D.Double>> stack2 = new Stack<ArrayList<Point2D.Double>>();
-		//Stack<ArrayList<Point2D.Double>> stack3 = new Stack<ArrayList<Point2D.Double>>();
+		Stack<ArrayList<Point2D.Double>> stack2 = new Stack<ArrayList<Point2D.Double>>();
+		Stack<ArrayList<Point2D.Double>> stack3 = new Stack<ArrayList<Point2D.Double>>();
 		stack.add(points);
-		//stack2.add(points2);
-		//stack3.add(points3);
+		stack2.add(points2);
+		stack3.add(points3);
 		plantGarden.plots.put(Soil.CLAY, stack);
-		//plantGarden.plots.put(Soil.SANDY, stack2);
-		//plantGarden.plots.put(Soil.LOAMY, stack3);
+		plantGarden.plots.put(Soil.SANDY, stack2);
+		plantGarden.plots.put(Soil.LOAMY, stack3);
 		
 		PlantObjectModel plant = new PlantObjectModel("","",10,"","","clay",3,3,null, 5,5);
-		PlantObjectModel plant2 = new PlantObjectModel("","",10,"","","clay",0,0,null, 20,5);
-		//PlantObjectModel plant3 = new PlantObjectModel("","",10,"","","loamy",0,0,null, 0,0);
+		PlantObjectModel plant2 = new PlantObjectModel("","",10,"","","sandy",0,0,null, 20,5);
+		PlantObjectModel plant3 = new PlantObjectModel("","",10,"","","loamy",0,0,null, 0,0);
 		plantGarden.plants.add(plant);
 		plantGarden.plants.add(plant2);
-		//plantGarden.plants.add(plant3);
+		plantGarden.plants.add(plant3);
 		assertEquals(true, plantGarden.checkCanvas(0, 0, 0));
 		assertEquals(false, plantGarden.checkCanvas(1, 0, 0));
+		plantGarden.canvasXOffset = 1;
+		assertEquals(false, plantGarden.checkCanvas(2, 2, 0));
 		
 	}
 	
@@ -200,5 +203,47 @@ public class EditGardenModelTest {
 		plots.put(Soil.CLAY, stack);
 		plantGarden.setPlots(plots);
 		assertEquals(true, plantGarden.plots.containsKey(Soil.CLAY));
+	}
+	
+	@Test
+	public void testTrackMostPopularLeps() {
+		List<String> leps = new ArrayList<String>();
+		leps.add("Moth");
+		leps.add("Butterfly");
+		leps.add("Moth");
+		PlantObjectModel plant = new PlantObjectModel("plant","smart plant", 5, "part sun", "moist", "laomy", 2, 6, leps, 3, 5);
+		List<PlantObjectModel> plants = new ArrayList<PlantObjectModel>();
+		plants.add(plant);
+		plantGarden.setPlants(plants);
+		ArrayList<Map.Entry<String, Integer>> map = plantGarden.trackMostPopularLeps();
+		assertEquals((int)map.get(0).getValue(), 2);
+	}
+	
+	@Test
+	public void testAdaptPlots() {
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = new HashMap<Soil, Stack<ArrayList<Point2D.Double>>>();
+		ArrayList<Point2D.Double> single_plot = new ArrayList<Point2D.Double>();
+		single_plot.add(new Point2D.Double(0, 0));
+		Stack stack = new Stack();
+		stack.add(single_plot);
+		plots.put(Soil.CLAY, stack);
+		plantGarden.setPlots(plots);
+		plantGarden.adaptPlots(5, 10);
+		assertEquals((int)plots.get(Soil.CLAY).get(0).get(0).getX(), 5);
+		plots.get(Soil.CLAY).get(0).get(0).setLocation(0, 0);
+		plantGarden.adaptPlots(10, 5);
+		assertEquals((int)plots.get(Soil.CLAY).get(0).get(0).getX(), 5);
+	}
+	
+	@Test
+	public void testGetCanvasXOffset() {
+		plantGarden.canvasXOffset = 10;
+		assertEquals(10, (int)plantGarden.getCanvasXOffset());
+	}
+	
+	@Test
+	public void testGetCanvasYOffset() {
+		plantGarden.canvasYOffset = 15;
+		assertEquals(15, (int)plantGarden.getCanvasYOffset());
 	}
 }

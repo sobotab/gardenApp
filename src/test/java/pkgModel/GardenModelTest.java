@@ -34,7 +34,13 @@ public class GardenModelTest {
 	
 	@Test
 	public void testGetPlots() {
-		assertFalse(garden.getPlots() == null);
+		ArrayList<Point2D.Double> points = new ArrayList<Point2D.Double>();
+		Stack<ArrayList<Point2D.Double>> stack = new Stack<ArrayList<Point2D.Double>>();
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> map = new HashMap<Soil, Stack<ArrayList<Point2D.Double>>>();
+		map.put(Soil.LOAMY, stack);
+		GardenModel garden2 = new EditGardenModel(new ObjectCarouselModel(), new ArrayList<PlantInfoModel>(), map,100, 3);
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots = garden2.getPlots();
+		assertTrue(plots.get(Soil.LOAMY) == stack);
 	}
 
 	@Test
@@ -71,6 +77,7 @@ public class GardenModelTest {
 	public void testGetScale() {
 		assertEquals(0, garden.getScale(), 1);
 	}
+	
 
 
 }

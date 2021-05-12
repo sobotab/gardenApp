@@ -54,16 +54,16 @@ public class ResourcesView extends BorderPane{
 				+ "\n http://www.nativeplantcenter.net/plants/");
 		Label video_headline = new Label("Click button below to learn how to use the application:");
 		paragraph_headline.setTextFill(Color.BLACK);
-		paragraph_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 10));
+		paragraph_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 40));
 		paragraph.setTextFill(Color.BLACK);
-		paragraph.setFont(Font.font("Roboto", 10));
+		paragraph.setFont(Font.font("Roboto", 30));
 		links_headline.setTextFill(Color.BLACK);
-		links_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 10));
+		links_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 40));
 		links.setTextFill(Color.BLACK);
-		links.setFont(Font.font("Roboto", 10));
+		links.setFont(Font.font("Roboto", 30));
 		links_headline.setTextFill(Color.BLACK);
 		video_headline.setTextFill(Color.BLACK);
-		video_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 10));
+		video_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 40));
 		
 		
 		

@@ -50,7 +50,7 @@ public void clickedOpen(ActionEvent event) {
 		if(Desktop.isDesktopSupported())
 	    {
 	        try {
-	            Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=k85mRPqvMbE&ab_channel=CrazyFrog"));
+	            Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=Q-vjfXiKO6I"));
 	        } catch (IOException e1) {
 	            e1.printStackTrace();
 	        } catch (URISyntaxException e1) {

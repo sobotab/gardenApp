@@ -101,7 +101,7 @@ public abstract class CarouselController {
 	/**
 	 * Getter for the images that are only loaded once in the program.
 	 * 
-	 * @return List<VBox>, which includes images loaded in the program's controller
+	 * @return includes images loaded in the program's controller
 	 */
 	public List<VBox> getImagesFromController(){
 		return view.getController().getPlantImages();

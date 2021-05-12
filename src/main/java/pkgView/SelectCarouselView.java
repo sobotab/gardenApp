@@ -101,7 +101,7 @@ public class SelectCarouselView extends CarouselView{
 	 * 
 	 * @param sun The sun level selected by the user on the draw garden screen
 	 * @param moisture The moisture level selected by the user on the draw garden screen
-	 * @param soil The soil type selected by the user on the draw garden screen
+	 * @param soils The soil type selected by the user on the draw garden screen
 	 */
 	public void filter(String sun, String moisture, List<String> soils) {
 		scc.filterCarousel(sun, moisture, soils);

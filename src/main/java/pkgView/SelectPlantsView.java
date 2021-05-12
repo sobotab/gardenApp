@@ -183,6 +183,7 @@ public class SelectPlantsView extends BorderPane {
 		
 		VBox filterAndTitle = new VBox(title, filterAndNumber);
 		filterAndTitle.setPadding(new Insets(10,5,10,5));
+		filterAndTitle.setPadding(new Insets(10,5,30,5));
 		
 		
 		Button back = new Button("<<<");
@@ -215,10 +216,14 @@ public class SelectPlantsView extends BorderPane {
 		plantsSelectedBox.toFront();
 		this.setAlignment(plantsSelectedBox, Pos.TOP_RIGHT);
 		
-		this.setTop(filterAndTitle);
+		
+		VBox layout = new VBox(filterAndTitle, selectionCarousel);
+		selectionCarousel.setPadding(new Insets(100, 0, 0, 0));
+		
+		//this.setTop(filterAndTitle);
 		this.setRight(plantsSelectedBox);
 		this.setBottom(pageButtons);
-		this.setCenter(selectionCarousel);
+		this.setCenter(layout);
 		
 	}
 	

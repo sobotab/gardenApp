@@ -37,7 +37,7 @@ public class LepPopupView extends ListView {
 			this.view = view;
 			//this.getChildren().add(buildLepDisplay(lepEntry));
 			HashMap<String, ImageView> lepImages = view.getController().getLepImages();
-			this.getItems().add(buildLepDisplay(lepEntry, lepImages));
+			this.getItems().add(buildLepDisplay(lepEntry));
 		}
 	}
 	

@@ -75,10 +75,6 @@ public class EditGardenView extends BorderPane{
 	 */
 	public final int DEFAULTSCALE = 500;
 	/**
-	 * The program's main view that is only instantiated once
-	 */
-	View view;
-	/**
 	 * A DragDropCarouselView that represents the carousel of selected plants you can add to your garden.
 	 */
 	DragDropCarouselView plantCarousel;

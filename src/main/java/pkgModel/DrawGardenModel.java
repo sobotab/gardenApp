@@ -16,11 +16,7 @@ public class DrawGardenModel extends GardenModel {
 	 * drawn before adding it to plots
 	 */
 	ArrayList<Point2D.Double> preOutline;
-	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
-	/**
-	 * Stores the order in which plots were stored by saving the soil type of
-	 * the plot drawn. 
-	 */
+
 	Stack<Soil> undoStack;
 	/**
 	 * The moisture level of the garden
@@ -241,6 +237,7 @@ public class DrawGardenModel extends GardenModel {
 		return budget;
 	}
 	
+
 	/**
 	 * Sets the current minimum of canvasLenght or canvasWidth
 	 */
@@ -251,6 +248,7 @@ public class DrawGardenModel extends GardenModel {
 	/**
 	 * @param grid size of squares
 	 */
+
 	public void setGridSize(double grid) {
 		this.gridSize = grid;
 	}

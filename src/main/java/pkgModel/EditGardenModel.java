@@ -22,7 +22,7 @@ import pkgView.PlantView;
  * @author Ryan Dean
  * Model class for the Edit Garden screen. Tracks plant location and garden conditions, and stores all information needed for save/load.
  */
-public class PlantGardenModel extends GardenModel implements Serializable {
+public class EditGardenModel extends GardenModel implements Serializable {
 	/**
 	 * List of PlantObjectModels that represent plants in the garden (post-dragging from carousel).
 	 */
@@ -34,7 +34,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	/**
 	 * Hashmap storing all plot outlines organized by soil type.
 	 */
-	HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
+	//HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots;
 	/**
 	 * Integer representation of total leps supported by plant in garden.
 	 */
@@ -58,7 +58,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	/**
 	 * Scale factor for this garden, determined by ratio between scale selected in Draw Garden and the default scale.
 	 */
-	double scale_factor;
+	double scale;
 	
 	/**
 	 * Constructor for this model class. Initializes the carousel model and fills it with the plants chosen in Select Plants.
@@ -66,9 +66,9 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	 * @param plantInput 		A list of plant models to be placed in the carousel.
 	 * @param plots 			Hashmap containing all plot outlines drawn in Draw Garden, organized by soil type.
 	 * @param budget 			Integer representing maximum budget for this garden.
-	 * @param scale_factor 		Double computed through view's DEFAULTSCALE / max_dimension of plot.
+	 * @param scale 		Double computed through view's DEFAULTSCALE / max_dimension of plot.
 	 */
-	public PlantGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots, int budget, double scale_factor) {
+	public EditGardenModel(ObjectCarouselModel carouselModel, List<PlantInfoModel> plantInput, HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots, int budget, double scale) {
 		this.plots = plots;
 		this.budget = budget;
 		this.numLeps = 0;
@@ -76,7 +76,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		carousel.fillCarousel(plantInput);
 		System.out.println("carousel size post filling: " + carousel.getPlants().size());
 		this.plants = new ArrayList<PlantObjectModel>();
-		this.scale_factor = scale_factor;
+		this.scale = scale;
 	}
 	
 	/**
@@ -223,7 +223,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	 */
 	public double computeScaleSize(PlantObjectModel plant) {
 		double default_radius = plant.getSpreadDiameter()/2;
-		return default_radius * scale_factor;
+		return default_radius * scale;
 	}
 	
 	
@@ -312,7 +312,7 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 		System.out.println("canvasy" + canvas_height);
 
 		System.out.println("shrink" + shrink_factor);
-		this.setScaleFactor(shrink_factor * scale_factor);
+		this.setScale(shrink_factor * scale);
 		
 	}
 	
@@ -358,18 +358,6 @@ public class PlantGardenModel extends GardenModel implements Serializable {
 	
 	public void setCarousel(ObjectCarouselModel carousel) {
 		this.carousel = carousel;
-	}
-
-	public HashMap<Soil, Stack<ArrayList<Point2D.Double>>> getPlots() {
-		return this.plots;
-	}
-
-	public double getScaleFactor() {
-		return this.scale_factor;
-	}
-	
-	public void setScaleFactor(double scale_factor) {
-		this.scale_factor = scale_factor;
 	}
 	
 	public double getCanvasXOffset() {

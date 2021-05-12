@@ -1,6 +1,7 @@
 package pkgView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import javafx.geometry.Pos;
@@ -27,10 +28,11 @@ public class LepPopupView extends ListView {
 	 * 
 	 * @param sortedLeps 	List of Map.Entry containing name of lep species (key) and number of plants supporting them (value).
 	 */
-	public LepPopupView(ArrayList<Map.Entry<String, Integer>> sortedLeps) {
+	public LepPopupView(View view, ArrayList<Map.Entry<String, Integer>> sortedLeps) {
 		for (Map.Entry<String, Integer> lepEntry : sortedLeps) {
 			//this.getChildren().add(buildLepDisplay(lepEntry));
-			this.getItems().add(buildLepDisplay(lepEntry));
+			HashMap<String, ImageView> lepImages = view.getController().getLepImages();
+			this.getItems().add(buildLepDisplay(lepEntry, lepImages));
 		}
 	}
 	
@@ -41,8 +43,9 @@ public class LepPopupView extends ListView {
 	 * @param lepEntry 		Key-Value pair of lep species name and number of plants supporting it.
 	 * @return 				TilePane with information for an individual lep species.
 	 */
-	public FlowPane buildLepDisplay(Map.Entry<String, Integer> lepEntry) {
-		ImageView lep_img = new ImageView(new Image("/images/background-flowers.jpg"));
+	public FlowPane buildLepDisplay(Map.Entry<String, Integer> lepEntry, HashMap<String, ImageView> lepImages) {
+		String lepName = lepEntry.getKey();
+		ImageView lep_img = lepImages.get(lepName);
 		lep_img.setFitHeight(100);
 		lep_img.setFitWidth(100);
 		Rectangle img_template = new Rectangle(lep_img.getFitWidth(), lep_img.getFitHeight());

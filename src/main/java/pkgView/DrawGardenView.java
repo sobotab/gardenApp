@@ -305,7 +305,7 @@ public class DrawGardenView extends BorderPane {
 		soilComboBox.setMinHeight(prefHeight/9);
 		soilComboBox.setStyle(font + Double.valueOf(prefWidth/15).toString() +";"
 				+ " -fx-font-weight: bold;"
-				+ " -fx-background-color: #E8A171"
+				+ " -fx-background-color: #E8A171;"
 				+ "-fx-font-family: 'Roboto';");
 		
 		sunLabel.setFitHeight(100.0);

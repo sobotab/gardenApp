@@ -168,17 +168,19 @@ public class Controller extends Application {
 		HashMap<String, ImageView> leps = new HashMap<String, ImageView>();
 		for(PlantModel plant: plants) {
 			List<String> lepNames = plant.getLeps();
-			if(plant.getSciName().startsWith("Quercus") || plant.getSciName().startsWith("Agalinis")) {
-				for(String sciName: lepNames) {
-					if(!leps.containsKey(sciName)) {
-						String fileName = "/images/" + sciName + ".jpg";
-						Image image = new Image(getClass().getResourceAsStream(fileName));
-						ImageView imv = new ImageView(image);
-						double circleX = 240.0,circleY = 240.0,circleRadius = 240.0;
-						Circle frame = new Circle(circleX,circleY,circleRadius);
-						imv.setClip(frame);
-						leps.put(sciName, imv);
-					}
+			for(String sciName: lepNames) {
+				if(!leps.containsKey(sciName)) {
+					System.out.println(sciName);
+					String fileName = "/images/" + sciName + ".jpg";
+					Image image = new Image(getClass().getResourceAsStream(fileName));
+					ImageView imv = new ImageView(image);
+					int fitSize = 480;
+					imv.setFitWidth(fitSize);
+					imv.setFitHeight(fitSize);
+					double circleX = 240.0,circleY = 240.0,circleRadius = 240.0;
+					Circle frame = new Circle(circleX,circleY,circleRadius);
+					imv.setClip(frame);
+					leps.put(sciName, imv);
 				}
 			}
 		}

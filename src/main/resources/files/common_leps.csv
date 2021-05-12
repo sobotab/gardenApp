@@ -22,7 +22,7 @@ Stellaria,Elaphria-grata,Nathalis-iole,Lobocleta-ossularia,,,,,,,,,,,,
 Symplocarpus,,,,,,,,,,,,,,,
 Thalictrum,Clossiana-eunomia,Herpetogramma-pertextalis,Melanchra-adjuncta,Eosphoropteryx-thyatyroides,Calyptra-canadensis,Lacanobia-subjuncta,,,,,,,,,
 Spartina,Automeris-louisiana,Leucanopsis-longa,Chortodes-enervata,Problema-bulenta,Doryodes-bistrialis,Poanes-aaroni,,,,,,,,,
-Spiraea,Hyalophora-cecropia,Celastrina-argiolus,Paonias-excaecata,Hemileuca-nevadensis-complex,Hemileuca-lucina,Trichordestra-tacoma,Basilarchia-lorquini,Lithophane-fagina,Smerinthus-jamaicensis,Acronicta-noctivaga,"""Sphinx-""""gordius""""""",Orgyia-antiqua,Metarranthis-duaria,Phlogophora-periculosa,Cryptocala-acadiensis
+Spiraea,Hyalophora-cecropia,Celastrina-argiolus,Paonias-excaecata,Hemileuca-nevadensis-complex,Hemileuca-lucina,Trichordestra-tacoma,Basilarchia-lorquini,Lithophane-fagina,Smerinthus-jamaicensis,Acronicta-noctivaga,,,,,
 Smilax,Oiketicus-abbotii,Phosphila-miselioides,Phyprosopus-callitrichoides,Marmara-smilacisella,Phosphila-turbulenta,,,,,,,,,,
 Sorbus,Malacosoma-californica,Antheraea-polyphemus,Papilio-glaucus,Pandemis-limitata,Phyllonorycter-crataegella,Sparganothis-pettitana,Synanthedon-scitula,Euzophera-semifuneralis,Spilonota-ocellana,Machimia-tentoriferella,Acronicta-barnesii,Argyresthia-conjugella,Acronicta-pruni,Parornix-strobivorella,
 Sambucus,Hyalophora-cecropia,Trichordestra-tacoma,Lithophane-fagina,Anaplectoides-pressus,Proteoteras-moffatiana,Paradiarsia-littoralis,Hyles-lineata,Acerra-normalis,Feralia-februalis,Achatodes-zeae,Cryptocala-acadiensis,Xestia-smithii,Phlyctaenia-coronata,Zotheca-tranquilla,Eueretagrotis-attentus
@@ -30,7 +30,7 @@ Sanguinaria,,,,,,,,,,,,,,,
 Schizachyrium,Atrytone-arogos,Hesperia-meskei,Nastra-lherminier,Hesperia-miriamae,,,,,,,,,,,
 Rosa,Hyalophora-cecropia,Automeris-io,Malacosoma-californica,Antheraea-polyphemus,Hemileuca-maia,Basilarchia-arthemis,Morrisonia-confusa,Paonias-excaecata,Malacosoma-americana,Hyalophora-columbia,Hemileuca-eglanterina,Archips-argyrospila,Argyrotaenia-citrana,Archips-cerasivorana,Nymphalis-antiopa
 Rudbeckia,Synchlora-aerata,Charidryas-nycteis,Papaipema-nelita,Epiblema-arizonana,Marmara-auratella,,,,,,,,,,
-Ruellia,Junonia-coenia,Junonia-evarete,Anthanassa-texana,Anartia-jatrophae,Anthanassa-frisia,Junonia-sp.,Siproeta-stelenes,Anartia-fatima,,,,,,,
+Ruellia,Junonia-coenia,Junonia-evarete,Anthanassa-texana,Anartia-jatrophae,Anthanassa-frisia,Siproeta-stelenes,Anartia-fatima,,,,,,,,
 Rhododendron,Hyalophora-cecropia,Automeris-io,Choristoneura-rosaceana,Hyalophora-columbia,Archips-argyrospila,Callosamia-promethea,Apatelodes-torrefacta,Amphipyra-pyramidoides,Polygonia-faunus,Darapsa-choerilus,Prolimacodes-badia,Acronicta-tritona,Darapsa-versicolor,Schizura-concinna,Sphinx-perelegans
 Podophyllum,Papaipema-cerina,,,,,,,,,,,,,,
 Phlox,Gazoryctra-wielgusi,Schinia-indiana,,,,,,,,,,,,,
@@ -39,7 +39,7 @@ Celtis,Hyalophora-cecropia,Automeris-io,Basilarchia-arthemis,Choristoneura-rosac
 Viburnum,Automeris-io,Celastrina-argiolus,Paonias-excaecata,Callosamia-promethea,Apatelodes-torrefacta,Samia-cynthia,Darapsa-choerilus,Incisalia-henrici,Acerra-normalis,Agriopodes-fallax,Synanthedon-fatifera,Glyptocera-consobrinella,Hemaris-thysbe,Phlogophora-periculosa,Synanthedon-viburni
 Aquilegia,Argyrotaenia-citrana,Acleris-albicomana,Papaipema-leucostigma,Pyrrhia-exprimens,Amphipyra-tragopoginis,,,,,,,,,,
 Uvularia,,,,,,,,,,,,,,,
-Senna,Uresiphita-reversalis,Strymon-melinus,Anabasis-ochrodesma,Phoebis-sennae,Pyroderces-badia,Fundella-argentina,Fundella-pellucens,Ectomyelois-ceratoniae,Selenisa-sueroides,Eurema-nicippe,Tortilia-viatrix,Eurema-boisduvalianum,,,
+Senna,Uresiphita-reversalis,Strymon-melinus,Anabasis-ochrodesma,Phoebis-sennae,Pyroderces-badia,Fundella-argentina,Fundella-pellucens,Ectomyelois-ceratoniae,Selenisa-sueroides,Eurema-nicippe,,,,,
 Silene,Caryocolum-protecta,Coleophora-apicialbella,Hadena-ectypa,Hadena-capsularis,,,,,,,,,,,
 Rhus,Hyalophora-cecropia,Malacosoma-californica,Celastrina-argiolus,Eacles-imperialis,Hyalophora-euryalus,Moodna-ostrinella,Spilonota-ocellana,Citheronia-regalis,Marathyssa-inficita,Hemileuca-neumoegeni,Episimus-argutana,Dichorda-illustraria,Caloptilia-ovatiella,Hemileuca-chinatiensis,Saturnia-anona
 Rubus,Hyalophora-cecropia,Automeris-io,Malacosoma-californica,Papilio-rutulus,Choristoneura-rosaceana,Paonias-excaecata,Hemileuca-eglanterina,Argyrotaenia-franciscana,Argyrotaenia-citrana,Trichordestra-tacoma,Apatelodes-torrefacta,Amphipyra-pyramidoides,Lithophane-fagina,Spilonota-ocellana,Orthosia-rubescens
@@ -55,7 +55,7 @@ Platanus,Hyalophora-cecropia,Automeris-io,Antheraea-polyphemus,Papilio-rutulus,E
 Eurybia,,,,,,,,,,,,,,,
 Hydrangea,Darapsa-versicolor,Herpetogramma-bipunctalis,,,,,,,,,,,,,
 Houstonia,,,,,,,,,,,,,,,
-Juniperus,Hyalophora-cecropia,Eacles-imperialis,Oiketicus-abbotii,Thyridopteryx-ephemeraeformis,Mitoura-siva,Mitoura-grynea,Cudonigera-houstonana,Oiketicus-sp.,Coleotechnites-australis,Gloveria-arizonensis,Dichomeris-marginella,Sphinx-sequoiae,Periploca-nigra,Mitoura-loki,Semiothisa-excurvata
+Juniperus,Hyalophora-cecropia,Eacles-imperialis,Oiketicus-abbotii,Thyridopteryx-ephemeraeformis,Mitoura-siva,Mitoura-grynea,Cudonigera-houstonana,,,,,,,,
 Itea,,,,,,,,,,,,,,,
 Liatris,Synchlora-aerata,Schinia-trifascia,Carmenta-anthracipennis,Papaipema-beeriana,Schinia-gloriosa,,,,,,,,,,
 Morus,Hyalophora-cecropia,Automeris-io,Dryocampa-rubicunda,Hyphantria-cunea,Euzophera-semifuneralis,Glyphodes-sibillalis,,,,,,,,,

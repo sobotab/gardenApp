@@ -37,3 +37,5 @@ Resources Page:
 The Resources Page has some basic information about native plants and lepidoptera, as well as some links to more in depth sources.
 
 Enjoy the program!
+
+![alt text](https://github.com/CISC275-S2021/project-team-11-16/blob/main/UML.jpg?raw=true)

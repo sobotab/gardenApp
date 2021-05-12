@@ -59,6 +59,11 @@ public class SelectCarouselView extends CarouselView{
 		
 		images = scc.getImagesFromController();
 		
+		String buttonStyle = "-fx-font-size:" + Double.valueOf(18).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ "-fx-background-color: linear-gradient(#fafafa , #afd9f5 );"
+				+ "-font-family: Helvetica";
+		
 		ImageView turn_left_img = new ImageView(new Image("/images/carousel-turn-icon.png"));
 		turn_left_img.setFitHeight(80);
 		turn_left_img.setPreserveRatio(true);
@@ -67,6 +72,7 @@ public class SelectCarouselView extends CarouselView{
 		Button left = new Button();
 		left.setPrefSize(80,  60);
 		left.setGraphic(turn_left_img);
+		left.setStyle(buttonStyle);
 		
 		ImageView turn_right_img = new ImageView(new Image("/images/carousel-turn-icon.png"));
 		turn_right_img.setFitHeight(80);
@@ -74,6 +80,7 @@ public class SelectCarouselView extends CarouselView{
 		Button right = new Button();
 		right.setPrefSize(80,  60);
 		right.setGraphic(turn_right_img);
+		right.setStyle(buttonStyle);
 		
 		left.setOnAction(scc.getHandlerForClickedLeft());
 		right.setOnAction(scc.getHandlerForClickedRight());

@@ -67,7 +67,11 @@ public class SelectPlantsView extends BorderPane {
 	/**
 	 * Preferred width of the ComboBoxes used for filtering
 	 */
-	private final double FILTER_WIDTH = 150.0;
+	private final double FILTER_WIDTH = 200.0;
+	/**
+	 * Min height of the ComboBoxes used for filtering
+	 */
+	private final double FILTER_HEIGHT = 75.0;
 	/**
 	 * Listview of VBoxes that displays the plants that have been selected
 	 */
@@ -90,7 +94,10 @@ public class SelectPlantsView extends BorderPane {
 		numPlants.setFont(Font.font("cambria"));
 		updateNumPlants();
 		
-
+		String buttonStyle = "-fx-font-size:" + Double.valueOf(18).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ "-fx-background-color: linear-gradient(#fafafa , #afd9f5 );"
+				+ "-font-family: Helvetica";
 		
 		for(VBox image: selectionCarousel.getFilteredImages()) {
 			if(image.getChildren().size() == 6) {
@@ -98,6 +105,11 @@ public class SelectPlantsView extends BorderPane {
 			}
 			Button add = new Button("Add");
 			add.setOnMouseClicked(spc.getHandlerForPlantSelected());
+			add.setStyle("-fx-font-size:" + Double.valueOf(15).toString() +";"
+					+ " -fx-font-weight: bold;"
+					+ "-fx-background-color: linear-gradient(#fafafa , #afd9f5 );"
+					+ "-font-family: Helvetica");
+			add.setPrefSize(60.0, 25.0);
 			image.getChildren().add(add);
 			image.setOnMousePressed(selectionCarousel.getScc().getHandlerForPopup());
 		}
@@ -109,6 +121,8 @@ public class SelectPlantsView extends BorderPane {
 				BackgroundPosition.CENTER,
 				bSize)));
 		
+
+		
 		List<String> soils = selectionCarousel.getScc().getSoil();
 		ComboBox<String> soil = new ComboBox();
 		soil.setPromptText("Soil Type");
@@ -116,11 +130,14 @@ public class SelectPlantsView extends BorderPane {
 		options.addAll(soils);
 		soil.setItems(options);
 		soil.setPrefWidth(FILTER_WIDTH);
+		soil.setStyle(buttonStyle);
+
 		
 		ComboBox<String> type = new ComboBox();
 		type.setPromptText("Plant Type");
 		type.setItems(FXCollections.observableArrayList("","woody","herbaceous"));
 		type.setPrefWidth(FILTER_WIDTH);
+		type.setStyle(buttonStyle);
 		
 		String sun = selectionCarousel.getScc().getSun();
 		String moisture = selectionCarousel.getScc().getMoisture();
@@ -191,6 +208,11 @@ public class SelectPlantsView extends BorderPane {
 		box.getChildren().remove(5);
 		Button remove = new Button("Remove");
 		remove.setOnMouseClicked(spc.getHandlerForPlantDeSelected());
+		remove.setStyle("-fx-font-size:" + Double.valueOf(15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ "-fx-background-color: linear-gradient(#fafafa , #afd9f5 );"
+				+ "-font-family: Helvetica");
+		remove.setPrefSize(100.0, 25.0);
 		box.getChildren().add(remove);
 	}
 	
@@ -206,6 +228,11 @@ public class SelectPlantsView extends BorderPane {
 		box.getChildren().remove(5);
 		Button add = new Button("Add");
 		add.setOnMouseClicked(spc.getHandlerForPlantSelected());
+		add.setStyle("-fx-font-size:" + Double.valueOf(15).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ "-fx-background-color: linear-gradient(#fafafa , #afd9f5 );"
+				+ "-font-family: Helvetica");
+		add.setPrefSize(60.0, 25.0);
 		box.getChildren().add(add);
 		
 	}

@@ -44,7 +44,7 @@ public class InfoView extends BorderPane {
 	/**
 	 * The preferred width of the comboBoxes that are used for filtering the carousel images
 	 */
-	private final double FILTER_WIDTH = 150.0;
+	private final double FILTER_WIDTH = 200.0;
 	
 	/**
 	 * Constructor that initializes an infoCarousel and all necessary buttons and comboBoxes for filtering, and displays everything on the screen.
@@ -61,14 +61,24 @@ public class InfoView extends BorderPane {
 		back_img.setRotationAxis(Rotate.Y_AXIS);
 		back_img.setRotate(180);
 
-		Button back = new Button();
-		back.setPrefSize(40, 40);
-		back.setGraphic(back_img);
-		back.setOnAction(ic.getHandlerForBack());
+
 		
 		Label title = new Label("Glossary   ");
 		title.setTextFill(Color.WHITE);
 		title.setFont(Font.font("Cambria", 80));
+		
+
+		
+		String buttonStyle = "-fx-font-size:" + Double.valueOf(18).toString() +";"
+				+ " -fx-font-weight: bold;"
+				+ "-fx-background-color: linear-gradient(#fafafa , #afd9f5 );"
+				+ "-font-family: Helvetica";
+		
+		Button back = new Button();
+		back.setPrefSize(40, 40);
+		back.setGraphic(back_img);
+		back.setOnAction(ic.getHandlerForBack());
+		back.setStyle(buttonStyle);
 		
 		HBox hBox = new HBox();
 		hBox.getChildren().addAll(title, back);
@@ -77,21 +87,25 @@ public class InfoView extends BorderPane {
 		type.setPromptText("Plant Type");
 		type.setItems(FXCollections.observableArrayList("","woody","herbaceous"));
 		type.setPrefWidth(FILTER_WIDTH);
+		type.setStyle(buttonStyle);
 		
 		ComboBox<String> sun = new ComboBox();
 		sun.setPromptText("Sun Level");
 		sun.setItems(FXCollections.observableArrayList("","full sun", "part sun", "shade"));
 		sun.setPrefWidth(FILTER_WIDTH);
+		sun.setStyle(buttonStyle);
 	
 		ComboBox<String> moisture = new ComboBox();
 		moisture.setPromptText("Moisture Level");
 		moisture.setItems(FXCollections.observableArrayList("","flooded","wet", "moist", "dry"));
 		moisture.setPrefWidth(FILTER_WIDTH);
+		moisture.setStyle(buttonStyle);
 		
 		ComboBox<String> soil = new ComboBox();
 		soil.setPromptText("Soil Type");
 		soil.setItems(FXCollections.observableArrayList("","clay","sandy","loamy"));
 		soil.setPrefWidth(FILTER_WIDTH);
+		soil.setStyle(buttonStyle);
 		
 		Text num_plants = new Text("Plants shown: 80");
 		num_plants.setFont(Font.font("cambria"));
@@ -114,7 +128,6 @@ public class InfoView extends BorderPane {
 		
 		VBox vbox = new VBox();
 		vbox.getChildren().addAll(type, moisture, soil, sun, filter, num_plants);
-     	
 		
 		this.setRight(vbox);
 		this.setTop(hBox);

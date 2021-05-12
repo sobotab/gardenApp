@@ -5,6 +5,7 @@ package pkgView;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
@@ -71,8 +72,9 @@ public class WelcomeView extends BorderPane {
 		open_img.setPreserveRatio(true);
 		open = new Button("");
 		open.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 30));
-		open.setMinWidth(80);
-		open.setMinHeight(40);
+		open.setPrefSize(300.0, 150.0);
+		open.setStyle("-fx-background-color: #D9C0DD;"
+				+ "-fx-border-color: #000000;");
 		open.setGraphic(open_img);
 		open.setGraphicTextGap(10);
 		Tooltip open_tip = new Tooltip("Open an existing garden");
@@ -83,8 +85,9 @@ public class WelcomeView extends BorderPane {
 		new_img.setPreserveRatio(true);
 		newGarden = new Button("");
 		newGarden.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 30));
-		newGarden.setMinWidth(80);
-		newGarden.setMinHeight(40);
+		newGarden.setPrefSize(300.0, 150.0);
+		newGarden.setStyle("-fx-background-color: #D9C0DD;"
+				+ "-fx-border-color: #000000;");
 		newGarden.setGraphic(new_img);
 		newGarden.setGraphicTextGap(10);
 		Tooltip new_tip = new Tooltip("Make a new garden");
@@ -95,8 +98,9 @@ public class WelcomeView extends BorderPane {
 		info_img.setPreserveRatio(true);
 		info = new Button("");
 		info.setFont(Font.font("Trebuchet MS", FontWeight.SEMI_BOLD, 30));
-		info.setMinWidth(80);
-		info.setMinHeight(40);
+		info.setPrefSize(300.0, 150.0);
+		info.setStyle("-fx-background-color: #D9C0DD;"
+				+ "-fx-border-color: #000000;");
 		info.setGraphic(info_img);
 		info.setGraphicTextGap(10);
 		Tooltip info_tip = new Tooltip("Checkout the plant glossary");
@@ -107,8 +111,9 @@ public class WelcomeView extends BorderPane {
 		resources_img.setPreserveRatio(true);
 		resources = new Button("");
 		resources.setFont(Font.font("Trebuchet MS", FontWeight.MEDIUM, 30));
-		resources.setMinWidth(80);
-		resources.setMinHeight(40);
+		resources.setPrefSize(300.0, 150.0);
+		resources.setStyle("-fx-background-color: #D9C0DD;"
+				+ "-fx-border-color: #000000;");
 		resources.setGraphic(resources_img);
 		resources.setGraphicTextGap(10);
 		Tooltip resources_tip = new Tooltip("Learn more about leps and native plants");
@@ -117,10 +122,15 @@ public class WelcomeView extends BorderPane {
 		Label title = new Label("Insta-Garden");
 		//title.setPrefWidth(50);
 		//title.setPrefHeight(50);
+		title.setAlignment(Pos.BASELINE_RIGHT);
 		title.setTextFill(Color.WHITE);
-		title.setFont(Font.font("Roboto", FontWeight.BOLD, 80));
+		title.setFont(Font.font("Roboto", FontWeight.BOLD, 120));
+		title.setPadding(new Insets(100,0,0,0));
+		title.setStyle("-fx-text-fill: #F9D3FF;");
 		
-
+		HBox titleBox = new HBox();
+		titleBox.getChildren().add(title);
+		titleBox.setAlignment(Pos.CENTER);
 		
 		//Set handlers to buttons
 		open.setOnAction(welcomeController.getHandlerForOpen());
@@ -130,8 +140,10 @@ public class WelcomeView extends BorderPane {
 		
 		//Builds hbox
 		this.setCenter(hBox);
-		this.setTop(title);
-		hBox.setPrefSize(100,200);
+		this.setTop(titleBox);
+		hBox.setAlignment(Pos.CENTER);
+		hBox.setSpacing(60.0);
+		hBox.setMaxSize(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
 		hBox.getChildren().addAll(open, newGarden, info, resources);
 	}
 	/**

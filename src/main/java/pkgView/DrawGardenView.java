@@ -85,12 +85,30 @@ public class DrawGardenView extends BorderPane {
 	 */
 	Button undoButton, incButton, decButton, back, finish;
 	/**
-	 * Current fill color based on the soil
+	 * sunLabel: sun image above the sun slider
+	 * moistureLabel: water drop image above the moisture slider
 	 */
 	ImageView sunLabel, moistureLabel;
+	/**
+	 * title: the title at the top of the page
+	 * budgetLabel: a dollar sign before the budget entry box
+	 */
 	Label title, budgetLabel;
+	/**
+	 * BudgetBox: Hbox that contains budget and budgetLabel
+	 * scaleButtonBox: Hbox that contains incButton and decButton
+	 * bottomHBox: Hbox that containts the back and finished buttons
+	 */
 	HBox budgetBox, scaleButtonBox, bottomHBox;
+	/**
+	 * sideTool: Vbox that contains all of the tools to control the canvas
+	 * sunBox: Vbox that contains the sun image and the sun slider
+	 * moistureBox: Vbox that contains the water drop image and the moisture slider
+	 */
 	VBox sideTool, sunBox, moistureBox;
+	/**
+	 * Current fill color based on the soil
+	 */
 	Color color;
 	/**
 	 * line width in pixels for drawing on the screen
@@ -104,7 +122,7 @@ public class DrawGardenView extends BorderPane {
 	 * drawing: boolean to set the start point in the model
 	 * shapeDon: boolean to add the outline to plots in the model
 	 */
-	boolean drawing, shapeDone, resizeCanvas;
+	boolean drawing, shapeDone;
 	
 	/**
 	 * Initializes javafx components, sets handlers, and adds nodes to the BorderPane
@@ -132,7 +150,6 @@ public class DrawGardenView extends BorderPane {
 		buildScaleText();
 		
 		drawing = false;
-		resizeCanvas = true;
 		
 		canvas.setOnMousePressed(event -> mousePressed((MouseEvent) event));
 		canvas.setOnMouseDragged(event -> mouseDragged((MouseEvent) event));
@@ -252,6 +269,9 @@ public class DrawGardenView extends BorderPane {
 		makePretty();
 	}
 	
+	/**
+	 * Method to add styling to nodes.
+	 */
 	public void makePretty() {
 		this.setStyle("-fx-background-color: #E7E492;");
 		
@@ -673,6 +693,11 @@ public class DrawGardenView extends BorderPane {
 		return this.canvasWidth;
 	}
 	
+	/**
+	 * Takes the height and the width of the canvas after it resizes with the BorderPane.
+	 * Sets the number of rows or columns based off the smaller of height and width and sets the 
+	 * larger of the two to a length relative to the number of rows or columns.
+	 */
 	public void resizeCanvas() {
 		if (canvas.getHeight() < canvas.getWidth()) {
 			columns = (int)((rows/canvas.getHeight())*canvas.getWidth());
@@ -689,22 +714,38 @@ public class DrawGardenView extends BorderPane {
 		minLength = ((canvasHeight < canvasWidth) ? canvasHeight : canvasWidth);
 	}
 	
+	/**
+	 * @return the number of rows in the canvas
+	 */
 	public double getRows() {
 		return rows;
 	}
 	
+	/**
+	 * @return the number of columns in the canvas
+	 */
 	public double getColumns() {
 		return columns;
 	}
 	
+	/**
+	 * @return whichever is smaller, rows or columns
+	 */
 	public double getMinGrid() {
 		return rows < columns ? rows : columns;
 	}
 	
+	/**
+	 * Sets minGrid to either rows or columns depedning on which is smaller
+	 */
 	public void setMinGrid() {
 		minGrid = rows < columns ? rows : columns;
 	}
 	
+	
+	/**
+	 * @return the minimum length of height and width
+	 */
 	public double getMinLength() {
 		return this.minLength;
 	}

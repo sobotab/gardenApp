@@ -56,24 +56,7 @@ public class InfoPopupView extends BorderPane{
 		BackgroundFill bFill = new BackgroundFill(Color.LIGHTGREEN, CornerRadii.EMPTY, Insets.EMPTY);
 		Background background = new Background(bFill);
 		this.setBackground(background);
-<<<<<<< HEAD
-		VBox vbox1 = new VBox();
-		Label title = new Label(sciName + ", also known as: " + name);
-		title.setFont(Font.font("Cambria"));
-	
-		Label info = new Label(description);
-		info.setFont(Font.font("Cambria"));
-		info.setWrapText(true);
-		info.setAlignment(Pos.BASELINE_CENTER);
-		
-		vbox1.getChildren().addAll(title,info);
-		vbox1.setAlignment(Pos.CENTER);
-		this.setTop(vbox1);
-		
-		
-		
-		
-=======
+
 		BackgroundSize bSize = new BackgroundSize(800.0, 550.0, false, false, false, true);
 		this.setBackground(new Background(new BackgroundImage(new Image(getClass().getResourceAsStream("/images/background-flowers.jpg")),
 				BackgroundRepeat.NO_REPEAT,
@@ -94,7 +77,6 @@ public class InfoPopupView extends BorderPane{
 		title.setAlignment(Pos.CENTER);
 		this.setTop(title);
 		this.setAlignment(getTop(), Pos.CENTER);
->>>>>>> 091469956567606b0a94bad04f81e6ce37dc466c
 		ImageView img_copy = new ImageView(img.getImage());
 		img_copy.setFitHeight(300);
 		img_copy.setFitWidth(300);
@@ -138,18 +120,7 @@ public class InfoPopupView extends BorderPane{
 		lepSpecies.setItems(lepNames);
 		lepBox.getChildren().addAll(lepCount, lepSpecies);
 		Label price = new Label("Costs " + dollars + " dollars.");
-<<<<<<< HEAD
-		lepCount.setFont(Font.font("Cambria"));
-		price.setFont(Font.font("Cambria"));
-		
 
-		VBox vbox2 = new VBox();
-		vbox2.getChildren().addAll(img_copy, price,lepBox);
-		vbox2.setAlignment(Pos.CENTER);
-		this.setCenter(vbox2);
-
-		
-=======
 		Label info = new Label(description);
 		lepCount.setFont(Font.font("Cambria", FontWeight.MEDIUM, 16));
 		lepCount.setTextFill(Color.WHITE);
@@ -174,7 +145,6 @@ public class InfoPopupView extends BorderPane{
 		//this.setCenter(tilePane);
 		//this.setBottom(info);
 		this.setLeft(vbox);
->>>>>>> 091469956567606b0a94bad04f81e6ce37dc466c
 		this.setPadding(new Insets(10));
 		this.setRight(lepBox);
 		}

@@ -2,6 +2,8 @@ package pkgModel;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.Test;
 
 import pkgController.Moisture;
@@ -86,6 +88,13 @@ public class PlantModelTest {
 	public void testSetSoil() {
 		plant.setSoil("clay");
 		assertEquals("clay",plant.soil);
+	}
+	
+	@Test
+	public void testGetLeps() {
+		plant.leps = new ArrayList<String>();
+		plant.leps.add("Moth");
+		assertTrue(plant.getLeps().get(0).equals("Moth"));
 	}
 
 }

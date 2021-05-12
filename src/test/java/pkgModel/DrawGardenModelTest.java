@@ -102,6 +102,32 @@ public class DrawGardenModelTest {
 			assertEquals(plots.get(Soil.SANDY).get(0).get(i).getX(), i, .1);
 			assertEquals(plots.get(Soil.SANDY).get(0).get(i).getY(), i, .1);
 		}
+		ArrayList<Point2D.Double> plot2 = new ArrayList<>();
+		for (double i=0; i < .4; i+=.1) {
+			plot2.add(new Point2D.Double(i, i));
+		}
+		drawGarden1.setCanvasLength(10);
+		drawGarden1.preOutline = plot2;
+		drawGarden1.addPlot(false, Soil.CLAY);
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots2;
+		plots2 = drawGarden1.getPlots();
+		for (int i=0; i<4; i++ ) {
+			assertEquals(plots2.get(Soil.CLAY).get(0).get(i).getX(), i, .1);
+			assertEquals(plots2.get(Soil.CLAY).get(0).get(i).getY(), i, .1);
+		}
+		ArrayList<Point2D.Double> plot3 = new ArrayList<>();
+		for (double i=0; i < .4; i+=.1) {
+			plot3.add(new Point2D.Double(i, i));
+		}
+		drawGarden1.setCanvasLength(10);
+		drawGarden1.preOutline = plot3;
+		drawGarden1.addPlot(false, Soil.LOAMY);
+		HashMap<Soil, Stack<ArrayList<Point2D.Double>>> plots3;
+		plots3 = drawGarden1.getPlots();
+		for (int i=0; i<4; i++ ) {
+			assertEquals(plots3.get(Soil.LOAMY).get(0).get(i).getX(), i, .1);
+			assertEquals(plots3.get(Soil.LOAMY).get(0).get(i).getY(), i, .1);
+		}
 	}
 	
 	@Test
@@ -261,7 +287,8 @@ public class DrawGardenModelTest {
 		drawGarden1.plots.put(Soil.CLAY, stack);
 		drawGarden1.plots.put(Soil.SANDY, stack2);
 		drawGarden1.plots.put(Soil.LOAMY, stack3);
-		assertEquals(false, drawGarden1.scale(5.0));
+		drawGarden1.setGridSize(5.0);
+		assertEquals(true, drawGarden1.scale(5.0));
 	}
 
 }

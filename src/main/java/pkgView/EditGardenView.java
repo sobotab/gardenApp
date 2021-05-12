@@ -358,7 +358,7 @@ public class EditGardenView extends BorderPane{
 	 * 
 	 * @param dollars 		Current total cost of all plants in garden
 	 * @param leps 			Current number of leps supported by plants in garden
-	 * @param sortedLeps 	List of the lep species supported by the plants in the garden & number of plants that support them
+	 * @param sortedLeps 	List of the lep species supported by the plants in the garden and number of plants that support them
 	 */
 	public void updateInfoPanel(int dollars, int leps, ArrayList<Map.Entry<String, Integer>> sortedLeps) {
 		

@@ -514,7 +514,7 @@ public class EditGardenView extends BorderPane{
 		        garden.setAlignment(spread, Pos.TOP_LEFT);
 			}    
 		}
-		if (computeScaleSize(plant) <= 20) {
+		if (computeScaleSize(plant) <= 15) {
 			Rectangle spread = (Rectangle)plantSpreads.get(index);
 			spread.setX(x);
 			spread.setY(y);

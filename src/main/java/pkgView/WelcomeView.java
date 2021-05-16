@@ -124,7 +124,7 @@ public class WelcomeView extends BorderPane {
 		//title.setPrefHeight(50);
 		title.setAlignment(Pos.BASELINE_RIGHT);
 		title.setTextFill(Color.WHITE);
-		title.setFont(Font.font("Roboto", FontWeight.BOLD, 120));
+		title.setFont(Font.font("Roboto", FontWeight.BOLD, 140));
 		title.setPadding(new Insets(100,0,0,0));
 		title.setStyle("-fx-text-fill: #F9D3FF;");
 		

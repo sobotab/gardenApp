@@ -247,7 +247,7 @@ public class EditGardenView extends BorderPane{
 		lepSpeciesBox.setSpacing(10);
 		
 		infoTab.setPadding(new Insets(10, 10, 0, 0));
-		infoTab.getChildren().addAll(budgetBox, lepBox, lepSpeciesBox, buttonBox);
+		infoTab.getChildren().addAll(budgetBox, lepBox, buttonBox, lepSpeciesBox);
 		
 		
 		// Background
@@ -269,7 +269,7 @@ public class EditGardenView extends BorderPane{
 		canvas.setViewOrder(2);
 		garden.setAlignment(canvas, Pos.CENTER);	
 		garden.setMaxSize(CANVASWIDTH + 350, CANVASHEIGHT + 10);
-		garden.setClip(new Rectangle(CANVASWIDTH + 400, CANVASHEIGHT + 20));
+		garden.setClip(new Rectangle(CANVASWIDTH + 350, CANVASHEIGHT + 10));
 		plantCarousel.setMaxWidth(CANVASWIDTH + 450);
 		    	
 		PlantView compost = new PlantView(new Image(getClass().getResourceAsStream("/images/compost-icon.png")), 0);
@@ -457,15 +457,7 @@ public class EditGardenView extends BorderPane{
     	pv.setOnMouseDragged(egc.getHandlerForDrag());
     	pv.setOnMouseReleased(egc.getHandlerForRelease());
     	
-    	String size;
-    	if (spread <= 1) {
-    		size = "small";
-    	} else if (spread <= 20) {
-    		size = "medium";
-    	} else {
-    		size = "large";
-    	}
-    	Tooltip tip = new Tooltip(sci_name + "\n" + "Size: " + size + "\n" + "Soil: " + soil);
+    	Tooltip tip = new Tooltip(sci_name + "\n" + "'" + name + "'\n" + "Spread: " + spread + "\n" + "Soil: " + soil);
     	Tooltip.install(pv, tip);
     	pv.getProperties().put("tip", name_soil_info);
     	
@@ -499,12 +491,12 @@ public class EditGardenView extends BorderPane{
 	public void drawSpread(int index, double x, double y) {
 		PlantView plant = plants.get(index);
 		if (plantSpreads.size() == index) {
-			if (computeScaleSize(plant) <= 20) {
+			if (computeScaleSize(plant) <= 15) {
 				Rectangle spread = new Rectangle(
 						plant.getFitHeight(), 
 						plant.getFitHeight());
-				spread.setArcHeight(15);
-				spread.setArcWidth(15);
+				spread.setArcHeight(30);
+				spread.setArcWidth(30);
 				spread.setViewOrder(0);
 				plantSpreads.add(spread);
 		        garden.getChildren().add(spread);
@@ -522,7 +514,7 @@ public class EditGardenView extends BorderPane{
 		        garden.setAlignment(spread, Pos.TOP_LEFT);
 			}    
 		}
-		if (computeScaleSize(plant) <= 20) {
+		if (computeScaleSize(plant) <= 15) {
 			Rectangle spread = (Rectangle)plantSpreads.get(index);
 			spread.setX(x);
 			spread.setY(y);
@@ -588,15 +580,15 @@ public class EditGardenView extends BorderPane{
 		garden.setAlignment(n, Pos.TOP_LEFT);
 		
 		int newIndex = plants.size()-1;
-		plants.get(newIndex).setFitHeight(plants.get(newIndex).spread/4 + 30);		// Make plantView small to see the spread object placed behind it.
-		plants.get(newIndex).setFitWidth(plants.get(newIndex).spread/4 + 30);		// Size slightly affected by spread and has lower limit.
+		
+		plants.get(newIndex).setFitHeight(plants.get(newIndex).spread/2 + 30);		// Make plantView small to see the spread object placed behind it.
+		plants.get(newIndex).setFitWidth(plants.get(newIndex).spread/2 + 30);		// Size slightly affected by spread and has lower limit.
 		
 		Rectangle fit_template = new Rectangle(
-				plants.get(newIndex).spread/4 + 30,
-				plants.get(newIndex).spread/4 + 30);
-		fit_template.setArcHeight(15);
-		fit_template.setArcWidth(15);
-		
+				plants.get(newIndex).spread/2 + 30,
+				plants.get(newIndex).spread/2 + 30);
+		fit_template.setArcHeight(30);
+		fit_template.setArcWidth(30);
 		plants.get(newIndex).setClip(fit_template);
 	}
 		

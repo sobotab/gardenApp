@@ -55,10 +55,6 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	 * Y-Offset of the canvas relative to the scene, used to put model coordinates in terms of plot coordinates.
 	 */
 	double canvasYOffset;
-	/**
-	 * Scale factor for this garden, determined by ratio between scale selected in Draw Garden and the default scale.
-	 */
-	double scale;
 	
 	/**
 	 * Constructor for this model class. Initializes the carousel model and fills it with the plants chosen in Select Plants.
@@ -175,12 +171,12 @@ public class EditGardenModel extends GardenModel implements Serializable {
 	 */
 	public boolean checkSpread(int index) {
 		PlantObjectModel plant1 = plants.get(index);
-		double x1 = plant1.x + (plant1.getSpreadDiameter()/7);
-		double y1 = plant1.y + (plant1.getSpreadDiameter()/7);
+		double x1 = plant1.x + (plant1.getSpreadDiameter()/4);
+		double y1 = plant1.y + (plant1.getSpreadDiameter()/4);
 		
 		for (PlantObjectModel plant2 : this.plants) {	
-			double x2 = plant2.x + (plant2.getSpreadDiameter()/7);		// Model coordinates represent top-left corner of PlantView		
-			double y2 = plant2.y + (plant2.getSpreadDiameter()/7);		// Add fraction of spread (spread is tied to PlantImage size) to offset model coordinates to center of PlantView.
+			double x2 = plant2.x + (plant2.getSpreadDiameter()/4);		// Model coordinates represent top-left corner of PlantView		
+			double y2 = plant2.y + (plant2.getSpreadDiameter()/4);		// Add fraction of spread (spread is tied to PlantImage size) to offset model coordinates to center of PlantView.
 			
 			if (plant1 != plant2) {
 				double distance = ( Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2) );
@@ -323,7 +319,6 @@ public class EditGardenModel extends GardenModel implements Serializable {
 
 		System.out.println("shrink" + shrink_factor);
 		this.setScale(shrink_factor * scale);
-		
 	}
 	
 	

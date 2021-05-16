@@ -66,22 +66,22 @@ public class ResourcesView extends BorderPane{
 		
 		ImageView back_img = new ImageView(new Image("/images/back-icon.png"));
 		
-		Label video = new Label("To learn how to operate the application, click the video below:");
-		paragraph_headline.setTextFill(Color.BLACK);
-		paragraph_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
+		Label video = new Label("To learn how to operate this application, click the video below:");
+		paragraph_headline.setTextFill(Color.WHITE);
+		paragraph_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 36));
 		paragraph.setTextFill(Color.WHITE);
 		paragraph.setFont(Font.font("Roboto", 26));
-		links_headline.setTextFill(Color.BLACK);
-		links_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
+		links_headline.setTextFill(Color.WHITE);
+		links_headline.setFont(Font.font("Roboto", FontWeight.BOLD, 36));
 		links.setTextFill(Color.WHITE);
 		links.setFont(Font.font("Roboto", 26));
-		video.setTextFill(Color.BLACK);
+		video.setTextFill(Color.WHITE);
 		video.setFont(Font.font("Roboto", FontWeight.BOLD, 30));
-		link.setTextFill(Color.BLACK);
+		link.setTextFill(Color.CYAN);
 		link.setFont(Font.font("Roboto", 30));
-		link1.setTextFill(Color.BLACK);
+		link1.setTextFill(Color.CYAN);
 		link1.setFont(Font.font("Roboto", 30));
-		link2.setTextFill(Color.BLACK);
+		link2.setTextFill(Color.CYAN);
 		link2.setFont(Font.font("Roboto", 30));
 		text_box.getChildren().addAll(paragraph_headline, paragraph, links_headline, link,link1,link2,video);
 		text_box.setSpacing(10);
